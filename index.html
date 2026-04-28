@@ -21,8 +21,42 @@
   --lime:#8FFE01;--black:#0A0A0A;
   --r:14px;--r2:8px;
 }
+/* ── DARK MODE ── */
+body.dark{
+  --bg:#111111;--white:#1A1A1A;--text:#E8E8E8;--muted:#777;--muted2:#444;
+  --border:#2A2A2A;--border2:#212121;--black:#252525;
+  --red-soft:rgba(var(--red-rgb),.14);
+  --green-soft:rgba(0,200,83,.12);--orange-soft:rgba(255,107,0,.1);
+}
+body.dark .topbar{background:#1A1A1A;}
+body.dark .btn-dark{background:#2C2C2C;color:#E8E8E8;}
+body.dark .tn.active{background:#2C2C2C;color:#E8E8E8;}
+body.dark .rbtn.active{background:#2C2C2C;color:#E8E8E8;}
+body.dark .itab.active{background:#2C2C2C;color:#E8E8E8;}
+body.dark .scrubber-handle{background:#E8E8E8;}
+body.dark .modal-bg{background:rgba(0,0,0,.7);}
+body.dark .modal{background:#1E1E1E;border-color:#2A2A2A;}
+body.dark input,body.dark select,body.dark textarea{background:#222;color:#E8E8E8;border-color:#2A2A2A;}
+body.dark .toast{background:#2C2C2C;color:#E8E8E8;}
+body.dark .auth-box{background:#1A1A1A;}
+/* ── THEME COLOUR SWATCHES ── */
+.colour-swatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+.cswatch{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform .15s,border-color .15s;}
+.cswatch:hover{transform:scale(1.15);}
+.cswatch.sel{border-color:var(--text);}
+/* ── APPEARANCE CARD ── */
+.appear-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);}
+.appear-row:last-child{border-bottom:none;}
+.appear-label{font-size:.85rem;font-weight:500;color:var(--text);}
+.appear-sub{font-size:.76rem;color:var(--muted);margin-top:2px;}
+.toggle-wrap{position:relative;width:44px;height:24px;flex-shrink:0;}
+.toggle-wrap input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:100px;cursor:pointer;transition:.2s;}
+.toggle-slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;}
+.toggle-wrap input:checked+.toggle-slider{background:var(--red);}
+.toggle-wrap input:checked+.toggle-slider:before{transform:translateX(20px);}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden;font-weight:300;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden;font-weight:300;transition:background .2s,color .2s;}
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
 
@@ -339,7 +373,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <a class="logo" href="#" onclick="return false">
+  <a class="logo" href="#" onclick="showTab('overview');return false;" title="Go to Overview">
     <div class="logo-icon">SB</div>
     <span class="logo-name">Studio<em>Bills</em></span>
   </a>
@@ -569,6 +603,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
   <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize StudioBills</p></div></div>
   <div class="stabs">
     <button class="stab active" data-st="profile">Profile</button>
+    <button class="stab" data-st="appearance">Appearance</button>
     <button class="stab" data-st="categories">Categories</button>
     <button class="stab" data-st="backup">Backup &amp; Data</button>
     <button class="stab" data-st="about">About</button>
@@ -591,6 +626,28 @@ tbody tr.row-overdue{background:#FFF7F8;}
         <div class="fg"><label>Account Number</label><input id="s-account" placeholder="0000000000000000"></div>
         <div class="fg"><label>IFSC Code</label><input id="s-ifsc" placeholder="PUNB0040000"></div>
         <button class="btn btn-red" onclick="saveProfile()">Save Profile</button>
+      </div>
+    </div>
+  </div>
+  <div id="stab-appearance" style="display:none;">
+    <div class="card" style="max-width:480px;">
+      <div class="card-title" style="margin-bottom:16px;">Appearance</div>
+      <div class="appear-row">
+        <div><div class="appear-label">Dark Mode</div><div class="appear-sub">Switch to dark background</div></div>
+        <label class="toggle-wrap"><input type="checkbox" id="s-darkmode" onchange="toggleDark(this.checked)"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="appear-row" style="flex-direction:column;align-items:flex-start;gap:12px;">
+        <div><div class="appear-label">Accent Colour</div><div class="appear-sub">Brand colour used across the app</div></div>
+        <div class="colour-swatches" id="colourSwatches">
+          <div class="cswatch sel" data-colour="#FF0035" style="background:#FF0035;" onclick="setAccent('#FF0035',this)" title="Red"></div>
+          <div class="cswatch" data-colour="#2563EB" style="background:#2563EB;" onclick="setAccent('#2563EB',this)" title="Blue"></div>
+          <div class="cswatch" data-colour="#7C3AED" style="background:#7C3AED;" onclick="setAccent('#7C3AED',this)" title="Purple"></div>
+          <div class="cswatch" data-colour="#059669" style="background:#059669;" onclick="setAccent('#059669',this)" title="Green"></div>
+          <div class="cswatch" data-colour="#EA580C" style="background:#EA580C;" onclick="setAccent('#EA580C',this)" title="Orange"></div>
+          <div class="cswatch" data-colour="#EC4899" style="background:#EC4899;" onclick="setAccent('#EC4899',this)" title="Pink"></div>
+          <div class="cswatch" data-colour="#0891B2" style="background:#0891B2;" onclick="setAccent('#0891B2',this)" title="Teal"></div>
+          <div class="cswatch" data-colour="#CA8A04" style="background:#CA8A04;" onclick="setAccent('#CA8A04',this)" title="Gold"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -877,7 +934,12 @@ function initAppUI(){
   fillCatSelects();fillClientSuggest();
   document.getElementById('ai-date').value=today();
   document.getElementById('ae-date').value=today();
-  renderOverview();
+  applyTheme();
+  // Restore last active tab from URL hash
+  const hash=location.hash.replace('#','');
+  const validTabs=['overview','income','expenses','reports','clients','history','settings'];
+  if(hash&&validTabs.includes(hash))showTab(hash);
+  else renderOverview();
 }
 
 // ─── INIT AUTH ───
@@ -905,6 +967,7 @@ function showTab(name){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+name)?.classList.add('active');
   document.querySelectorAll('.tn,[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===name);});
+  location.hash=name; // persist current tab in URL so reload lands here
   if(name==='overview')renderOverview();
   if(name==='income')renderIncome();
   if(name==='expenses')renderExpenses();
@@ -1553,6 +1616,27 @@ function renderHistory(){
 }
 
 // ─── SETTINGS ───
+// ─── THEME ───
+const ACCENTS=['#FF0035','#2563EB','#7C3AED','#059669','#EA580C','#EC4899','#0891B2','#CA8A04'];
+function hexToRgb(h){const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return`${r},${g},${b}`;}
+function darken(h){const r=Math.max(0,parseInt(h.slice(1,3),16)-30),g=Math.max(0,parseInt(h.slice(3,5),16)-30),b=Math.max(0,parseInt(h.slice(5,7),16)-30);return`#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;}
+function applyTheme(){
+  const dark=db.profile.darkMode||false;
+  const accent=db.profile.accentColor||'#FF0035';
+  document.body.classList.toggle('dark',dark);
+  const root=document.documentElement.style;
+  root.setProperty('--red',accent);
+  root.setProperty('--red2',darken(accent));
+  root.setProperty('--red-rgb',hexToRgb(accent));
+  root.setProperty('--red-soft',`rgba(${hexToRgb(accent)},.07)`);
+}
+function toggleDark(on){db.profile.darkMode=on;applyTheme();save();}
+function setAccent(colour,el){
+  db.profile.accentColor=colour;
+  document.querySelectorAll('.cswatch').forEach(s=>s.classList.toggle('sel',s.dataset.colour===colour));
+  applyTheme();save();
+}
+
 function renderSettings(){
   document.getElementById('s-studio').value=db.profile.studioName||'';
   document.getElementById('s-owner').value=db.profile.ownerName||'';
@@ -1565,6 +1649,11 @@ function renderSettings(){
   document.getElementById('s-bank').value=db.profile.bankName||'';
   document.getElementById('s-account').value=db.profile.accountNo||'';
   document.getElementById('s-ifsc').value=db.profile.ifsc||'';
+  // Sync Appearance panel
+  const dm=document.getElementById('s-darkmode');
+  if(dm)dm.checked=db.profile.darkMode||false;
+  const acc=db.profile.accentColor||'#FF0035';
+  document.querySelectorAll('.cswatch').forEach(s=>s.classList.toggle('sel',s.dataset.colour===acc));
   renderCatPills();
 }
 function saveProfile(){
@@ -1862,7 +1951,7 @@ document.querySelectorAll('.modal-bg').forEach(bg=>bg.addEventListener('click',e
 document.querySelectorAll('.tn').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.tab)showTab(b.dataset.tab);}));
 document.querySelectorAll('#botNav button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.tab)showTab(b.dataset.tab);}));
 document.querySelectorAll('.rbtn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.rbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeRange=b.dataset.range;drawMainChart();}));
-document.querySelectorAll('.stab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.stab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['profile','categories','backup','about'].forEach(s=>{const el=document.getElementById('stab-'+s);if(el)el.style.display=s===b.dataset.st?'block':'none';});}));
+document.querySelectorAll('.stab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.stab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['profile','appearance','categories','backup','about'].forEach(s=>{const el=document.getElementById('stab-'+s);if(el)el.style.display=s===b.dataset.st?'block':'none';});}));
 document.querySelectorAll('#incTabs .itab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#incTabs .itab').forEach(x=>x.classList.remove('active'));b.classList.add('active');incFilter=b.dataset.f;renderIncome();}));
 document.querySelectorAll('#expTabs .itab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#expTabs .itab').forEach(x=>x.classList.remove('active'));b.classList.add('active');expFilter=b.dataset.ef;renderExpenses();}));
 
