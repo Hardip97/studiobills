@@ -839,6 +839,7 @@ function applyMigrations(){
 
 // ─── SAVE (localStorage + background Supabase sync) ───
 function save(){
+  db._ts=Date.now(); // timestamp every save so we can compare with Supabase
   const key=currentUser?DB+'_'+currentUser.id:DB;
   localStorage.setItem(key,JSON.stringify(db));
   if(currentUser&&supa){
@@ -912,22 +913,30 @@ async function loadUserData(user){
   const initials=(user.email||'??').slice(0,2).toUpperCase();
   document.getElementById('userAvatar').textContent=initials;
   document.getElementById('userEmail').textContent=user.email;
-  // Try local cache first (instant)
+  // Try local cache first (instant render)
+  let localTs=0;
   try{
     const local=localStorage.getItem(key);
-    if(local){db=JSON.parse(local);applyMigrations();initAppUI();}
+    if(local){db=JSON.parse(local);localTs=db._ts||0;applyMigrations();initAppUI();}
   }catch(e){}
-  // Then fetch from Supabase (most up-to-date)
+  // Then fetch from Supabase — only use it if it's newer than localStorage
   try{
     const{data}=await supa.from('user_data').select('data').eq('user_id',user.id).single();
-    if(data?.data){db=data.data;applyMigrations();localStorage.setItem(key,JSON.stringify(db));initAppUI();}
-    else if(!localStorage.getItem(key)){
+    if(data?.data){
+      const supaTs=data.data._ts||0;
+      if(supaTs>=localTs){
+        // Supabase is same version or newer — use it
+        db=data.data;applyMigrations();localStorage.setItem(key,JSON.stringify(db));initAppUI();
+      }
+      // else: localStorage is newer (e.g. saved offline) — keep it, silently push to Supabase
+      else{save();}
+    } else if(!localTs){
       // Brand new user — check if old (pre-auth) data exists and migrate it
       const oldData=localStorage.getItem(DB);
       if(oldData){try{db=JSON.parse(oldData);applyMigrations();save();}catch(e){}}
       initAppUI();
     }
-  }catch(e){initAppUI();}
+  }catch(e){if(!localTs)initAppUI();}
 }
 
 // ─── INIT APP UI ───
