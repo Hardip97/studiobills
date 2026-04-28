@@ -764,8 +764,10 @@ function applyMigrations(){
   db.cats=db.cats||{};db.cats.inc=db.cats.inc||[...DEFAULT_CATS.inc];db.cats.exp=db.cats.exp||[...DEFAULT_CATS.exp];
   db.invoiceCounter=db.invoiceCounter||0;
   db.profile=db.profile||{};
-  // Fill missing profile fields with defaults (but don't overwrite existing values)
-  Object.keys(DEFAULT_PROFILE).forEach(k=>{if(!db.profile[k])db.profile[k]=DEFAULT_PROFILE[k];});
+  // Only pre-fill Hardip's own defaults; other users get a blank profile
+  const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
+  const profileDefaults=isOwner?DEFAULT_PROFILE:{currency:'₹'};
+  Object.keys(profileDefaults).forEach(k=>{if(!db.profile[k])db.profile[k]=profileDefaults[k];});
   // Assign invNo to invoices that don't have one
   const needsNo=(db.income||[]).filter(i=>!i.invNo).sort((a,b)=>a.date>b.date?1:-1);
   needsNo.forEach(i=>{db.invoiceCounter++;i.invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');});
