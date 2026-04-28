@@ -765,8 +765,12 @@ function applyMigrations(){
   db.invoiceCounter=db.invoiceCounter||0;
   db.profile=db.profile||{};
   const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
-  // If a non-owner profile was contaminated with owner defaults (old bug), wipe it clean
-  if(!isOwner&&db.profile.email===DEFAULT_PROFILE.email){db.profile={currency:'₹'};}
+  // For non-owners: strip any field that still holds the owner's exact default value (contamination fix)
+  if(!isOwner){
+    let wiped=false;
+    Object.keys(DEFAULT_PROFILE).forEach(k=>{if(k!=='currency'&&db.profile[k]===DEFAULT_PROFILE[k]){delete db.profile[k];wiped=true;}});
+    if(wiped)setTimeout(save,500); // persist the cleaned profile back to Supabase
+  }
   // Only pre-fill Hardip's own defaults; other users get a blank profile
   const profileDefaults=isOwner?DEFAULT_PROFILE:{currency:'₹'};
   Object.keys(profileDefaults).forEach(k=>{if(!db.profile[k])db.profile[k]=profileDefaults[k];});
