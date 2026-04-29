@@ -703,19 +703,19 @@ tbody tr.row-overdue{background:#FFF7F8;}
     <div class="card" style="max-width:500px;">
       <div class="card-title" style="margin-bottom:16px;">Studio Profile</div>
       <div style="display:flex;flex-direction:column;gap:12px;">
-        <div class="fg"><label>Studio Name</label><input id="s-studio" placeholder="e.g. Hardip Studio"></div>
-        <div class="fg"><label>Your Name</label><input id="s-owner" placeholder="Your name"></div>
-        <div class="fg"><label>Email</label><input id="s-email" placeholder="you@studio.com"></div>
-        <div class="fg"><label>Phone</label><input id="s-phone" placeholder="+91 …"></div>
-        <div class="fg"><label>Address</label><textarea id="s-address" rows="2"></textarea></div>
+        <div class="fg"><label>Studio Name</label><input id="s-studio" placeholder="e.g. Bright Studio Co."></div>
+        <div class="fg"><label>Your Name</label><input id="s-owner" placeholder="e.g. John Doe"></div>
+        <div class="fg"><label>Email</label><input id="s-email" placeholder="e.g. john@studio.com"></div>
+        <div class="fg"><label>Phone</label><input id="s-phone" placeholder="e.g. +91 98765 43210"></div>
+        <div class="fg"><label>Address</label><textarea id="s-address" rows="2" placeholder="e.g. 123 MG Road, Ahmedabad, Gujarat - 380001"></textarea></div>
         <div class="fg"><label>Currency</label><input id="s-currency" style="max-width:70px;" value="₹"></div>
         <div style="height:1px;background:var(--border);margin:4px 0;"></div>
         <div style="font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.03em;text-transform:uppercase;">Payment Information</div>
-        <div class="fg"><label>Role / Title</label><input id="s-role" placeholder="e.g. AI Filmmaker · VFX Artist · Brand Filmmaker"></div>
-        <div class="fg"><label>UPI / GPay / PhonePe ID</label><input id="s-upi" placeholder="yourname@okaxis"></div>
-        <div class="fg"><label>Bank Name</label><input id="s-bank" placeholder="Punjab National Bank"></div>
-        <div class="fg"><label>Account Number</label><input id="s-account" placeholder="0000000000000000"></div>
-        <div class="fg"><label>IFSC Code</label><input id="s-ifsc" placeholder="PUNB0040000"></div>
+        <div class="fg"><label>Role / Title</label><input id="s-role" placeholder="e.g. Freelance Designer · Photographer · Consultant"></div>
+        <div class="fg"><label>UPI / GPay / PhonePe ID</label><input id="s-upi" placeholder="e.g. yourname@okicici"></div>
+        <div class="fg"><label>Bank Name</label><input id="s-bank" placeholder="e.g. HDFC Bank"></div>
+        <div class="fg"><label>Account Number</label><input id="s-account" placeholder="e.g. 1234567890123456"></div>
+        <div class="fg"><label>IFSC Code</label><input id="s-ifsc" placeholder="e.g. HDFC0001234"></div>
         <div style="height:1px;background:var(--border);margin:4px 0;"></div>
         <div style="font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.03em;text-transform:uppercase;">Tax Information</div>
         <div class="fg"><label>Your GSTIN <span style="font-weight:300;">(if registered)</span></label><input id="s-gstin" placeholder="22AAAAA0000A1Z5"></div>
@@ -1050,8 +1050,8 @@ let supa=null,currentUser=null,authMode='signin';
 
 const DB='studiobills_v4';
 const DEFAULT_PROFILE={studioName:'Hardipsinh Zala',ownerName:'Hardipsinh Zala',email:'zalahardip70@gmail.com',phone:'+91 88660 35771',address:'Rajkot, Gujarat, India',currency:'₹',role:'AI Filmmaker · VFX Artist · Brand Filmmaker',upi:'zalahardip70@okaxis',bankName:'Punjab National Bank',accountNo:'0400001500010175',ifsc:'PUNB0040000'};
-const DEFAULT_CATS={inc:['Videography','Photography','Editing','Reels','Wedding','Corporate','Event','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']};
-let db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:['Videography','Photography','Editing','Reels','Wedding','Corporate','Event','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
+const DEFAULT_CATS={inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']};
+let db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
 let viewMonth=new Date();
 let activeRange='6M';
 let mainChart=null,rptChart=null,catChart=null,expCatChart=null;
