@@ -792,7 +792,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
   <!-- ITEMS TAB -->
   <div id="ai-tab-items" style="display:none;">
     <div class="li-wrap"><table class="li-tbl" id="ai-li-tbl">
-      <thead><tr><th style="width:30%">Description</th><th style="width:14%">Size</th><th style="width:14%">Duration</th><th style="width:7%">Qty</th><th style="width:13%">Rate (₹)</th><th style="width:13%">Amount</th><th style="width:5%"></th></tr></thead>
+      <thead><tr><th style="width:35%">Description</th><th style="width:10%">Qty</th><th style="width:13%">Unit</th><th style="width:15%">Rate (₹)</th><th style="width:14%">Amount</th><th style="width:5%"></th></tr></thead>
       <tbody id="ai-li-body"></tbody>
     </table></div>
     <button class="li-add-btn" onclick="addInvItem('ai')">+ Add Line Item</button>
@@ -800,7 +800,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
   <!-- TAXES TAB -->
   <div id="ai-tab-taxes" style="display:none;">
     <div class="tax-row">
-      <div class="toggle-wrap" style="margin-top:3px;"><input type="checkbox" id="ai-gst-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></div>
+      <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ai-gst-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></label>
       <div class="tax-label">GST</div>
       <div class="tax-row-ctrl">
         <select class="tax-select" id="ai-gst-type" onchange="updateInvTotals('ai')"><option value="cgst_sgst">CGST + SGST (Intra-state)</option><option value="igst">IGST (Inter-state)</option></select>
@@ -808,12 +808,12 @@ tbody tr.row-overdue{background:#FFF7F8;}
       </div>
     </div>
     <div class="tax-row">
-      <div class="toggle-wrap" style="margin-top:3px;"><input type="checkbox" id="ai-tds-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></div>
+      <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ai-tds-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></label>
       <div class="tax-label">TDS</div>
       <div class="tax-row-ctrl"><span style="font-size:.8rem;color:var(--muted);">Rate:</span><input class="tax-input-sm" id="ai-tds-rate" type="number" value="10" min="0" max="30" oninput="updateInvTotals('ai')"><span style="font-size:.8rem;color:var(--muted);">%</span></div>
     </div>
     <div class="tax-row">
-      <div class="toggle-wrap" style="margin-top:3px;"><input type="checkbox" id="ai-disc-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></div>
+      <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ai-disc-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></label>
       <div class="tax-label">Discount</div>
       <div class="tax-row-ctrl">
         <select class="tax-select" id="ai-disc-type" onchange="updateInvTotals('ai')"><option value="pct">Percentage (%)</option><option value="flat">Flat Amount (₹)</option></select>
@@ -871,13 +871,13 @@ tbody tr.row-overdue{background:#FFF7F8;}
     </div></div>
   </div>
   <div id="ei-tab-items" style="display:none;">
-    <div class="li-wrap"><table class="li-tbl" id="ei-li-tbl"><thead><tr><th style="width:30%">Description</th><th style="width:14%">Size</th><th style="width:14%">Duration</th><th style="width:7%">Qty</th><th style="width:13%">Rate (₹)</th><th style="width:13%">Amount</th><th style="width:5%"></th></tr></thead><tbody id="ei-li-body"></tbody></table></div>
+    <div class="li-wrap"><table class="li-tbl" id="ei-li-tbl"><thead><tr><th style="width:35%">Description</th><th style="width:10%">Qty</th><th style="width:13%">Unit</th><th style="width:15%">Rate (₹)</th><th style="width:14%">Amount</th><th style="width:5%"></th></tr></thead><tbody id="ei-li-body"></tbody></table></div>
     <button class="li-add-btn" onclick="addInvItem('ei')">+ Add Line Item</button>
   </div>
   <div id="ei-tab-taxes" style="display:none;">
-    <div class="tax-row"><div class="toggle-wrap" style="margin-top:3px;"><input type="checkbox" id="ei-gst-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></div><div class="tax-label">GST</div><div class="tax-row-ctrl"><select class="tax-select" id="ei-gst-type" onchange="updateInvTotals('ei')"><option value="cgst_sgst">CGST + SGST (Intra-state)</option><option value="igst">IGST (Inter-state)</option></select><select class="tax-select" id="ei-gst-rate" onchange="updateInvTotals('ei')"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div></div>
-    <div class="tax-row"><div class="toggle-wrap" style="margin-top:3px;"><input type="checkbox" id="ei-tds-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></div><div class="tax-label">TDS</div><div class="tax-row-ctrl"><span style="font-size:.8rem;color:var(--muted);">Rate:</span><input class="tax-input-sm" id="ei-tds-rate" type="number" value="10" min="0" max="30" oninput="updateInvTotals('ei')"><span style="font-size:.8rem;color:var(--muted);">%</span></div></div>
-    <div class="tax-row"><div class="toggle-wrap" style="margin-top:3px;"><input type="checkbox" id="ei-disc-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></div><div class="tax-label">Discount</div><div class="tax-row-ctrl"><select class="tax-select" id="ei-disc-type" onchange="updateInvTotals('ei')"><option value="pct">Percentage (%)</option><option value="flat">Flat Amount (₹)</option></select><input class="tax-input-sm" id="ei-disc-val" type="number" value="0" min="0" oninput="updateInvTotals('ei')"></div></div>
+    <div class="tax-row"><label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ei-gst-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></label><div class="tax-label">GST</div><div class="tax-row-ctrl"><select class="tax-select" id="ei-gst-type" onchange="updateInvTotals('ei')"><option value="cgst_sgst">CGST + SGST (Intra-state)</option><option value="igst">IGST (Inter-state)</option></select><select class="tax-select" id="ei-gst-rate" onchange="updateInvTotals('ei')"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div></div>
+    <div class="tax-row"><label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ei-tds-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></label><div class="tax-label">TDS</div><div class="tax-row-ctrl"><span style="font-size:.8rem;color:var(--muted);">Rate:</span><input class="tax-input-sm" id="ei-tds-rate" type="number" value="10" min="0" max="30" oninput="updateInvTotals('ei')"><span style="font-size:.8rem;color:var(--muted);">%</span></div></div>
+    <div class="tax-row"><label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ei-disc-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></label><div class="tax-label">Discount</div><div class="tax-row-ctrl"><select class="tax-select" id="ei-disc-type" onchange="updateInvTotals('ei')"><option value="pct">Percentage (%)</option><option value="flat">Flat Amount (₹)</option></select><input class="tax-input-sm" id="ei-disc-val" type="number" value="0" min="0" oninput="updateInvTotals('ei')"></div></div>
   </div>
   <div id="ei-tab-more" style="display:none;">
     <div class="form-grid">
@@ -1801,7 +1801,7 @@ function selectTpl(tpl,pfx){
 }
 
 function addInvItem(pfx){
-  invFormItems[pfx].push({id:uid(),name:'',desc:'',size:'',duration:'',qty:1,rate:0});
+  invFormItems[pfx].push({id:uid(),name:'',desc:'',unit:'',qty:1,rate:0});
   renderInvItems(pfx);
   updateInvTotals(pfx);
 }
@@ -1817,10 +1817,12 @@ function renderInvItems(pfx){
   if(!tbody)return;
   tbody.innerHTML=invFormItems[pfx].map(item=>`
     <tr>
-      <td><input value="${esc(item.name)}" placeholder="Service / deliverable" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').name=this.value;updateInvTotals('${pfx}')"></td>
-      <td><input value="${esc(item.size)}" placeholder="1920×1080" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').size=this.value"></td>
-      <td><input value="${esc(item.duration)}" placeholder="30s" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').duration=this.value"></td>
+      <td style="vertical-align:top;">
+        <input value="${esc(item.name)}" placeholder="Service / deliverable" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').name=this.value;updateInvTotals('${pfx}')">
+        <input value="${esc(item.desc||'')}" placeholder="Subtitle (optional)" style="margin-top:3px;font-size:.78rem;color:#888;" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').desc=this.value">
+      </td>
       <td><input class="r" type="number" value="${item.qty||1}" min="1" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').qty=+this.value||1;updateInvTotals('${pfx}')"></td>
+      <td><input value="${esc(item.unit||'')}" placeholder="hrs / pcs…" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').unit=this.value"></td>
       <td><input class="r" type="number" value="${item.rate||0}" min="0" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').rate=+this.value||0;updateInvTotals('${pfx}')"></td>
       <td style="text-align:right;font-size:.78rem;font-weight:600;padding-right:4px;">${fmt((+item.qty||1)*(+item.rate||0))}</td>
       <td><button class="li-row-del" onclick="removeInvItem('${pfx}','${item.id}')">✕</button></td>
@@ -1911,8 +1913,13 @@ function populateInvForm(pfx,inv){
   if(document.getElementById(pfx+'-disc-type'))document.getElementById(pfx+'-disc-type').value=inv.discount?.type||'pct';
   if(document.getElementById(pfx+'-disc-val'))document.getElementById(pfx+'-disc-val').value=inv.discount?.value||0;
   // Line items: use existing or create from legacy fields
-  if(inv.lineItems&&inv.lineItems.length>0){invFormItems[pfx]=[...inv.lineItems.map(i=>({...i,id:i.id||uid()}))];}
-  else{invFormItems[pfx]=[{id:uid(),name:inv.desc||inv.cat||'',desc:'',size:inv.size||'',duration:inv.duration||'',qty:1,rate:+inv.amount||0}];}
+  if(inv.lineItems&&inv.lineItems.length>0){
+    invFormItems[pfx]=inv.lineItems.map(i=>{
+      // backwards compat: merge old size+duration into unit
+      const unit=i.unit||[i.size,i.duration].filter(Boolean).join(' · ')||'';
+      return{...i,id:i.id||uid(),unit,desc:i.desc||''};
+    });
+  }else{invFormItems[pfx]=[{id:uid(),name:inv.desc||inv.cat||'',desc:'',unit:'',qty:1,rate:+inv.amount||0}];}
   // Template
   invFormTpl[pfx]=inv.template||'classic';
   selectTpl(invFormTpl[pfx],pfx);
@@ -1921,7 +1928,7 @@ function populateInvForm(pfx,inv){
 }
 
 function resetInvForm(pfx){
-  invFormItems[pfx]=[{id:uid(),name:'',desc:'',size:'',duration:'',qty:1,rate:0}];
+  invFormItems[pfx]=[{id:uid(),name:'',desc:'',unit:'',qty:1,rate:0}];
   invFormTpl[pfx]='classic';
   if(document.getElementById(pfx+'-gst-on'))document.getElementById(pfx+'-gst-on').checked=false;
   if(document.getElementById(pfx+'-tds-on'))document.getElementById(pfx+'-tds-on').checked=false;
@@ -2021,16 +2028,18 @@ function invTotalsFromSaved(inv){
   // Rebuild totals from saved data or recalculate from legacy
   if(inv._totals)return inv._totals;
   const subtotal=+inv.amount||0;
-  return{items:[{name:inv.desc||inv.cat||'Services',desc:'',size:inv.size||'',duration:inv.duration||'',qty:1,rate:subtotal}],subtotal,discount:0,taxable:subtotal,cgst:0,sgst:0,igst:0,gross:subtotal,tds:0,net:subtotal,gstOn:false,tdsOn:false,discOn:false};
+  const legacyUnit=[inv.size,inv.duration].filter(Boolean).join(' · ');
+  return{items:[{name:inv.desc||inv.cat||'Services',desc:'',unit:legacyUnit,qty:1,rate:subtotal}],subtotal,discount:0,taxable:subtotal,cgst:0,sgst:0,igst:0,gross:subtotal,tds:0,net:subtotal,gstOn:false,tdsOn:false,discOn:false};
 }
 
 function buildItemsRows(items,cur,cols,style){
   return items.filter(i=>(+i.qty||1)*(+i.rate||0)>0||i.name).map(i=>{
     const amt=(+i.qty||1)*(+i.rate||0);
-    const hasSize=i.size&&i.size.trim();
-    const hasDur=i.duration&&i.duration.trim();
-    if(style==='classic')return`<div class="table-row"><div><div class="td-name">${esc(i.name||'Services')}</div>${(hasSize||hasDur)?`<div class="td-sub">${[hasSize?esc(i.size):'',hasDur?esc(i.duration):''].filter(Boolean).join(' · ')}</div>`:''}</div><div class="td r">${fmtN(amt,cur)}</div></div>`;
-    return`<tr><td class="td-name">${esc(i.name||'Services')}${(hasSize||hasDur)?`<div class="td-sub">${[hasSize?esc(i.size):'',hasDur?esc(i.duration):''].filter(Boolean).join(' · ')}</div>`:''}</td><td class="td r">${i.qty>1?i.qty+'×':''}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
+    // backwards compat: unit from new field, or combine old size+duration
+    const unit=i.unit||(i.size||i.duration?[i.size,i.duration].filter(Boolean).join(' · '):'');
+    const sub=i.desc||(unit?unit:'');
+    if(style==='classic')return`<div class="table-row"><div><div class="td-name">${esc(i.name||'Services')}</div>${sub?`<div class="td-sub">${esc(sub)}</div>`:''}</div><div class="td r">${fmtN(amt,cur)}</div></div>`;
+    return`<tr><td><div class="td-name">${esc(i.name||'Services')}</div>${sub?`<div class="td-sub">${esc(sub)}</div>`:''}</td><td class="td r">${i.qty>1?i.qty:''}</td><td class="td r" style="font-size:11px;color:#888;">${esc(unit)}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
   }).join('');
 }
 
@@ -2131,7 +2140,7 @@ function buildInvoiceHTML(inv){
 .footer{border-top:1px solid #C5BFB2;padding:26px 0;border-bottom:1px solid #C5BFB2;display:flex;justify-content:space-between;align-items:flex-start;}
 .footer-heading{font-size:14.5px;font-weight:700;color:#111;margin-bottom:11px;}
 .footer-detail{font-size:13px;color:#444;line-height:1.9;}
-.inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:10px;}
+.inv-qr-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;margin-bottom:10px;}
 .inv-qr-label{font-size:9px;color:#888;}
 @page{margin:0;size:A4 portrait;}
 @media print{html,body{background:#F2EDE3;}.page{margin:0;}.save-btn{display:none;}}
@@ -2152,8 +2161,8 @@ function buildInvoiceHTML(inv){
   <div class="flex-grow"></div>
   ${termsInfo}
   <div class="footer">
-    <div><div class="footer-heading">Payment Information</div><div class="footer-detail">${payHTML}</div>${qrHTML}</div>
-    <div style="text-align:right;"><div class="footer-heading">${esc(p.ownerName||p.studioName||'Studio')}</div><div class="footer-detail">${ownerHTML}</div></div>
+    <div><div class="footer-heading">Payment Information</div><div class="footer-detail">${payHTML}</div></div>
+    <div style="text-align:right;">${qrHTML}<div class="footer-heading" style="margin-top:10px;">${esc(p.ownerName||p.studioName||'Studio')}</div><div class="footer-detail">${ownerHTML}</div></div>
   </div>
 </div></body></html>`;}
 
@@ -2188,7 +2197,7 @@ table.items td.r{text-align:right;}
 .total-final-row td{font-size:15px;font-weight:700;color:#111;border-top:1.5px solid #111;border-bottom:none;padding-top:12px;}
 .footer-strip{margin-top:40px;padding-top:20px;border-top:1px solid #EEEEEE;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px;color:#999;line-height:1.8;}
 .footer-strip strong{color:#444;display:block;margin-bottom:4px;font-size:12px;}
-.inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:8px;}
+.inv-qr-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin-bottom:8px;}
 .inv-qr-label{font-size:8px;color:#bbb;}
 @page{margin:0;size:A4 portrait;}
 @media print{html,body{background:#fff;}.page{margin:0;}.save-btn{display:none;}}
@@ -2200,13 +2209,13 @@ table.items td.r{text-align:right;}
     <div class="top-right"><div class="inv-label">Invoice</div><div class="inv-number">${num}</div><div class="inv-meta">Date: ${fmtLong(inv.date)}<br>Due: ${inv.due?fmtLong(inv.due):'On receipt'}</div>${creditBadge}${draftBadge}</div>
   </div>
   <div class="bill-section"><div class="bill-label">Billed to</div><div class="bill-name">${clientInfo}</div></div>
-  <table class="items"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${itemRows}</tbody></table>
+  <table class="items"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${itemRows}</tbody></table>
   ${totalsHTML}
   ${hsnInfo}
   ${termsInfo}
   <div class="footer-strip">
-    <div><strong>Payment</strong>${payHTML}${qrHTML}</div>
-    <div style="text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong>${ownerHTML}</div>
+    <div><strong>Payment</strong>${payHTML}</div>
+    <div style="text-align:right;">${qrHTML}<strong style="display:block;margin-top:8px;">${esc(p.ownerName||p.studioName||'Studio')}</strong>${ownerHTML}</div>
   </div>
 </div></body></html>`;}
 
@@ -2243,7 +2252,7 @@ table.items td.r{text-align:right;}
 .flex-grow{flex:1;}
 .footer-band{border-top:1px solid #EEEEEE;padding:24px 56px;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px;color:#888;line-height:1.8;}
 .footer-band strong{font-size:12px;color:#333;display:block;margin-bottom:3px;}
-.inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:8px;}
+.inv-qr-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin-bottom:8px;}
 .inv-qr-label{font-size:8px;color:#bbb;}
 @page{margin:0;size:A4 portrait;}
 @media print{html,body{background:#fff;}.page{margin:0;}.save-btn{display:none;}}
@@ -2261,14 +2270,14 @@ table.items td.r{text-align:right;}
     </div>
   </div>
   <div class="body-pad">
-    <table class="items"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${itemRows}</tbody></table>
+    <table class="items"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
     ${termsInfo}
     <div class="flex-grow"></div>
     <div class="footer-band">
-      <div><strong>Payment Information</strong>${payHTML}${qrHTML}</div>
-      <div style="text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong>${ownerHTML}</div>
+      <div><strong>Payment Information</strong>${payHTML}</div>
+      <div style="text-align:right;">${qrHTML}<strong style="display:block;margin-top:8px;">${esc(p.ownerName||p.studioName||'Studio')}</strong>${ownerHTML}</div>
     </div>
   </div>
 </div></body></html>`;}
@@ -2306,7 +2315,7 @@ table.items td.r{text-align:right;}
 .flex-grow{flex:1;}
 .footer{margin-top:30px;padding-top:20px;border-top:1px solid #DDD;display:flex;justify-content:space-between;font-size:11.5px;color:#888;line-height:1.9;}
 .footer strong{font-size:12px;color:#444;display:block;margin-bottom:4px;font-family:sans-serif;}
-.inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:8px;}
+.inv-qr-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin-bottom:8px;}
 .inv-qr-label{font-size:8px;color:#bbb;font-family:sans-serif;}
 @page{margin:0;size:A4 portrait;}
 @media print{html,body{background:#FDFCFA;}.page{margin:0;}.save-btn{display:none;}}
@@ -2320,14 +2329,14 @@ table.items td.r{text-align:right;}
       <div class="header-right"><div class="inv-word">Invoice</div><div class="inv-num">${num}</div><div class="inv-dates">Date: ${fmtLong(inv.date)}<br>Due: ${inv.due?fmtLong(inv.due):'On receipt'}</div>${creditBadge}${draftBadge}</div>
     </div>
     <div class="bill-box"><div class="bill-label">Billed to</div><div class="bill-name">${clientInfo}</div></div>
-    <table class="items"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${itemRows}</tbody></table>
+    <table class="items"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
     ${termsInfo}
     <div class="flex-grow"></div>
     <div class="footer">
-      <div><strong>Payment Information</strong>${payHTML}${qrHTML}</div>
-      <div style="text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong>${ownerHTML}</div>
+      <div><strong>Payment Information</strong>${payHTML}</div>
+      <div style="text-align:right;">${qrHTML}<strong style="display:block;margin-top:8px;">${esc(p.ownerName||p.studioName||'Studio')}</strong>${ownerHTML}</div>
     </div>
   </div>
 </div></body></html>`;}
