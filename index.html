@@ -1055,7 +1055,8 @@ const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 let supa=null,currentUser=null,authMode='signin';
 
 const DB='studiobills_v4';
-const DEFAULT_PROFILE={studioName:'Hardipsinh Zala',ownerName:'Hardipsinh Zala',email:'zalahardip70@gmail.com',phone:'+91 88660 35771',address:'Rajkot, Gujarat, India',currency:'₹',role:'AI Filmmaker · VFX Artist · Brand Filmmaker',upi:'zalahardip70@okaxis',bankName:'Punjab National Bank',accountNo:'0400001500010175',ifsc:'PUNB0040000'};
+const DEFAULT_PROFILE={currency:'₹'};// Empty — only currency is universal default
+const OWNER_PROFILE={studioName:"Hardip's Freelance Space",ownerName:'Hardipsinh Zala',email:'zalahardip70@gmail.com',phone:'+91 88660 35771',address:'Rajkot, Gujarat, India',currency:'₹',role:'AI Filmmaker · VFX Artist · Brand Filmmaker',upi:'zalahardip70@okaxis',bankName:'Punjab National Bank',accountNo:'0400001500010175',ifsc:'PUNB0040000'};
 const DEFAULT_CATS={inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']};
 let db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
 let viewMonth=new Date();
@@ -1069,14 +1070,14 @@ function applyMigrations(){
   db.invoiceCounter=db.invoiceCounter||0;
   db.profile=db.profile||{};
   const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
-  // For non-owners: strip any field that still holds the owner's exact default value (contamination fix)
+  // For non-owners: wipe any field that matches owner's personal data (contamination fix)
   if(!isOwner){
     let wiped=false;
-    Object.keys(DEFAULT_PROFILE).forEach(k=>{if(k!=='currency'&&db.profile[k]===DEFAULT_PROFILE[k]){delete db.profile[k];wiped=true;}});
-    if(wiped)setTimeout(save,500); // persist the cleaned profile back to Supabase
+    Object.keys(OWNER_PROFILE).forEach(k=>{if(k!=='currency'&&db.profile[k]===OWNER_PROFILE[k]){delete db.profile[k];wiped=true;}});
+    if(wiped)setTimeout(save,500);
   }
-  // Only pre-fill Hardip's own defaults; other users get a blank profile
-  const profileDefaults=isOwner?DEFAULT_PROFILE:{currency:'₹'};
+  // Only pre-fill owner's defaults for owner; all others get currency only
+  const profileDefaults=isOwner?OWNER_PROFILE:DEFAULT_PROFILE;
   Object.keys(profileDefaults).forEach(k=>{if(!db.profile[k])db.profile[k]=profileDefaults[k];});
   // Assign invNo to invoices that don't have one
   const needsNo=(db.income||[]).filter(i=>!i.invNo).sort((a,b)=>a.date>b.date?1:-1);
