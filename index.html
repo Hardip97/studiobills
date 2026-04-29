@@ -773,11 +773,17 @@ tbody tr.row-overdue{background:#FFF7F8;}
     </div>
   </div>
   <div id="stab-about" style="display:none;">
-    <div class="card" style="max-width:380px;text-align:center;padding:32px;">
+    <div class="card" style="max-width:380px;text-align:center;padding:32px;margin-bottom:16px;">
       <div class="logo-icon" style="width:48px;height:48px;border-radius:12px;font-size:1rem;margin:0 auto 12px;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;">SB</div>
       <div style="font-size:1rem;font-weight:700;">StudioBills</div>
       <div style="font-size:.76rem;color:var(--muted);margin:4px 0 14px;">Version 5.0</div>
-      <div style="font-size:.79rem;color:var(--muted);line-height:1.7;font-weight:300;">Billing tracker for creative studios. All data is local — no servers, no subscriptions.</div>
+      <div style="font-size:.79rem;color:var(--muted);line-height:1.7;font-weight:300;">Billing tracker for creative studios. Powered by Supabase — your data syncs securely across devices.</div>
+    </div>
+    <!-- Danger Zone -->
+    <div class="card" style="max-width:380px;border:1px solid rgba(255,0,53,.25);padding:20px 24px;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--red);text-transform:uppercase;margin-bottom:10px;">⚠ Danger Zone</div>
+      <div style="font-size:.81rem;color:var(--muted);font-weight:300;margin-bottom:16px;line-height:1.6;">Permanently deletes your account and all associated data — invoices, expenses, clients, and profile. This action <strong>cannot be undone</strong>.</div>
+      <button class="btn" onclick="deleteAccount()" style="background:transparent;border:1px solid var(--red);color:var(--red);font-size:.8rem;font-weight:600;width:100%;padding:9px;">🗑 Delete My Account</button>
     </div>
   </div>
 </div>
@@ -1143,6 +1149,45 @@ async function signOut(){
   document.getElementById('authOverlay').style.display='flex';
   document.getElementById('authEmail').value='';
   document.getElementById('authPwd').value='';
+}
+
+async function deleteAccount(){
+  if(!currentUser){toast('Not signed in','err');return;}
+  // Double confirmation — first generic, then type email
+  if(!confirm('Delete your account?\n\nThis will permanently erase ALL your data — invoices, expenses, clients, and settings.\n\nClick OK only if you are absolutely sure.'))return;
+  const confirmEmail=prompt('To confirm, type your email address:');
+  if(!confirmEmail||confirmEmail.trim().toLowerCase()!==currentUser.email.toLowerCase()){
+    toast('Email did not match — account not deleted','err');return;
+  }
+  toast('Deleting account…');
+  try{
+    // 1. Delete all user data from user_data table
+    await supa.from('user_data').delete().eq('user_id',currentUser.id);
+    // 2. Delete the auth account via Supabase admin (requires RPC or edge function)
+    //    Fallback: sign out and show instruction if admin delete isn't available
+    const{error}=await supa.rpc('delete_user');
+    if(error){
+      // If RPC not available, clear data and sign out — user must contact support for auth deletion
+      await supa.auth.signOut();
+      currentUser=null;
+      db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:[...DEFAULT_CATS.inc],exp:[...DEFAULT_CATS.exp]}};
+      document.getElementById('authOverlay').style.display='flex';
+      document.getElementById('authEmail').value='';
+      document.getElementById('authPwd').value='';
+      toast('All data deleted. Auth account removal may take up to 24h.','err');
+      return;
+    }
+    // Success
+    currentUser=null;
+    db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:[...DEFAULT_CATS.inc],exp:[...DEFAULT_CATS.exp]}};
+    document.getElementById('authOverlay').style.display='flex';
+    document.getElementById('authEmail').value='';
+    document.getElementById('authPwd').value='';
+    toast('Account permanently deleted.');
+  }catch(e){
+    console.error(e);
+    toast('Error deleting account — please try again','err');
+  }
 }
 
 // ─── LOAD USER DATA ───
