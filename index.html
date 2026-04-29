@@ -1201,7 +1201,7 @@ function renderOverview(){
   const ri=[...db.income].sort((a,b)=>b.date>a.date?1:-1).slice(0,5);
   document.getElementById('recentIncList').innerHTML=ri.length?ri.map(i=>`
     <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border2);">
-      <div><div style="font-size:.82rem;font-weight:500;">${esc(i.client)}</div><div style="font-size:.71rem;color:var(--muted);font-weight:300;">${esc(i.desc||'—')}</div></div>
+      <div><div style="font-size:.82rem;font-weight:500;">${esc(i.client)}</div><div style="font-size:.71rem;color:var(--muted);font-weight:300;">${esc(invDesc(i)||'—')}</div></div>
       <div style="text-align:right;"><div style="font-size:.84rem;font-weight:600;">${fmt(i.amount)}</div>${sBadge(i)}</div>
     </div>`).join(''):'<div class="empty"><div class="empty-icon">💸</div><p>No income yet</p></div>';
 
@@ -1495,14 +1495,14 @@ function renderIncome(){
   else if(incFilter==='pending')rows=rows.filter(i=>i.status==='pending');
   else if(incFilter==='partial')rows=rows.filter(i=>i.status==='partial');
   else if(incFilter==='overdue')rows=rows.filter(i=>isOverdue(i));
-  if(q)rows=rows.filter(i=>(i.client+i.desc+i.cat).toLowerCase().includes(q));
+  if(q)rows=rows.filter(i=>(i.client+invDesc(i)+i.cat).toLowerCase().includes(q));
   rows.sort((a,b)=>b.date>a.date?1:-1);
   const tb=document.getElementById('incTbody');
   if(!rows.length){tb.innerHTML=`<tr><td colspan="9"><div class="empty"><div class="empty-icon">💸</div><p>No entries</p></div></td></tr>`;return;}
   tb.innerHTML=rows.map(i=>`<tr class="${isOverdue(i)?'row-overdue':''}">
     <td><span style="font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.01em;">${i.invNo||'—'}</span></td>
     <td><div style="font-weight:500;">${esc(i.client)}</div></td>
-    <td style="color:var(--muted);font-weight:300;">${esc(i.desc||'—')}</td>
+    <td style="color:var(--muted);font-weight:300;">${esc(invDesc(i)||'—')}</td>
     <td style="font-weight:600;">${fmt(i.amount)}${+i.received>0?`<div style="font-size:.7rem;color:var(--green);font-weight:400;">rcvd ${fmt(i.received)}</div>`:''}</td>
     <td style="color:var(--green);font-weight:500;">${fmt(i.received||0)}</td>
     <td>${i.due?`<span${isOverdue(i)?' style="color:var(--red);font-weight:600;"':''}>${fmtD(i.due)}</span>`:'<span style="color:var(--muted2);">—</span>'}</td>
@@ -1744,12 +1744,12 @@ function openClientModal(name){
     <div class="stat-card"><div class="sc-lbl">Pending</div><div class="sc-val" style="color:var(--orange)">${fmt(pending)}</div></div>`;
   const sorted=invs.sort((a,b)=>b.date>a.date?1:-1);
   document.getElementById('cm-tbody').innerHTML=sorted.map(i=>`<tr>
-    <td>${esc(i.desc||'—')}</td><td>${fmt(i.amount)}</td>
+    <td>${esc(invDesc(i)||'—')}</td><td>${fmt(i.amount)}</td>
     <td style="color:var(--green)">${fmt(rcvCM(i))}</td>
     <td>${fmtD(i.date)}</td><td>${sBadge(i)}</td>
   </tr>`).join('');
   const pend=sorted.filter(i=>i.status!=='received');
-  document.getElementById('cm-pay-inv').innerHTML=pend.map(i=>`<option value="${i.id}">${esc(i.desc||'Invoice')} — ${fmt((+i.amount||0)-(+i.received||0))} due</option>`).join('')||'<option>All paid ✓</option>';
+  document.getElementById('cm-pay-inv').innerHTML=pend.map(i=>`<option value="${i.id}">${esc(invDesc(i)||'Invoice')} — ${fmt((+i.amount||0)-(+i.received||0))} due</option>`).join('')||'<option>All paid ✓</option>';
   openModal('clientModal');
 }
 function recordPayment(){
@@ -1781,7 +1781,7 @@ function renderHistory(){
   ySel.innerHTML=['All',...years].map(y=>`<option value="${y}"${y===curY?' selected':''}>${y}</option>`).join('');
   let rows=[...db.income.map(i=>({...i,_t:'income'})),...db.expenses.map(e=>({...e,_t:'expense',client:e.title}))];
   if(curY!=='All')rows=rows.filter(r=>r.date?.startsWith(curY));
-  if(q)rows=rows.filter(r=>((r.client||'')+(r.desc||'')+(r.cat||'')).toLowerCase().includes(q));
+  if(q)rows=rows.filter(r=>((r.client||'')+invDesc(r)+(r.cat||'')).toLowerCase().includes(q));
   rows.sort((a,b)=>b.date>a.date?1:-1);
   const tb=document.getElementById('histTbody');
   if(!rows.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><div class="empty-icon">📋</div><p>No history</p></div></td></tr>`;return;}
@@ -1797,6 +1797,16 @@ function renderHistory(){
 
 // ─── SETTINGS ───
 // ─── INVOICE FORM STATE ───
+// Get best description from invoice (handles legacy desc + new lineItems)
+function invDesc(i){
+  if(i.desc&&i.desc.trim())return i.desc.trim();
+  if(i.lineItems&&i.lineItems.length>0){
+    const names=i.lineItems.map(x=>x.name).filter(Boolean);
+    if(names.length)return names.join(', ');
+  }
+  return i.cat||'';
+}
+
 let invFormItems={ai:[],ei:[]};
 let invFormTpl={ai:'classic',ei:'classic'};
 let invFormType={ai:'general',ei:'general'};
@@ -2544,7 +2554,7 @@ async function shareOnWhatsApp(){
 }
 
 // ─── EXPORT / IMPORT ───
-function exportIncXLSX(){const rows=db.income.map(i=>({Client:i.client,Description:i.desc,Amount:+i.amount||0,Received:+i.received||0,Date:i.date,DueDate:i.due||'',Category:i.cat||'',Status:i.status,Notes:i.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Income');XLSX.writeFile(wb,'StudioBills_Income.xlsx');toast('Excel exported ✓');}
+function exportIncXLSX(){const rows=db.income.map(i=>({Client:i.client,Description:invDesc(i),Amount:+i.amount||0,Received:+i.received||0,Date:i.date,DueDate:i.due||'',Category:i.cat||'',Status:i.status,Notes:i.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Income');XLSX.writeFile(wb,'StudioBills_Income.xlsx');toast('Excel exported ✓');}
 function exportExpXLSX(){const rows=db.expenses.map(e=>({Title:e.title,Category:e.cat||'',Amount:+e.amount||0,Date:e.date,Recurring:e.recurring?'Yes':'No',Notes:e.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Expenses');XLSX.writeFile(wb,'StudioBills_Expenses.xlsx');toast('Excel exported ✓');}
 function exportReportXLSX(){const y=document.getElementById('reportYearSel').value||new Date().getFullYear();const m=['01','02','03','04','05','06','07','08','09','10','11','12'];const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const rows=m.map((mo,i)=>{const k=`${y}-${mo}`;const inc=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);const rec=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.received||0),0);const exp=db.expenses.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);return{Month:`${ml[i]} ${y}`,Billed:inc,Received:rec,Expenses:exp,Net:rec-exp};});const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`Report ${y}`);XLSX.writeFile(wb,`StudioBills_Report_${y}.xlsx`);toast('Report exported ✓');}
 function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`StudioBills_Backup_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Backup exported ✓');}
