@@ -778,6 +778,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
   <!-- DETAILS TAB -->
   <div id="ai-tab-details">
     <div class="form-grid">
+      <div class="fg"><label>Invoice No.</label><input id="ai-invno" placeholder="e.g. INV-003" style="font-weight:600;"></div>
       <div class="fg"><label>Client *</label><input id="ai-client" list="clientSuggest" placeholder="Client / company name"></div>
       <div class="fg"><label>Invoice Date</label><input id="ai-date" type="date"></div>
       <div class="fg"><label>Due Date</label><input id="ai-due" type="date"></div>
@@ -860,6 +861,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
   </div>
   <div id="ei-tab-details">
     <div class="form-grid">
+      <div class="fg"><label>Invoice No.</label><input id="ei-invno" style="font-weight:600;"></div>
       <div class="fg"><label>Client *</label><input id="ei-client" list="clientSuggest"></div>
       <div class="fg"><label>Invoice Date</label><input id="ei-date" type="date"></div>
       <div class="fg"><label>Due Date</label><input id="ei-due" type="date"></div>
@@ -1518,8 +1520,12 @@ function saveIncome(){
   if(!f.client){toast('Client name required','err');return;}
   const t=calcInvTotals('ai');
   if(t.subtotal<=0){toast('Add at least one line item with a rate','err');return;}
-  db.invoiceCounter=(db.invoiceCounter||0)+1;
-  const invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');
+  // Use typed invoice number or auto-generate next
+  let invNo=f.invNo&&f.invNo.trim()?f.invNo.trim():'';
+  if(!invNo){
+    db.invoiceCounter=(db.invoiceCounter||0)+1;
+    invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');
+  }
   const inv={id:uid(),invNo,...f,amount:Math.round(t.gross),_totals:t};
   if(inv.isCreditNote)inv.amount=-Math.abs(inv.amount);
   if(inv.received>=inv.amount)inv.status='received';
@@ -1546,7 +1552,8 @@ function updateIncome(){
   const t=calcInvTotals('ei');
   if(t.subtotal<=0){toast('Add at least one line item with a rate','err');return;}
   const i=db.income[idx];
-  Object.assign(i,f,{amount:Math.round(t.gross),_totals:t});
+  const invNo=f.invNo&&f.invNo.trim()?f.invNo.trim():i.invNo;
+  Object.assign(i,f,{invNo,amount:Math.round(t.gross),_totals:t});
   if(i.isCreditNote)i.amount=-Math.abs(i.amount);
   if(i.received>=Math.abs(i.amount))i.status='received';
   else if(i.received>0)i.status='partial';
@@ -1943,6 +1950,7 @@ function updateInvTotals(pfx){
 
 function readInvForm(pfx){
   return{
+    invNo:document.getElementById(pfx+'-invno')?.value.trim()||'',
     client:document.getElementById(pfx+'-client')?.value.trim()||'',
     date:document.getElementById(pfx+'-date')?.value||today(),
     due:document.getElementById(pfx+'-due')?.value||'',
@@ -1965,6 +1973,7 @@ function readInvForm(pfx){
 
 function populateInvForm(pfx,inv){
   // Set simple fields
+  if(document.getElementById(pfx+'-invno'))document.getElementById(pfx+'-invno').value=inv.invNo||'';
   if(document.getElementById(pfx+'-client'))document.getElementById(pfx+'-client').value=inv.client||'';
   if(document.getElementById(pfx+'-date'))document.getElementById(pfx+'-date').value=inv.date||today();
   if(document.getElementById(pfx+'-due'))document.getElementById(pfx+'-due').value=inv.due||'';
@@ -2005,6 +2014,9 @@ function populateInvForm(pfx,inv){
 }
 
 function resetInvForm(pfx){
+  // Pre-fill invoice no with next sequential number
+  const nextNo='INV-'+String((db.invoiceCounter||0)+1).padStart(3,'0');
+  if(document.getElementById(pfx+'-invno'))document.getElementById(pfx+'-invno').value=nextNo;
   invFormItems[pfx]=[{id:uid(),name:'',qty:1,rate:0,unit:'',dimension:'',duration:''}];
   invFormType[pfx]='general';
   invFormTpl[pfx]='classic';
