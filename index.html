@@ -1829,7 +1829,7 @@ function renderReports(){
     const expenses=ye.reduce((s,e)=>s+(+e.amount||0),0);
     return{billed,received,expenses,net:received-expenses,count:yi.length};
   }
-  function yChg(a,b){if(a===0&&b===0)return'<span style="color:var(--muted2)">—</span>';const pct=a===0?(b>0?'+100':'—'):((b-a)/Math.abs(a)*100).toFixed(1);const col=+pct>0?'var(--green)':+pct<0?'var(--red)':'var(--muted)';return`<span style="color:${col};font-weight:600">${typeof pct==='string'&&pct==='—'?'—':(+pct>0?'+':'')+pct+'%'}</span>`;}
+  function yChg(a,b){if(a===0&&b===0)return'<span style="color:var(--muted2)">—</span>';if(a===0)return b>0?'<span style="color:var(--green);font-weight:600">New ↑</span>':'<span style="color:var(--muted2)">—</span>';const pct=((b-a)/Math.abs(a)*100).toFixed(1);const col=+pct>0?'var(--green)':+pct<0?'var(--red)':'var(--muted)';return`<span style="color:${col};font-weight:600">${+pct>0?'+':''}${pct}%</span>`;}
   const py=yoyMetric(prevYear),cy=yoyMetric(cur);
   document.getElementById('yoySection').innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:.82rem;">
     <thead><tr>
