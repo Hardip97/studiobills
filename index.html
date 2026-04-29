@@ -325,6 +325,9 @@ tbody tr.row-overdue{background:#FFF7F8;}
 .itr.final{font-weight:700;color:var(--text);font-size:.92rem;padding-top:8px;margin-top:4px;border-top:1px solid var(--border);}
 .itr.disc{color:var(--green);}
 .itr.tds-r{color:var(--orange);}
+.fx-btn{padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);font-size:.76rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;}
+.fx-btn:hover{border-color:var(--red);color:var(--red);}
+.fx-btn.sel{background:var(--red);border-color:var(--red);color:#fff;}
 
 /* ── TAX ROW ── */
 .tax-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border2);}
@@ -822,7 +825,23 @@ tbody tr.row-overdue{background:#FFF7F8;}
       <div class="fg"><label>Due Date</label><input id="ai-due" type="date"></div>
       <div class="fg"><label>Category</label><select id="ai-cat"><option value="">— select —</option></select></div>
       <div class="fg"><label>Status</label><select id="ai-status"><option value="pending">Pending</option><option value="partial">Partial</option><option value="received">Received</option></select></div>
-      <div class="fg"><label>Received (₹)</label><input id="ai-received" type="number" min="0" placeholder="0" oninput="updateInvTotals('ai')"></div>
+    </div>
+    <!-- Currency Selector -->
+    <div style="margin-top:14px;margin-bottom:6px;">
+      <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Currency</label>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;" id="ai-currency-bar">
+        <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ai','INR')">🇮🇳 INR</button>
+        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ai','USD')">🇺🇸 USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ai','GBP')">🇬🇧 GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ai','EUR')">🇪🇺 EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ai','AED')">🇦🇪 AED</button>
+      </div>
+      <div id="ai-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:5px;min-height:16px;"></div>
+    </div>
+    <input type="hidden" id="ai-currency-code" value="INR">
+    <div class="form-grid" style="margin-top:6px;">
+      <div class="fg"><label id="ai-received-label">Received (₹)</label><input id="ai-received" type="number" min="0" placeholder="0" oninput="updateInvTotals('ai')"></div>
+    </div>
     </div>
     <div style="margin-top:14px;"><label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
     <div class="tpl-grid" id="ai-tpl-grid">
@@ -870,7 +889,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
     <div class="form-grid">
       <div class="fg"><label>HSN / SAC Code</label><input id="ai-hsn" placeholder="e.g. 998371"></div>
       <div class="fg"><label>Client GSTIN</label><input id="ai-cgstin" placeholder="Client's GST number"></div>
-      <div class="fg"><label>Currency Symbol</label><input id="ai-currency" placeholder="₹" style="max-width:80px;font-size:1.1rem;text-align:center;"></div>
+
     </div>
     <div class="fg" style="margin-top:10px;"><label>Invoice Notes / Terms</label><textarea id="ai-terms" rows="3" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
     <div style="margin-top:12px;display:flex;gap:20px;flex-wrap:wrap;">
@@ -907,7 +926,23 @@ tbody tr.row-overdue{background:#FFF7F8;}
       <div class="fg"><label>Due Date</label><input id="ei-due" type="date"></div>
       <div class="fg"><label>Category</label><select id="ei-cat"><option value="">— select —</option></select></div>
       <div class="fg"><label>Status</label><select id="ei-status"><option value="pending">Pending</option><option value="partial">Partial</option><option value="received">Received</option></select></div>
-      <div class="fg"><label>Received (₹)</label><input id="ei-received" type="number" min="0" oninput="updateInvTotals('ei')"></div>
+    </div>
+    <!-- Currency Selector -->
+    <div style="margin-top:14px;margin-bottom:6px;">
+      <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Currency</label>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;" id="ei-currency-bar">
+        <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ei','INR')">🇮🇳 INR</button>
+        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ei','USD')">🇺🇸 USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ei','GBP')">🇬🇧 GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ei','EUR')">🇪🇺 EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ei','AED')">🇦🇪 AED</button>
+      </div>
+      <div id="ei-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:5px;min-height:16px;"></div>
+    </div>
+    <input type="hidden" id="ei-currency-code" value="INR">
+    <div class="form-grid" style="margin-top:6px;">
+      <div class="fg"><label id="ei-received-label">Received (₹)</label><input id="ei-received" type="number" min="0" oninput="updateInvTotals('ei')"></div>
+    </div>
     </div>
     <div style="margin-top:14px;"><label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
     <div class="tpl-grid" id="ei-tpl-grid">
@@ -934,7 +969,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
     <div class="form-grid">
       <div class="fg"><label>HSN / SAC Code</label><input id="ei-hsn" placeholder="e.g. 998371"></div>
       <div class="fg"><label>Client GSTIN</label><input id="ei-cgstin" placeholder="Client's GST number"></div>
-      <div class="fg"><label>Currency Symbol</label><input id="ei-currency" placeholder="₹" style="max-width:80px;font-size:1.1rem;text-align:center;"></div>
+
     </div>
     <div class="fg" style="margin-top:10px;"><label>Invoice Notes / Terms</label><textarea id="ei-terms" rows="3"></textarea></div>
     <div style="margin-top:12px;display:flex;gap:20px;flex-wrap:wrap;">
@@ -1058,7 +1093,14 @@ const DB='studiobills_v4';
 const DEFAULT_PROFILE={currency:'₹'};// Empty — only currency is universal default
 const OWNER_PROFILE={studioName:"Hardip's Freelance Space",ownerName:'Hardipsinh Zala',email:'zalahardip70@gmail.com',phone:'+91 88660 35771',address:'Rajkot, Gujarat, India',currency:'₹',role:'AI Filmmaker · VFX Artist · Brand Filmmaker',upi:'zalahardip70@okaxis',bankName:'Punjab National Bank',accountNo:'0400001500010175',ifsc:'PUNB0040000'};
 const DEFAULT_CATS={inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']};
-let db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
+const FX_CURRENCIES={
+  INR:{symbol:'₹',flag:'🇮🇳',name:'Indian Rupee'},
+  USD:{symbol:'$',flag:'🇺🇸',name:'US Dollar'},
+  GBP:{symbol:'£',flag:'🇬🇧',name:'British Pound'},
+  EUR:{symbol:'€',flag:'🇪🇺',name:'Euro'},
+  AED:{symbol:'د.إ',flag:'🇦🇪',name:'UAE Dirham'},
+};
+let db={income:[],expenses:[],invoiceCounter:0,clients:{},fxRates:null,profile:{...DEFAULT_PROFILE},cats:{inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
 let viewMonth=new Date();
 let activeRange='6M';
 let mainChart=null,rptChart=null,catChart=null,expCatChart=null;
@@ -1191,6 +1233,23 @@ async function deleteAccount(){
   }
 }
 
+// ─── FX RATES ───
+async function fetchFxRates(){
+  if(db.fxRates?.date===today())return;// already fresh today
+  try{
+    const res=await fetch('https://api.frankfurter.app/latest?from=INR&to=USD,GBP,EUR,AED');
+    if(!res.ok)throw new Error('fetch failed');
+    const data=await res.json();
+    const rates={INR:1};
+    Object.keys(data.rates).forEach(code=>{
+      // data.rates[code] = how many CODE per 1 INR → invert to get INR per 1 CODE
+      rates[code]=Math.round((1/data.rates[code])*100)/100;
+    });
+    db.fxRates={date:today(),rates};
+    save();
+  }catch(e){console.log('FX fetch failed, using cached rates');}
+}
+
 // ─── LOAD USER DATA ───
 async function loadUserData(user){
   currentUser=user;
@@ -1229,6 +1288,7 @@ async function loadUserData(user){
 function initAppUI(){
   fillCatSelects();fillClientSuggest();
   setTimeout(checkRecurringInvoices, 300);
+  fetchFxRates();
   document.getElementById('ai-date').value=today();
   document.getElementById('ae-date').value=today();
   applyTheme();
@@ -1619,7 +1679,13 @@ function renderIncome(){
     <td><span style="font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.01em;">${i.invNo||'—'}</span></td>
     <td><div style="font-weight:500;">${esc(i.client)}</div></td>
     <td style="color:var(--muted);font-weight:300;">${esc(invDesc(i)||'—')}</td>
-    <td style="font-weight:600;">${fmt(i.amount)}${+i.received>0?`<div style="font-size:.7rem;color:var(--green);font-weight:400;">rcvd ${fmt(i.received)}</div>`:''}</td>
+    <td style="font-weight:600;">${(()=>{
+      const isFx=i.currency&&i.currency!=='INR'&&i.foreignAmount;
+      const sym=FX_CURRENCIES[i.currency]?.symbol||'₹';
+      const mainAmt=isFx?`${sym}${(+i.foreignAmount||0).toLocaleString('en-IN')}<div style="font-size:.7rem;color:var(--muted);font-weight:300;">₹${(+i.amount||0).toLocaleString('en-IN')}</div>`:fmt(i.amount);
+      const rcvLine=+i.received>0?`<div style="font-size:.7rem;color:var(--green);font-weight:400;">rcvd ${fmt(i.received)}</div>`:'';
+      return mainAmt+rcvLine;
+    })()}</td>
     <td style="color:var(--green);font-weight:500;">${fmt(i.received||0)}</td>
     <td>${i.due?`<span${isOverdue(i)?' style="color:var(--red);font-weight:600;"':''}>${fmtD(i.due)}</span>`:'<span style="color:var(--muted2);">—</span>'}</td>
     <td>${sBadge(i)}${isOverdue(i)?'<div><span class="badge b-over" style="margin-top:2px;">Overdue</span></div>':''}</td>
@@ -1643,7 +1709,14 @@ function saveIncome(){
     db.invoiceCounter=(db.invoiceCounter||0)+1;
     invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');
   }
-  const inv={id:uid(),invNo,...f,amount:Math.round(t.gross),_totals:t};
+  const fxRate=f.exchangeRate||1;
+  const foreignAmt=Math.round(t.gross);
+  const amountINR=Math.round(t.gross*fxRate);
+  const inv={id:uid(),invNo,...f,
+    foreignAmount:foreignAmt,
+    amount:amountINR,
+    exchangeRate:fxRate,
+    _totals:t};
   if(inv.isCreditNote)inv.amount=-Math.abs(inv.amount);
   if(inv.received>=inv.amount)inv.status='received';
   else if(inv.received>0)inv.status='partial';
@@ -1670,7 +1743,13 @@ function updateIncome(){
   if(t.subtotal<=0){toast('Add at least one line item with a rate','err');return;}
   const i=db.income[idx];
   const invNo=f.invNo&&f.invNo.trim()?f.invNo.trim():i.invNo;
-  Object.assign(i,f,{invNo,amount:Math.round(t.gross),_totals:t});
+  const fxRateU=f.exchangeRate||1;
+  const foreignAmtU=Math.round(t.gross);
+  Object.assign(i,f,{invNo,
+    foreignAmount:foreignAmtU,
+    amount:Math.round(t.gross*fxRateU),
+    exchangeRate:fxRateU,
+    _totals:t});
   if(i.isCreditNote)i.amount=-Math.abs(i.amount);
   if(i.received>=Math.abs(i.amount))i.status='received';
   else if(i.received>0)i.status='partial';
@@ -2247,6 +2326,7 @@ function selectInvType(type,pfx){
   invFormItems[pfx]=[{id:uid(),name:'',qty:1,rate:0,unit:'',dimension:'',duration:''}];
   renderInvItems(pfx);
   updateInvTotals(pfx);
+  renderInvItems(pfx);// update Rate column header
 }
 
 function selectTpl(tpl,pfx){
@@ -2272,7 +2352,12 @@ function renderInvItems(pfx){
   if(!tbody)return;
   const type=invFormType[pfx]||'general';
   const def=INV_TYPE_DEFS[type]||INV_TYPE_DEFS.general;
-  const cols=def.cols;
+  // Get current currency symbol for this invoice
+  const fxCode=document.getElementById(pfx+'-currency-code')?.value||'INR';
+  const fxSym=FX_CURRENCIES[fxCode]?.symbol||'₹';
+  // Replace ₹ placeholder in column headers with selected currency symbol
+  const cols=def.cols.map(c=>({...c,h:c.h.replace('(₹)',`(${fxSym})`)}));
+  const fmtFx=n=>`${fxSym}${(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0})}`;
   // Render header
   if(thead){
     thead.innerHTML='<tr>'+cols.map(c=>`<th style="width:${c.w||'auto'}">${c.h}</th>`).join('')+'</tr>';
@@ -2281,7 +2366,7 @@ function renderInvItems(pfx){
   tbody.innerHTML=invFormItems[pfx].map(item=>{
     const amt=(+item.qty||1)*(+item.rate||0);
     return '<tr>'+cols.map(c=>{
-      if(c.k==='_amt')return`<td style="text-align:right;font-size:.78rem;font-weight:600;padding-right:4px;">${fmt(amt)}</td>`;
+      if(c.k==='_amt')return`<td style="text-align:right;font-size:.78rem;font-weight:600;padding-right:4px;">${fmtFx(amt)}</td>`;
       if(c.k==='_del')return`<td><button class="li-row-del" onclick="removeInvItem('${pfx}','${item.id}')">✕</button></td>`;
       const val=item[c.k]!==undefined?item[c.k]:(c.t==='number'?(c.k==='qty'?1:0):'');
       const isNum=c.t==='number';
@@ -2312,18 +2397,49 @@ function calcInvTotals(pfx){
   return{items,subtotal,discount,taxable,cgst,sgst,igst,gross,tds,net:gross-tds,gstOn,gstType,gstRate,tdsOn,tdsRate,discOn};
 }
 
+function onCurrencySelect(pfx,code){
+  // Highlight selected button
+  document.querySelectorAll(`#${pfx}-currency-bar .fx-btn`).forEach(b=>{
+    b.classList.toggle('sel',b.dataset.code===code);
+  });
+  // Store code in hidden input
+  const codeEl=document.getElementById(pfx+'-currency-code');
+  if(codeEl)codeEl.value=code;
+  // Show exchange rate info
+  const infoEl=document.getElementById(pfx+'-fx-info');
+  const sym=FX_CURRENCIES[code]?.symbol||code;
+  if(infoEl){
+    if(code==='INR'){infoEl.innerHTML='';}
+    else{
+      const rate=db.fxRates?.rates?.[code];
+      const dateStr=db.fxRates?.date||'cached';
+      infoEl.innerHTML=rate
+        ?`1 ${code} = <strong>₹${rate}</strong> <span style="color:var(--muted2);font-size:.7rem;">· ${dateStr}</span>`
+        :`<span style="color:var(--muted2)">Rate not loaded — check connection</span>`;
+    }
+  }
+  // Update Received label
+  const recLabel=document.getElementById(pfx+'-received-label');
+  if(recLabel)recLabel.textContent=code==='INR'?'Received (₹)':`Received (${sym})`;
+  updateInvTotals(pfx);
+}
+
 function updateInvTotals(pfx){
   const t=calcInvTotals(pfx);
-  const cur=db.profile.currency||'₹';
+  const code=document.getElementById(pfx+'-currency-code')?.value||'INR';
+  const fxSym=FX_CURRENCIES[code]?.symbol||'₹';
+  const fxRate=code==='INR'?1:(db.fxRates?.rates?.[code]||1);
+  const cur=fxSym;
   const f=n=>`${cur}${(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0})}`;
-  let html=`<div class="itr"><span>Subtotal</span><span>${f(t.subtotal)}</span></div>`;
+  const inrNote=n=>code!=='INR'?`<span style="font-size:.72rem;color:var(--muted);margin-left:6px;">= ₹${Math.round((+n||0)*fxRate).toLocaleString('en-IN')}</span>`:'';
+  let html=`<div class="itr"><span>Subtotal</span><span>${f(t.subtotal)}${inrNote(t.subtotal)}</span></div>`;
   if(t.discOn&&t.discount>0)html+=`<div class="itr disc"><span>Discount</span><span>−${f(t.discount)}</span></div>`;
   if(t.gstOn){
     if(t.gstType==='igst')html+=`<div class="itr"><span>IGST (${t.gstRate}%)</span><span>${f(t.igst)}</span></div>`;
     else{html+=`<div class="itr"><span>CGST (${t.gstRate/2}%)</span><span>${f(t.cgst)}</span></div>`;html+=`<div class="itr"><span>SGST (${t.gstRate/2}%)</span><span>${f(t.sgst)}</span></div>`;}
   }
-  html+=`<div class="itr final"><span>${t.tdsOn?'Gross Total':'Total'}</span><span>${f(t.gross)}</span></div>`;
-  if(t.tdsOn)html+=`<div class="itr tds-r"><span>TDS (−${t.tdsRate}%)</span><span>−${f(t.tds)}</span></div><div class="itr final"><span>Net Payable</span><span>${f(t.net)}</span></div>`;
+  html+=`<div class="itr final"><span>${t.tdsOn?'Gross Total':'Total'}</span><span>${f(t.gross)}${inrNote(t.gross)}</span></div>`;
+  if(t.tdsOn)html+=`<div class="itr tds-r"><span>TDS (−${t.tdsRate}%)</span><span>−${f(t.tds)}</span></div><div class="itr final"><span>Net Payable</span><span>${f(t.net)}${inrNote(t.net)}</span></div>`;
   const box=document.getElementById(pfx+'-total-box');
   if(box)box.innerHTML=html;
 }
@@ -2342,7 +2458,8 @@ function readInvForm(pfx){
     terms:document.getElementById(pfx+'-terms')?.value.trim()||'',
     isDraft:document.getElementById(pfx+'-isdraft')?.checked||false,
     isCreditNote:document.getElementById(pfx+'-iscredit')?.checked||false,
-    currency:document.getElementById(pfx+'-currency')?.value.trim()||'',
+    currency:document.getElementById(pfx+'-currency-code')?.value||'INR',
+    exchangeRate:FX_CURRENCIES[document.getElementById(pfx+'-currency-code')?.value||'INR']?((document.getElementById(pfx+'-currency-code')?.value||'INR')==='INR'?1:(db.fxRates?.rates?.[document.getElementById(pfx+'-currency-code')?.value]||1)):1,
     recurring:document.getElementById(pfx+'-isrecurring')?.checked||false,
     template:invFormTpl[pfx]||'classic',
     invType:invFormType[pfx]||'general',
@@ -2367,7 +2484,8 @@ function populateInvForm(pfx,inv){
   if(document.getElementById(pfx+'-terms'))document.getElementById(pfx+'-terms').value=inv.terms||inv.notes||'';
   if(document.getElementById(pfx+'-isdraft'))document.getElementById(pfx+'-isdraft').checked=inv.isDraft||false;
   if(document.getElementById(pfx+'-iscredit'))document.getElementById(pfx+'-iscredit').checked=inv.isCreditNote||false;
-  if(document.getElementById(pfx+'-currency'))document.getElementById(pfx+'-currency').value=inv.currency||db.profile.currency||'₹';
+  const invCurrCode=inv.currency&&FX_CURRENCIES[inv.currency]?inv.currency:'INR';
+  onCurrencySelect(pfx,invCurrCode);
   if(document.getElementById(pfx+'-isrecurring'))document.getElementById(pfx+'-isrecurring').checked=inv.recurring||false;
   const db_el=document.getElementById(pfx+'-draft-badge');if(db_el)db_el.style.display=(inv.isDraft)?'inline-flex':'none';
   // GST
@@ -2410,7 +2528,7 @@ function resetInvForm(pfx){
   if(document.getElementById(pfx+'-disc-val'))document.getElementById(pfx+'-disc-val').value=0;
   if(document.getElementById(pfx+'-tds-rate'))document.getElementById(pfx+'-tds-rate').value=10;
   if(document.getElementById(pfx+'-isdraft'))document.getElementById(pfx+'-isdraft').checked=false;
-  if(document.getElementById(pfx+'-currency'))document.getElementById(pfx+'-currency').value=db.profile.currency||'₹';
+  onCurrencySelect(pfx,'INR');
   if(document.getElementById(pfx+'-isrecurring'))document.getElementById(pfx+'-isrecurring').checked=false;
   if(document.getElementById(pfx+'-iscredit'))document.getElementById(pfx+'-iscredit').checked=false;
   const db_el=document.getElementById(pfx+'-draft-badge');if(db_el)db_el.style.display='none';
@@ -2577,7 +2695,9 @@ function buildInvoiceHTML(inv){
   const tpl=inv.template||'classic';
   const p=db.profile;
   const num=inv.invNo||`INV-${inv.id.slice(-6).toUpperCase()}`;
-  const cur=inv.currency||p.currency||'₹';
+  const invCurCode=inv.currency&&FX_CURRENCIES[inv.currency]?inv.currency:'INR';
+  const cur=FX_CURRENCIES[invCurCode]?.symbol||inv.currency||p.currency||'₹';
+  const dispAmount=invCurCode!=='INR'&&inv.foreignAmount?inv.foreignAmount:null;
   const t=invTotalsFromSaved(inv);
   const payLines=[];
   if(p.upi)payLines.push(`UPI / GPay / PhonePe: ${p.upi}`);
