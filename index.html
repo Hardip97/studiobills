@@ -1817,9 +1817,8 @@ function renderInvItems(pfx){
   if(!tbody)return;
   tbody.innerHTML=invFormItems[pfx].map(item=>`
     <tr>
-      <td style="vertical-align:top;">
+      <td>
         <input value="${esc(item.name)}" placeholder="Service / deliverable" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').name=this.value;updateInvTotals('${pfx}')">
-        <input value="${esc(item.desc||'')}" placeholder="Subtitle (optional)" style="margin-top:3px;font-size:.78rem;color:#888;" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').desc=this.value">
       </td>
       <td><input class="r" type="number" value="${item.qty||1}" min="1" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').qty=+this.value||1;updateInvTotals('${pfx}')"></td>
       <td><input value="${esc(item.unit||'')}" placeholder="hrs / pcs…" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').unit=this.value"></td>
