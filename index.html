@@ -434,6 +434,12 @@ tbody tr.row-overdue{background:#FFF7F8;}
     <div class="auth-toggle" id="authToggle">
       New to StudioBills? <span onclick="toggleAuthMode()">Create account</span>
     </div>
+    <div style="margin-top:16px;text-align:center;font-size:.71rem;color:var(--muted2);line-height:1.6;">
+      By continuing, you agree to our
+      <a href="/terms-of-service.html" target="_blank" style="color:var(--muted);text-decoration:underline;">Terms of Service</a>
+      and
+      <a href="/privacy-policy.html" target="_blank" style="color:var(--muted);text-decoration:underline;">Privacy Policy</a>
+    </div>
   </div>
 </div>
 
@@ -787,6 +793,18 @@ tbody tr.row-overdue{background:#FFF7F8;}
       <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--red);text-transform:uppercase;margin-bottom:10px;">⚠ Danger Zone</div>
       <div style="font-size:.81rem;color:var(--muted);font-weight:300;margin-bottom:16px;line-height:1.6;">Permanently deletes your account and all associated data — invoices, expenses, clients, and profile. This action <strong>cannot be undone</strong>.</div>
       <button class="btn" onclick="deleteAccount()" style="background:transparent;border:1px solid var(--red);color:var(--red);font-size:.8rem;font-weight:600;width:100%;padding:9px;">🗑 Delete My Account</button>
+    </div>
+    <!-- Legal -->
+    <div class="card" style="max-width:380px;padding:20px 24px;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Legal</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <a href="/privacy-policy.html" target="_blank" style="font-size:.83rem;color:var(--text);text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);transition:border .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span>🔒 Privacy Policy</span><span style="font-size:.7rem;color:var(--muted);">↗</span>
+        </a>
+        <a href="/terms-of-service.html" target="_blank" style="font-size:.83rem;color:var(--text);text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);transition:border .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span>📄 Terms of Service</span><span style="font-size:.7rem;color:var(--muted);">↗</span>
+        </a>
+      </div>
     </div>
   </div>
 </div>
