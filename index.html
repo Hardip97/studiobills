@@ -648,9 +648,15 @@ tbody tr.row-overdue{background:#FFF7F8;}
     <div style="padding:16px 20px 12px;"><div class="card-title">Outstanding Dues</div></div>
     <div id="outstandingDues" style="padding:0 0 8px;"></div>
   </div>
-  <!-- Year-over-Year -->
+  <!-- Year-over-Year / Month-over-Month -->
   <div class="card" style="margin-bottom:16px;">
-    <div class="card-title" style="margin-bottom:14px;">Year-over-Year</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <div class="card-title" id="yoyCardTitle">Year-over-Year</div>
+      <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;">
+        <button id="yoy-tab-yoy" onclick="switchCompareMode('yoy')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:var(--red);color:#fff;font-family:inherit;">YoY</button>
+        <button id="yoy-tab-mom" onclick="switchCompareMode('mom')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--muted);font-family:inherit;">MoM</button>
+      </div>
+    </div>
     <div id="yoySection" style="overflow-x:auto;"></div>
   </div>
   <div class="card-title" style="margin-bottom:12px;">Archive</div>
@@ -1829,7 +1835,7 @@ function renderReports(){
     const expenses=ye.reduce((s,e)=>s+(+e.amount||0),0);
     return{billed,received,expenses,net:received-expenses,count:yi.length};
   }
-  function yChg(a,b){if(a===0&&b===0)return'<span style="color:var(--muted2)">—</span>';if(a===0)return b>0?'<span style="color:var(--green);font-weight:600">New ↑</span>':'<span style="color:var(--muted2)">—</span>';const pct=((b-a)/Math.abs(a)*100).toFixed(1);const col=+pct>0?'var(--green)':+pct<0?'var(--red)':'var(--muted)';return`<span style="color:${col};font-weight:600">${+pct>0?'+':''}${pct}%</span>`;}
+  function yChg(a,b){if(a===0&&b===0)return'<span style="color:var(--muted2)">—</span>';if(a===0)return b>0?'<span style="color:var(--green);font-weight:600">+100%</span>':b<0?'<span style="color:var(--red);font-weight:600">-100%</span>':'<span style="color:var(--muted2)">—</span>';const pct=((b-a)/Math.abs(a)*100).toFixed(1);const col=+pct>0?'var(--green)':+pct<0?'var(--red)':'var(--muted)';return`<span style="color:${col};font-weight:600">${+pct>0?'+':''}${pct}%</span>`;}
   const py=yoyMetric(prevYear),cy=yoyMetric(cur);
   document.getElementById('yoySection').innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:.82rem;">
     <thead><tr>
@@ -1843,6 +1849,76 @@ function renderReports(){
     <tr><td style="padding:9px 12px;border-bottom:1px solid var(--border2)">Total Expenses</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--red)">${fmt(py.expenses)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--red);font-weight:700">${fmt(cy.expenses)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${yChg(py.expenses,cy.expenses)}</td></tr>
     <tr><td style="padding:9px 12px;border-bottom:1px solid var(--border2);font-weight:600">Net Profit</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:${py.net>=0?'var(--green)':'var(--red)'}">${fmt(py.net)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:${cy.net>=0?'var(--green)':'var(--red)'};font-weight:700">${fmt(cy.net)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${yChg(py.net,cy.net)}</td></tr>
     <tr><td style="padding:9px 12px;color:var(--muted)">Invoice Count</td><td style="text-align:right;padding:9px 12px;color:var(--muted)">${py.count}</td><td style="text-align:right;padding:9px 12px;font-weight:600">${cy.count}</td><td style="text-align:right;padding:9px 12px">${yChg(py.count,cy.count)}</td></tr>
+    </tbody></table>`;
+  // Restore compare mode tab style
+  const cMode=window._compareMode||'yoy';
+  const yBtn=document.getElementById('yoy-tab-yoy');
+  const mBtn=document.getElementById('yoy-tab-mom');
+  if(yBtn&&mBtn){
+    if(cMode==='yoy'){yBtn.style.background='var(--red)';yBtn.style.color='#fff';mBtn.style.background='transparent';mBtn.style.color='var(--muted)';}
+    else{mBtn.style.background='var(--red)';mBtn.style.color='#fff';yBtn.style.background='transparent';yBtn.style.color='var(--muted)';}
+  }
+  if(cMode==='mom')renderMoM();
+}
+
+function switchCompareMode(mode){
+  window._compareMode=mode;
+  const yBtn=document.getElementById('yoy-tab-yoy');
+  const mBtn=document.getElementById('yoy-tab-mom');
+  const title=document.getElementById('yoyCardTitle');
+  if(mode==='yoy'){
+    if(yBtn){yBtn.style.background='var(--red)';yBtn.style.color='#fff';}
+    if(mBtn){mBtn.style.background='transparent';mBtn.style.color='var(--muted)';}
+    if(title)title.textContent='Year-over-Year';
+    renderReports();
+  }else{
+    if(mBtn){mBtn.style.background='var(--red)';mBtn.style.color='#fff';}
+    if(yBtn){yBtn.style.background='transparent';yBtn.style.color='var(--muted)';}
+    if(title)title.textContent='Month-over-Month';
+    renderMoM();
+  }
+}
+
+function renderMoM(){
+  const cur=document.getElementById('reportYearSel').value||new Date().getFullYear();
+  const months=['01','02','03','04','05','06','07','08','09','10','11','12'];
+  const mLbls=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function rcvM(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
+  function mData(mo){
+    const k=`${cur}-${mo}`;
+    const invs=db.income.filter(i=>i.date?.startsWith(k));
+    const exps=db.expenses.filter(e=>e.date?.startsWith(k));
+    const billed=invs.reduce((s,i)=>s+(+i.amount||0),0);
+    const received=invs.reduce((s,i)=>s+rcvM(i),0);
+    const expenses=exps.reduce((s,e)=>s+(+e.amount||0),0);
+    return{billed,received,expenses,net:received-expenses};
+  }
+  function mChg(a,b){if(a===0&&b===0)return'<span style="color:var(--muted2)">—</span>';if(a===0)return b>0?'<span style="color:var(--green);font-weight:600">+100%</span>':b<0?'<span style="color:var(--red);font-weight:600">-100%</span>':'<span style="color:var(--muted2)">—</span>';const pct=((b-a)/Math.abs(a)*100).toFixed(1);const col=+pct>0?'var(--green)':+pct<0?'var(--red)':'var(--muted)';return`<span style="color:${col};font-weight:600">${+pct>0?'+':''}${pct}%</span>`;}
+  // Build rows: each month vs previous month
+  const rows=months.map((m,i)=>{
+    const cur_d=mData(m);
+    const prev_d=i>0?mData(months[i-1]):{billed:0,received:0,expenses:0,net:0};
+    return{label:mLbls[i],cur:cur_d,prev:prev_d,hasPrev:i>0};
+  }).filter(r=>r.cur.billed>0||r.cur.received>0||r.cur.expenses>0);
+  const sect=document.getElementById('yoySection');
+  if(!rows.length){sect.innerHTML='<div class="empty" style="padding:24px 0"><div class="empty-icon">📅</div><p>No data for '+cur+'</p></div>';return;}
+  sect.innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:.82rem;">
+    <thead><tr>
+      <th style="text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;border-bottom:2px solid var(--border)">Month</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Billed</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Received</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Expenses</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Net</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">vs Prev Month</th>
+    </tr></thead><tbody>
+    ${rows.map(r=>`<tr>
+      <td style="padding:9px 12px;border-bottom:1px solid var(--border2);font-weight:600">${r.label}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${fmt(r.cur.billed)}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--green)">${fmt(r.cur.received)}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--red)">${fmt(r.cur.expenses)}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:${r.cur.net>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(r.cur.net)}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${r.hasPrev?mChg(r.prev.received,r.cur.received):'<span style="color:var(--muted2)">—</span>'}</td>
+    </tr>`).join('')}
     </tbody></table>`;
 }
 
