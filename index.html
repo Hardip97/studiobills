@@ -1098,7 +1098,9 @@ const FX_CURRENCIES={
   EUR:{symbol:'€',flag:'🇪🇺',name:'Euro'},
   AED:{symbol:'د.إ',flag:'🇦🇪',name:'UAE Dirham'},
 };
-let db={income:[],expenses:[],invoiceCounter:0,clients:{},fxRates:null,profile:{...DEFAULT_PROFILE},cats:{inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
+// Fallback rates (used instantly; overwritten by live API on load)
+const FX_FALLBACK={INR:1,USD:84,GBP:107,EUR:90,AED:23};
+let db={income:[],expenses:[],invoiceCounter:0,clients:{},fxRates:{date:"",rates:{...FX_FALLBACK}},profile:{...DEFAULT_PROFILE},cats:{inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
 let viewMonth=new Date();
 let activeRange='6M';
 let mainChart=null,rptChart=null,catChart=null,expCatChart=null;
@@ -1107,6 +1109,7 @@ let curClient=null,curInvId=null;
 // ─── MIGRATIONS ───
 function applyMigrations(){
   db.cats=db.cats||{};db.cats.inc=db.cats.inc||[...DEFAULT_CATS.inc];db.cats.exp=db.cats.exp||[...DEFAULT_CATS.exp];
+  if(!db.fxRates||!db.fxRates.rates)db.fxRates={date:"",rates:{...FX_FALLBACK}};
   db.invoiceCounter=db.invoiceCounter||0;
   db.profile=db.profile||{};
   const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
@@ -1245,7 +1248,15 @@ async function fetchFxRates(){
     });
     db.fxRates={date:today(),rates};
     save();
-  }catch(e){console.log('FX fetch failed, using cached rates');}
+    // Refresh rate display if invoice modal is open
+    ['ai','ei'].forEach(pfx=>{
+      const codeEl=document.getElementById(pfx+'-currency-code');
+      if(codeEl&&codeEl.value&&codeEl.value!=='INR')onCurrencySelect(pfx,codeEl.value);
+    });
+  }catch(e){
+    // Keep using fallback rates already in db.fxRates
+    console.log('FX fetch failed, using fallback rates');
+  }
 }
 
 // ─── LOAD USER DATA ───
