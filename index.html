@@ -310,6 +310,10 @@ tbody tr.row-overdue{background:#FFF7F8;}
 .li-row-del:hover{color:var(--red);background:var(--red-soft);}
 .li-add-btn{margin-top:8px;font-size:.77rem;color:var(--red);background:none;border:1px dashed rgba(var(--red-rgb),.5);border-radius:6px;padding:5px 14px;cursor:pointer;font-family:inherit;transition:all .15s;}
 .li-add-btn:hover{background:var(--red-soft);}
+.inv-type-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.inv-type-btn{font-size:.72rem;font-weight:600;padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--muted);cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;}
+.inv-type-btn:hover{border-color:var(--red);color:var(--red);}
+.inv-type-btn.sel{background:var(--red);border-color:var(--red);color:#fff;}
 
 /* ── INVOICE TOTAL SUMMARY ── */
 .inv-total-box{background:var(--bg);border-radius:10px;padding:12px 16px;margin-top:10px;}
@@ -791,8 +795,9 @@ tbody tr.row-overdue{background:#FFF7F8;}
   </div>
   <!-- ITEMS TAB -->
   <div id="ai-tab-items" style="display:none;">
+    <div class="inv-type-bar" id="ai-type-bar"></div>
     <div class="li-wrap"><table class="li-tbl" id="ai-li-tbl">
-      <thead><tr><th style="width:35%">Description</th><th style="width:10%">Qty</th><th style="width:13%">Unit</th><th style="width:15%">Rate (₹)</th><th style="width:14%">Amount</th><th style="width:5%"></th></tr></thead>
+      <thead id="ai-li-head"></thead>
       <tbody id="ai-li-body"></tbody>
     </table></div>
     <button class="li-add-btn" onclick="addInvItem('ai')">+ Add Line Item</button>
@@ -871,7 +876,11 @@ tbody tr.row-overdue{background:#FFF7F8;}
     </div></div>
   </div>
   <div id="ei-tab-items" style="display:none;">
-    <div class="li-wrap"><table class="li-tbl" id="ei-li-tbl"><thead><tr><th style="width:35%">Description</th><th style="width:10%">Qty</th><th style="width:13%">Unit</th><th style="width:15%">Rate (₹)</th><th style="width:14%">Amount</th><th style="width:5%"></th></tr></thead><tbody id="ei-li-body"></tbody></table></div>
+    <div class="inv-type-bar" id="ei-type-bar"></div>
+    <div class="li-wrap"><table class="li-tbl" id="ei-li-tbl">
+      <thead id="ei-li-head"></thead>
+      <tbody id="ei-li-body"></tbody>
+    </table></div>
     <button class="li-add-btn" onclick="addInvItem('ei')">+ Add Line Item</button>
   </div>
   <div id="ei-tab-taxes" style="display:none;">
@@ -1783,6 +1792,42 @@ function renderHistory(){
 // ─── INVOICE FORM STATE ───
 let invFormItems={ai:[],ei:[]};
 let invFormTpl={ai:'classic',ei:'classic'};
+let invFormType={ai:'general',ei:'general'};
+
+const INV_TYPE_DEFS={
+  general:   {label:'General',         icon:'📋',
+    cols:[{k:'name',h:'Description',w:'38%',t:'text',ph:'Service / deliverable'},
+          {k:'qty', h:'Qty',          w:'9%', t:'number',cls:'r',ph:'1'},
+          {k:'unit',h:'Unit',         w:'13%',t:'text',  ph:'hrs / pcs…'},
+          {k:'rate',h:'Rate (₹)',     w:'16%',t:'number',cls:'r',ph:'0'},
+          {k:'_amt',h:'Amount',       w:'14%'},
+          {k:'_del',h:'',             w:'5%'}]},
+  video:     {label:'Video Editing',   icon:'🎬',
+    cols:[{k:'name',     h:'Project Name',w:'30%',t:'text',  ph:'e.g. Reels Editing'},
+          {k:'dimension',h:'Dimension',  w:'15%',t:'text',  ph:'1920×1080'},
+          {k:'duration', h:'Duration',   w:'12%',t:'text',  ph:'30s'},
+          {k:'rate',     h:'Rate (₹)',   w:'18%',t:'number',cls:'r',ph:'0'},
+          {k:'_amt',     h:'Amount',     w:'14%'},
+          {k:'_del',     h:'',           w:'5%'}]},
+  product:   {label:'Product / Retail',icon:'📦',
+    cols:[{k:'name',h:'Product Name',  w:'42%',t:'text',  ph:'Product name'},
+          {k:'qty', h:'Qty',           w:'10%',t:'number',cls:'r',ph:'1'},
+          {k:'rate',h:'Rate (₹)',      w:'18%',t:'number',cls:'r',ph:'0'},
+          {k:'_amt',h:'Amount',        w:'18%'},
+          {k:'_del',h:'',              w:'5%'}]},
+  consulting:{label:'Consulting',      icon:'💼',
+    cols:[{k:'name', h:'Service',      w:'44%',t:'text',  ph:'e.g. Brand Strategy'},
+          {k:'qty',  h:'Hours',        w:'10%',t:'number',cls:'r',ph:'1'},
+          {k:'rate', h:'Rate / hr (₹)',w:'16%',t:'number',cls:'r',ph:'0'},
+          {k:'_amt', h:'Amount',       w:'14%'},
+          {k:'_del', h:'',             w:'5%'}]},
+  photo:     {label:'Photography',     icon:'📷',
+    cols:[{k:'name',h:'Package / Shoot',w:'42%',t:'text',  ph:'e.g. Wedding Coverage'},
+          {k:'qty', h:'Qty',           w:'10%',t:'number',cls:'r',ph:'1'},
+          {k:'rate',h:'Rate (₹)',      w:'18%',t:'number',cls:'r',ph:'0'},
+          {k:'_amt',h:'Amount',        w:'18%'},
+          {k:'_del',h:'',              w:'5%'}]},
+};
 
 function showInvTab(tab,pfx){
   ['details','items','taxes','more'].forEach(t=>{
@@ -1792,7 +1837,29 @@ function showInvTab(tab,pfx){
   document.querySelectorAll(`#${pfx==='ai'?'addIncomeModal':'editIncomeModal'} .inv-tab`).forEach(b=>{
     b.classList.toggle('active',b.dataset.invtab===tab);
   });
-  if(tab==='items'&&invFormItems[pfx].length===0)addInvItem(pfx);
+  if(tab==='items'){
+    renderInvTypeBar(pfx);
+    if(invFormItems[pfx].length===0)addInvItem(pfx);
+    else renderInvItems(pfx);
+  }
+}
+
+function renderInvTypeBar(pfx){
+  const bar=document.getElementById(pfx+'-type-bar');
+  if(!bar)return;
+  const cur=invFormType[pfx]||'general';
+  bar.innerHTML=Object.entries(INV_TYPE_DEFS).map(([k,v])=>
+    `<button class="inv-type-btn${k===cur?' sel':''}" onclick="selectInvType('${k}','${pfx}')">${v.icon} ${v.label}</button>`
+  ).join('');
+}
+
+function selectInvType(type,pfx){
+  invFormType[pfx]=type;
+  renderInvTypeBar(pfx);
+  // reset items to blank for new type
+  invFormItems[pfx]=[{id:uid(),name:'',qty:1,rate:0,unit:'',dimension:'',duration:''}];
+  renderInvItems(pfx);
+  updateInvTotals(pfx);
 }
 
 function selectTpl(tpl,pfx){
@@ -1801,7 +1868,7 @@ function selectTpl(tpl,pfx){
 }
 
 function addInvItem(pfx){
-  invFormItems[pfx].push({id:uid(),name:'',desc:'',unit:'',qty:1,rate:0});
+  invFormItems[pfx].push({id:uid(),name:'',qty:1,rate:0,unit:'',dimension:'',duration:''});
   renderInvItems(pfx);
   updateInvTotals(pfx);
 }
@@ -1814,18 +1881,27 @@ function removeInvItem(pfx,id){
 
 function renderInvItems(pfx){
   const tbody=document.getElementById(pfx+'-li-body');
+  const thead=document.getElementById(pfx+'-li-head');
   if(!tbody)return;
-  tbody.innerHTML=invFormItems[pfx].map(item=>`
-    <tr>
-      <td>
-        <input value="${esc(item.name)}" placeholder="Service / deliverable" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').name=this.value;updateInvTotals('${pfx}')">
-      </td>
-      <td><input class="r" type="number" value="${item.qty||1}" min="1" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').qty=+this.value||1;updateInvTotals('${pfx}')"></td>
-      <td><input value="${esc(item.unit||'')}" placeholder="hrs / pcs…" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').unit=this.value"></td>
-      <td><input class="r" type="number" value="${item.rate||0}" min="0" oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').rate=+this.value||0;updateInvTotals('${pfx}')"></td>
-      <td style="text-align:right;font-size:.78rem;font-weight:600;padding-right:4px;">${fmt((+item.qty||1)*(+item.rate||0))}</td>
-      <td><button class="li-row-del" onclick="removeInvItem('${pfx}','${item.id}')">✕</button></td>
-    </tr>`).join('');
+  const type=invFormType[pfx]||'general';
+  const def=INV_TYPE_DEFS[type]||INV_TYPE_DEFS.general;
+  const cols=def.cols;
+  // Render header
+  if(thead){
+    thead.innerHTML='<tr>'+cols.map(c=>`<th style="width:${c.w||'auto'}">${c.h}</th>`).join('')+'</tr>';
+  }
+  // Render rows
+  tbody.innerHTML=invFormItems[pfx].map(item=>{
+    const amt=(+item.qty||1)*(+item.rate||0);
+    return '<tr>'+cols.map(c=>{
+      if(c.k==='_amt')return`<td style="text-align:right;font-size:.78rem;font-weight:600;padding-right:4px;">${fmt(amt)}</td>`;
+      if(c.k==='_del')return`<td><button class="li-row-del" onclick="removeInvItem('${pfx}','${item.id}')">✕</button></td>`;
+      const val=item[c.k]!==undefined?item[c.k]:(c.t==='number'?(c.k==='qty'?1:0):'');
+      const isNum=c.t==='number';
+      const needsTotal=c.k==='qty'||c.k==='rate';
+      return`<td><input${isNum?' class="r"':''} type="${c.t||'text'}" value="${esc(String(val))}" placeholder="${c.ph||''}" ${isNum?'min="0"':''} oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').${c.k}=${isNum?'+this.value||0':'this.value'};${needsTotal?`updateInvTotals('${pfx}')`:''}" ></td>`;
+    }).join('')+'</tr>';
+  }).join('');
 }
 
 function calcInvTotals(pfx){
@@ -1879,6 +1955,7 @@ function readInvForm(pfx){
     isDraft:document.getElementById(pfx+'-isdraft')?.checked||false,
     isCreditNote:document.getElementById(pfx+'-iscredit')?.checked||false,
     template:invFormTpl[pfx]||'classic',
+    invType:invFormType[pfx]||'general',
     lineItems:invFormItems[pfx].filter(i=>i.name||i.rate>0),
     gst:{enabled:document.getElementById(pfx+'-gst-on')?.checked||false,type:document.getElementById(pfx+'-gst-type')?.value||'cgst_sgst',rate:+document.getElementById(pfx+'-gst-rate')?.value||18},
     tds:{enabled:document.getElementById(pfx+'-tds-on')?.checked||false,rate:+document.getElementById(pfx+'-tds-rate')?.value||10},
@@ -1912,22 +1989,24 @@ function populateInvForm(pfx,inv){
   if(document.getElementById(pfx+'-disc-type'))document.getElementById(pfx+'-disc-type').value=inv.discount?.type||'pct';
   if(document.getElementById(pfx+'-disc-val'))document.getElementById(pfx+'-disc-val').value=inv.discount?.value||0;
   // Line items: use existing or create from legacy fields
+  invFormType[pfx]=inv.invType||'general';
   if(inv.lineItems&&inv.lineItems.length>0){
     invFormItems[pfx]=inv.lineItems.map(i=>{
-      // backwards compat: merge old size+duration into unit
       const unit=i.unit||[i.size,i.duration].filter(Boolean).join(' · ')||'';
-      return{...i,id:i.id||uid(),unit,desc:i.desc||''};
+      return{...i,id:i.id||uid(),unit,dimension:i.dimension||'',duration:i.duration||''};
     });
-  }else{invFormItems[pfx]=[{id:uid(),name:inv.desc||inv.cat||'',desc:'',unit:'',qty:1,rate:+inv.amount||0}];}
+  }else{invFormItems[pfx]=[{id:uid(),name:inv.desc||inv.cat||'',qty:1,rate:+inv.amount||0,unit:'',dimension:'',duration:''}];}
   // Template
   invFormTpl[pfx]=inv.template||'classic';
   selectTpl(invFormTpl[pfx],pfx);
+  renderInvTypeBar(pfx);
   renderInvItems(pfx);
   updateInvTotals(pfx);
 }
 
 function resetInvForm(pfx){
-  invFormItems[pfx]=[{id:uid(),name:'',desc:'',unit:'',qty:1,rate:0}];
+  invFormItems[pfx]=[{id:uid(),name:'',qty:1,rate:0,unit:'',dimension:'',duration:''}];
+  invFormType[pfx]='general';
   invFormTpl[pfx]='classic';
   if(document.getElementById(pfx+'-gst-on'))document.getElementById(pfx+'-gst-on').checked=false;
   if(document.getElementById(pfx+'-tds-on'))document.getElementById(pfx+'-tds-on').checked=false;
@@ -1938,6 +2017,7 @@ function resetInvForm(pfx){
   if(document.getElementById(pfx+'-iscredit'))document.getElementById(pfx+'-iscredit').checked=false;
   const db_el=document.getElementById(pfx+'-draft-badge');if(db_el)db_el.style.display='none';
   selectTpl('classic',pfx);
+  renderInvTypeBar(pfx);
   renderInvItems(pfx);
   updateInvTotals(pfx);
 }
@@ -2023,6 +2103,14 @@ function fillClientSuggest(){document.getElementById('clientSuggest').innerHTML=
 function fmtLong(s){if(!s)return'—';const d=new Date(s);return d.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});}
 function fmtN(n,cur){return`${cur||'₹'}${(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0})}`;}
 
+function invTableHead(invType){
+  const t=invType||'general';
+  if(t==='video')return'<tr><th>Description</th><th class="r">Dimension</th><th class="r">Duration</th><th class="r">Rate</th><th class="r">Amount</th></tr>';
+  if(t==='product'||t==='photo')return'<tr><th>Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr>';
+  if(t==='consulting')return'<tr><th>Description</th><th class="r">Hours</th><th class="r">Rate / hr</th><th class="r">Amount</th></tr>';
+  return'<tr><th>Description</th><th class="r">Qty</th><th class="r">Unit</th><th class="r">Rate</th><th class="r">Amount</th></tr>';
+}
+
 function invTotalsFromSaved(inv){
   // Rebuild totals from saved data or recalculate from legacy
   if(inv._totals)return inv._totals;
@@ -2031,14 +2119,32 @@ function invTotalsFromSaved(inv){
   return{items:[{name:inv.desc||inv.cat||'Services',desc:'',unit:legacyUnit,qty:1,rate:subtotal}],subtotal,discount:0,taxable:subtotal,cgst:0,sgst:0,igst:0,gross:subtotal,tds:0,net:subtotal,gstOn:false,tdsOn:false,discOn:false};
 }
 
-function buildItemsRows(items,cur,cols,style){
+function buildItemsRows(items,cur,invType,style){
+  const type=invType||'general';
   return items.filter(i=>(+i.qty||1)*(+i.rate||0)>0||i.name).map(i=>{
-    const amt=(+i.qty||1)*(+i.rate||0);
-    // backwards compat: unit from new field, or combine old size+duration
-    const unit=i.unit||(i.size||i.duration?[i.size,i.duration].filter(Boolean).join(' · '):'');
-    const sub=i.desc||(unit?unit:'');
-    if(style==='classic')return`<div class="table-row"><div><div class="td-name">${esc(i.name||'Services')}</div>${sub?`<div class="td-sub">${esc(sub)}</div>`:''}</div><div class="td r">${fmtN(amt,cur)}</div></div>`;
-    return`<tr><td><div class="td-name">${esc(i.name||'Services')}</div>${sub?`<div class="td-sub">${esc(sub)}</div>`:''}</td><td class="td r">${i.qty>1?i.qty:''}</td><td class="td r" style="font-size:11px;color:#888;">${esc(unit)}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
+    const qty=+i.qty||1;
+    const amt=qty*(+i.rate||0);
+    // Build subtitle from relevant extra fields
+    let sub='';
+    if(type==='video'){sub=[i.dimension,i.duration].filter(Boolean).join(' · ');}
+    else if(type==='general'){sub=i.unit||'';}
+    const name=esc(i.name||'Services');
+    const subHtml=sub?`<div class="td-sub">${esc(sub)}</div>`:'';
+    if(style==='classic'){
+      return`<div class="table-row"><div><div class="td-name">${name}</div>${subHtml}</div><div class="td r">${fmtN(amt,cur)}</div></div>`;
+    }
+    // Table style — columns vary by type
+    if(type==='video'){
+      return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r" style="font-size:11px;color:#888;">${esc(i.dimension||'')}</td><td class="td r" style="font-size:11px;color:#888;">${esc(i.duration||'')}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
+    }
+    if(type==='product'||type==='photo'){
+      return`<tr><td><div class="td-name">${name}</div></td><td class="td r">${qty>1?qty:''}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
+    }
+    if(type==='consulting'){
+      return`<tr><td><div class="td-name">${name}</div></td><td class="td r">${qty}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
+    }
+    // general default
+    return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r">${qty>1?qty:''}</td><td class="td r" style="font-size:11px;color:#888;">${esc(i.unit||'')}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
   }).join('');
 }
 
@@ -2095,12 +2201,13 @@ function buildInvoiceHTML(inv){
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
   const title=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}`;
-  const itemRows=buildItemsRows(t.items,cur,'','table');
+  const invType=inv.invType||'general';
+  const itemRows=buildItemsRows(t.items,cur,invType,'table');
   const totalsHTML=buildTotalsHTML(t,cur,tpl);
 
   // ── CLASSIC TEMPLATE ──
   if(tpl==='classic'){
-    const itemRowsClassic=buildItemsRows(t.items,cur,'','classic');
+    const itemRowsClassic=buildItemsRows(t.items,cur,invType,'classic');
     const totalsClassic=buildTotalsHTML(t,cur,'classic');
     return`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${title}</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
@@ -2208,7 +2315,7 @@ table.items td.r{text-align:right;}
     <div class="top-right"><div class="inv-label">Invoice</div><div class="inv-number">${num}</div><div class="inv-meta">Date: ${fmtLong(inv.date)}<br>Due: ${inv.due?fmtLong(inv.due):'On receipt'}</div>${creditBadge}${draftBadge}</div>
   </div>
   <div class="bill-section"><div class="bill-label">Billed to</div><div class="bill-name">${clientInfo}</div></div>
-  <table class="items"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${itemRows}</tbody></table>
+  <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
   ${totalsHTML}
   ${hsnInfo}
   ${termsInfo}
@@ -2269,7 +2376,7 @@ table.items td.r{text-align:right;}
     </div>
   </div>
   <div class="body-pad">
-    <table class="items"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${itemRows}</tbody></table>
+    <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
     ${termsInfo}
@@ -2328,7 +2435,7 @@ table.items td.r{text-align:right;}
       <div class="header-right"><div class="inv-word">Invoice</div><div class="inv-num">${num}</div><div class="inv-dates">Date: ${fmtLong(inv.date)}<br>Due: ${inv.due?fmtLong(inv.due):'On receipt'}</div>${creditBadge}${draftBadge}</div>
     </div>
     <div class="bill-box"><div class="bill-label">Billed to</div><div class="bill-name">${clientInfo}</div></div>
-    <table class="items"><thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead><tbody>${itemRows}</tbody></table>
+    <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
     ${termsInfo}
