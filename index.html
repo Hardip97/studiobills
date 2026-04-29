@@ -2524,9 +2524,23 @@ function populateInvForm(pfx,inv){
   updateInvTotals(pfx);
 }
 
+function nextAvailableInvNo(){
+  // Collect all used INV-XXX numbers from existing invoices
+  const used=new Set();
+  const income=(typeof db!=='undefined'&&db.income)||[];
+  income.forEach(i=>{
+    const m=(i.invNo||'').match(/^INV-(\d+)$/i);
+    if(m)used.add(parseInt(m[1],10));
+  });
+  // Find first gap starting from 1
+  let n=1;
+  while(used.has(n))n++;
+  return'INV-'+String(n).padStart(3,'0');
+}
+
 function resetInvForm(pfx){
-  // Pre-fill invoice no with next sequential number
-  const nextNo='INV-'+String((db.invoiceCounter||0)+1).padStart(3,'0');
+  // Pre-fill invoice no with next available (gap-aware) number
+  const nextNo=nextAvailableInvNo();
   if(document.getElementById(pfx+'-invno'))document.getElementById(pfx+'-invno').value=nextNo;
   invFormItems[pfx]=[{id:uid(),name:'',qty:1,rate:0,unit:'',dimension:'',duration:''}];
   invFormType[pfx]='general';
@@ -3162,7 +3176,14 @@ function importBackup(e){const f=e.target.files[0];if(!f)return;const r=new File
 function clearAll(){if(!confirm('Delete ALL data? This cannot be undone.'))return;const key=currentUser?DB+'_'+currentUser.id:DB;localStorage.removeItem(key);if(currentUser&&supa)supa.from('user_data').delete().eq('user_id',currentUser.id).then(()=>{});location.reload();}
 
 // ─── MODAL / TOAST UTILS ───
-function openModal(id){document.getElementById(id).classList.add('open');fillCatSelects();fillClientSuggest();}
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  fillCatSelects();fillClientSuggest();
+  if(id==='addIncomeModal'){
+    const el=document.getElementById('ai-invno');
+    if(el)el.value=nextAvailableInvNo();
+  }
+}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function toast(msg,t){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(t==='err'?' t-err':'');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2800);}
 document.querySelectorAll('.modal-bg').forEach(bg=>bg.addEventListener('click',e=>{if(e.target===bg)bg.classList.remove('open');}));
