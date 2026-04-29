@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — StudioBills</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      background: #F3F4F6;
+      color: #1a1a1a;
+      line-height: 1.8;
+    }
+
+    /* Header */
+    .header {
+      background: #fff;
+      border-bottom: 3px solid #FF0035;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-dot {
+      width: 28px; height: 28px;
+      background: #FF0035;
+      border-radius: 50%;
+    }
+    .logo-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+    }
+    .logo-text span { color: #FF0035; }
+    .back-link {
+      margin-left: auto;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #FF0035;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* Page wrapper */
+    .page {
+      max-width: 780px;
+      margin: 48px auto 80px;
+      padding: 0 24px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #FF0035;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: #888;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 36px 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: #FF0035;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    p {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: #444;
+      margin-bottom: 14px;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+
+    ul li {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: #444;
+      margin-bottom: 6px;
+    }
+
+    a { color: #FF0035; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .highlight-box {
+      background: #FFF5F7;
+      border-left: 4px solid #FF0035;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 16px;
+    }
+
+    .highlight-box p {
+      font-size: 0.9rem;
+      margin: 0;
+      color: #555;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: #aaa;
+      margin-top: 48px;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo-dot"></div>
+    <div class="logo-text">Studio<span>Bills</span></div>
+    <a href="https://studiobills.vercel.app" class="back-link">← Back to App</a>
+  </div>
+
+  <div class="page">
+
+    <div class="badge">Legal</div>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Last updated: April 29, 2026 &nbsp;·&nbsp; Effective immediately</p>
+
+    <div class="card">
+      <h2>Who We Are</h2>
+      <p>StudioBills is a freelance billing and invoicing web application built and operated by <strong>Hardipsinh Zala</strong>, an individual developer based in Rajkot, Gujarat, India.</p>
+      <p>Contact: <a href="mailto:zalahardip70@gmail.com">zalahardip70@gmail.com</a></p>
+    </div>
+
+    <div class="card">
+      <h2>What Information We Collect</h2>
+      <p>We collect only what is necessary to provide the service:</p>
+      <ul>
+        <li><strong>Account information</strong> — your email address and password (managed securely via Supabase Auth)</li>
+        <li><strong>Business data</strong> — your studio name, client names, invoice details, income and expense entries that you enter into the app</li>
+        <li><strong>Payment information</strong> — for Pro subscribers, payment is processed by Razorpay. We do not store your card number or bank details. Razorpay handles all payment data.</li>
+        <li><strong>Usage data</strong> — basic technical data such as browser type and app errors, used only to fix bugs</li>
+      </ul>
+      <p>We do not collect your location, contacts, photos, or any data unrelated to billing.</p>
+    </div>
+
+    <div class="card">
+      <h2>How We Use Your Information</h2>
+      <p>Your data is used exclusively to:</p>
+      <ul>
+        <li>Provide you access to your billing dashboard</li>
+        <li>Sync your invoices and financial records across devices</li>
+        <li>Process subscription payments via Razorpay</li>
+        <li>Send account-related emails (login, password reset, billing receipts)</li>
+        <li>Improve the app based on general usage patterns</li>
+      </ul>
+      <p>We do not use your data for advertising. We do not sell your data to anyone.</p>
+    </div>
+
+    <div class="card">
+      <h2>Where Your Data Is Stored</h2>
+      <p>Your billing data is stored securely in <strong>Supabase</strong>, a cloud database provider. Data is encrypted at rest and in transit using industry-standard TLS encryption.</p>
+      <p>Supabase servers may be located outside India. By using StudioBills, you consent to your data being stored and processed in these locations.</p>
+      <p>Learn more about Supabase's security practices at <a href="https://supabase.com/security" target="_blank">supabase.com/security</a>.</p>
+    </div>
+
+    <div class="card">
+      <h2>Data Sharing</h2>
+      <p>We share your data only with the following trusted third parties, and only to the extent necessary:</p>
+      <ul>
+        <li><strong>Supabase</strong> — database and authentication provider</li>
+        <li><strong>Razorpay</strong> — payment processing for Pro subscriptions</li>
+        <li><strong>Vercel</strong> — web hosting and content delivery</li>
+      </ul>
+      <p>We do not share, sell, or rent your personal information to any other third parties.</p>
+    </div>
+
+    <div class="card">
+      <h2>Your Rights</h2>
+      <p>You have the right to:</p>
+      <ul>
+        <li>Access all data stored about you — export it anytime using the Backup Export feature in the app</li>
+        <li>Correct inaccurate data — edit your profile and entries directly in the app</li>
+        <li>Delete your account and all associated data — email us at <a href="mailto:zalahardip70@gmail.com">zalahardip70@gmail.com</a> and we will delete your data within 7 working days</li>
+        <li>Withdraw consent — stop using the service at any time</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Data Retention</h2>
+      <p>We retain your data for as long as your account is active. If you request account deletion, all your data will be permanently removed from our systems within 7 working days.</p>
+      <p>Razorpay may retain payment transaction records as required by Indian financial regulations.</p>
+    </div>
+
+    <div class="card">
+      <h2>Cookies</h2>
+      <p>StudioBills uses minimal cookies strictly necessary for authentication (to keep you logged in). We do not use advertising cookies or third-party tracking cookies.</p>
+    </div>
+
+    <div class="card">
+      <h2>Children's Privacy</h2>
+      <p>StudioBills is intended for use by adults (18+) for business purposes. We do not knowingly collect data from anyone under the age of 18.</p>
+    </div>
+
+    <div class="card">
+      <h2>Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page. Continued use of StudioBills after changes constitutes acceptance of the updated policy.</p>
+      <p>For significant changes, we will notify you via the email address associated with your account.</p>
+    </div>
+
+    <div class="card">
+      <h2>Contact Us</h2>
+      <p>If you have any questions or concerns about this Privacy Policy, please contact:</p>
+      <div class="highlight-box">
+        <p><strong>Hardipsinh Zala</strong><br>
+        Email: <a href="mailto:zalahardip70@gmail.com">zalahardip70@gmail.com</a><br>
+        Location: Rajkot, Gujarat, India</p>
+      </div>
+    </div>
+
+    <p class="footer">© 2026 StudioBills · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms-of-service.html">Terms of Service</a></p>
+
+  </div>
+
+</body>
+</html>
