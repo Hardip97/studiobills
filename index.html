@@ -271,6 +271,41 @@ tbody tr.row-overdue{background:#FFF7F8;}
 .itab.active{background:var(--black);color:#fff;}
 .itab:hover:not(.active){background:var(--bg);}
 
+/* UPGRADE MODAL */
+.upgrade-modal-inner{text-align:center;padding:8px 0 4px;}
+.upgrade-icon{font-size:2.4rem;margin-bottom:10px;}
+.upgrade-title{font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-.02em;}
+.upgrade-sub{font-size:.83rem;color:var(--muted);font-weight:300;margin-bottom:20px;line-height:1.6;}
+.upgrade-feature-tag{display:inline-block;background:rgba(255,0,53,.08);color:var(--red);border:1px solid rgba(255,0,53,.2);border-radius:20px;padding:3px 12px;font-size:.75rem;font-weight:600;margin-bottom:18px;}
+.upgrade-plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.uplan{border:2px solid var(--border);border-radius:12px;padding:14px 12px;cursor:pointer;transition:border .15s;text-align:left;}
+.uplan:hover{border-color:var(--red);}
+.uplan.recommended{border-color:var(--red);position:relative;}
+.uplan-badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:.6rem;font-weight:700;letter-spacing:.05em;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+.uplan-period{font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.uplan-price{font-size:1.3rem;font-weight:800;color:var(--text);letter-spacing:-.02em;}
+.uplan-price span{font-size:.75rem;font-weight:300;color:var(--muted);}
+.uplan-save{font-size:.68rem;color:var(--green);font-weight:600;margin-top:2px;}
+.upgrade-features{text-align:left;margin-bottom:20px;display:flex;flex-direction:column;gap:6px;}
+.uf-row{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.uf-row::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+.upgrade-cta{width:100%;padding:12px;background:var(--red);color:#fff;border:none;border-radius:var(--r2);font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:10px;}
+.upgrade-cta:hover{background:var(--red2);}
+.upgrade-dismiss{font-size:.75rem;color:var(--muted);cursor:pointer;text-decoration:underline;}
+/* PLAN BADGE */
+.plan-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:.65rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+.plan-badge.free{background:rgba(0,0,0,.06);color:var(--muted);}
+.plan-badge.pro{background:rgba(255,0,53,.1);color:var(--red);}
+/* LOCKED OVERLAY */
+.locked-overlay{position:relative;}
+.lock-banner{display:flex;align-items:center;gap:10px;background:rgba(255,0,53,.05);border:1px dashed rgba(255,0,53,.3);border-radius:10px;padding:12px 16px;margin-bottom:12px;cursor:pointer;transition:background .15s;}
+.lock-banner:hover{background:rgba(255,0,53,.09);}
+.lock-banner-icon{font-size:1.2rem;flex-shrink:0;}
+.lock-banner-text{flex:1;}
+.lock-banner-title{font-size:.82rem;font-weight:700;color:var(--text);}
+.lock-banner-sub{font-size:.73rem;color:var(--muted);font-weight:300;}
+.lock-banner-cta{font-size:.72rem;font-weight:700;color:var(--red);white-space:nowrap;}
+
 /* SETTINGS */
 .stabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px;}
 .stab{background:none;border:none;color:var(--muted);cursor:pointer;padding:9px 18px;
@@ -782,6 +817,15 @@ tbody tr.row-overdue{background:#FFF7F8;}
     </div>
   </div>
   <div id="stab-about" style="display:none;">
+    <!-- Plan Status Card -->
+    <div class="card" style="max-width:380px;margin-bottom:16px;padding:20px 24px;" id="planStatusCard">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;">Your Plan</div>
+        <span id="planBadgeEl" class="plan-badge free">Free</span>
+      </div>
+      <div id="planStatusMsg" style="font-size:.82rem;color:var(--muted);font-weight:300;line-height:1.6;margin-bottom:14px;">You're on the Free plan — 2 clients, watermarked PDF.</div>
+      <button id="planUpgradeBtn" class="btn btn-red btn-sm" onclick="showUpgradeModal('Pro features')" style="width:100%;">⚡ Upgrade to Pro</button>
+    </div>
     <div class="card" style="max-width:380px;text-align:center;padding:32px;margin-bottom:16px;">
       <div class="logo-icon" style="width:48px;height:48px;border-radius:12px;font-size:1rem;margin:0 auto 12px;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;">SB</div>
       <div style="font-size:1rem;font-weight:700;">StudioBills</div>
@@ -820,6 +864,42 @@ tbody tr.row-overdue{background:#FFF7F8;}
   <button data-tab="settings"><span class="ico">⚙️</span>Settings</button>
 </div>
 
+<!-- ════════════════════ UPGRADE MODAL ════════════════════ -->
+<div class="modal-bg" id="upgradeModal">
+<div class="modal" style="max-width:400px;">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:4px;">
+    <button class="ibtn" onclick="closeModal('upgradeModal')">✕</button>
+  </div>
+  <div class="upgrade-modal-inner">
+    <div class="upgrade-icon">⚡</div>
+    <div class="upgrade-title">Upgrade to Pro</div>
+    <div class="upgrade-sub">You've hit a Free plan limit. Unlock <strong id="upgradeFeatureName">this feature</strong> and everything else with Pro.</div>
+    <div class="upgrade-plans">
+      <div class="uplan" style="position:relative;">
+        <div class="uplan-period">Monthly</div>
+        <div class="uplan-price">₹149<span>/mo</span></div>
+        <div class="uplan-save" style="color:var(--muted);font-weight:300;">Billed monthly</div>
+      </div>
+      <div class="uplan recommended" style="position:relative;">
+        <div class="uplan-badge">BEST VALUE</div>
+        <div class="uplan-period">Yearly</div>
+        <div class="uplan-price">₹999<span>/yr</span></div>
+        <div class="uplan-save">Save 44% · ₹83/mo</div>
+      </div>
+    </div>
+    <div class="upgrade-features">
+      <div class="uf-row">Unlimited clients (Free = 2 max)</div>
+      <div class="uf-row">Clean PDF exports — no watermark</div>
+      <div class="uf-row">GST Summary reports & Excel export</div>
+      <div class="uf-row">Multi-currency invoicing (USD, GBP, EUR, AED)</div>
+      <div class="uf-row">WhatsApp invoice sharing</div>
+    </div>
+    <button class="upgrade-cta" onclick="window.open('mailto:zalahardip70@gmail.com?subject=StudioBills Pro Upgrade&body=Hi, I would like to upgrade to StudioBills Pro.','_blank');closeModal('upgradeModal');">✉ Contact to Upgrade</button>
+    <div class="upgrade-dismiss" onclick="closeModal('upgradeModal')">Maybe later</div>
+  </div>
+</div>
+</div>
+
 <!-- ════════════════════ MODALS ════════════════════ -->
 <div class="modal-bg" id="addIncomeModal">
 <div class="modal" style="max-width:680px;">
@@ -849,10 +929,10 @@ tbody tr.row-overdue{background:#FFF7F8;}
       <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Currency</label>
       <div style="display:flex;gap:7px;flex-wrap:wrap;" id="ai-currency-bar">
         <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ai','INR')">🇮🇳 INR</button>
-        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ai','USD')">🇺🇸 USD</button>
-        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ai','GBP')">🇬🇧 GBP</button>
-        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ai','EUR')">🇪🇺 EUR</button>
-        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ai','AED')">🇦🇪 AED</button>
+        <button class="fx-btn" data-code="USD" onclick="isPro()?onCurrencySelect('ai','USD'):showUpgradeModal('multi-currency invoicing')">🇺🇸 USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="isPro()?onCurrencySelect('ai','GBP'):showUpgradeModal('multi-currency invoicing')">🇬🇧 GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="isPro()?onCurrencySelect('ai','EUR'):showUpgradeModal('multi-currency invoicing')">🇪🇺 EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="isPro()?onCurrencySelect('ai','AED'):showUpgradeModal('multi-currency invoicing')">🇦🇪 AED</button>
       </div>
       <div id="ai-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:5px;min-height:16px;"></div>
     </div>
@@ -949,10 +1029,10 @@ tbody tr.row-overdue{background:#FFF7F8;}
       <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Currency</label>
       <div style="display:flex;gap:7px;flex-wrap:wrap;" id="ei-currency-bar">
         <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ei','INR')">🇮🇳 INR</button>
-        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ei','USD')">🇺🇸 USD</button>
-        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ei','GBP')">🇬🇧 GBP</button>
-        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ei','EUR')">🇪🇺 EUR</button>
-        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ei','AED')">🇦🇪 AED</button>
+        <button class="fx-btn" data-code="USD" onclick="isPro()?onCurrencySelect('ei','USD'):showUpgradeModal('multi-currency invoicing')">🇺🇸 USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="isPro()?onCurrencySelect('ei','GBP'):showUpgradeModal('multi-currency invoicing')">🇬🇧 GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="isPro()?onCurrencySelect('ei','EUR'):showUpgradeModal('multi-currency invoicing')">🇪🇺 EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="isPro()?onCurrencySelect('ei','AED'):showUpgradeModal('multi-currency invoicing')">🇦🇪 AED</button>
       </div>
       <div id="ei-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:5px;min-height:16px;"></div>
     </div>
@@ -1118,7 +1198,7 @@ const FX_CURRENCIES={
 };
 // Fallback rates (used instantly; overwritten by live API on load)
 const FX_FALLBACK={INR:1,USD:84,GBP:107,EUR:90,AED:23};
-let db={income:[],expenses:[],invoiceCounter:0,clients:{},fxRates:{date:"",rates:{...FX_FALLBACK}},profile:{...DEFAULT_PROFILE},cats:{inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
+let db={income:[],expenses:[],invoiceCounter:0,clients:{},fxRates:{date:"",rates:{...FX_FALLBACK}},profile:{...DEFAULT_PROFILE},plan:'free',planExpiry:null,cats:{inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
 let viewMonth=new Date();
 let activeRange='6M';
 let mainChart=null,rptChart=null,catChart=null,expCatChart=null;
@@ -1130,6 +1210,8 @@ function applyMigrations(){
   if(!db.fxRates||!db.fxRates.rates)db.fxRates={date:"",rates:{...FX_FALLBACK}};
   db.invoiceCounter=db.invoiceCounter||0;
   db.profile=db.profile||{};
+  if(!db.plan)db.plan='free';
+  if(db.planExpiry===undefined)db.planExpiry=null;
   const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
   // For non-owners: wipe any field that matches owner's personal data (contamination fix)
   if(!isOwner){
@@ -1339,6 +1421,21 @@ function initAuth(){
   });
 }
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+// ─── PLAN HELPERS ───
+function isPro(){
+  const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
+  if(isOwner)return true;
+  if(db.plan==='pro'){
+    if(!db.planExpiry)return true;
+    return new Date(db.planExpiry)>new Date();
+  }
+  return false;
+}
+function showUpgradeModal(feature){
+  document.getElementById('upgradeFeatureName').textContent=feature||'this feature';
+  openModal('upgradeModal');
+}
 function fmt(n){return(db.profile.currency||'₹')+(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0});}
 function fmtD(s){if(!s)return'—';return new Date(s).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
 function today(){return new Date().toISOString().slice(0,10);}
@@ -1728,6 +1825,13 @@ function renderIncome(){
 function saveIncome(){
   const f=readInvForm('ai');
   if(!f.client){toast('Client name required','err');return;}
+  // 2-client limit for free plan
+  if(!isPro()){
+    const existingClients=new Set(db.income.map(i=>i.client).filter(Boolean));
+    if(!existingClients.has(f.client)&&existingClients.size>=2){
+      showUpgradeModal('a 3rd client (Free plan allows 2)');return;
+    }
+  }
   const t=calcInvTotals('ai');
   if(t.subtotal<=0){toast('Add at least one line item with a rate','err');return;}
   // Use typed invoice number or auto-generate next
@@ -1947,6 +2051,14 @@ function renderReports(){
   }).join('')||'<div class="empty"><div class="empty-icon">📊</div><p>No data yet</p></div>';
 
   // ── GST Summary ──
+  if(!isPro()){
+    document.getElementById('gstTbody').innerHTML=`<tr><td colspan="7" style="padding:0;"></td></tr>`;
+    document.getElementById('gstTotal').innerHTML=`<div class="lock-banner" onclick="showUpgradeModal('GST Summary reports')" style="margin:0 12px 12px;">
+      <div class="lock-banner-icon">🔒</div>
+      <div class="lock-banner-text"><div class="lock-banner-title">GST Summary — Pro Feature</div><div class="lock-banner-sub">Upgrade to view monthly GST breakdown and export to Excel</div></div>
+      <div class="lock-banner-cta">Upgrade ↗</div>
+    </div>`;
+  } else {
   document.getElementById('gstTbody').innerHTML=months.map((m,idx)=>{
     const invs=iByM[idx];
     let taxable=0,cgst=0,sgst=0,igst=0,tds=0;
@@ -1961,6 +2073,7 @@ function renderReports(){
   document.getElementById('gstTotal').innerHTML=totNetGst||gstTots.tds
     ?`<span>Taxable: <strong>${fmt(gstTots.taxable)}</strong></span><span>CGST: <strong style="color:#FF6B00">${fmt(gstTots.cgst)}</strong></span><span>SGST: <strong style="color:#FF6B00">${fmt(gstTots.sgst)}</strong></span><span>IGST: <strong style="color:#3b82f6">${fmt(gstTots.igst)}</strong></span><span>TDS: <strong style="color:var(--orange)">${fmt(gstTots.tds)}</strong></span><span>Net GST: <strong>${fmt(totNetGst)}</strong></span>`
     :`<span style="color:var(--muted2)">No GST transactions in ${cur}</span>`;
+  } // end isPro GST block
 
   // ── Outstanding Dues ──
   function rcvOD(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
@@ -2600,6 +2713,24 @@ function setAccent(colour,el){
   applyTheme();save();
 }
 
+function updatePlanStatus(){
+  const pro=isPro();
+  const badge=document.getElementById('planBadgeEl');
+  const msg=document.getElementById('planStatusMsg');
+  const btn=document.getElementById('planUpgradeBtn');
+  if(!badge)return;
+  if(pro){
+    badge.textContent='Pro ✓';badge.className='plan-badge pro';
+    const expiry=db.planExpiry?` · Renews ${new Date(db.planExpiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}`:'';
+    msg.textContent=`You have full access to all features.${expiry}`;
+    btn.style.display='none';
+  } else {
+    badge.textContent='Free';badge.className='plan-badge free';
+    const clientCount=[...new Set(db.income.map(i=>i.client).filter(Boolean))].length;
+    msg.textContent=`${clientCount}/2 clients used. Upgrade for unlimited clients, clean PDFs, GST reports, multi-currency & WhatsApp sharing.`;
+    btn.style.display='block';
+  }
+}
 function renderSettings(){
   document.getElementById('s-studio').value=db.profile.studioName||'';
   document.getElementById('s-owner').value=db.profile.ownerName||'';
@@ -2620,6 +2751,7 @@ function renderSettings(){
   const acc=db.profile.accentColor||'#FF0035';
   document.querySelectorAll('.cswatch').forEach(s=>s.classList.toggle('sel',s.dataset.colour===acc));
   renderCatPills();
+  updatePlanStatus();
 }
 function saveProfile(){
   db.profile.studioName=document.getElementById('s-studio').value.trim();
@@ -2763,6 +2895,8 @@ function buildInvoiceHTML(inv){
   const qrHTML=buildQR(p.upi,p.ownerName||p.studioName,t.net||t.gross,num);
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
+  const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">StudioBills Free</div>`:'';
+  const watermarkFooterHTML=!isPro()?`<div style="text-align:center;font-size:10px;color:#BBB;margin-top:18px;padding-top:10px;border-top:1px solid #EEE;">Created with StudioBills Free — <a href="https://studiobills.vercel.app" style="color:#FF0035;">Upgrade to Pro</a> to remove watermark</div>`:'';
   const title=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}`;
   const invType=inv.invType||'general';
   const itemRows=buildItemsRows(t.items,cur,invType,'table');
@@ -2834,7 +2968,8 @@ function buildInvoiceHTML(inv){
     <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">${qrHTML}<div style="font-size:9px;color:#888;margin-top:3px;">Scan to Pay</div></div>
     <div style="flex:1;text-align:right;"><div class="footer-heading">${esc(p.ownerName||p.studioName||'Studio')}</div><div class="footer-detail">${ownerHTML}</div></div>
   </div>
-</div></body></html>`;}
+  ${watermarkFooterHTML}
+</div>${watermarkHTML}</body></html>`;}
 
   // ── MINIMAL TEMPLATE ──
   if(tpl==='minimal'){
@@ -2888,7 +3023,8 @@ table.items td.r{text-align:right;}
     <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}<span style="font-size:8px;color:#bbb;margin-top:2px;">Scan to Pay</span></div>
     <div style="flex:1;text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong><br>${ownerHTML}</div>
   </div>
-</div></body></html>`;}
+  ${watermarkFooterHTML}
+</div>${watermarkHTML}</body></html>`;}
 
   // ── MODERN TEMPLATE ──
   if(tpl==='modern'){
@@ -2951,8 +3087,9 @@ table.items td.r{text-align:right;}
       <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}<span style="font-size:8px;color:#bbb;margin-top:2px;">Scan to Pay</span></div>
       <div style="flex:1;text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong><br>${ownerHTML}</div>
     </div>
+    ${watermarkFooterHTML}
   </div>
-</div></body></html>`;}
+</div>${watermarkHTML}</body></html>`;}
 
   // ── ELEGANT TEMPLATE ──
   return`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${title}</title>
@@ -3011,8 +3148,9 @@ table.items td.r{text-align:right;}
       <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}<span style="font-size:8px;color:#bbb;margin-top:2px;font-family:sans-serif;">Scan to Pay</span></div>
       <div style="flex:1;text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong><br>${ownerHTML}</div>
     </div>
+    ${watermarkFooterHTML}
   </div>
-</div></body></html>`;}
+</div>${watermarkHTML}</body></html>`;}
 
 function genInvoice(){
   let inv=null;
@@ -3071,6 +3209,7 @@ function fallbackPrint(html){
 }
 
 async function shareOnWhatsApp(){
+  if(!isPro()){showUpgradeModal('WhatsApp sharing');return;}
   if(!curInvId){toast('No invoice selected','err');return;}
   const inv=db.income.find(i=>i.id===curInvId);if(!inv)return;
   const html=buildInvoiceHTML(inv);
