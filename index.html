@@ -383,6 +383,8 @@ tbody tr.row-overdue{background:#FFF7F8;}
 /* ── DRAFT BADGE ── */
 .badge.b-draft{background:#F5F0E0;color:#A07800;}
 .badge.b-credit{background:#FFF0F0;color:var(--red);}
+body.dark .badge.b-draft{background:#2A2200;color:#FFD966;}
+body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 /* ── PARTIAL PAYMENT ENTRY ── */
 .pp-row{display:flex;gap:6px;align-items:center;padding:5px 0;border-bottom:1px solid var(--border2);font-size:.78rem;}
@@ -1497,7 +1499,7 @@ function proceedToPayment(){
   closeModal('upgradeModal');
   toast('Redirecting to secure payment…');
 }
-function fmt(n){return(db.profile.currency||'₹')+(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0});}
+function fmt(n){return((db.profile&&db.profile.currency)||'₹')+(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0});}
 function fmtD(s){if(!s)return'—';return new Date(s).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
 function today(){return new Date().toISOString().slice(0,10);}
 function mk(s){return s?s.slice(0,7):'';}
@@ -1511,8 +1513,17 @@ function showTab(name){
   document.querySelectorAll('.tn,[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===name);});
   location.hash=name; // persist current tab in URL so reload lands here
   if(name==='overview')renderOverview();
-  if(name==='income')renderIncome();
-  if(name==='expenses')renderExpenses();
+  if(name==='income'){
+    // Reset filter to All so user always sees full list on tab switch
+    incFilter='all';
+    document.querySelectorAll('#incTabs .itab').forEach(b=>b.classList.toggle('active',b.dataset.f==='all'));
+    renderIncome();
+  }
+  if(name==='expenses'){
+    expFilter='all';
+    document.querySelectorAll('#expTabs .itab').forEach(b=>b.classList.toggle('active',b.dataset.ef==='all'));
+    renderExpenses();
+  }
   if(name==='reports')renderReports();
   if(name==='clients')renderClients();
   if(name==='history')renderHistory();
@@ -1949,7 +1960,22 @@ function updateIncome(){
   save();closeModal('editIncomeModal');toast('Updated ✓');renderOverview();renderIncome();
 }
 function delInc(id){if(!confirm('Delete invoice?'))return;db.income=db.income.filter(x=>x.id!==id);save();toast('Deleted');renderOverview();renderIncome();}
-function resetAddInc(){resetInvForm('ai');document.getElementById('ai-date').value=today();document.getElementById('ai-status').value='pending';document.getElementById('ai-received').value='';}
+function resetAddInc(){
+  resetInvForm('ai');
+  document.getElementById('ai-date').value=today();
+  document.getElementById('ai-status').value='pending';
+  document.getElementById('ai-received').value='';
+  // Clear checkboxes and draft badge
+  const isdraft=document.getElementById('ai-isdraft');if(isdraft)isdraft.checked=false;
+  const iscredit=document.getElementById('ai-iscredit');if(iscredit)iscredit.checked=false;
+  const isrecur=document.getElementById('ai-isrecurring');if(isrecur)isrecur.checked=false;
+  const badge=document.getElementById('ai-draft-badge');if(badge)badge.style.display='none';
+  // Clear more-tab fields
+  const hsn=document.getElementById('ai-hsn');if(hsn)hsn.value='';
+  const cgstin=document.getElementById('ai-cgstin');if(cgstin)cgstin.value='';
+  const vatid=document.getElementById('ai-vatid');if(vatid)vatid.value='';
+  const terms=document.getElementById('ai-terms');if(terms)terms.value='';
+}
 
 // ─── EXPENSE CRUD ───
 let expFilter='all';
@@ -2252,7 +2278,7 @@ function renderMoM(){
 function checkRecurringInvoices(){
   const curMon=today().slice(0,7);// YYYY-MM
   let generated=0;
-  const recurringBase=db.income.filter(i=>i.recurring&&!i.isdraft);
+  const recurringBase=db.income.filter(i=>i.recurring&&!i.isDraft);
   // Group by a stable key (client+desc+amount) — find latest per group
   const groups={};
   recurringBase.forEach(i=>{
@@ -2269,7 +2295,7 @@ function checkRecurringInvoices(){
     const newDate=curMon+'-'+base.date.slice(8);
     const daysUntilDue=base.due&&base.date?Math.round((new Date(base.due)-new Date(base.date))/(864e5)):0;
     const newDue=daysUntilDue>0?(()=>{const d=new Date(newDate);d.setDate(d.getDate()+daysUntilDue);return d.toISOString().slice(0,10);})():base.due;
-    const copy={...base,id:uid(),date:newDate,due:newDue||'',status:'pending',received:0,isdraft:true,recurringParent:base.id,invNo:''};
+    const copy={...base,id:uid(),date:newDate,due:newDue||'',status:'pending',received:0,isDraft:true,recurringParent:base.id,invNo:''};
     // Assign invoice number
     db.invoiceCounter=(db.invoiceCounter||0)+1;
     copy.invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');
@@ -2375,7 +2401,7 @@ function onClientSelect(pfx,name){
   const gstEl=document.getElementById(pfx+'-cgstin');
   if(gstEl&&cp.gstin)gstEl.value=cp.gstin;
   // Auto-set due date from payment terms
-  const termsDay=parseInt(cp.paymentTerms||'0');
+  const termsDay=parseInt(cp.paymentTerms||'0',10)||0;
   if(termsDay>0){
     const dateEl=document.getElementById(pfx+'-date');
     const dueEl=document.getElementById(pfx+'-due');
@@ -2890,7 +2916,12 @@ function buildItemsRows(items,cur,invType,style){
     if(type==='video'){
       const parts=[];
       if(i.dimension)parts.push('Dimension: '+i.dimension);
-      if(i.duration)parts.push('Duration: '+i.duration);
+      if(i.duration){
+        // Append 'sec' if duration is a plain number, otherwise show as-is
+        const durStr=String(i.duration).trim();
+        const durDisplay=/^\d+(\.\d+)?$/.test(durStr)?durStr+' sec':durStr;
+        parts.push('Duration: '+durDisplay);
+      }
       sub=parts.join('  ·  ');
     }
     else if(type==='general'){sub=i.unit||'';}
@@ -2901,7 +2932,8 @@ function buildItemsRows(items,cur,invType,style){
     }
     // Table style — columns vary by type
     if(type==='video'){
-      return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r" style="font-size:11px;color:#888;">${esc(i.dimension||'')}</td><td class="td r" style="font-size:11px;color:#888;">${esc(i.duration||'')}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
+      const durCol=i.duration?(()=>{const d=String(i.duration).trim();return /^\d+(\.\d+)?$/.test(d)?d+' sec':d;})():'';
+      return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r" style="font-size:11px;color:#888;">${esc(i.dimension||'')}</td><td class="td r" style="font-size:11px;color:#888;">${esc(durCol)}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
     }
     if(type==='product'||type==='photo'){
       return`<tr><td><div class="td-name">${name}</div></td><td class="td r">${qty>1?qty:''}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
@@ -2942,7 +2974,7 @@ function buildQR(upi,name,amount,invNo){
 
 function buildInvoiceHTML(inv){
   const tpl=inv.template||'classic';
-  const p=db.profile;
+  const p=db.profile||{};
   const num=inv.invNo||`INV-${inv.id.slice(-6).toUpperCase()}`;
   const invCurCode=inv.currency&&FX_CURRENCIES[inv.currency]?inv.currency:'INR';
   const cur=FX_CURRENCIES[invCurCode]?.symbol||inv.currency||p.currency||'₹';
@@ -3042,7 +3074,8 @@ function buildInvoiceHTML(inv){
 </style></head><body>
 <button class="save-btn" onclick="window.print()">⬇ Save as PDF</button>
 <div class="page">
-  <div class="header"><div class="invoice-title">Invoice</div>
+  <div class="header">
+    <div><div style="font-size:12px;font-weight:600;color:#888;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">${esc(p.studioName||p.ownerName||'')}</div><div class="invoice-title">Invoice</div></div>
     <div class="header-meta"><div class="date">${fmtLong(inv.date)}</div><div class="inv-no">Invoice No. ${num}</div><div class="due">Due: ${inv.due?fmtLong(inv.due):'On receipt'}</div>${creditBadge}${draftBadge}</div></div>
   <div class="hr"></div>
   <div class="billed-section"><div class="billed-label">Billed to:</div><div class="billed-detail">${clientInfo}</div></div>
@@ -3058,7 +3091,7 @@ function buildInvoiceHTML(inv){
   ${termsInfo}
   <div class="footer">
     <div style="flex:1"><div class="footer-heading">Payment Information</div><div class="footer-detail">${payHTML}</div></div>
-    <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">${qrHTML}<div style="font-size:9px;color:#888;margin-top:3px;">Scan to Pay</div></div>
+    <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">${qrHTML}</div>
     <div style="flex:1;text-align:right;"><div class="footer-heading">${esc(p.ownerName||p.studioName||'Studio')}</div><div class="footer-detail">${ownerHTML}</div></div>
   </div>
   ${watermarkFooterHTML}
@@ -3114,7 +3147,7 @@ table.items td.r{text-align:right;}
   ${termsInfo}
   <div class="footer-strip">
     <div style="flex:1"><strong>Payment Information</strong><br>${payHTML}</div>
-    <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}<span style="font-size:8px;color:#bbb;margin-top:2px;">Scan to Pay</span></div>
+    <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}</div>
     <div style="flex:1;text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong><br>${ownerHTML}</div>
   </div>
   ${watermarkFooterHTML}
@@ -3179,7 +3212,7 @@ table.items td.r{text-align:right;}
     <div class="flex-grow"></div>
     <div class="footer-band">
       <div style="flex:1"><strong>Payment Information</strong><br>${payHTML}</div>
-      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}<span style="font-size:8px;color:#bbb;margin-top:2px;">Scan to Pay</span></div>
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}</div>
       <div style="flex:1;text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong><br>${ownerHTML}</div>
     </div>
     ${watermarkFooterHTML}
@@ -3241,7 +3274,7 @@ table.items td.r{text-align:right;}
     <div class="flex-grow"></div>
     <div class="footer">
       <div style="flex:1"><strong>Payment Information</strong><br>${payHTML}</div>
-      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}<span style="font-size:8px;color:#bbb;margin-top:2px;font-family:sans-serif;">Scan to Pay</span></div>
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}</div>
       <div style="flex:1;text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong><br>${ownerHTML}</div>
     </div>
     ${watermarkFooterHTML}
@@ -3413,6 +3446,7 @@ function exportIncXLSX(){const rows=db.income.map(i=>({Client:i.client,Descripti
 function exportExpXLSX(){const rows=db.expenses.map(e=>({Title:e.title,Category:e.cat||'',Amount:+e.amount||0,Date:e.date,Recurring:e.recurring?'Yes':'No',Notes:e.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Expenses');XLSX.writeFile(wb,'StudioBills_Expenses.xlsx');toast('Excel exported ✓');}
 function exportReportXLSX(){const y=document.getElementById('reportYearSel').value||new Date().getFullYear();const m=['01','02','03','04','05','06','07','08','09','10','11','12'];const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const rows=m.map((mo,i)=>{const k=`${y}-${mo}`;const inc=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);const rec=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.received||0),0);const exp=db.expenses.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);return{Month:`${ml[i]} ${y}`,Billed:inc,Received:rec,Expenses:exp,Net:rec-exp};});const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`Report ${y}`);XLSX.writeFile(wb,`StudioBills_Report_${y}.xlsx`);toast('Report exported ✓');}
 function exportGSTXLSX(){
+  if(!isPro()){showUpgradeModal('GST Excel export');return;}
   const y=document.getElementById('reportYearSel').value||new Date().getFullYear();
   const m=['01','02','03','04','05','06','07','08','09','10','11','12'];
   const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -3486,8 +3520,18 @@ function openModal(id){
   document.getElementById(id).classList.add('open');
   fillCatSelects();fillClientSuggest();
   if(id==='addIncomeModal'){
-    const el=document.getElementById('ai-invno');
-    if(el)el.value=nextAvailableInvNo();
+    resetAddInc();
+    // Reset currency to INR
+    onCurrencySelect('ai','INR');
+    // Reset tabs to details
+    showInvTab('details','ai');
+  }
+  if(id==='addExpModal'){
+    document.getElementById('ae-title').value='';
+    document.getElementById('ae-amount').value='';
+    document.getElementById('ae-notes').value='';
+    document.getElementById('ae-date').value=today();
+    const tog=document.getElementById('ae-tog');if(tog)tog.classList.remove('on');
   }
 }
 function closeModal(id){document.getElementById(id).classList.remove('open');}
