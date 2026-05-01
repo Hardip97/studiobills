@@ -875,12 +875,12 @@ tbody tr.row-overdue{background:#FFF7F8;}
     <div class="upgrade-title">Upgrade to Pro</div>
     <div class="upgrade-sub">You've hit a Free plan limit. Unlock <strong id="upgradeFeatureName">this feature</strong> and everything else with Pro.</div>
     <div class="upgrade-plans">
-      <div class="uplan" style="position:relative;">
+      <div class="uplan" id="uplan-monthly" style="position:relative;" onclick="selectUpgradePlan('monthly')">
         <div class="uplan-period">Monthly</div>
         <div class="uplan-price">₹149<span>/mo</span></div>
         <div class="uplan-save" style="color:var(--muted);font-weight:300;">Billed monthly</div>
       </div>
-      <div class="uplan recommended" style="position:relative;">
+      <div class="uplan recommended" id="uplan-yearly" style="position:relative;" onclick="selectUpgradePlan('yearly')">
         <div class="uplan-badge">BEST VALUE</div>
         <div class="uplan-period">Yearly</div>
         <div class="uplan-price">₹999<span>/yr</span></div>
@@ -894,7 +894,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
       <div class="uf-row">Multi-currency invoicing (USD, GBP, EUR, AED)</div>
       <div class="uf-row">WhatsApp invoice sharing</div>
     </div>
-    <button class="upgrade-cta" onclick="window.open('mailto:zalahardip70@gmail.com?subject=StudioBills Pro Upgrade&body=Hi, I would like to upgrade to StudioBills Pro.','_blank');closeModal('upgradeModal');">✉ Contact to Upgrade</button>
+    <button class="upgrade-cta" id="upgradeCTABtn" onclick="proceedToPayment()">⚡ Get Pro — ₹999/year</button>
     <div class="upgrade-dismiss" onclick="closeModal('upgradeModal')">Maybe later</div>
   </div>
 </div>
@@ -1423,6 +1423,12 @@ function initAuth(){
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 
 // ─── PLAN HELPERS ───
+// ⚙️ Replace these with your actual Razorpay Payment Links from razorpay.com dashboard
+const RAZORPAY_MONTHLY_LINK='https://rzp.io/l/studiobills-monthly'; // ← paste your monthly link here
+const RAZORPAY_YEARLY_LINK ='https://rzp.io/l/studiobills-yearly';  // ← paste your yearly link here
+
+let selectedUpgradePlan='yearly'; // default selection
+
 function isPro(){
   const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
   if(isOwner)return true;
@@ -1434,7 +1440,30 @@ function isPro(){
 }
 function showUpgradeModal(feature){
   document.getElementById('upgradeFeatureName').textContent=feature||'this feature';
+  selectUpgradePlan('yearly'); // always open with yearly pre-selected
   openModal('upgradeModal');
+}
+function selectUpgradePlan(type){
+  selectedUpgradePlan=type;
+  // Update card highlight
+  document.getElementById('uplan-monthly').style.borderColor=type==='monthly'?'var(--red)':'var(--border)';
+  document.getElementById('uplan-yearly').style.borderColor=type==='yearly'?'var(--red)':'var(--border)';
+  // Update CTA button label
+  const cta=document.getElementById('upgradeCTABtn');
+  if(type==='monthly'){
+    cta.textContent='⚡ Get Pro — ₹149/month';
+  } else {
+    cta.textContent='⚡ Get Pro — ₹999/year';
+  }
+}
+function proceedToPayment(){
+  const link=selectedUpgradePlan==='monthly'?RAZORPAY_MONTHLY_LINK:RAZORPAY_YEARLY_LINK;
+  // Pre-fill email if available
+  const email=currentUser?.email||'';
+  const url=email?`${link}?prefill[email]=${encodeURIComponent(email)}`:link;
+  window.open(url,'_blank');
+  closeModal('upgradeModal');
+  toast('Redirecting to secure payment…');
 }
 function fmt(n){return(db.profile.currency||'₹')+(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0});}
 function fmtD(s){if(!s)return'—';return new Date(s).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
