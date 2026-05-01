@@ -1406,6 +1406,32 @@ function initAppUI(){
   const validTabs=['overview','income','expenses','reports','clients','history','settings'];
   if(hash&&validTabs.includes(hash))showTab(hash);
   else renderOverview();
+  // Auto-refresh plan when user returns to tab after payment
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='visible'&&currentUser)refreshPlanFromSupabase();
+  });
+}
+
+// ─── PLAN REFRESH (called when tab regains focus) ───
+async function refreshPlanFromSupabase(){
+  if(!currentUser||!supa)return;
+  try{
+    const{data}=await supa.from('user_data').select('data').eq('user_id',currentUser.id).single();
+    if(!data?.data)return;
+    const remote=data.data;
+    // Only update if remote data is newer and plan changed
+    if((remote._ts||0)>(db._ts||0)||(remote.plan!==db.plan)){
+      const wasFreePlan=!isPro();
+      db=remote;
+      applyMigrations();
+      const key=DB+'_'+currentUser.id;
+      localStorage.setItem(key,JSON.stringify(db));
+      if(wasFreePlan&&isPro()){
+        toast('🎉 Pro plan activated! All features unlocked.');
+        updatePlanStatus();
+      }
+    }
+  }catch(e){}
 }
 
 // ─── INIT AUTH ───
