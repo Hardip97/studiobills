@@ -760,6 +760,8 @@ tbody tr.row-overdue{background:#FFF7F8;}
         <div class="fg"><label>Bank Name</label><input id="s-bank" placeholder="e.g. HDFC Bank"></div>
         <div class="fg"><label>Account Number</label><input id="s-account" placeholder="e.g. 1234567890123456"></div>
         <div class="fg"><label>IFSC Code</label><input id="s-ifsc" placeholder="e.g. HDFC0001234"></div>
+        <div class="fg"><label>SWIFT / BIC Code <span style="font-weight:300;">(for international transfers)</span></label><input id="s-swift" placeholder="e.g. PUNBINBBGDB"></div>
+        <div class="fg"><label>PayPal / Wise Email <span style="font-weight:300;">(international clients)</span></label><input id="s-paypal" placeholder="e.g. yourname@paypal.com"></div>
         <div style="height:1px;background:var(--border);margin:4px 0;"></div>
         <div style="font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.03em;text-transform:uppercase;">Tax Information</div>
         <div class="fg"><label>Your GSTIN <span style="font-weight:300;">(if registered)</span></label><input id="s-gstin" placeholder="22AAAAA0000A1Z5"></div>
@@ -986,7 +988,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
     <div class="form-grid">
       <div class="fg"><label>HSN / SAC Code</label><input id="ai-hsn" placeholder="e.g. 998371"></div>
       <div class="fg"><label>Client GSTIN</label><input id="ai-cgstin" placeholder="Client's GST number"></div>
-
+      <div class="fg"><label>Client VAT ID <span style="font-weight:300;">(EU / international)</span></label><input id="ai-vatid" placeholder="e.g. DE319338232"></div>
     </div>
     <div class="fg" style="margin-top:10px;"><label>Invoice Notes / Terms</label><textarea id="ai-terms" rows="3" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
     <div style="margin-top:12px;display:flex;gap:20px;flex-wrap:wrap;">
@@ -1065,7 +1067,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
     <div class="form-grid">
       <div class="fg"><label>HSN / SAC Code</label><input id="ei-hsn" placeholder="e.g. 998371"></div>
       <div class="fg"><label>Client GSTIN</label><input id="ei-cgstin" placeholder="Client's GST number"></div>
-
+      <div class="fg"><label>Client VAT ID <span style="font-weight:300;">(EU / international)</span></label><input id="ei-vatid" placeholder="e.g. DE319338232"></div>
     </div>
     <div class="fg" style="margin-top:10px;"><label>Invoice Notes / Terms</label><textarea id="ei-terms" rows="3"></textarea></div>
     <div style="margin-top:12px;display:flex;gap:20px;flex-wrap:wrap;">
@@ -1083,7 +1085,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
 <div class="modal" style="max-width:480px;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;"><h2>Add Expense</h2><button class="ibtn" onclick="closeModal('addExpModal')">✕</button></div>
   <div class="form-grid">
-    <div class="fg"><label>Title *</label><input id="ae-title" placeholder="e.g. Adobe CC"></div>
+    <div class="fg"><label>Title *</label><input id="ae-title" placeholder="e.g. Office Supplies"></div>
     <div class="fg"><label>Amount (₹) *</label><input id="ae-amount" type="number" min="0" placeholder="0"></div>
     <div class="fg"><label>Category</label><select id="ae-cat"><option value="">— select —</option></select></div>
     <div class="fg"><label>Date</label><input id="ae-date" type="date"></div>
@@ -1159,6 +1161,10 @@ tbody tr.row-overdue{background:#FFF7F8;}
     </div>
     <div class="fg" style="margin-top:10px;"><label>Billing Address</label>
       <textarea id="cm-address" rows="3" placeholder="Street, City, State, PIN Code"></textarea>
+    </div>
+    <div class="form-grid" style="margin-top:10px;">
+      <div class="fg"><label>Country</label><input id="cm-country" placeholder="e.g. Germany"></div>
+      <div class="fg"><label>VAT ID / Tax Number <span style="font-weight:300;">(EU / international)</span></label><input id="cm-vatid" placeholder="e.g. DE319338232"></div>
     </div>
     <button class="btn btn-red" style="margin-top:14px;width:100%;" onclick="saveClientProfile()">Save Client Profile</button>
   </div>
@@ -2317,6 +2323,8 @@ function openClientModal(name){
   if(document.getElementById('cm-phone'))document.getElementById('cm-phone').value=cp.phone||'';
   if(document.getElementById('cm-terms'))document.getElementById('cm-terms').value=cp.paymentTerms||'30';
   if(document.getElementById('cm-address'))document.getElementById('cm-address').value=cp.address||'';
+  if(document.getElementById('cm-country'))document.getElementById('cm-country').value=cp.country||'';
+  if(document.getElementById('cm-vatid'))document.getElementById('cm-vatid').value=cp.vatid||'';
   // Reset to overview tab
   showCmTab('overview',document.querySelector('.cm-tab'));
   document.getElementById('cm-name').textContent=name;
@@ -2353,7 +2361,9 @@ function saveClientProfile(){
     email:document.getElementById('cm-email').value.trim(),
     phone:document.getElementById('cm-phone').value.trim(),
     paymentTerms:document.getElementById('cm-terms').value,
-    address:document.getElementById('cm-address').value.trim()
+    address:document.getElementById('cm-address').value.trim(),
+    country:document.getElementById('cm-country').value.trim(),
+    vatid:document.getElementById('cm-vatid').value.trim()
   };
   save();toast('Client profile saved ✓');renderClients();
 }
@@ -2650,6 +2660,7 @@ function readInvForm(pfx){
     received:+document.getElementById(pfx+'-received')?.value||0,
     hsn:document.getElementById(pfx+'-hsn')?.value.trim()||'',
     cgstin:document.getElementById(pfx+'-cgstin')?.value.trim()||'',
+    vatid:document.getElementById(pfx+'-vatid')?.value.trim()||'',
     terms:document.getElementById(pfx+'-terms')?.value.trim()||'',
     isDraft:document.getElementById(pfx+'-isdraft')?.checked||false,
     isCreditNote:document.getElementById(pfx+'-iscredit')?.checked||false,
@@ -2676,6 +2687,7 @@ function populateInvForm(pfx,inv){
   if(document.getElementById(pfx+'-received'))document.getElementById(pfx+'-received').value=inv.received||0;
   if(document.getElementById(pfx+'-hsn'))document.getElementById(pfx+'-hsn').value=inv.hsn||'';
   if(document.getElementById(pfx+'-cgstin'))document.getElementById(pfx+'-cgstin').value=inv.cgstin||'';
+  if(document.getElementById(pfx+'-vatid'))document.getElementById(pfx+'-vatid').value=inv.vatid||'';
   if(document.getElementById(pfx+'-terms'))document.getElementById(pfx+'-terms').value=inv.terms||inv.notes||'';
   if(document.getElementById(pfx+'-isdraft'))document.getElementById(pfx+'-isdraft').checked=inv.isDraft||false;
   if(document.getElementById(pfx+'-iscredit'))document.getElementById(pfx+'-iscredit').checked=inv.isCreditNote||false;
@@ -2798,6 +2810,8 @@ function renderSettings(){
   document.getElementById('s-bank').value=db.profile.bankName||'';
   document.getElementById('s-account').value=db.profile.accountNo||'';
   document.getElementById('s-ifsc').value=db.profile.ifsc||'';
+  document.getElementById('s-swift').value=db.profile.swift||'';
+  document.getElementById('s-paypal').value=db.profile.paypal||'';
   document.getElementById('s-gstin').value=db.profile.gstin||'';
   document.getElementById('s-pan').value=db.profile.pan||'';
   // Sync Appearance panel
@@ -2820,6 +2834,8 @@ function saveProfile(){
   db.profile.bankName=document.getElementById('s-bank').value.trim();
   db.profile.accountNo=document.getElementById('s-account').value.trim();
   db.profile.ifsc=document.getElementById('s-ifsc').value.trim();
+  db.profile.swift=document.getElementById('s-swift').value.trim().toUpperCase();
+  db.profile.paypal=document.getElementById('s-paypal').value.trim();
   db.profile.gstin=document.getElementById('s-gstin').value.trim().toUpperCase();
   db.profile.pan=document.getElementById('s-pan').value.trim().toUpperCase();
   save();toast('Profile saved ✓');
@@ -2932,11 +2948,14 @@ function buildInvoiceHTML(inv){
   const cur=FX_CURRENCIES[invCurCode]?.symbol||inv.currency||p.currency||'₹';
   const dispAmount=invCurCode!=='INR'&&inv.foreignAmount?inv.foreignAmount:null;
   const t=invTotalsFromSaved(inv);
+  const isIntl=invCurCode!=='INR';
   const payLines=[];
   if(p.upi)payLines.push(`UPI / GPay / PhonePe: ${p.upi}`);
   if(p.bankName)payLines.push(`Bank: ${p.bankName}`);
   if(p.accountNo)payLines.push(`Account No: ${p.accountNo}`);
   if(p.ifsc)payLines.push(`IFSC: ${p.ifsc}`);
+  if(p.swift)payLines.push(`SWIFT / BIC: ${p.swift}`);
+  if(p.paypal)payLines.push(`PayPal / Wise: ${p.paypal}`);
   const payHTML=payLines.join('<br>')||'(No payment info — add in Settings)';
   const ownerLines=[];
   if(p.role)ownerLines.push(p.role);
@@ -2948,16 +2967,29 @@ function buildInvoiceHTML(inv){
   const ownerHTML=ownerLines.join('<br>');
   const cp=(db.clients||{})[inv.client]||{};
   const clientAddr=cp.address||'';
+  const clientCountry=cp.country||'';
   const clientGstin=inv.cgstin||cp.gstin||'';
-  const clientInfo=`${esc(inv.client)}${clientAddr?`<br><span style="font-size:12px;color:#777;">${esc(clientAddr).replace(/\n/g,'<br>')}</span>`:''}${clientGstin?`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`:''}`;
+  const clientVatid=inv.vatid||cp.vatid||'';
+  let clientInfo=`${esc(inv.client)}`;
+  if(clientAddr)clientInfo+=`<br><span style="font-size:12px;color:#777;">${esc(clientAddr).replace(/\n/g,'<br>')}</span>`;
+  if(clientCountry)clientInfo+=`<br><span style="font-size:12px;color:#777;">${esc(clientCountry)}</span>`;
+  if(clientGstin)clientInfo+=`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`;
+  if(clientVatid)clientInfo+=`<br><span style="font-size:12px;color:#888;">VAT ID: ${esc(clientVatid)}</span>`;
   const hsnInfo=inv.hsn?`<div style="font-size:11px;color:#999;margin-top:4px;">HSN/SAC: ${esc(inv.hsn)}</div>`:'';
-  const termsInfo=inv.terms?`<div style="margin-top:18px;font-size:12px;color:#888;line-height:1.6;border-top:1px solid #E0E0E0;padding-top:14px;">${esc(inv.terms)}</div>`:'';
+  // Legal export note for international invoices
+  const legalExportNote=isIntl?`<div style="margin-top:14px;font-size:11px;color:#999;line-height:1.6;padding:10px 12px;background:#F9F9F9;border-radius:6px;border:1px solid #E8E8E8;">Export of Services — This invoice is issued in accordance with Indian GST regulations. Supply made under LUT (Letter of Undertaking) — No GST applicable on export of services (GST Act 2017, Section 16). Reverse charge may apply as per buyer's jurisdiction.</div>`:'';
+  const termsInfo=inv.terms?`<div style="margin-top:18px;font-size:12px;color:#888;line-height:1.6;border-top:1px solid #E0E0E0;padding-top:14px;">${esc(inv.terms).replace(/\n/g,'<br>')}</div>`:'';
   const qrHTML=buildQR(p.upi,p.ownerName||p.studioName,t.net||t.gross,num);
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
   const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">StudioBills Free</div>`:'';
   const watermarkFooterHTML=!isPro()?`<div style="text-align:center;font-size:10px;color:#BBB;margin-top:18px;padding-top:10px;border-top:1px solid #EEE;">Created with StudioBills Free — <a href="https://studiobills.vercel.app" style="color:#FF0035;">Upgrade to Pro</a> to remove watermark</div>`:'';
-  const title=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}`;
+  const _invDateObj=inv.date?new Date(inv.date):new Date();
+  const _months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const _dd=String(_invDateObj.getDate()).padStart(2,'0');
+  const _mon=_months[_invDateObj.getMonth()];
+  const _yyyy=_invDateObj.getFullYear();
+  const title=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}_${_dd}${_mon}${_yyyy}`;
   const invType=inv.invType||'general';
   const itemRows=buildItemsRows(t.items,cur,invType,'table');
   const totalsHTML=buildTotalsHTML(t,cur,tpl);
@@ -3021,6 +3053,7 @@ function buildInvoiceHTML(inv){
   </div>
   ${totalsClassic}
   ${hsnInfo}
+  ${legalExportNote}
   <div class="flex-grow"></div>
   ${termsInfo}
   <div class="footer">
@@ -3077,6 +3110,7 @@ table.items td.r{text-align:right;}
   <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
   ${totalsHTML}
   ${hsnInfo}
+  ${legalExportNote}
   ${termsInfo}
   <div class="footer-strip">
     <div style="flex:1"><strong>Payment Information</strong><br>${payHTML}</div>
@@ -3140,6 +3174,7 @@ table.items td.r{text-align:right;}
     <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
+    ${legalExportNote}
     ${termsInfo}
     <div class="flex-grow"></div>
     <div class="footer-band">
@@ -3201,6 +3236,7 @@ table.items td.r{text-align:right;}
     <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
+    ${legalExportNote}
     ${termsInfo}
     <div class="flex-grow"></div>
     <div class="footer">
@@ -3272,25 +3308,78 @@ async function shareOnWhatsApp(){
   if(!isPro()){showUpgradeModal('WhatsApp sharing');return;}
   if(!curInvId){toast('No invoice selected','err');return;}
   const inv=db.income.find(i=>i.id===curInvId);if(!inv)return;
-  const html=buildInvoiceHTML(inv);
   const num=inv.invNo||`INV-${inv.id.slice(-6).toUpperCase()}`;
-  const filename=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}.html`;
-  const blob=new Blob([html],{type:'text/html'});
-  // Try Web Share API (works on mobile browsers)
-  if(navigator.share){
-    try{
-      const file=new File([blob],filename,{type:'text/html'});
-      if(navigator.canShare&&navigator.canShare({files:[file]})){
-        await navigator.share({files:[file],title:`Invoice ${num}`,text:`Invoice ${num} from ${db.profile.studioName||db.profile.ownerName||'Studio'}`});
-        return;
-      }
-    }catch(e){if(e.name!=='AbortError')console.log(e);}
+  const _d=inv.date?new Date(inv.date):new Date();
+  const _ms=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const _fn=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}_${String(_d.getDate()).padStart(2,'0')}${_ms[_d.getMonth()]}${_d.getFullYear()}`;
+  const filename=_fn+'.pdf';
+  toast('Generating PDF…');
+  try{
+    // Load html2canvas dynamically if not already present
+    if(!window.html2canvas){
+      await new Promise((res,rej)=>{
+        const s=document.createElement('script');
+        s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        s.onload=res;s.onerror=rej;document.head.appendChild(s);
+      });
+    }
+    const html=buildInvoiceHTML(inv);
+    // Parse invoice HTML and render in an off-screen div
+    const parser=new DOMParser();
+    const doc=parser.parseFromString(html,'text/html');
+    const styles=Array.from(doc.querySelectorAll('style')).map(s=>s.outerHTML).join('');
+    const wrap=document.createElement('div');
+    wrap.style.cssText='position:fixed;left:-9999px;top:0;width:794px;background:#fff;z-index:-9999;overflow:visible;';
+    wrap.innerHTML=styles+doc.body.innerHTML;
+    document.body.appendChild(wrap);
+    await new Promise(r=>setTimeout(r,400));
+    const canvas=await html2canvas(wrap,{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff'});
+    document.body.removeChild(wrap);
+    // Build PDF using jsPDF
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const pageW=210,pageH=297;
+    const imgW=pageW;
+    const imgH=(canvas.height/canvas.width)*imgW;
+    let srcY=0,first=true;
+    const sliceH=Math.round((pageH/imgW)*canvas.width);
+    while(srcY<canvas.height){
+      if(!first)pdf.addPage();first=false;
+      const h=Math.min(sliceH,canvas.height-srcY);
+      const sliceCanvas=document.createElement('canvas');
+      sliceCanvas.width=canvas.width;sliceCanvas.height=h;
+      sliceCanvas.getContext('2d').drawImage(canvas,0,srcY,canvas.width,h,0,0,canvas.width,h);
+      const imgData=sliceCanvas.toDataURL('image/jpeg',0.92);
+      const renderH=(h/canvas.width)*imgW;
+      pdf.addImage(imgData,'JPEG',0,0,imgW,renderH);
+      srcY+=sliceH;
+    }
+    const pdfBlob=pdf.output('blob');
+    // Try Web Share API with PDF (works on Android/iOS browsers)
+    if(navigator.share){
+      try{
+        const file=new File([pdfBlob],filename,{type:'application/pdf'});
+        if(navigator.canShare&&navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],title:`Invoice ${num}`,text:`Invoice ${num} from ${db.profile.studioName||db.profile.ownerName||'Studio'}`});
+          return;
+        }
+      }catch(e){if(e.name!=='AbortError')console.log(e);}
+    }
+    // Desktop fallback: download PDF + open WhatsApp Web
+    const url=URL.createObjectURL(pdfBlob);
+    const a=document.createElement('a');a.href=url;a.download=filename;a.click();
+    setTimeout(()=>{URL.revokeObjectURL(url);window.open('https://web.whatsapp.com','_blank');},600);
+    toast('PDF downloaded — attach it in the WhatsApp tab ✓');
+  }catch(err){
+    console.error('PDF share error:',err);
+    // Graceful fallback: share HTML file
+    const html=buildInvoiceHTML(inv);
+    const blob=new Blob([html],{type:'text/html'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=_fn+'.html';a.click();
+    setTimeout(()=>{URL.revokeObjectURL(url);window.open('https://web.whatsapp.com','_blank');},600);
+    toast('Invoice downloaded — attach it in the WhatsApp tab ✓');
   }
-  // Desktop fallback: download the HTML file + open WhatsApp Web
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=filename;a.click();
-  setTimeout(()=>{URL.revokeObjectURL(url);window.open('https://web.whatsapp.com','_blank');},600);
-  toast('Invoice downloaded — attach it in the WhatsApp tab ✓');
 }
 
 function emailInvoice(){
