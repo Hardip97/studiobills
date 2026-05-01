@@ -2871,7 +2871,12 @@ function buildItemsRows(items,cur,invType,style){
     const amt=qty*(+i.rate||0);
     // Build subtitle from relevant extra fields
     let sub='';
-    if(type==='video'){sub=[i.dimension,i.duration].filter(Boolean).join(' · ');}
+    if(type==='video'){
+      const parts=[];
+      if(i.dimension)parts.push('Dimension: '+i.dimension);
+      if(i.duration)parts.push('Duration: '+i.duration);
+      sub=parts.join('  ·  ');
+    }
     else if(type==='general'){sub=i.unit||'';}
     const name=esc(i.name||'Services');
     const subHtml=sub?`<div class="td-sub">${esc(sub)}</div>`:'';
