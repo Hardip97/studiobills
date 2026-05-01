@@ -1195,7 +1195,7 @@ let supa=null,currentUser=null,authMode='signin';
 
 const DB='studiobills_v4';
 const DEFAULT_PROFILE={currency:'₹'};// Empty — only currency is universal default
-const OWNER_PROFILE={studioName:"Hardip's Freelance Space",ownerName:'Hardipsinh Zala',email:'zalahardip70@gmail.com',phone:'+91 88660 35771',address:'Rajkot, Gujarat, India',currency:'₹',role:'AI Filmmaker · VFX Artist · Brand Filmmaker',upi:'zalahardip70@okaxis',bankName:'Punjab National Bank',accountNo:'0400001500010175',ifsc:'PUNB0040000'};
+const OWNER_PROFILE={studioName:"Hardip's Freelance Space",ownerName:'Hardipsinh Zala',email:'zalahardip70@gmail.com',phone:'+91 88660 35771',address:'Rajkot, Gujarat, India',currency:'₹',role:'Visual Storyteller · VFX Artist',upi:'zalahardip70@okaxis',bankName:'Punjab National Bank',accountNo:'0400001500010175',ifsc:'PUNB0040000'};
 const DEFAULT_CATS={inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']};
 const FX_CURRENCIES={
   INR:{symbol:'₹',flag:'🇮🇳',name:'Indian Rupee'},
@@ -3030,6 +3030,15 @@ function buildInvoiceHTML(inv){
   if(tpl==='classic'){
     const itemRowsClassic=buildItemsRows(t.items,cur,invType,'classic');
     const totalsClassic=buildTotalsHTML(t,cur,'classic');
+    // Build "From" block — identity only, no email/phone
+    const fromLines=[];
+    if(p.ownerName)fromLines.push(`<div style="font-size:14px;font-weight:700;color:#111;margin-bottom:4px;">${esc(p.ownerName)}</div>`);
+    const fromMeta=[];
+    if(p.role)fromMeta.push(esc(p.role));
+    if(p.address)fromMeta.push(esc(p.address).replace(/\n/g,', '));
+    if(p.gstin)fromMeta.push(`GSTIN: ${esc(p.gstin)}`);
+    if(p.pan)fromMeta.push(`PAN: ${esc(p.pan)}`);
+    const fromHTML=fromLines.join('')+(fromMeta.length?`<div style="font-size:12px;color:#666;line-height:1.85;">${fromMeta.join('<br>')}</div>`:'');
     return`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${title}</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html,body{background:#E5E0D8;font-family:'Bricolage Grotesque',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
@@ -3037,20 +3046,9 @@ function buildInvoiceHTML(inv){
 .save-btn:hover{background:#333;}
 .page{width:794px;min-height:1123px;margin:0 auto 40px;background:#F2EDE3;padding:56px 60px;display:flex;flex-direction:column;}
 .hr{border:none;border-top:1px solid #C5BFB2;flex-shrink:0;}
-.header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:30px;}
-.invoice-title{font-size:96px;font-weight:800;color:#111;letter-spacing:-0.03em;line-height:1;}
-.header-meta{text-align:right;padding-bottom:8px;}
-.header-meta .date{font-size:14px;color:#555;margin-bottom:5px;}
-.header-meta .inv-no{font-size:14.5px;font-weight:700;color:#111;margin-bottom:5px;}
-.header-meta .due{font-size:14px;color:#555;}
-.billed-section{padding:26px 0;}
-.billed-label{font-size:14.5px;font-weight:700;color:#111;margin-bottom:9px;}
-.billed-detail{font-size:14.5px;color:#444;line-height:1.75;}
-.mid-spacer{height:32px;}
-.table-wrap{}
+.r{text-align:right;}
 .table-head{display:grid;grid-template-columns:1fr 110px;padding:11px 0;border-top:1.5px solid #111;border-bottom:1px solid #C5BFB2;}
 .th{font-size:14px;font-weight:700;color:#111;}
-.r{text-align:right;}
 .table-row{display:grid;grid-template-columns:1fr 110px;padding:16px 0;border-bottom:1px solid #C5BFB2;}
 .td{font-size:14px;color:#444;}
 .td-name{font-size:14px;font-weight:500;color:#111;margin-bottom:3px;}
@@ -3064,23 +3062,49 @@ function buildInvoiceHTML(inv){
 .total-final .lbl{font-size:15px;font-weight:700;color:#111;}
 .total-final .val{font-size:15px;font-weight:700;color:#111;}
 .flex-grow{flex:1;}
-.footer{border-top:1px solid #C5BFB2;padding:26px 0;border-bottom:1px solid #C5BFB2;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;}
-.footer-heading{font-size:14.5px;font-weight:700;color:#111;margin-bottom:11px;}
-.footer-detail{font-size:13px;color:#444;line-height:1.9;}
-.inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;}
-.inv-qr-label{font-size:9px;color:#888;}
+.section-label{font-size:10px;font-weight:700;color:#888;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+.inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.inv-qr-label{font-size:9px;color:#999;letter-spacing:.04em;text-transform:uppercase;}
 @page{margin:0;size:A4 portrait;}
 @media print{html,body{background:#F2EDE3;}.page{margin:0;}.save-btn{display:none;}}
 </style></head><body>
 <button class="save-btn" onclick="window.print()">⬇ Save as PDF</button>
 <div class="page">
-  <div class="header">
-    <div><div style="font-size:12px;font-weight:600;color:#888;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">${esc(p.studioName||p.ownerName||'')}</div><div class="invoice-title">Invoice</div></div>
-    <div class="header-meta"><div class="date">${fmtLong(inv.date)}</div><div class="inv-no">Invoice No. ${num}</div><div class="due">Due: ${inv.due?fmtLong(inv.due):'On receipt'}</div>${creditBadge}${draftBadge}</div></div>
+
+  <!-- TOP ROW: Studio name left · Invoice No right -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+    <div style="font-size:11px;font-weight:700;color:#888;letter-spacing:.1em;text-transform:uppercase;">${esc(p.studioName||p.ownerName||'')}</div>
+    <div style="font-size:16px;font-weight:800;color:#111;">${num}${creditBadge}${draftBadge}</div>
+  </div>
+
+  <!-- Invoice title left · Date & Due right -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;">
+    <div style="font-size:96px;font-weight:800;color:#111;letter-spacing:-0.03em;line-height:1;">Invoice</div>
+    <div style="text-align:right;font-size:13px;color:#666;line-height:2;padding-bottom:8px;">
+      <div><span style="color:#999;">Date</span>&nbsp;&nbsp;<strong style="color:#111;">${fmtLong(inv.date)}</strong></div>
+      <div><span style="color:#999;">Due</span>&nbsp;&nbsp;&nbsp;<strong style="color:#111;">${inv.due?fmtLong(inv.due):'On receipt'}</strong></div>
+    </div>
+  </div>
+
   <div class="hr"></div>
-  <div class="billed-section"><div class="billed-label">Billed to:</div><div class="billed-detail">${clientInfo}</div></div>
-  <div class="hr"></div><div class="mid-spacer"></div>
-  <div class="table-wrap">
+
+  <!-- Billed to left · From right -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;">
+    <div>
+      <div class="section-label">Billed to</div>
+      <div style="font-size:15px;font-weight:700;color:#111;">${clientInfo}</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="section-label">From</div>
+      ${fromHTML}
+    </div>
+  </div>
+
+  <div class="hr"></div>
+  <div style="height:28px;"></div>
+
+  <!-- Line items -->
+  <div>
     <div class="table-head"><div class="th">Description</div><div class="th r">Amount</div></div>
     ${itemRowsClassic}
   </div>
@@ -3089,11 +3113,16 @@ function buildInvoiceHTML(inv){
   ${legalExportNote}
   <div class="flex-grow"></div>
   ${termsInfo}
-  <div class="footer">
-    <div style="flex:1"><div class="footer-heading">Payment Information</div><div class="footer-detail">${payHTML}</div></div>
-    <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">${qrHTML}</div>
-    <div style="flex:1;text-align:right;"><div class="footer-heading">${esc(p.ownerName||p.studioName||'Studio')}</div><div class="footer-detail">${ownerHTML}</div></div>
+
+  <!-- Footer: shaded box, payment left · QR right -->
+  <div style="margin-top:24px;background:#EAE5DA;border-radius:8px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px;">
+    <div style="flex:1;">
+      <div class="section-label">Payment Information</div>
+      <div style="font-size:12.5px;color:#555;line-height:2;">${payHTML}</div>
+    </div>
+    ${qrHTML}
   </div>
+
   ${watermarkFooterHTML}
 </div>${watermarkHTML}</body></html>`;}
 
