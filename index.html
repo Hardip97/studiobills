@@ -3007,6 +3007,13 @@ function buildInvoiceHTML(inv){
   if(clientCountry)clientInfo+=`<br><span style="font-size:12px;color:#777;">${esc(clientCountry)}</span>`;
   if(clientGstin)clientInfo+=`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`;
   if(clientVatid)clientInfo+=`<br><span style="font-size:12px;color:#888;">VAT ID: ${esc(clientVatid)}</span>`;
+  // Classic template: short address variant (max 2 address segments to prevent column collision)
+  const clientAddrShort=clientAddr?clientAddr.replace(/\n/g,', ').split(',').slice(0,2).join(',').trim():'';
+  let clientInfoClassic=`${esc(inv.client)}`;
+  if(clientAddrShort)clientInfoClassic+=`<br><span style="font-size:12px;color:#777;">${esc(clientAddrShort)}</span>`;
+  if(clientCountry)clientInfoClassic+=`<br><span style="font-size:12px;color:#777;">${esc(clientCountry)}</span>`;
+  if(clientGstin)clientInfoClassic+=`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`;
+  if(clientVatid)clientInfoClassic+=`<br><span style="font-size:12px;color:#888;">VAT ID: ${esc(clientVatid)}</span>`;
   const hsnInfo=inv.hsn?`<div style="font-size:11px;color:#999;margin-top:4px;">HSN/SAC: ${esc(inv.hsn)}</div>`:'';
   // Legal export note for international invoices
   const legalExportNote=isIntl?`<div style="margin-top:14px;font-size:11px;color:#999;line-height:1.6;padding:10px 12px;background:#F9F9F9;border-radius:6px;border:1px solid #E8E8E8;">Export of Services — This invoice is issued in accordance with Indian GST regulations. Supply made under LUT (Letter of Undertaking) — No GST applicable on export of services (GST Act 2017, Section 16). Reverse charge may apply as per buyer's jurisdiction.</div>`:'';
@@ -3030,12 +3037,14 @@ function buildInvoiceHTML(inv){
   if(tpl==='classic'){
     const itemRowsClassic=buildItemsRows(t.items,cur,invType,'classic');
     const totalsClassic=buildTotalsHTML(t,cur,'classic');
-    // Build "From" block — identity only, no email/phone
+    // Build "From" block — name, role, address (max 1 line), email, phone, tax IDs
     const fromLines=[];
     if(p.ownerName)fromLines.push(`<div style="font-size:14px;font-weight:700;color:#111;margin-bottom:4px;">${esc(p.ownerName)}</div>`);
     const fromMeta=[];
     if(p.role)fromMeta.push(esc(p.role));
-    if(p.address)fromMeta.push(esc(p.address).replace(/\n/g,', '));
+    if(p.address){const addrShort=esc(p.address).replace(/\n/g,', ').split(',').slice(0,2).join(',').trim();fromMeta.push(addrShort);}
+    if(p.email)fromMeta.push(esc(p.email));
+    if(p.phone)fromMeta.push(esc(p.phone));
     if(p.gstin)fromMeta.push(`GSTIN: ${esc(p.gstin)}`);
     if(p.pan)fromMeta.push(`PAN: ${esc(p.pan)}`);
     const fromHTML=fromLines.join('')+(fromMeta.length?`<div style="font-size:12px;color:#666;line-height:1.85;">${fromMeta.join('<br>')}</div>`:'');
@@ -3071,9 +3080,8 @@ function buildInvoiceHTML(inv){
 <button class="save-btn" onclick="window.print()">⬇ Save as PDF</button>
 <div class="page">
 
-  <!-- TOP ROW: Studio name left · Invoice No right -->
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
-    <div style="font-size:11px;font-weight:700;color:#888;letter-spacing:.1em;text-transform:uppercase;">${esc(p.studioName||p.ownerName||'')}</div>
+  <!-- TOP ROW: Invoice No right only (no studio name — shown in From section) -->
+  <div style="display:flex;justify-content:flex-end;align-items:flex-start;margin-bottom:4px;">
     <div style="font-size:16px;font-weight:800;color:#111;">${num}${creditBadge}${draftBadge}</div>
   </div>
 
@@ -3089,12 +3097,12 @@ function buildInvoiceHTML(inv){
   <div class="hr"></div>
 
   <!-- Billed to left · From right -->
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;">
-    <div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;gap:24px;">
+    <div style="max-width:45%;word-break:break-word;">
       <div class="section-label">Billed to</div>
-      <div style="font-size:15px;font-weight:700;color:#111;">${clientInfo}</div>
+      <div style="font-size:15px;font-weight:700;color:#111;">${clientInfoClassic}</div>
     </div>
-    <div style="text-align:right;">
+    <div style="text-align:right;max-width:45%;word-break:break-word;">
       <div class="section-label">From</div>
       ${fromHTML}
     </div>
