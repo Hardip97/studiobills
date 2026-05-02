@@ -995,6 +995,14 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div class="fg"><label>Client GSTIN</label><input id="ai-cgstin" placeholder="Client's GST number"></div>
       <div class="fg"><label>Client VAT ID <span style="font-weight:300;">(EU / international)</span></label><input id="ai-vatid" placeholder="e.g. DE319338232"></div>
     </div>
+    <div class="fg" style="margin-top:12px;">
+      <label>Payment QR — Custom UPI <span style="font-weight:300;">(leave blank to use profile UPI)</span></label>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input id="ai-qrupi" placeholder="e.g. yourname@upi" style="flex:1;">
+        <label class="toggle-wrap" style="flex-shrink:0;"><input type="checkbox" id="ai-showqr" checked><span class="toggle-slider"></span></label>
+        <span style="font-size:.8rem;color:var(--muted);white-space:nowrap;">Show QR</span>
+      </div>
+    </div>
     <div style="margin-top:12px;display:flex;gap:20px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-isdraft" onchange="document.getElementById('ai-draft-badge').style.display=this.checked?'inline-flex':'none'"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Save as Draft</span></div>
       <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-iscredit"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Issue as Credit Note</span></div>
@@ -1076,6 +1084,14 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div class="fg"><label>PO / Reference No.</label><input id="ei-ponum" placeholder="e.g. PO-2024-001"></div>
       <div class="fg"><label>Client GSTIN</label><input id="ei-cgstin" placeholder="Client's GST number"></div>
       <div class="fg"><label>Client VAT ID <span style="font-weight:300;">(EU / international)</span></label><input id="ei-vatid" placeholder="e.g. DE319338232"></div>
+    </div>
+    <div class="fg" style="margin-top:12px;">
+      <label>Payment QR — Custom UPI <span style="font-weight:300;">(leave blank to use profile UPI)</span></label>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input id="ei-qrupi" placeholder="e.g. yourname@upi" style="flex:1;">
+        <label class="toggle-wrap" style="flex-shrink:0;"><input type="checkbox" id="ei-showqr" checked><span class="toggle-slider"></span></label>
+        <span style="font-size:.8rem;color:var(--muted);white-space:nowrap;">Show QR</span>
+      </div>
     </div>
     <div style="margin-top:12px;display:flex;gap:20px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ei-isdraft" onchange="document.getElementById('ei-draft-badge').style.display=this.checked?'inline-flex':'none'"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Draft</span></div>
@@ -1982,6 +1998,9 @@ function resetAddInc(){
   const cgstin=document.getElementById('ai-cgstin');if(cgstin)cgstin.value='';
   const vatid=document.getElementById('ai-vatid');if(vatid)vatid.value='';
   const terms=document.getElementById('ai-terms');if(terms)terms.value='';
+  const rcEl=document.getElementById('ai-reversecharge');if(rcEl)rcEl.checked=false;
+  const qrupi=document.getElementById('ai-qrupi');if(qrupi)qrupi.value='';
+  const showqr=document.getElementById('ai-showqr');if(showqr)showqr.checked=true;
 }
 
 // ─── EXPENSE CRUD ───
@@ -2724,6 +2743,8 @@ function readInvForm(pfx){
     isDraft:document.getElementById(pfx+'-isdraft')?.checked||false,
     isCreditNote:document.getElementById(pfx+'-iscredit')?.checked||false,
     reverseCharge:document.getElementById(pfx+'-reversecharge')?.checked||false,
+    qrUpi:document.getElementById(pfx+'-qrupi')?.value.trim()||'',
+    showQr:document.getElementById(pfx+'-showqr')?.checked!==false,
     currency:document.getElementById(pfx+'-currency-code')?.value||'INR',
     exchangeRate:FX_CURRENCIES[document.getElementById(pfx+'-currency-code')?.value||'INR']?((document.getElementById(pfx+'-currency-code')?.value||'INR')==='INR'?1:(db.fxRates?.rates?.[document.getElementById(pfx+'-currency-code')?.value]||1)):1,
     recurring:document.getElementById(pfx+'-isrecurring')?.checked||false,
@@ -2754,6 +2775,8 @@ function populateInvForm(pfx,inv){
   if(document.getElementById(pfx+'-isdraft'))document.getElementById(pfx+'-isdraft').checked=inv.isDraft||false;
   if(document.getElementById(pfx+'-iscredit'))document.getElementById(pfx+'-iscredit').checked=inv.isCreditNote||false;
   if(document.getElementById(pfx+'-reversecharge'))document.getElementById(pfx+'-reversecharge').checked=inv.reverseCharge||false;
+  if(document.getElementById(pfx+'-qrupi'))document.getElementById(pfx+'-qrupi').value=inv.qrUpi||'';
+  if(document.getElementById(pfx+'-showqr'))document.getElementById(pfx+'-showqr').checked=inv.showQr!==false;
   const invCurrCode=inv.currency&&FX_CURRENCIES[inv.currency]?inv.currency:'INR';
   onCurrencySelect(pfx,invCurrCode);
   if(document.getElementById(pfx+'-isrecurring'))document.getElementById(pfx+'-isrecurring').checked=inv.recurring||false;
@@ -3053,7 +3076,8 @@ function buildInvoiceHTML(inv){
   const hsnInfo=inv.hsn?`<div style="font-size:11px;color:#999;margin-top:4px;">HSN/SAC: ${esc(inv.hsn)}</div>`:'';
   const legalExportNote='';
   const termsInfo='';
-    const qrHTML=buildQR(p.upi,p.ownerName||p.studioName,t.net||t.gross,num);
+    const qrUpi=inv.qrUpi||p.upi;
+  const qrHTML=(inv.showQr!==false&&qrUpi)?buildQR(qrUpi,p.ownerName||p.studioName,t.net||t.gross,num):'';
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
   const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">StudioBills Free</div>`:'';
