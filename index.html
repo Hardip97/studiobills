@@ -3051,32 +3051,9 @@ function buildInvoiceHTML(inv){
   if(clientGstin)clientInfoClassic+=`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`;
   if(clientVatid)clientInfoClassic+=`<br><span style="font-size:12px;color:#888;">VAT ID: ${esc(clientVatid)}</span>`;
   const hsnInfo=inv.hsn?`<div style="font-size:11px;color:#999;margin-top:4px;">HSN/SAC: ${esc(inv.hsn)}</div>`:'';
-  // ── Smart legal notes ──
-  const legalLines=[];
-  // 1. Export of services (international)
-  if(isIntl)legalLines.push('Export of Services — Supply made under LUT (Letter of Undertaking). No GST applicable on export of services under Section 16, IGST Act 2017. Reverse charge may apply as per buyer\'s jurisdiction.');
-  // 2. GST compliance (domestic with GSTIN)
-  if(p.gstin&&!isIntl)legalLines.push(`This is a valid GST Tax Invoice under the CGST/SGST/IGST Act 2017. Subject to ${p.address?p.address.split(',').slice(-1)[0].trim()+' jurisdiction.':'jurisdiction of the supplier\'s registered place of business.'}`);
-  // 3. Reverse charge
-  if(inv.reverseCharge)legalLines.push('Reverse Charge: Tax is payable on reverse charge basis by the recipient.');
-  else if(p.gstin&&!isIntl)legalLines.push('Reverse Charge: Not applicable.');
-  // 4. TDS note
-  if(t.tds>0)legalLines.push(`Please deduct TDS of ${fmt(t.tds)} (${inv.tdsRate||10}%) under applicable section and deposit with the government. Kindly share Form 16A / TDS certificate upon filing.`);
-  // 5. Payment due
-  const cp2=(db.clients||{})[inv.client]||{};
-  const payDays=parseInt(cp2.paymentTerms||'0',10)||0;
-  if(payDays>0)legalLines.push(`Payment due within ${payDays} days of invoice date. Late payments attract interest at 18% p.a. on the outstanding amount.`);
-  else if(inv.due)legalLines.push(`Payment due by ${fmtLong(inv.due)}. Late payments attract interest at 18% p.a. on the outstanding amount.`);
-  // 6. Thank you
-  legalLines.push('Thank you for your business! We look forward to working with you again.');
-  const legalExportNote='';// merged into legalNotesBlock below
-  const legalNotesBlock=`<div style="margin-top:18px;border:1px dashed #D0CAC0;border-radius:6px;padding:14px 16px;">
-    ${inv.terms?`<div style="font-size:12px;color:#444;line-height:1.8;margin-bottom:${legalLines.length?'10px':'0'};">${esc(inv.terms).replace(/\n/g,'<br>')}</div>`:''}
-    ${legalLines.length?`<ul style="margin:0;padding-left:16px;">${legalLines.map(l=>`<li style="font-size:11px;color:#888;line-height:1.7;margin-bottom:3px;">${l}</li>`).join('')}</ul>`:''}
-    ${!inv.terms&&!legalLines.length?'<div style="font-size:11px;color:#C0BAB0;font-style:italic;">Notes / Terms</div>':''}
-  </div>`;
-  const termsInfo=legalNotesBlock;
-  const qrHTML=buildQR(p.upi,p.ownerName||p.studioName,t.net||t.gross,num);
+  const legalExportNote='';
+  const termsInfo='';
+    const qrHTML=buildQR(p.upi,p.ownerName||p.studioName,t.net||t.gross,num);
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
   const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">StudioBills Free</div>`:'';
