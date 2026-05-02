@@ -1405,6 +1405,7 @@ async function loadUserData(user){
 function initAppUI(){
   fillCatSelects();fillClientSuggest();
   setTimeout(checkRecurringInvoices, 300);
+  setTimeout(checkRecurringExpenses, 400);
   fetchFxRates();
   document.getElementById('ai-date').value=today();
   document.getElementById('ae-date').value=today();
@@ -2305,6 +2306,30 @@ function checkRecurringInvoices(){
   if(generated>0){save();toast(`${generated} recurring invoice${generated>1?'s':''} drafted for ${curMon.replace('-','/')} ✓`);}
 }
 
+function checkRecurringExpenses(){
+  const curMon=today().slice(0,7);
+  let generated=0;
+  const recurringBase=db.expenses.filter(e=>e.recurring);
+  // Group by title+cat — find latest per group
+  const groups={};
+  recurringBase.forEach(e=>{
+    const key=`${e.title||''}|${e.cat||''}`;
+    if(!groups[key]||e.date>groups[key].date)groups[key]=e;
+  });
+  Object.values(groups).forEach(base=>{
+    const baseMonth=base.date?.slice(0,7);
+    if(!baseMonth||baseMonth>=curMon)return;// already current month or future
+    // Check if a copy already exists this month
+    const alreadyExists=db.expenses.some(e=>e.recurringParent===base.id&&e.date?.slice(0,7)===curMon);
+    if(alreadyExists)return;
+    const newDate=curMon+'-'+base.date.slice(8);
+    const copy={...base,id:uid(),date:newDate,recurringParent:base.id};
+    db.expenses.push(copy);
+    generated++;
+  });
+  if(generated>0){save();toast(`${generated} recurring expense${generated>1?'s':''} added for ${curMon.replace('-','/')} ✓`);}
+}
+
 // ─── CLIENTS ───
 function renderClients(){
   const q=(document.getElementById('clientSearch')?.value||'').toLowerCase();
@@ -3016,7 +3041,7 @@ function buildInvoiceHTML(inv){
   const hsnInfo=inv.hsn?`<div style="font-size:11px;color:#999;margin-top:4px;">HSN/SAC: ${esc(inv.hsn)}</div>`:'';
   // Legal export note for international invoices
   const legalExportNote=isIntl?`<div style="margin-top:14px;font-size:11px;color:#999;line-height:1.6;padding:10px 12px;background:#F9F9F9;border-radius:6px;border:1px solid #E8E8E8;">Export of Services — This invoice is issued in accordance with Indian GST regulations. Supply made under LUT (Letter of Undertaking) — No GST applicable on export of services (GST Act 2017, Section 16). Reverse charge may apply as per buyer's jurisdiction.</div>`:'';
-  const termsInfo=inv.terms?`<div style="margin-top:18px;font-size:12px;color:#888;line-height:1.6;border-top:1px solid #E0E0E0;padding-top:14px;">${esc(inv.terms).replace(/\n/g,'<br>')}</div>`:'';
+  const termsInfo=`<div style="margin-top:18px;border:1px dashed #D0CAC0;border-radius:6px;padding:14px 16px;min-height:44px;">${inv.terms?`<div style="font-size:12px;color:#555;line-height:1.7;">${esc(inv.terms).replace(/\n/g,'<br>')}</div>`:'<div style="font-size:11px;color:#C0BAB0;font-style:italic;">Notes / Terms</div>'}</div>`;
   const qrHTML=buildQR(p.upi,p.ownerName||p.studioName,t.net||t.gross,num);
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
