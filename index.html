@@ -329,6 +329,7 @@ tbody tr.row-overdue{background:#FFF7F8;}
 
 /* ── INVOICE FORM TABS ── */
 .inv-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto;}
+.inv-tab-body{height:320px;overflow-y:auto;padding-right:4px;}
 .inv-tab{background:none;border:none;padding:8px 15px;font-size:.78rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;white-space:nowrap;transition:all .15s;}
 .inv-tab.active{color:var(--text);border-bottom-color:var(--red);font-weight:600;}
 .inv-tab:hover:not(.active){color:var(--text);}
@@ -918,6 +919,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <button class="inv-tab" data-invtab="taxes" onclick="showInvTab('taxes','ai')">Taxes & Discounts</button>
     <button class="inv-tab" data-invtab="more" onclick="showInvTab('more','ai')">More</button>
   </div>
+  <div class="inv-tab-body">
   <!-- DETAILS TAB -->
   <div id="ai-tab-details">
     <div class="form-grid">
@@ -1007,6 +1009,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-reversecharge"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Reverse Charge Applicable</span></div>
     </div>
   </div>
+  </div><!-- end inv-tab-body -->
   <!-- RECEIVED + TOTALS -->
   <div style="display:flex;align-items:center;gap:12px;margin-top:14px;padding:10px 14px;background:var(--bg);border-radius:10px 10px 0 0;border-bottom:1px solid var(--border);">
     <label id="ai-received-label" style="font-size:.78rem;font-weight:600;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.05em;">Received (₹)</label>
@@ -1031,6 +1034,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <button class="inv-tab" data-invtab="taxes" onclick="showInvTab('taxes','ei')">Taxes & Discounts</button>
     <button class="inv-tab" data-invtab="more" onclick="showInvTab('more','ei')">More</button>
   </div>
+  <div class="inv-tab-body">
   <div id="ei-tab-details">
     <div class="form-grid">
       <div class="fg"><label>Invoice No.</label><input id="ei-invno" style="font-weight:600;"></div>
@@ -1098,6 +1102,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ei-reversecharge"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Reverse Charge Applicable</span></div>
     </div>
   </div>
+  </div><!-- end inv-tab-body -->
   <!-- RECEIVED + TOTALS -->
   <div style="display:flex;align-items:center;gap:12px;margin-top:14px;padding:10px 14px;background:var(--bg);border-radius:10px 10px 0 0;border-bottom:1px solid var(--border);">
     <label id="ei-received-label" style="font-size:.78rem;font-weight:600;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.05em;">Received (₹)</label>
