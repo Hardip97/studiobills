@@ -1264,7 +1264,10 @@ function save(){
   localStorage.setItem(key,JSON.stringify(db));
   if(currentUser&&supa){
     supa.from('user_data').upsert({user_id:currentUser.id,data:db,updated_at:new Date().toISOString()})
-      .then(()=>{}).catch(()=>{});
+      .then(r=>{
+        if(r.error){console.warn('Supabase sync failed:',r.error.message);toast('⚠️ Cloud sync failed — data saved locally only','err');}
+      })
+      .catch(e=>{console.warn('Supabase save error:',e);toast('⚠️ Cloud sync failed — data saved locally only','err');});
   }
 }
 
@@ -1450,17 +1453,27 @@ async function refreshPlanFromSupabase(){
     const{data}=await supa.from('user_data').select('data').eq('user_id',currentUser.id).single();
     if(!data?.data)return;
     const remote=data.data;
-    // Only update if remote data is newer and plan changed
-    if((remote._ts||0)>(db._ts||0)||(remote.plan!==db.plan)){
+    const remoteTs=remote._ts||0;
+    const localTs=db._ts||0;
+    // SAFE: only sync plan field if remote is newer — never overwrite local income/expense data
+    if(remote.plan!==db.plan){
       const wasFreePlan=!isPro();
-      db=remote;
-      applyMigrations();
+      db.plan=remote.plan; // only update plan, not the whole db
       const key=DB+'_'+currentUser.id;
       localStorage.setItem(key,JSON.stringify(db));
       if(wasFreePlan&&isPro()){
         toast('🎉 Pro plan activated! All features unlocked.');
         updatePlanStatus();
       }
+    }
+    // Only do a full sync if remote is strictly newer than local (e.g. edited on another device)
+    if(remoteTs>localTs){
+      const wasFreePlan=!isPro();
+      db=remote;
+      applyMigrations();
+      const key=DB+'_'+currentUser.id;
+      localStorage.setItem(key,JSON.stringify(db));
+      initAppUI();
     }
   }catch(e){}
 }
