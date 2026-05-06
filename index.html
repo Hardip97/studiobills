@@ -907,31 +907,42 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 <!-- ════════════════════ MODALS ════════════════════ -->
 <div class="modal-bg" id="addIncomeModal">
-<div class="modal" style="max-width:680px;min-height:580px;display:flex;flex-direction:column;">
+<div class="modal" style="max-width:680px;min-height:600px;display:flex;flex-direction:column;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
     <div><h2>New Invoice</h2><span id="ai-draft-badge" class="badge b-draft" style="display:none;margin-left:8px;">Draft</span></div>
     <button class="ibtn" onclick="closeModal('addIncomeModal')">✕</button>
   </div>
-  <!-- TABS -->
+  <!-- 3-TAB STRUCTURE -->
   <div class="inv-tabs">
-    <button class="inv-tab active" data-invtab="details" onclick="showInvTab('details','ai')">Details</button>
-    <button class="inv-tab" data-invtab="items" onclick="showInvTab('items','ai')">Line Items</button>
-    <button class="inv-tab" data-invtab="taxes" onclick="showInvTab('taxes','ai')">Taxes & Discounts</button>
-    <button class="inv-tab" data-invtab="more" onclick="showInvTab('more','ai')">More</button>
+    <button class="inv-tab active" data-invtab="invoice" onclick="showInvTab('invoice','ai')">📋 Invoice</button>
+    <button class="inv-tab" data-invtab="payment" onclick="showInvTab('payment','ai')">💳 Payment</button>
+    <button class="inv-tab" data-invtab="options" onclick="showInvTab('options','ai')">⚙️ Options</button>
   </div>
   <div class="inv-tab-body">
-  <!-- DETAILS TAB -->
-  <div id="ai-tab-details">
-    <div class="form-grid">
+
+  <!-- TAB 1: INVOICE — client + dates + line items -->
+  <div id="ai-tab-invoice">
+    <div class="form-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
       <div class="fg"><label>Invoice No.</label><input id="ai-invno" placeholder="e.g. INV-003" style="font-weight:600;"></div>
       <div class="fg"><label>Client *</label><input id="ai-client" list="clientSuggest" placeholder="Client / company name" onchange="onClientSelect('ai',this.value)" oninput="onClientSelect('ai',this.value)"></div>
       <div class="fg"><label>Invoice Date</label><input id="ai-date" type="date"></div>
       <div class="fg"><label>Due Date</label><input id="ai-due" type="date"></div>
+    </div>
+    <div class="inv-type-bar" id="ai-type-bar"></div>
+    <div class="li-wrap"><table class="li-tbl" id="ai-li-tbl">
+      <thead id="ai-li-head"></thead>
+      <tbody id="ai-li-body"></tbody>
+    </table></div>
+    <button class="li-add-btn" onclick="addInvItem('ai')">+ Add Line Item</button>
+  </div>
+
+  <!-- TAB 2: PAYMENT — status, currency, notes -->
+  <div id="ai-tab-payment" style="display:none;">
+    <div class="form-grid" style="margin-bottom:14px;">
       <div class="fg"><label>Category</label><select id="ai-cat"><option value="">— select —</option></select></div>
       <div class="fg"><label>Status</label><select id="ai-status"><option value="pending">Pending</option><option value="partial">Partial</option><option value="received">Received</option></select></div>
     </div>
-    <!-- Currency Selector -->
-    <div style="margin-top:14px;margin-bottom:6px;">
+    <div style="margin-bottom:14px;">
       <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Currency</label>
       <div style="display:flex;gap:7px;flex-wrap:wrap;" id="ai-currency-bar">
         <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ai','INR')">🇮🇳 INR</button>
@@ -943,109 +954,119 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div id="ai-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:5px;min-height:16px;"></div>
     </div>
     <input type="hidden" id="ai-currency-code" value="INR">
-    <div class="fg" style="margin-top:12px;"><label>Notes / Terms</label><textarea id="ai-terms" rows="3" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
-    <div style="margin-top:14px;"><label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
-    <div class="tpl-grid" id="ai-tpl-grid">
+    <div class="fg"><label>Notes / Terms</label><textarea id="ai-terms" rows="3" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
+  </div>
+
+  <!-- TAB 3: OPTIONS — template, taxes, toggles -->
+  <div id="ai-tab-options" style="display:none;">
+    <div style="margin-bottom:16px;">
+      <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
+      <div class="tpl-grid" id="ai-tpl-grid">
       <div class="tpl-card sel" data-tpl="classic" onclick="selectTpl('classic','ai')"><div class="tpl-preview" style="background:#F2EDE3;padding:5px 7px;"><div style="font-size:11px;font-weight:800;color:#111;line-height:1;">Invoice</div><div style="height:1px;background:#C5BFB2;margin:4px 0;"></div><div style="font-size:6px;color:#555;margin-bottom:3px;">DESCRIPTION</div><div style="height:6px;background:#E0DAD0;border-radius:2px;"></div></div><div class="tpl-name">Classic</div></div>
       <div class="tpl-card" data-tpl="minimal" onclick="selectTpl('minimal','ai')"><div class="tpl-preview" style="background:#fff;padding:5px 7px;border-bottom:1px solid #eee;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="font-size:6px;font-weight:700;color:#999;letter-spacing:.1em;">INVOICE</div><div style="font-size:9px;font-weight:800;color:#111;">#001</div></div><div style="height:1px;background:#eee;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Minimal</div></div>
       <div class="tpl-card" data-tpl="modern" onclick="selectTpl('modern','ai')"><div class="tpl-preview" style="background:#fff;"><div style="background:#111;padding:6px 7px;"><div style="font-size:8px;font-weight:700;color:#fff;">INVOICE</div><div style="font-size:5px;color:#888;margin-top:2px;">Studio Name</div></div><div style="padding:5px 7px;"><div style="font-size:5px;color:#aaa;">BILLED TO</div><div style="height:5px;background:#f0f0f0;border-radius:1px;margin-top:3px;"></div></div></div><div class="tpl-name">Modern</div></div>
       <div class="tpl-card" data-tpl="elegant" onclick="selectTpl('elegant','ai')"><div class="tpl-preview" style="background:#fff;border-top:3px solid #111;padding:5px 7px;"><div style="font-size:7px;font-weight:400;color:#555;letter-spacing:.2em;text-transform:uppercase;">Invoice</div><div style="height:1px;background:#ddd;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Elegant</div></div>
-    </div></div>
-  </div>
-  <!-- ITEMS TAB -->
-  <div id="ai-tab-items" style="display:none;">
-    <div class="inv-type-bar" id="ai-type-bar"></div>
-    <div class="li-wrap"><table class="li-tbl" id="ai-li-tbl">
-      <thead id="ai-li-head"></thead>
-      <tbody id="ai-li-body"></tbody>
-    </table></div>
-    <button class="li-add-btn" onclick="addInvItem('ai')">+ Add Line Item</button>
-  </div>
-  <!-- TAXES TAB -->
-  <div id="ai-tab-taxes" style="display:none;">
-    <div class="tax-row">
-      <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ai-gst-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></label>
-      <div class="tax-label">GST</div>
-      <div class="tax-row-ctrl">
-        <select class="tax-select" id="ai-gst-type" onchange="updateInvTotals('ai')"><option value="cgst_sgst">CGST + SGST (Intra-state)</option><option value="igst">IGST (Inter-state)</option></select>
-        <select class="tax-select" id="ai-gst-rate" onchange="updateInvTotals('ai')"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select>
+    </div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Taxes &amp; Discounts</label>
+      <div class="tax-row">
+        <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ai-gst-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></label>
+        <div class="tax-label">GST</div>
+        <div class="tax-row-ctrl">
+          <select class="tax-select" id="ai-gst-type" onchange="updateInvTotals('ai')"><option value="cgst_sgst">CGST + SGST (Intra-state)</option><option value="igst">IGST (Inter-state)</option></select>
+          <select class="tax-select" id="ai-gst-rate" onchange="updateInvTotals('ai')"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select>
+        </div>
+      </div>
+      <div class="tax-row">
+        <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ai-tds-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></label>
+        <div class="tax-label">TDS</div>
+        <div class="tax-row-ctrl"><span style="font-size:.8rem;color:var(--muted);">Rate:</span><input class="tax-input-sm" id="ai-tds-rate" type="number" value="10" min="0" max="30" oninput="updateInvTotals('ai')"><span style="font-size:.8rem;color:var(--muted);">%</span></div>
+      </div>
+      <div class="tax-row">
+        <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ai-disc-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></label>
+        <div class="tax-label">Discount</div>
+        <div class="tax-row-ctrl">
+          <select class="tax-select" id="ai-disc-type" onchange="updateInvTotals('ai')"><option value="pct">Percentage (%)</option><option value="flat">Flat Amount (₹)</option></select>
+          <input class="tax-input-sm" id="ai-disc-val" type="number" value="0" min="0" oninput="updateInvTotals('ai')">
+        </div>
       </div>
     </div>
-    <div class="tax-row">
-      <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ai-tds-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></label>
-      <div class="tax-label">TDS</div>
-      <div class="tax-row-ctrl"><span style="font-size:.8rem;color:var(--muted);">Rate:</span><input class="tax-input-sm" id="ai-tds-rate" type="number" value="10" min="0" max="30" oninput="updateInvTotals('ai')"><span style="font-size:.8rem;color:var(--muted);">%</span></div>
-    </div>
-    <div class="tax-row">
-      <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ai-disc-on" onchange="updateInvTotals('ai')"><span class="toggle-slider"></span></label>
-      <div class="tax-label">Discount</div>
-      <div class="tax-row-ctrl">
-        <select class="tax-select" id="ai-disc-type" onchange="updateInvTotals('ai')"><option value="pct">Percentage (%)</option><option value="flat">Flat Amount (₹)</option></select>
-        <input class="tax-input-sm" id="ai-disc-val" type="number" value="0" min="0" oninput="updateInvTotals('ai')">
-      </div>
-    </div>
-  </div>
-  <!-- MORE TAB -->
-  <div id="ai-tab-more" style="display:none;">
-    <div class="form-grid">
+    <div class="form-grid" style="margin-bottom:10px;">
       <div class="fg"><label>HSN / SAC Code</label><input id="ai-hsn" placeholder="e.g. 998371"></div>
-      <div class="fg"><label>Place of Supply</label><input id="ai-pos" placeholder="e.g. Gujarat, Maharashtra"></div>
       <div class="fg"><label>PO / Reference No.</label><input id="ai-ponum" placeholder="e.g. PO-2024-001"></div>
       <div class="fg"><label>Client GSTIN</label><input id="ai-cgstin" placeholder="Client's GST number"></div>
-      <div class="fg"><label>Client VAT ID <span style="font-weight:300;">(EU / international)</span></label><input id="ai-vatid" placeholder="e.g. DE319338232"></div>
+      <div class="fg"><label>Place of Supply</label><input id="ai-pos" placeholder="e.g. Gujarat"></div>
     </div>
-    <div class="fg" style="margin-top:12px;">
-      <label>Payment QR — Custom UPI <span style="font-weight:300;">(leave blank to use profile UPI)</span></label>
+    <div class="fg" style="margin-bottom:12px;">
+      <label>Custom UPI <span style="font-weight:300;">(leave blank to use profile UPI)</span></label>
       <div style="display:flex;gap:8px;align-items:center;">
         <input id="ai-qrupi" placeholder="e.g. yourname@upi" style="flex:1;">
         <label class="toggle-wrap" style="flex-shrink:0;"><input type="checkbox" id="ai-showqr" checked><span class="toggle-slider"></span></label>
         <span style="font-size:.8rem;color:var(--muted);white-space:nowrap;">Show QR</span>
       </div>
     </div>
-    <div style="margin-top:12px;display:flex;gap:20px;flex-wrap:wrap;">
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-isdraft" onchange="document.getElementById('ai-draft-badge').style.display=this.checked?'inline-flex':'none'"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Save as Draft</span></div>
-      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-iscredit"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Issue as Credit Note</span></div>
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-iscredit"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Credit Note</span></div>
       <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-isrecurring"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Recurring Monthly</span></div>
-      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-reversecharge"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Reverse Charge Applicable</span></div>
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-reversecharge"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Reverse Charge</span></div>
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ai-vatid"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">EU VAT</span><input id="ai-vatid-inp" placeholder="e.g. DE319338232" style="width:140px;margin-left:6px;display:none;"></div>
     </div>
   </div>
+
   </div><!-- end inv-tab-body -->
-  <!-- RECEIVED + TOTALS -->
+  <!-- RECEIVED + TOTALS (always visible) -->
   <div style="display:flex;align-items:center;gap:12px;margin-top:14px;padding:10px 14px;background:var(--bg);border-radius:10px 10px 0 0;border-bottom:1px solid var(--border);">
     <label id="ai-received-label" style="font-size:.78rem;font-weight:600;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.05em;">Received (₹)</label>
     <input id="ai-received" type="number" min="0" placeholder="0" oninput="updateInvTotals('ai')" style="flex:1;max-width:180px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;background:var(--white);color:var(--text);">
   </div>
   <div class="inv-total-box" id="ai-total-box" style="border-radius:0 0 10px 10px;margin-top:0;"></div>
+  
   <div class="modal-foot">
     <button class="btn btn-ghost" onclick="closeModal('addIncomeModal')">Cancel</button>
     <button class="btn btn-red" onclick="saveIncome()">Save Invoice</button>
   </div>
 </div></div>
 
+<!-- ════════════════════ MODALS ════════════════════ -->
 <div class="modal-bg" id="editIncomeModal">
-<div class="modal" style="max-width:680px;min-height:580px;display:flex;flex-direction:column;">
+<div class="modal" style="max-width:680px;min-height:600px;display:flex;flex-direction:column;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
     <div><h2>Edit Invoice</h2><span id="ei-draft-badge" class="badge b-draft" style="display:none;margin-left:8px;">Draft</span></div>
     <button class="ibtn" onclick="closeModal('editIncomeModal')">✕</button>
   </div>
+  <!-- 3-TAB STRUCTURE -->
   <div class="inv-tabs">
-    <button class="inv-tab active" data-invtab="details" onclick="showInvTab('details','ei')">Details</button>
-    <button class="inv-tab" data-invtab="items" onclick="showInvTab('items','ei')">Line Items</button>
-    <button class="inv-tab" data-invtab="taxes" onclick="showInvTab('taxes','ei')">Taxes & Discounts</button>
-    <button class="inv-tab" data-invtab="more" onclick="showInvTab('more','ei')">More</button>
+    <button class="inv-tab active" data-invtab="invoice" onclick="showInvTab('invoice','ei')">📋 Invoice</button>
+    <button class="inv-tab" data-invtab="payment" onclick="showInvTab('payment','ei')">💳 Payment</button>
+    <button class="inv-tab" data-invtab="options" onclick="showInvTab('options','ei')">⚙️ Options</button>
   </div>
   <div class="inv-tab-body">
-  <div id="ei-tab-details">
-    <div class="form-grid">
-      <div class="fg"><label>Invoice No.</label><input id="ei-invno" style="font-weight:600;"></div>
-      <div class="fg"><label>Client *</label><input id="ei-client" list="clientSuggest" onchange="onClientSelect('ei',this.value)"></div>
+
+  <!-- TAB 1: INVOICE — client + dates + line items -->
+  <div id="ei-tab-invoice">
+    <div class="form-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div class="fg"><label>Invoice No.</label><input id="ei-invno" placeholder="e.g. INV-003" style="font-weight:600;"></div>
+      <div class="fg"><label>Client *</label><input id="ei-client" list="clientSuggest" placeholder="Client / company name" onchange="onClientSelect('ei',this.value)"></div>
       <div class="fg"><label>Invoice Date</label><input id="ei-date" type="date"></div>
       <div class="fg"><label>Due Date</label><input id="ei-due" type="date"></div>
+    </div>
+    <div class="inv-type-bar" id="ei-type-bar"></div>
+    <div class="li-wrap"><table class="li-tbl" id="ei-li-tbl">
+      <thead id="ei-li-head"></thead>
+      <tbody id="ei-li-body"></tbody>
+    </table></div>
+    <button class="li-add-btn" onclick="addInvItem('ei')">+ Add Line Item</button>
+  </div>
+
+  <!-- TAB 2: PAYMENT — status, currency, notes -->
+  <div id="ei-tab-payment" style="display:none;">
+    <div class="form-grid" style="margin-bottom:14px;">
       <div class="fg"><label>Category</label><select id="ei-cat"><option value="">— select —</option></select></div>
       <div class="fg"><label>Status</label><select id="ei-status"><option value="pending">Pending</option><option value="partial">Partial</option><option value="received">Received</option></select></div>
     </div>
-    <!-- Currency Selector -->
-    <div style="margin-top:14px;margin-bottom:6px;">
+    <div style="margin-bottom:14px;">
       <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Currency</label>
       <div style="display:flex;gap:7px;flex-wrap:wrap;" id="ei-currency-bar">
         <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ei','INR')">🇮🇳 INR</button>
@@ -1057,62 +1078,80 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div id="ei-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:5px;min-height:16px;"></div>
     </div>
     <input type="hidden" id="ei-currency-code" value="INR">
-    <div class="fg" style="margin-top:12px;"><label>Notes / Terms</label><textarea id="ei-terms" rows="3" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
-    <div style="margin-top:14px;"><label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
-    <div class="tpl-grid" id="ei-tpl-grid">
+    <div class="fg"><label>Notes / Terms</label><textarea id="ei-terms" rows="3" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
+  </div>
+
+  <!-- TAB 3: OPTIONS — template, taxes, toggles -->
+  <div id="ei-tab-options" style="display:none;">
+    <div style="margin-bottom:16px;">
+      <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
+      <div class="tpl-grid" id="ei-tpl-grid">
       <div class="tpl-card sel" data-tpl="classic" onclick="selectTpl('classic','ei')"><div class="tpl-preview" style="background:#F2EDE3;padding:5px 7px;"><div style="font-size:11px;font-weight:800;color:#111;line-height:1;">Invoice</div><div style="height:1px;background:#C5BFB2;margin:4px 0;"></div><div style="font-size:6px;color:#555;margin-bottom:3px;">DESCRIPTION</div><div style="height:6px;background:#E0DAD0;border-radius:2px;"></div></div><div class="tpl-name">Classic</div></div>
-      <div class="tpl-card" data-tpl="minimal" onclick="selectTpl('minimal','ei')"><div class="tpl-preview" style="background:#fff;padding:5px 7px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="font-size:6px;font-weight:700;color:#999;letter-spacing:.1em;">INVOICE</div><div style="font-size:9px;font-weight:800;color:#111;">#001</div></div><div style="height:1px;background:#eee;margin:4px 0;"></div><div style="height:5px;background:#f5f5f5;border-radius:1px;"></div></div><div class="tpl-name">Minimal</div></div>
-      <div class="tpl-card" data-tpl="modern" onclick="selectTpl('modern','ei')"><div class="tpl-preview" style="background:#fff;"><div style="background:#111;padding:6px 7px;"><div style="font-size:8px;font-weight:700;color:#fff;">INVOICE</div><div style="font-size:5px;color:#888;margin-top:2px;">Studio Name</div></div><div style="padding:5px 7px;"><div style="height:5px;background:#f0f0f0;border-radius:1px;"></div></div></div><div class="tpl-name">Modern</div></div>
-      <div class="tpl-card" data-tpl="elegant" onclick="selectTpl('elegant','ei')"><div class="tpl-preview" style="background:#fff;border-top:3px solid #111;padding:5px 7px;"><div style="font-size:7px;font-weight:400;color:#555;letter-spacing:.2em;text-transform:uppercase;">Invoice</div><div style="height:1px;background:#ddd;margin:4px 0;"></div><div style="height:5px;background:#f5f5f5;border-radius:1px;"></div></div><div class="tpl-name">Elegant</div></div>
-    </div></div>
-  </div>
-  <div id="ei-tab-items" style="display:none;">
-    <div class="inv-type-bar" id="ei-type-bar"></div>
-    <div class="li-wrap"><table class="li-tbl" id="ei-li-tbl">
-      <thead id="ei-li-head"></thead>
-      <tbody id="ei-li-body"></tbody>
-    </table></div>
-    <button class="li-add-btn" onclick="addInvItem('ei')">+ Add Line Item</button>
-  </div>
-  <div id="ei-tab-taxes" style="display:none;">
-    <div class="tax-row"><label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ei-gst-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></label><div class="tax-label">GST</div><div class="tax-row-ctrl"><select class="tax-select" id="ei-gst-type" onchange="updateInvTotals('ei')"><option value="cgst_sgst">CGST + SGST (Intra-state)</option><option value="igst">IGST (Inter-state)</option></select><select class="tax-select" id="ei-gst-rate" onchange="updateInvTotals('ei')"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div></div>
-    <div class="tax-row"><label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ei-tds-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></label><div class="tax-label">TDS</div><div class="tax-row-ctrl"><span style="font-size:.8rem;color:var(--muted);">Rate:</span><input class="tax-input-sm" id="ei-tds-rate" type="number" value="10" min="0" max="30" oninput="updateInvTotals('ei')"><span style="font-size:.8rem;color:var(--muted);">%</span></div></div>
-    <div class="tax-row"><label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ei-disc-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></label><div class="tax-label">Discount</div><div class="tax-row-ctrl"><select class="tax-select" id="ei-disc-type" onchange="updateInvTotals('ei')"><option value="pct">Percentage (%)</option><option value="flat">Flat Amount (₹)</option></select><input class="tax-input-sm" id="ei-disc-val" type="number" value="0" min="0" oninput="updateInvTotals('ei')"></div></div>
-  </div>
-  <div id="ei-tab-more" style="display:none;">
-    <div class="form-grid">
+      <div class="tpl-card" data-tpl="minimal" onclick="selectTpl('minimal','ei')"><div class="tpl-preview" style="background:#fff;padding:5px 7px;border-bottom:1px solid #eee;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="font-size:6px;font-weight:700;color:#999;letter-spacing:.1em;">INVOICE</div><div style="font-size:9px;font-weight:800;color:#111;">#001</div></div><div style="height:1px;background:#eee;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Minimal</div></div>
+      <div class="tpl-card" data-tpl="modern" onclick="selectTpl('modern','ei')"><div class="tpl-preview" style="background:#fff;"><div style="background:#111;padding:6px 7px;"><div style="font-size:8px;font-weight:700;color:#fff;">INVOICE</div><div style="font-size:5px;color:#888;margin-top:2px;">Studio Name</div></div><div style="padding:5px 7px;"><div style="font-size:5px;color:#aaa;">BILLED TO</div><div style="height:5px;background:#f0f0f0;border-radius:1px;margin-top:3px;"></div></div></div><div class="tpl-name">Modern</div></div>
+      <div class="tpl-card" data-tpl="elegant" onclick="selectTpl('elegant','ei')"><div class="tpl-preview" style="background:#fff;border-top:3px solid #111;padding:5px 7px;"><div style="font-size:7px;font-weight:400;color:#555;letter-spacing:.2em;text-transform:uppercase;">Invoice</div><div style="height:1px;background:#ddd;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Elegant</div></div>
+    </div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Taxes &amp; Discounts</label>
+      <div class="tax-row">
+        <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ei-gst-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></label>
+        <div class="tax-label">GST</div>
+        <div class="tax-row-ctrl">
+          <select class="tax-select" id="ei-gst-type" onchange="updateInvTotals('ei')"><option value="cgst_sgst">CGST + SGST (Intra-state)</option><option value="igst">IGST (Inter-state)</option></select>
+          <select class="tax-select" id="ei-gst-rate" onchange="updateInvTotals('ei')"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select>
+        </div>
+      </div>
+      <div class="tax-row">
+        <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ei-tds-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></label>
+        <div class="tax-label">TDS</div>
+        <div class="tax-row-ctrl"><span style="font-size:.8rem;color:var(--muted);">Rate:</span><input class="tax-input-sm" id="ei-tds-rate" type="number" value="10" min="0" max="30" oninput="updateInvTotals('ei')"><span style="font-size:.8rem;color:var(--muted);">%</span></div>
+      </div>
+      <div class="tax-row">
+        <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="ei-disc-on" onchange="updateInvTotals('ei')"><span class="toggle-slider"></span></label>
+        <div class="tax-label">Discount</div>
+        <div class="tax-row-ctrl">
+          <select class="tax-select" id="ei-disc-type" onchange="updateInvTotals('ei')"><option value="pct">Percentage (%)</option><option value="flat">Flat Amount (₹)</option></select>
+          <input class="tax-input-sm" id="ei-disc-val" type="number" value="0" min="0" oninput="updateInvTotals('ei')">
+        </div>
+      </div>
+    </div>
+    <div class="form-grid" style="margin-bottom:10px;">
       <div class="fg"><label>HSN / SAC Code</label><input id="ei-hsn" placeholder="e.g. 998371"></div>
-      <div class="fg"><label>Place of Supply</label><input id="ei-pos" placeholder="e.g. Gujarat, Maharashtra"></div>
       <div class="fg"><label>PO / Reference No.</label><input id="ei-ponum" placeholder="e.g. PO-2024-001"></div>
       <div class="fg"><label>Client GSTIN</label><input id="ei-cgstin" placeholder="Client's GST number"></div>
-      <div class="fg"><label>Client VAT ID <span style="font-weight:300;">(EU / international)</span></label><input id="ei-vatid" placeholder="e.g. DE319338232"></div>
+      <div class="fg"><label>Place of Supply</label><input id="ei-pos" placeholder="e.g. Gujarat"></div>
     </div>
-    <div class="fg" style="margin-top:12px;">
-      <label>Payment QR — Custom UPI <span style="font-weight:300;">(leave blank to use profile UPI)</span></label>
+    <div class="fg" style="margin-bottom:12px;">
+      <label>Custom UPI <span style="font-weight:300;">(leave blank to use profile UPI)</span></label>
       <div style="display:flex;gap:8px;align-items:center;">
         <input id="ei-qrupi" placeholder="e.g. yourname@upi" style="flex:1;">
         <label class="toggle-wrap" style="flex-shrink:0;"><input type="checkbox" id="ei-showqr" checked><span class="toggle-slider"></span></label>
         <span style="font-size:.8rem;color:var(--muted);white-space:nowrap;">Show QR</span>
       </div>
     </div>
-    <div style="margin-top:12px;display:flex;gap:20px;flex-wrap:wrap;">
-      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ei-isdraft" onchange="document.getElementById('ei-draft-badge').style.display=this.checked?'inline-flex':'none'"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Draft</span></div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ei-isdraft" onchange="document.getElementById('ei-draft-badge').style.display=this.checked?'inline-flex':'none'"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Save as Draft</span></div>
       <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ei-iscredit"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Credit Note</span></div>
       <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ei-isrecurring"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Recurring Monthly</span></div>
-      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ei-reversecharge"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Reverse Charge Applicable</span></div>
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ei-reversecharge"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Reverse Charge</span></div>
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="ei-vatid"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">EU VAT</span><input id="ei-vatid-inp" placeholder="e.g. DE319338232" style="width:140px;margin-left:6px;display:none;"></div>
     </div>
   </div>
+
   </div><!-- end inv-tab-body -->
-  <!-- RECEIVED + TOTALS -->
+  <!-- RECEIVED + TOTALS (always visible) -->
   <div style="display:flex;align-items:center;gap:12px;margin-top:14px;padding:10px 14px;background:var(--bg);border-radius:10px 10px 0 0;border-bottom:1px solid var(--border);">
     <label id="ei-received-label" style="font-size:.78rem;font-weight:600;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.05em;">Received (₹)</label>
     <input id="ei-received" type="number" min="0" placeholder="0" oninput="updateInvTotals('ei')" style="flex:1;max-width:180px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;background:var(--white);color:var(--text);">
   </div>
   <div class="inv-total-box" id="ei-total-box" style="border-radius:0 0 10px 10px;margin-top:0;"></div>
   <input type="hidden" id="ei-id">
-  <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('editIncomeModal')">Cancel</button><button class="btn btn-red" onclick="updateIncome()">Update</button></div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" onclick="closeModal('editIncomeModal')">Cancel</button>
+    <button class="btn btn-red" onclick="updateIncome()">Update</button>
+  </div>
 </div></div>
-
 <div class="modal-bg" id="addExpModal">
 <div class="modal" style="max-width:480px;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;"><h2>Add Expense</h2><button class="ibtn" onclick="closeModal('addExpModal')">✕</button></div>
@@ -1968,7 +2007,7 @@ function saveIncome(){
   else if(inv.received>0)inv.status='partial';
   if(inv.isDraft)inv.status='draft';
   db.income.push(inv);save();closeModal('addIncomeModal');
-  showInvTab('details','ai');resetInvForm('ai');
+  showInvTab('invoice','ai');resetInvForm('ai');
   fillCatSelects();fillClientSuggest();
   toast(inv.isDraft?'Draft saved ✓':'Invoice saved ✓');renderOverview();renderIncome();
 }
@@ -1977,7 +2016,7 @@ function editInc(id){
   fillCatSelects();
   document.getElementById('ei-id').value=id;
   populateInvForm('ei',i);
-  showInvTab('details','ei');
+  showInvTab('invoice','ei');
   openModal('editIncomeModal');
 }
 function updateIncome(){
@@ -2597,14 +2636,14 @@ const INV_TYPE_DEFS={
 };
 
 function showInvTab(tab,pfx){
-  ['details','items','taxes','more'].forEach(t=>{
+  ['invoice','payment','options'].forEach(t=>{
     const el=document.getElementById(pfx+'-tab-'+t);
     if(el)el.style.display=t===tab?'block':'none';
   });
   document.querySelectorAll(`#${pfx==='ai'?'addIncomeModal':'editIncomeModal'} .inv-tab`).forEach(b=>{
     b.classList.toggle('active',b.dataset.invtab===tab);
   });
-  if(tab==='items'){
+  if(tab==='invoice'){
     renderInvTypeBar(pfx);
     if(invFormItems[pfx].length===0)addInvItem(pfx);
     else renderInvItems(pfx);
@@ -3641,7 +3680,7 @@ function openModal(id){
     // Reset currency to INR
     onCurrencySelect('ai','INR');
     // Reset tabs to details
-    showInvTab('details','ai');
+    showInvTab('invoice','ai');
   }
   if(id==='addExpModal'){
     document.getElementById('ae-title').value='';
