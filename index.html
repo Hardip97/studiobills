@@ -135,11 +135,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
   background:none;color:var(--muted);font-family:inherit;transition:all .15s;}
 .rbtn.active{background:var(--black);color:#fff;}
 .rbtn:hover:not(.active){color:var(--text);}
-/* slider scrubber */
-.scrubber-wrap{margin:0 24px 14px;position:relative;height:24px;display:flex;align-items:center;}
-.scrubber-track{flex:1;height:4px;background:var(--border);border-radius:2px;position:relative;cursor:pointer;}
-.scrubber-fill{position:absolute;height:4px;background:rgba(255,0,53,.25);border-radius:2px;}
-.scrubber-handle{position:absolute;width:12px;height:12px;background:var(--black);border-radius:50%;
+.scrubber-handle{display:none;
   top:50%;transform:translateY(-50%);cursor:grab;border:2px solid var(--white);box-shadow:0 1px 5px rgba(0,0,0,.25);}
 .chart-xlabels{display:flex;justify-content:space-between;padding:2px 24px 16px;font-size:.67rem;color:var(--muted2);font-weight:400;}
 
@@ -571,13 +567,6 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <button class="rbtn active" data-range="6M">6M</button>
       <button class="rbtn" data-range="1Y">1Y</button>
       <button class="rbtn" data-range="ALL">ALL</button>
-    </div>
-    <div class="scrubber-wrap">
-      <div class="scrubber-track" id="scrubTrack">
-        <div class="scrubber-fill" id="scrubFill" style="left:0%;width:100%"></div>
-        <div class="scrubber-handle" id="scrubL" style="left:0%"></div>
-        <div class="scrubber-handle" id="scrubR" style="left:100%"></div>
-      </div>
     </div>
     <div class="chart-xlabels" id="chartXLabels"></div>
   </div>
@@ -1903,34 +1892,6 @@ function setChartStyle(s){
   drawMainChart();
 }
 
-// scrubber (decorative)
-(function(){
-  let dragging=null;
-  const L=document.getElementById('scrubL'),R=document.getElementById('scrubR'),F=document.getElementById('scrubFill'),T=document.getElementById('scrubTrack');
-  if(!T)return;
-  // init positions
-  let lPct=0,rPct=100;
-  function update(){F.style.left=lPct+'%';F.style.width=(rPct-lPct)+'%';L.style.left=lPct+'%';R.style.left=rPct+'%';}
-  function onMove(e){
-    if(!dragging)return;
-    const rect=T.getBoundingClientRect();
-    const cx=(e.touches?e.touches[0].clientX:e.clientX);
-    let pct=Math.round(((cx-rect.left)/rect.width)*100);
-    pct=Math.max(0,Math.min(100,pct));
-    if(dragging==='L'){lPct=Math.min(pct,rPct-5);}else{rPct=Math.max(pct,lPct+5);}
-    update();
-  }
-  [L,R].forEach(h=>{
-    h.addEventListener('mousedown',e=>{dragging=h===L?'L':'R';e.preventDefault();});
-    h.addEventListener('touchstart',e=>{dragging=h===L?'L':'R';},{passive:true});
-  });
-  document.addEventListener('mousemove',onMove);
-  document.addEventListener('touchmove',onMove,{passive:true});
-  document.addEventListener('mouseup',()=>{dragging=null;});
-  document.addEventListener('touchend',()=>{dragging=null;});
-  // set default: show last 60%
-  lPct=40;rPct=100;update();
-})();
 
 // ─── STATUS BADGE ───
 function sBadge(i){
