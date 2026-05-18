@@ -3832,6 +3832,167 @@ document.querySelectorAll('#expTabs .itab').forEach(b=>b.addEventListener('click
 // ─── INIT ───
 initAuth();
 
+// ════════════════════════════════════════════════════════
+// HELPERS for sidebar, pagination, bulk, duplicate, search
+// ════════════════════════════════════════════════════════
+
+// Sidebar active nav update
+const _sbOrigShowTab = showTab;
+showTab = function(tab) {
+  _sbOrigShowTab(tab);
+  document.querySelectorAll('.sn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  if(tab === 'income') setTimeout(fillIncClientFilter, 30);
+};
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  const tag = document.activeElement.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT') return;
+  if(e.key==='n'||e.key==='N') openModal('addIncomeModal');
+  if(e.key==='e'||e.key==='E') openModal('addExpModal');
+});
+
+// Pagination
+const PAGE_SIZE = 50;
+let incPage = 0, histPage = 0;
+function setIncPage(p){ incPage=p; renderIncome(); }
+function setHistPage(p){ histPage=p; renderHistory(); }
+function renderPagination(cid, page, total, fn) {
+  const el = document.getElementById(cid); if(!el) return;
+  const pages = Math.ceil(total/PAGE_SIZE);
+  if(pages<=1){el.innerHTML='';return;}
+  el.innerHTML =
+    (page>0?`<button class="rbtn" onclick="setIncPage(${page-1})">‹ Prev</button>`:'') +
+    `<span style="font-size:.78rem;color:var(--muted);">Page ${page+1} / ${pages}</span>` +
+    (page<pages-1?`<button class="rbtn active" onclick="setIncPage(${page+1})">Next ›</button>`:'');
+  // override onclick to use correct fn
+  el.querySelectorAll('button').forEach((b,i)=>{
+    const p2 = i===0 ? page-1 : page+1;
+    b.onclick = ()=>fn(p2);
+  });
+}
+
+// Client filter
+function fillIncClientFilter() {
+  const sel = document.getElementById('incClientFilter'); if(!sel) return;
+  const clients = [...new Set((db.income||[]).map(i=>i.client).filter(Boolean))].sort();
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All Clients</option>' + clients.map(c=>`<option value="${c}"${c===cur?' selected':''}>${c}</option>`).join('');
+}
+
+// Bulk select
+let bulkSelected = new Set();
+function toggleSelectAll(cb) {
+  document.querySelectorAll('.inc-row-cb').forEach(r=>{r.checked=cb.checked; if(cb.checked) bulkSelected.add(r.dataset.id); else bulkSelected.delete(r.dataset.id);});
+  updateBulkBar();
+}
+function toggleRowSel(cb) {
+  if(cb.checked) bulkSelected.add(cb.dataset.id); else bulkSelected.delete(cb.dataset.id);
+  updateBulkBar();
+}
+function updateBulkBar() {
+  const bar=document.getElementById('bulkBar'); const cnt=document.getElementById('bulkCount');
+  if(!bar)return;
+  if(bulkSelected.size>0){bar.style.display='flex';if(cnt)cnt.textContent=bulkSelected.size+' selected';}
+  else bar.style.display='none';
+}
+function clearBulkSel() {
+  bulkSelected.clear();
+  document.querySelectorAll('.inc-row-cb').forEach(r=>r.checked=false);
+  const cb=document.getElementById('selectAllInc'); if(cb) cb.checked=false;
+  updateBulkBar();
+}
+function bulkMarkReceived() {
+  if(!bulkSelected.size) return;
+  let changed=0;
+  db.income.forEach(i=>{if(bulkSelected.has(i.id)&&i.status!=='received'){i.status='received';i.received=+i.amount||0;changed++;}});
+  if(changed){save();renderIncome();renderOverview();toast(changed+' invoice(s) marked received ✓');}
+  clearBulkSel();
+}
+
+// Quick receive
+function quickReceive(id) {
+  const inv=db.income.find(i=>i.id===id); if(!inv) return;
+  if(inv.status==='received'){toast('Already received');return;}
+  const full=confirm('Mark as FULLY received?\nCancel = enter partial amount');
+  if(full){
+    inv.status='received'; inv.received=+inv.amount;
+    save();renderIncome();renderOverview();toast('Marked received ✓');
+  } else {
+    const amt=prompt('Amount received (₹):', rcv(inv)||''); if(amt===null)return;
+    const n=parseFloat(amt); if(isNaN(n)){toast('Invalid amount','err');return;}
+    inv.received=n; inv.status=n>=(+inv.amount)?'received':'partial';
+    save();renderIncome();renderOverview();toast('Payment recorded ✓');
+  }
+}
+
+// Duplicate invoice
+function duplicateInvoice(id) {
+  const orig=db.income.find(i=>i.id===id); if(!orig)return;
+  const copy=JSON.parse(JSON.stringify(orig));
+  copy.id=uid(); copy.invNo=nextAvailableInvNo(); copy.status='pending';
+  copy.received=0; copy.date=today();
+  const d=new Date(); d.setDate(d.getDate()+30); copy.due=d.toISOString().split('T')[0];
+  db.income.unshift(copy); db.invoiceCounter=(db.invoiceCounter||0)+1;
+  save();renderIncome();toast('Duplicated as '+copy.invNo);
+}
+
+// Add Client modal
+function openAddClientModal() {
+  ['nc-name','nc-email','nc-phone','nc-gstin','nc-address'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  openModal('addClientModal');
+}
+function saveNewClient() {
+  const name=document.getElementById('nc-name').value.trim();
+  if(!name){toast('Client name required','err');return;}
+  if(!db.clients)db.clients={};
+  if(!db.clients[name])db.clients[name]={payments:[]};
+  db.clients[name].email=document.getElementById('nc-email').value.trim();
+  db.clients[name].phone=document.getElementById('nc-phone').value.trim();
+  db.clients[name].gstin=document.getElementById('nc-gstin').value.trim();
+  db.clients[name].address=document.getElementById('nc-address').value.trim();
+  save();renderClients();closeModal('addClientModal');toast('Client '+name+' added ✓');
+}
+
+// Global search
+function globalSearchFn(q) {
+  const box=document.getElementById('gsResults'); if(!box)return;
+  if(!q||q.length<2){box.style.display='none';return;}
+  q=q.toLowerCase();
+  const results=[];
+  (db.income||[]).forEach(i=>{
+    if((i.client||'').toLowerCase().includes(q)||(i.desc||'').toLowerCase().includes(q)||(i.invNo||'').toLowerCase().includes(q))
+      results.push({label:(i.invNo||'INV')+' – '+(i.client||''), sub:(i.desc||'')+'  ₹'+(+i.amount||0).toLocaleString('en-IN'), tab:'income'});
+  });
+  Object.keys(db.clients||{}).forEach(name=>{
+    if(name.toLowerCase().includes(q)) results.push({label:name, sub:'Client', tab:'clients'});
+  });
+  if(!results.length){box.innerHTML='<div class="gs-item"><span class="gs-lbl">No results</span></div>';box.style.display='block';return;}
+  box.innerHTML=results.slice(0,8).map(r=>`<div class="gs-item" onclick="showTab('${r.tab}');document.getElementById('gsResults').style.display='none';document.getElementById('globalSearch').value=''"><div class="gs-lbl">${r.label}</div><div class="gs-sub">${r.sub}</div></div>`).join('');
+  box.style.display='block';
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.sidebar-search')){const b=document.getElementById('gsResults');if(b)b.style.display='none';}});
+
+// Patch renderOverview to update outstanding stat cards
+const _roOrig = renderOverview;
+renderOverview = function(){
+  _roOrig();
+  setTimeout(()=>{
+    const outstanding=(db.income||[]).filter(i=>i.status==='pending'||i.status==='partial').reduce((s,i)=>s+(+i.amount||0)-rcv(i),0);
+    const overduePending=(db.income||[]).filter(i=>i.status!=='received'&&i.due&&new Date(i.due)<new Date()).reduce((s,i)=>s+(+i.amount||0)-rcv(i),0);
+    const cur=(db.profile&&db.profile.currency)||'₹';
+    const f=n=>cur+Math.round(n).toLocaleString('en-IN');
+    const s1=document.getElementById('sc-outstanding'); if(s1)s1.textContent=f(outstanding);
+    const s2=document.getElementById('sc-outstanding-sub');
+    const pc=(db.income||[]).filter(i=>i.status==='pending'||i.status==='partial').length;
+    if(s2)s2.textContent=pc+' unpaid invoice'+(pc!==1?'s':'');
+    const s3=document.getElementById('sc-overdue2'); if(s3)s3.textContent=f(overduePending);
+    const s4=document.getElementById('sc-overdue2-sub');
+    const oc=(db.income||[]).filter(i=>i.status!=='received'&&i.due&&new Date(i.due)<new Date()).length;
+    if(s4)s4.textContent=oc+' invoice'+(oc!==1?'s':'')+' past due';
+  },20);
+};
+
 </script>
 </body>
 </html>
