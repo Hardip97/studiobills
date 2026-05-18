@@ -6,7 +6,76 @@
 <title>StudioBills</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23FF0035'/%3E%3Ctext x='16' y='22' font-family='Arial Black,Arial' font-size='13' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-0.5'%3ESB%3C/text%3E%3C/svg%3E"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+// ── CAT DRAG-TO-REORDER ──────────────────────────────────────────────────────
+let _catDragIdx=null,_catDragT=null;
+function catDragStart(e){
+  _catDragIdx=+e.currentTarget.dataset.idx;
+  _catDragT=e.currentTarget.dataset.t;
+  e.currentTarget.style.opacity='.45';
+  e.dataTransfer.effectAllowed='move';
+}
+function catDragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';e.currentTarget.classList.add('drag-over');}
+function catDragLeave(e){e.currentTarget.classList.remove('drag-over');}
+function catDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  const toIdx=+e.currentTarget.dataset.idx;
+  const t=e.currentTarget.dataset.t;
+  if(_catDragT!==t||_catDragIdx===null||_catDragIdx===toIdx){_catDragIdx=null;return;}
+  const arr=db.cats[t]||[];
+  const [item]=arr.splice(_catDragIdx,1);
+  arr.splice(toIdx,0,item);
+  db.cats[t]=arr;
+  _catDragIdx=null;
+  save();renderCatPills(t);
+  toast('Category order saved ✓');
+}
+
+// ── QUICK INCOME ─────────────────────────────────────────────────────────────
+function openQuickIncome(){
+  const d=document.getElementById('qi-date');if(d)d.value=today();
+  const cs=document.getElementById('qi-cat');
+  if(cs){
+    cs.innerHTML='<option value="">— select —</option>';
+    (db.cats.inc||[]).forEach(c=>{cs.innerHTML+=`<option value="${esc(c)}">${esc(c)}</option>`;});
+  }
+  ['qi-amount','qi-client','qi-desc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const rc=document.getElementById('qi-received');if(rc)rc.checked=true;
+  openModal('quickIncomeModal');
+  setTimeout(()=>document.getElementById('qi-amount')?.focus(),100);
+}
+function saveQuickIncome(){
+  const amtEl=document.getElementById('qi-amount');
+  const amt=parseFloat(amtEl?.value||'');
+  if(isNaN(amt)||amt<=0){toast('Enter a valid amount','err');amtEl?.focus();return;}
+  const date=document.getElementById('qi-date')?.value||today();
+  const client=(document.getElementById('qi-client')?.value||'').trim()||'Misc';
+  const cat=(document.getElementById('qi-cat')?.value||'').trim();
+  const desc=(document.getElementById('qi-desc')?.value||'').trim();
+  const isRcv=document.getElementById('qi-received')?.checked;
+  // 2-client limit for free plan
+  if(!isPro()){
+    const existingClients=new Set(db.income.map(i=>i.client).filter(Boolean));
+    if(!existingClients.has(client)&&existingClients.size>=2){
+      showUpgradeModal('a 3rd client (Free plan allows 2)');return;
+    }
+  }
+  const entry={
+    id:uid(),invNo:'',client,desc,cat,date,due:'',
+    items:[{desc:desc||'Income',qty:1,rate:amt,amount:amt}],
+    amount:amt,received:isRcv?amt:0,
+    status:isRcv?'received':'pending',
+    currency:'INR',exchangeRate:1,foreignAmount:amt,
+    _totals:{subtotal:amt,gross:amt,gst:0,tds:0,discount:0,net:amt}
+  };
+  db.income.unshift(entry);
+  save();
+  closeModal('quickIncomeModal');
+  renderIncome();renderOverview();
+  toast('Income saved ✓');
+}
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
@@ -369,10 +438,23 @@ tbody tr.row-overdue{background:#FFF7F8;}
 .cat-pill{display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:3px 10px;font-size:.73rem;color:var(--muted);}
 .cat-pill button{background:none;border:none;cursor:pointer;color:var(--muted2);font-size:.68rem;padding:0 1px;}
 .cat-pill button:hover{color:var(--red);}
+.cat-pill[draggable]{cursor:grab;user-select:none;transition:opacity .15s,border-color .15s;}
+.cat-pill[draggable]:active{cursor:grabbing;opacity:.6;}
+.cat-pill.drag-over{border-color:var(--red)!important;background:var(--red-soft)!important;}
+/* INLINE QUICK RECEIVE */
+.qr-panel{display:flex;align-items:center;gap:6px;margin-top:6px;padding:8px 12px;background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.10);flex-wrap:wrap;animation:fadeIn .12s ease;}
+.qr-btn{padding:5px 12px;border-radius:7px;border:none;cursor:pointer;font-size:.74rem;font-weight:600;font-family:inherit;transition:opacity .15s;}
+.qr-full{background:var(--green);color:#fff;}.qr-full:hover{opacity:.85;}
+.qr-save{background:var(--red);color:#fff;}.qr-save:hover{opacity:.85;}
+.qr-close{background:none;border:none;cursor:pointer;color:var(--muted2);font-size:.82rem;padding:2px 6px;border-radius:4px;line-height:1;}
+.qr-close:hover{color:var(--red);background:var(--red-soft);}
+.qr-sep{font-size:.7rem;color:var(--muted2);white-space:nowrap;}
+.qr-inp{width:96px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:.75rem;background:var(--bg);color:var(--text);}
+.qr-inp:focus{border-color:var(--red);outline:none;}
 
 /* ── INVOICE FORM TABS ── */
 .inv-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto;}
-.inv-tab-body{height:320px;overflow-y:auto;padding-right:4px;}
+.inv-tab-body{overflow-y:visible;}
 .inv-tab{background:none;border:none;padding:8px 15px;font-size:.78rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;white-space:nowrap;transition:all .15s;}
 .inv-tab.active{color:var(--text);border-bottom-color:var(--red);font-weight:600;}
 .inv-tab:hover:not(.active){color:var(--text);}
@@ -666,6 +748,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div class="search-wrap"><input class="search-inp" id="incSearch" placeholder="Search client…" oninput="renderIncome()"></div>
       <select id="incClientFilter" style="padding:7px 12px;border:1px solid var(--border);border-radius:var(--r2);background:var(--white);font-family:inherit;font-size:.8rem;" onchange="renderIncome()"><option value="">All Clients</option></select>
       <button class="btn btn-ghost btn-sm" onclick="exportIncXLSX()">⬇ Excel</button>
+      <button class="btn btn-ghost btn-sm" onclick="openQuickIncome()" style="border-color:var(--green);color:var(--green);">+ Quick Income</button>
       <button class="btn btn-dark btn-sm" onclick="openModal('addIncomeModal')">+ New Invoice</button>
     </div>
   </div>
@@ -810,11 +893,11 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 <div class="tab" id="tab-settings">
   <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize StudioBills</p></div></div>
   <div class="stabs">
-    <button class="stab active" data-st="profile">Profile</button>
-    <button class="stab" data-st="appearance">Appearance</button>
-    <button class="stab" data-st="categories">Categories</button>
-    <button class="stab" data-st="backup">Backup &amp; Data</button>
-    <button class="stab" data-st="about">About</button>
+    <button class="stab active" data-st="profile">👤 Profile</button>
+    <button class="stab" data-st="appearance">🎨 Appearance</button>
+    <button class="stab" data-st="categories">🏷 Categories</button>
+    <button class="stab" data-st="backup">💾 Backup</button>
+    <button class="stab" data-st="about">ℹ About</button>
   </div>
   <div id="stab-profile">
     <div class="card" style="max-width:500px;">
@@ -1050,39 +1133,19 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <div class="fg"><label>Notes / Terms</label><textarea id="ai-terms" rows="2" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
   </div>
 
-  <!-- TAB 2: PAYMENT (hidden, kept for JS compatibility) -->
-  <div id="ai-tab-payment" style="display:none;"> — status, currency, notes -->
-  <div id="ai-tab-payment" style="display:none;">
-    <div class="form-grid" style="margin-bottom:14px;">
-      <div class="fg"><label>Category</label><select id="ai-cat"><option value="">— select —</option></select></div>
-      <div class="fg"><label>Status</label><select id="ai-status"><option value="pending">Pending</option><option value="partial">Partial</option><option value="received">Received</option></select></div>
-    </div>
-    <div style="margin-bottom:14px;">
-      <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Currency</label>
-      <div style="display:flex;gap:7px;flex-wrap:wrap;" id="ai-currency-bar">
-        <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ai','INR')">🇮🇳 INR</button>
-        <button class="fx-btn" data-code="USD" onclick="isPro()?onCurrencySelect('ai','USD'):showUpgradeModal('multi-currency invoicing')">🇺🇸 USD</button>
-        <button class="fx-btn" data-code="GBP" onclick="isPro()?onCurrencySelect('ai','GBP'):showUpgradeModal('multi-currency invoicing')">🇬🇧 GBP</button>
-        <button class="fx-btn" data-code="EUR" onclick="isPro()?onCurrencySelect('ai','EUR'):showUpgradeModal('multi-currency invoicing')">🇪🇺 EUR</button>
-        <button class="fx-btn" data-code="AED" onclick="isPro()?onCurrencySelect('ai','AED'):showUpgradeModal('multi-currency invoicing')">🇦🇪 AED</button>
-      </div>
-      <div id="ai-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:5px;min-height:16px;"></div>
-    </div>
-    <input type="hidden" id="ai-currency-code" value="INR">
-    <div class="fg"><label>Notes / Terms</label><textarea id="ai-terms" rows="3" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
-  </div>
-
-  <!-- TAB 3: OPTIONS — template, taxes, toggles -->
-  <div id="ai-tab-options" style="display:none;">
-    <div style="margin-bottom:16px;">
-      <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
-      <div class="tpl-grid" id="ai-tpl-grid">
+  <!-- Template picker (inline in Invoice tab) -->
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2);">
+    <label style="font-size:.73rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
+    <div class="tpl-grid" id="ai-tpl-grid">
       <div class="tpl-card sel" data-tpl="classic" onclick="selectTpl('classic','ai')"><div class="tpl-preview" style="background:#F2EDE3;padding:5px 7px;"><div style="font-size:11px;font-weight:800;color:#111;line-height:1;">Invoice</div><div style="height:1px;background:#C5BFB2;margin:4px 0;"></div><div style="font-size:6px;color:#555;margin-bottom:3px;">DESCRIPTION</div><div style="height:6px;background:#E0DAD0;border-radius:2px;"></div></div><div class="tpl-name">Classic</div></div>
       <div class="tpl-card" data-tpl="minimal" onclick="selectTpl('minimal','ai')"><div class="tpl-preview" style="background:#fff;padding:5px 7px;border-bottom:1px solid #eee;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="font-size:6px;font-weight:700;color:#999;letter-spacing:.1em;">INVOICE</div><div style="font-size:9px;font-weight:800;color:#111;">#001</div></div><div style="height:1px;background:#eee;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Minimal</div></div>
       <div class="tpl-card" data-tpl="modern" onclick="selectTpl('modern','ai')"><div class="tpl-preview" style="background:#fff;"><div style="background:#111;padding:6px 7px;"><div style="font-size:8px;font-weight:700;color:#fff;">INVOICE</div><div style="font-size:5px;color:#888;margin-top:2px;">Studio Name</div></div><div style="padding:5px 7px;"><div style="font-size:5px;color:#aaa;">BILLED TO</div><div style="height:5px;background:#f0f0f0;border-radius:1px;margin-top:3px;"></div></div></div><div class="tpl-name">Modern</div></div>
       <div class="tpl-card" data-tpl="elegant" onclick="selectTpl('elegant','ai')"><div class="tpl-preview" style="background:#fff;border-top:3px solid #111;padding:5px 7px;"><div style="font-size:7px;font-weight:400;color:#555;letter-spacing:.2em;text-transform:uppercase;">Invoice</div><div style="height:1px;background:#ddd;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Elegant</div></div>
     </div>
-    </div>
+  </div>
+
+  <!-- TAB 3: OPTIONS — template, taxes, toggles -->
+  <div id="ai-tab-options" style="display:none;">
     <div style="margin-bottom:14px;">
       <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Taxes &amp; Discounts</label>
       <div class="tax-row">
@@ -1162,6 +1225,30 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
   <div class="modal-foot">
     <button class="btn btn-ghost" onclick="closeModal('addClientModal')">Cancel</button>
     <button class="btn btn-dark" onclick="saveNewClient()">Add Client</button>
+  </div>
+</div></div>
+
+<!-- ════════════════════ QUICK INCOME MODAL ════════════════════ -->
+<div class="modal-bg" id="quickIncomeModal">
+<div class="modal" style="max-width:460px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <div><h2>Quick Income</h2><p style="font-size:.78rem;color:var(--muted);font-weight:300;margin-top:2px;">Simple income — no invoice number needed</p></div>
+    <button class="ibtn" onclick="closeModal('quickIncomeModal')">✕</button>
+  </div>
+  <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+    <div class="fg"><label>Amount (₹) *</label><input id="qi-amount" type="number" min="0" placeholder="e.g. 15000" style="font-size:1rem;font-weight:600;"></div>
+    <div class="fg"><label>Date *</label><input id="qi-date" type="date"></div>
+    <div class="fg"><label>Client / Source</label><input id="qi-client" list="clientSuggest" placeholder="Who paid?"></div>
+    <div class="fg"><label>Category</label><select id="qi-cat"><option value="">— select —</option></select></div>
+  </div>
+  <div class="fg" style="margin-bottom:14px;"><label>Description</label><input id="qi-desc" placeholder="e.g. Retainer, Session fee, Freelance work…"></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:10px 12px;background:var(--bg);border-radius:8px;">
+    <input type="checkbox" id="qi-received" checked style="width:15px;height:15px;cursor:pointer;accent-color:var(--green);">
+    <label for="qi-received" style="font-size:.82rem;cursor:pointer;">Mark as already received</label>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" onclick="closeModal('quickIncomeModal')">Cancel</button>
+    <button class="btn btn-red" onclick="saveQuickIncome()">Save Income</button>
   </div>
 </div></div>
 
@@ -2089,7 +2176,7 @@ function renderIncome(){
     <td>${sBadge(i)}</td>
     <td>${i.cat?`<span class="badge b-cat">${esc(i.cat)}</span>`:'<span style="color:var(--muted2);">—</span>'}</td>
     <td><div style="display:flex;gap:3px;flex-wrap:nowrap;">
-      <button class="ibtn" title="Quick receive" onclick="quickReceive('${i.id}')">✓</button>
+      <button class="ibtn" title="Quick receive" data-qr="${i.id}" onclick="quickReceive('${i.id}',this)">✓</button>
       <button class="ibtn" title="Duplicate" onclick="duplicateInvoice('${i.id}')">⧉</button>
       <button class="ibtn" title="Edit" onclick="editInc('${i.id}')">✏️</button>
       <button class="ibtn" title="Invoice PDF" onclick="curInvId='${i.id}';genInvoice()">📄</button>
@@ -3117,7 +3204,7 @@ function saveProfile(){
 function renderCatPills(){
   ['inc','exp'].forEach(t=>{
     const el=document.getElementById(t==='inc'?'incCatPills':'expCatPills');if(!el)return;
-    el.innerHTML=(db.cats[t]||[]).map(c=>`<span class="cat-pill">${esc(c)}<button onclick="removeCat('${t}','${esc(c)}')">×</button></span>`).join('');
+    el.innerHTML=(db.cats[t]||[]).map((c,idx)=>`<span class="cat-pill" draggable="true" data-t="${t}" data-idx="${idx}" ondragstart="catDragStart(event)" ondragover="catDragOver(event)" ondrop="catDrop(event)" ondragleave="catDragLeave(event)">${esc(c)}<button onclick="removeCat('${t}','${esc(c)}')">×</button></span>`).join('');
   });
 }
 function addCat(t){
@@ -3912,20 +3999,38 @@ function bulkMarkReceived() {
   clearBulkSel();
 }
 
-// Quick receive
-function quickReceive(id) {
-  const inv=db.income.find(i=>i.id===id); if(!inv) return;
-  if(inv.status==='received'){toast('Already received');return;}
-  const full=confirm('Mark as FULLY received?\nCancel = enter partial amount');
-  if(full){
-    inv.status='received'; inv.received=+inv.amount;
-    save();renderIncome();renderOverview();toast('Marked received ✓');
-  } else {
-    const amt=prompt('Amount received (₹):', rcv(inv)||''); if(amt===null)return;
-    const n=parseFloat(amt); if(isNaN(n)){toast('Invalid amount','err');return;}
-    inv.received=n; inv.status=n>=(+inv.amount)?'received':'partial';
-    save();renderIncome();renderOverview();toast('Payment recorded ✓');
-  }
+// Quick receive — inline panel (no confirm/prompt dialogs)
+function quickReceive(id,btn){
+  const inv=db.income.find(i=>i.id===id);if(!inv)return;
+  if(inv.status==='received'){toast('Already marked received');return;}
+  // Remove any existing panels
+  document.querySelectorAll('.qr-panel').forEach(p=>p.remove());
+  const cell=btn?btn.closest('td'):null;if(!cell)return;
+  const sym=db.profile.currency||'₹';
+  const panel=document.createElement('div');
+  panel.className='qr-panel';
+  panel.innerHTML=`<button class="qr-btn qr-full" onclick="doQRFull('${id}')">✓ Full ${sym}${fmt(+inv.amount)}</button>`+
+    `<span class="qr-sep">or partial:</span>`+
+    `<input class="qr-inp" id="qr-inp-${id}" type="number" min="0" placeholder="Amount" value="${rcv(inv)||''}">`+
+    `<button class="qr-btn qr-save" onclick="doQRPartial('${id}')">Save</button>`+
+    `<button class="qr-close" onclick="document.querySelectorAll('.qr-panel').forEach(p=>p.remove())">✕</button>`;
+  cell.appendChild(panel);
+  setTimeout(()=>{const inp=document.getElementById('qr-inp-'+id);if(inp)inp.focus();},50);
+}
+function doQRFull(id){
+  document.querySelectorAll('.qr-panel').forEach(p=>p.remove());
+  const inv=db.income.find(i=>i.id===id);if(!inv)return;
+  inv.status='received';inv.received=+inv.amount;
+  save();renderIncome();renderOverview();toast('Marked received ✓');
+}
+function doQRPartial(id){
+  const inp=document.getElementById('qr-inp-'+id);
+  const n=parseFloat(inp?.value||'');
+  if(isNaN(n)||n<0){toast('Enter a valid amount','err');return;}
+  document.querySelectorAll('.qr-panel').forEach(p=>p.remove());
+  const inv=db.income.find(i=>i.id===id);if(!inv)return;
+  inv.received=n;inv.status=n>=(+inv.amount)?'received':'partial';
+  save();renderIncome();renderOverview();toast('Payment recorded ✓');
 }
 
 // Duplicate invoice
