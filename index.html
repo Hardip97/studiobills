@@ -27,21 +27,33 @@
 }
 /* ── DARK MODE ── */
 body.dark{
-  --bg:#111111;--white:#1A1A1A;--text:#E8E8E8;--muted:#777;--muted2:#444;
-  --border:#2A2A2A;--border2:#212121;--black:#252525;
-  --red-soft:rgba(var(--red-rgb),.14);
+  --bg:#161618;--white:#1C1C1E;--text:#E8E8E8;--muted:#888;--muted2:#555;
+  --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.06);--black:#E8E8E8;
+  --red-soft:rgba(255,0,53,.14);
   --green-soft:rgba(0,200,83,.12);--orange-soft:rgba(255,107,0,.1);
+  --glass-bg:rgba(30,30,32,0.82);
+  --glass-border:rgba(255,255,255,0.1);
+  --glass-shadow:0 2px 16px rgba(0,0,0,0.3),0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.08);
 }
-body.dark .topbar{background:#1A1A1A;}
-body.dark .btn-dark{background:#2C2C2C;color:#E8E8E8;}
-body.dark .tn.active{background:#2C2C2C;color:#E8E8E8;}
-body.dark .rbtn.active{background:#2C2C2C;color:#E8E8E8;}
-body.dark .itab.active{background:#2C2C2C;color:#E8E8E8;}
+body.dark .sidebar{background:rgba(22,22,24,0.88);}
+body.dark .sn{color:#888;}
+body.dark .sn:hover{background:rgba(255,255,255,0.06);color:#E8E8E8;}
+body.dark .sn.active{background:#E8E8E8;color:#111;}
+body.dark .sidebar-search input{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:#E8E8E8;}
+body.dark .sidebar-user{background:rgba(255,255,255,0.05);}
+body.dark .sidebar-user-email{color:#888;}
+body.dark .sidebar-divider{background:rgba(255,255,255,0.08);}
+body.dark .btn-dark{background:#E8E8E8;color:#111;}
+body.dark .btn-ghost{border-color:rgba(255,255,255,0.15);color:#888;}
+body.dark .itab.active{background:#E8E8E8;color:#111;}
+body.dark .rbtn.active{background:#E8E8E8;color:#111;}
 body.dark .scrubber-handle{background:#E8E8E8;}
 body.dark .modal-bg{background:rgba(0,0,0,.7);}
-body.dark .modal{background:#1E1E1E;border-color:#2A2A2A;}
-body.dark input,body.dark select,body.dark textarea{background:#222;color:#E8E8E8;border-color:#2A2A2A;}
-body.dark .toast{background:#2C2C2C;color:#E8E8E8;}
+body.dark .modal{background:rgba(25,25,27,0.96);border-color:rgba(255,255,255,0.1);}
+body.dark input,body.dark select,body.dark textarea{background:rgba(255,255,255,0.05);color:#E8E8E8;border-color:rgba(255,255,255,0.1);}
+body.dark .toast{background:#2C2C2E;color:#E8E8E8;}
+body.dark tbody tr:hover td{background:rgba(255,255,255,0.03);}
+body.dark .auth-card{background:rgba(25,25,27,0.9);}
 body.dark .auth-box{background:#1A1A1A;}
 /* ── THEME COLOUR SWATCHES ── */
 .colour-swatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
@@ -98,7 +110,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
   transition:all .15s;border:none;background:none;font-family:inherit;width:100%;text-align:left;}
 .sn:hover{background:rgba(0,0,0,0.04);color:var(--text);}
 .sn.active{background:#1C1C1E;color:#fff;font-weight:500;}
-.sn-ico{font-size:.95rem;width:20px;text-align:center;flex-shrink:0;}
+.sn-ico{width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0.6;}
 .sidebar-divider{height:1px;background:rgba(0,0,0,0.06);margin:8px 0;}
 .sidebar-actions{display:flex;flex-direction:column;gap:6px;padding:10px 0;}
 .sidebar-footer{padding-top:10px;border-top:1px solid rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:6px;}
@@ -528,13 +540,13 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
   <!-- Navigation -->
   <nav class="sidebar-nav" id="sidebarNav">
-    <button class="sn active" data-tab="overview" onclick="showTab('overview')"><span class="sn-ico">🏠</span> Overview</button>
-    <button class="sn" data-tab="income" onclick="showTab('income')"><span class="sn-ico">💸</span> Income</button>
-    <button class="sn" data-tab="expenses" onclick="showTab('expenses')"><span class="sn-ico">🧾</span> Expenses</button>
-    <button class="sn" data-tab="reports" onclick="showTab('reports')"><span class="sn-ico">📊</span> Reports</button>
-    <button class="sn" data-tab="clients" onclick="showTab('clients')"><span class="sn-ico">👥</span> Clients</button>
-    <button class="sn" data-tab="history" onclick="showTab('history')"><span class="sn-ico">🕐</span> History</button>
-    <button class="sn" data-tab="settings" onclick="showTab('settings')"><span class="sn-ico">⚙️</span> Settings</button>
+    <button class="sn active" data-tab="overview" onclick="showTab('overview')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Overview</button>
+    <button class="sn" data-tab="income" onclick="showTab('income')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span> Income</button>
+    <button class="sn" data-tab="expenses" onclick="showTab('expenses')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg></span> Expenses</button>
+    <button class="sn" data-tab="reports" onclick="showTab('reports')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Reports</button>
+    <button class="sn" data-tab="clients" onclick="showTab('clients')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Clients</button>
+    <button class="sn" data-tab="history" onclick="showTab('history')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> History</button>
+    <button class="sn" data-tab="settings" onclick="showTab('settings')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</button>
   </nav>
 
   <div class="sidebar-divider"></div>
@@ -997,11 +1009,10 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <div><h2>New Invoice</h2><span id="ai-draft-badge" class="badge b-draft" style="display:none;margin-left:8px;">Draft</span></div>
     <button class="ibtn" onclick="closeModal('addIncomeModal')">✕</button>
   </div>
-  <!-- 3-TAB STRUCTURE -->
+  <!-- 2-TAB STRUCTURE -->
   <div class="inv-tabs">
-    <button class="inv-tab active" data-invtab="invoice" onclick="showInvTab('invoice','ai')">📋 Invoice</button>
-    <button class="inv-tab" data-invtab="payment" onclick="showInvTab('payment','ai')">💳 Payment</button>
-    <button class="inv-tab" data-invtab="options" onclick="showInvTab('options','ai')">🧾 Tax & Options</button>
+    <button class="inv-tab active" data-invtab="invoice" onclick="showInvTab('invoice','ai')">Invoice & Payment</button>
+    <button class="inv-tab" data-invtab="options" onclick="showInvTab('options','ai')">Tax & Options</button>
   </div>
   <div class="inv-tab-body">
 
@@ -1021,7 +1032,26 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <button class="li-add-btn" onclick="addInvItem('ai')">+ Add Line Item</button>
   </div>
 
-  <!-- TAB 2: PAYMENT — status, currency, notes -->
+  <!-- PAYMENT SECTION (merged into invoice tab) -->
+  <div id="ai-payment-inline" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+    <div class="form-grid" style="margin-bottom:12px;">
+      <div class="fg"><label>Category</label><select id="ai-cat"><option value="">— select —</option></select></div>
+      <div class="fg"><label>Status</label><select id="ai-status"><option value="pending">Pending</option><option value="partial">Partial</option><option value="received">Received</option></select></div>
+      <div class="fg"><label>Currency</label><div style="display:flex;gap:5px;flex-wrap:wrap;" id="ai-currency-bar">
+        <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ai','INR')">🇮🇳 INR</button>
+        <button class="fx-btn" data-code="USD" onclick="isPro()?onCurrencySelect('ai','USD'):showUpgradeModal('multi-currency invoicing')">🇺🇸 USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="isPro()?onCurrencySelect('ai','GBP'):showUpgradeModal('multi-currency invoicing')">🇬🇧 GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="isPro()?onCurrencySelect('ai','EUR'):showUpgradeModal('multi-currency invoicing')">🇪🇺 EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="isPro()?onCurrencySelect('ai','AED'):showUpgradeModal('multi-currency invoicing')">🇦🇪 AED</button>
+      </div>
+      <div id="ai-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:3px;min-height:14px;"></div></div>
+    </div>
+    <input type="hidden" id="ai-currency-code" value="INR">
+    <div class="fg"><label>Notes / Terms</label><textarea id="ai-terms" rows="2" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
+  </div>
+
+  <!-- TAB 2: PAYMENT (hidden, kept for JS compatibility) -->
+  <div id="ai-tab-payment" style="display:none;"> — status, currency, notes -->
   <div id="ai-tab-payment" style="display:none;">
     <div class="form-grid" style="margin-bottom:14px;">
       <div class="fg"><label>Category</label><select id="ai-cat"><option value="">— select —</option></select></div>
@@ -2023,16 +2053,26 @@ function sBadge(i){
 let incFilter='all';
 function renderIncome(){
   const q=(document.getElementById('incSearch')?.value||'').toLowerCase();
+  const clientF=(document.getElementById('incClientFilter')?.value||'');
   let rows=[...db.income];
   if(incFilter==='received')rows=rows.filter(i=>i.status==='received');
   else if(incFilter==='pending')rows=rows.filter(i=>i.status==='pending');
   else if(incFilter==='partial')rows=rows.filter(i=>i.status==='partial');
   else if(incFilter==='overdue')rows=rows.filter(i=>isOverdue(i));
   if(q)rows=rows.filter(i=>(i.client+invDesc(i)+i.cat).toLowerCase().includes(q));
+  if(clientF)rows=rows.filter(i=>i.client===clientF);
   rows.sort((a,b)=>b.date>a.date?1:-1);
+  // fill client filter
+  fillIncClientFilter();
+  // pagination
+  const total=rows.length;
+  const pages=Math.ceil(total/PAGE_SIZE)||1;
+  if(incPage>=pages)incPage=0;
+  const paginated=rows.slice(incPage*PAGE_SIZE,(incPage+1)*PAGE_SIZE);
   const tb=document.getElementById('incTbody');
-  if(!rows.length){tb.innerHTML=`<tr><td colspan="9"><div class="empty"><div class="empty-icon">💸</div><p>No entries</p></div></td></tr>`;return;}
-  tb.innerHTML=rows.map(i=>`<tr class="${isOverdue(i)?'row-overdue':''}">
+  if(!paginated.length){tb.innerHTML=`<tr><td colspan="10"><div class="empty"><div class="empty-icon">💸</div><p>No entries</p></div></td></tr>`;renderPagination('incPagination',incPage,total,setIncPage);return;}
+  tb.innerHTML=paginated.map(i=>`<tr class="${isOverdue(i)?'row-overdue':''}">
+    <td><input type="checkbox" class="inc-row-cb" data-id="${i.id}" ${bulkSelected.has(i.id)?'checked':''} onchange="toggleRowSel(this)" style="cursor:pointer;"></td>
     <td><span style="font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.01em;">${i.invNo||'—'}</span></td>
     <td><div style="font-weight:500;">${esc(i.client)}</div></td>
     <td style="color:var(--muted);font-weight:300;">${esc(invDesc(i)||'—')}</td>
@@ -2042,17 +2082,19 @@ function renderIncome(){
       const mainAmt=isFx?`${sym}${(+i.foreignAmount||0).toLocaleString('en-IN')}<div style="font-size:.7rem;color:var(--muted);font-weight:300;">₹${(+i.amount||0).toLocaleString('en-IN')}</div>`:fmt(i.amount);
       return mainAmt;
     })()}</td>
-    <td style="color:var(--green);font-weight:500;">${fmt(i.received||0)}</td>
-    <td>${i.due?`<span${isOverdue(i)?' style="color:var(--red);font-weight:600;"':''}>${fmtD(i.due)}</span>`:'<span style="color:var(--muted2);">—</span>'}</td>
-    <td>${sBadge(i)}${isOverdue(i)?'<div><span class="badge b-over" style="margin-top:2px;">Overdue</span></div>':''}</td>
+    <td style="color:var(--green);font-weight:500;">${fmt(rcv(i))}</td>
+    <td>${i.due?`<span${isOverdue(i)?' style="color:var(--red);font-weight:600;"':''}>${fmtD(i.due)}</span>${isOverdue(i)?`<div style="font-size:.65rem;color:var(--red);">${Math.floor((new Date()-new Date(i.due))/(864e5))}d overdue</div>`:''}` :'<span style="color:var(--muted2);">—</span>'}</td>
+    <td>${sBadge(i)}</td>
     <td>${i.cat?`<span class="badge b-cat">${esc(i.cat)}</span>`:'<span style="color:var(--muted2);">—</span>'}</td>
-    <td><div style="display:flex;gap:3px;">
+    <td><div style="display:flex;gap:3px;flex-wrap:nowrap;">
+      <button class="ibtn" title="Quick receive" onclick="quickReceive('${i.id}')">✓</button>
+      <button class="ibtn" title="Duplicate" onclick="duplicateInvoice('${i.id}')">⧉</button>
       <button class="ibtn" title="Edit" onclick="editInc('${i.id}')">✏️</button>
-      <button class="ibtn" title="Invoice" onclick="curInvId='${i.id}';genInvoice()">📄</button>
-      <button class="ibtn" title="Delete" onclick="delInc('${i.id}')">🗑</button>
-      ${(i.status==='pending'||i.status==='partial')?`<button class="ibtn" title="WhatsApp Reminder" onclick="sendReminder('${i.id}')">📲</button>`:''}
+      <button class="ibtn" title="Invoice PDF" onclick="curInvId='${i.id}';genInvoice()">📄</button>
+      <button class="ibtn" title="Delete" style="color:var(--red)" onclick="delInc('${i.id}')">✕</button>
     </div></td>
   </tr>`).join('');
+  renderPagination('incPagination',incPage,total,setIncPage);
 }
 function saveIncome(){
   const f=readInvForm('ai');
@@ -2641,30 +2683,37 @@ ${db.profile.ownerName||db.profile.studioName||'Studio'}`);
 // ─── HISTORY ───
 function renderHistory(){
   const q=(document.getElementById('histSearch')?.value||'').toLowerCase();
-  const years=[...new Set([...db.income.map(i=>i.date?.slice(0,4)),...db.expenses.map(e=>e.date?.slice(0,4))].filter(Boolean))].sort((a,b)=>b-a);
-  if(!years.length)years.push(String(new Date().getFullYear()));
-  const ySel=document.getElementById('histYear');
-  const curY=ySel.value||years[0];
-  ySel.innerHTML=['All',...years].map(y=>`<option value="${y}"${y===curY?' selected':''}>${y}</option>`).join('');
-  let rows=[...db.income.map(i=>({...i,_t:'income'})),...db.expenses.map(e=>({...e,_t:'expense',client:e.title}))];
-  if(curY!=='All')rows=rows.filter(r=>r.date?.startsWith(curY));
-  if(q)rows=rows.filter(r=>((r.client||'')+invDesc(r)+(r.cat||'')).toLowerCase().includes(q));
-  rows.sort((a,b)=>b.date>a.date?1:-1);
+  const yr=(document.getElementById('histYear')?.value||'');
+  const fromD=(document.getElementById('histFrom')?.value||'');
+  const toD=(document.getElementById('histTo')?.value||'');
+  const allTx=[
+    ...(db.income||[]).map(i=>({date:i.date,type:'Income',title:(i.invNo?i.invNo+' – ':'')+i.client,cat:i.cat||'',amount:+i.amount||0,status:i.status})),
+    ...(db.expenses||[]).map(e=>({date:e.date,type:'Expense',title:e.title||'',cat:e.cat||'',amount:+e.amount||0,status:''}))
+  ].filter(t=>{
+    if(q&&!(t.title.toLowerCase().includes(q)||t.cat.toLowerCase().includes(q)))return false;
+    if(yr&&!t.date.startsWith(yr))return false;
+    if(fromD&&t.date<fromD)return false;
+    if(toD&&t.date>toD)return false;
+    return true;
+  }).sort((a,b)=>b.date>a.date?1:-1);
+  const total=allTx.length;
+  const pages=Math.ceil(total/PAGE_SIZE)||1;
+  if(histPage>=pages)histPage=0;
+  const paginated=allTx.slice(histPage*PAGE_SIZE,(histPage+1)*PAGE_SIZE);
   const tb=document.getElementById('histTbody');
-  if(!rows.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><div class="empty-icon">📋</div><p>No history</p></div></td></tr>`;return;}
-  tb.innerHTML=rows.map(r=>`<tr>
-    <td style="font-weight:300;">${fmtD(r.date)}</td>
-    <td>${r._t==='income'?'<span class="badge b-rec">Income</span>':'<span class="badge b-over">Expense</span>'}</td>
-    <td style="font-weight:500;">${esc(r._t==='income'?r.client:r.title)}</td>
-    <td>${r.cat?`<span class="badge b-cat">${esc(r.cat)}</span>`:'—'}</td>
-    <td style="font-weight:600;color:${r._t==='income'?'var(--green)':'var(--red)'};">${r._t==='income'?'+':'-'}${fmt(r.amount)}</td>
-    <td>${r._t==='income'?sBadge(r):'—'}</td>
+  if(!tb)return;
+  if(!paginated.length){tb.innerHTML='<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><p>No transactions</p></div></td></tr>';renderPagination('histPagination',histPage,total,setHistPage);return;}
+  tb.innerHTML=paginated.map(t=>`<tr>
+    <td>${t.date}</td>
+    <td><span class="badge ${t.type==='Income'?'b-rec':'b-pend'}">${t.type}</span></td>
+    <td>${esc(t.title)}</td>
+    <td>${t.cat?`<span class="badge b-cat">${esc(t.cat)}</span>`:'—'}</td>
+    <td>${fmt(t.amount)}</td>
+    <td>${t.status?`<span class="badge b-${t.status==='received'?'rec':t.status==='partial'?'part':'pend'}">${t.status}</span>`:'—'}</td>
   </tr>`).join('');
+  renderPagination('histPagination',histPage,total,setHistPage);
 }
 
-// ─── SETTINGS ───
-// ─── INVOICE FORM STATE ───
-// Get best description from invoice (handles legacy desc + new lineItems)
 function invDesc(i){
   if(i.desc&&i.desc.trim())return i.desc.trim();
   if(i.lineItems&&i.lineItems.length>0){
@@ -2714,18 +2763,16 @@ const INV_TYPE_DEFS={
 };
 
 function showInvTab(tab,pfx){
+  // 'payment' is now merged into 'invoice' tab — redirect
+  if(tab==='payment')tab='invoice';
   ['invoice','payment','options'].forEach(t=>{
     const el=document.getElementById(pfx+'-tab-'+t);
-    if(el)el.style.display=t===tab?'block':'none';
+    if(el)el.style.display=t===tab?'':'none';
   });
-  document.querySelectorAll(`#${pfx==='ai'?'addIncomeModal':'editIncomeModal'} .inv-tab`).forEach(b=>{
-    b.classList.toggle('active',b.dataset.invtab===tab);
-  });
-  if(tab==='invoice'){
-    renderInvTypeBar(pfx);
-    if(invFormItems[pfx].length===0)addInvItem(pfx);
-    else renderInvItems(pfx);
-  }
+  // Also show/hide the inline payment section
+  const payInline=document.getElementById(pfx+'-payment-inline');
+  if(payInline)payInline.style.display=tab==='invoice'?'':'none';
+  document.querySelectorAll(`[data-invtab]`).forEach(b=>b.classList.toggle('active',b.dataset.invtab===tab));
 }
 
 function renderInvTypeBar(pfx){
@@ -2987,6 +3034,8 @@ const ACCENTS=['#FF0035','#2563EB','#7C3AED','#059669','#EA580C','#EC4899','#089
 function hexToRgb(h){const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return`${r},${g},${b}`;}
 function darken(h){const r=Math.max(0,parseInt(h.slice(1,3),16)-30),g=Math.max(0,parseInt(h.slice(3,5),16)-30),b=Math.max(0,parseInt(h.slice(5,7),16)-30);return`#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;}
 function applyTheme(){
+  // v2 glass migration: reset any previously saved dark mode once
+  if(!db._glassMigrated){db._glassMigrated=true;db.profile.darkMode=false;save();}
   const dark=db.profile.darkMode||false;
   const accent=db.profile.accentColor||'#FF0035';
   document.body.classList.toggle('dark',dark);
@@ -3782,330 +3831,6 @@ document.querySelectorAll('#expTabs .itab').forEach(b=>b.addEventListener('click
 
 // ─── INIT ───
 initAuth();
-
-// ─── SIDEBAR: update active nav on tab switch ───
-const _origShowTab = showTab;
-showTab = function(tab) {
-  _origShowTab(tab);
-  document.querySelectorAll('.sn').forEach(b => {
-    b.classList.toggle('active', b.dataset.tab === tab);
-  });
-  // populate client filter when income tab opens
-  if(tab === 'income') setTimeout(fillIncClientFilter, 50);
-};
-
-// ─── KEYBOARD SHORTCUT: N = New Invoice, E = New Expense ───
-document.addEventListener('keydown', function(e) {
-  const tag = document.activeElement.tagName;
-  if(tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-  if(e.key === 'n' || e.key === 'N') { openModal('addIncomeModal'); }
-  if(e.key === 'e' || e.key === 'E') { openModal('addExpModal'); }
-});
-
-// ─── GLOBAL SEARCH ───
-function globalSearchFn(q) {
-  const box = document.getElementById('gsResults');
-  if(!q || q.length < 2) { box.style.display='none'; return; }
-  q = q.toLowerCase();
-  const results = [];
-  (db.income||[]).forEach(i => {
-    const match = (i.client||'').toLowerCase().includes(q) ||
-                  (i.desc||'').toLowerCase().includes(q) ||
-                  (i.invNo||'').toLowerCase().includes(q);
-    if(match) results.push({type:'invoice', label: (i.invNo||'INV') + ' – ' + (i.client||''), sub: (i.desc||'') + ' · ₹' + (+i.amount||0).toLocaleString('en-IN'), tab:'income'});
-  });
-  Object.keys(db.clients||{}).forEach(name => {
-    if(name.toLowerCase().includes(q)) results.push({type:'client', label: name, sub: 'Client', tab:'clients'});
-  });
-  (db.expenses||[]).forEach(ex => {
-    if((ex.title||'').toLowerCase().includes(q)) results.push({type:'expense', label: ex.title, sub: '₹' + (+ex.amount||0).toLocaleString('en-IN'), tab:'expenses'});
-  });
-  if(!results.length) { box.innerHTML='<div class="gs-item"><span class="gs-lbl">No results</span></div>'; box.style.display='block'; return; }
-  box.innerHTML = results.slice(0,8).map(r =>
-    `<div class="gs-item" onclick="showTab('${r.tab}');document.getElementById('gsResults').style.display='none';document.getElementById('globalSearch').value='';">
-      <div class="gs-lbl">${r.label}</div><div class="gs-sub">${r.sub}</div>
-    </div>`
-  ).join('');
-  box.style.display = 'block';
-}
-document.addEventListener('click', e => {
-  if(!e.target.closest('.sidebar-search')) {
-    const box = document.getElementById('gsResults');
-    if(box) box.style.display = 'none';
-  }
-});
-
-// ─── CLIENT FILTER in Income ───
-function fillIncClientFilter() {
-  const sel = document.getElementById('incClientFilter');
-  if(!sel) return;
-  const clients = [...new Set((db.income||[]).map(i=>i.client).filter(Boolean))].sort();
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">All Clients</option>' + clients.map(c=>`<option value="${c}"${c===cur?' selected':''}>${c}</option>`).join('');
-}
-
-// ─── BULK SELECT & MARK RECEIVED ───
-let bulkSelected = new Set();
-function toggleSelectAll(cb) {
-  const rows = document.querySelectorAll('.inc-row-cb');
-  rows.forEach(r => { r.checked = cb.checked; if(cb.checked) bulkSelected.add(r.dataset.id); else bulkSelected.delete(r.dataset.id); });
-  updateBulkBar();
-}
-function toggleRowSel(cb) {
-  if(cb.checked) bulkSelected.add(cb.dataset.id); else bulkSelected.delete(cb.dataset.id);
-  updateBulkBar();
-}
-function updateBulkBar() {
-  const bar = document.getElementById('bulkBar');
-  const cnt = document.getElementById('bulkCount');
-  if(!bar) return;
-  if(bulkSelected.size > 0) { bar.style.display='flex'; cnt.textContent=bulkSelected.size+' selected'; }
-  else { bar.style.display='none'; }
-}
-function clearBulkSel() {
-  bulkSelected.clear();
-  document.querySelectorAll('.inc-row-cb').forEach(r=>r.checked=false);
-  const cb = document.getElementById('selectAllInc'); if(cb) cb.checked=false;
-  updateBulkBar();
-}
-function bulkMarkReceived() {
-  if(!bulkSelected.size) return;
-  let changed = 0;
-  db.income.forEach(i => {
-    if(bulkSelected.has(i.id) && i.status !== 'received') {
-      i.status = 'received'; i.received = +i.amount||0; changed++;
-    }
-  });
-  if(changed) { save(); renderIncome(); toast(changed+' invoice(s) marked received ✓'); }
-  clearBulkSel();
-}
-
-// ─── DUPLICATE INVOICE ───
-function duplicateInvoice(id) {
-  const orig = db.income.find(i=>i.id===id);
-  if(!orig) return;
-  const copy = JSON.parse(JSON.stringify(orig));
-  copy.id = uid();
-  copy.invNo = nextAvailableInvNo();
-  copy.status = 'pending';
-  copy.received = 0;
-  copy.date = today();
-  // set due date 30 days from today
-  const d = new Date(); d.setDate(d.getDate()+30);
-  copy.dueDate = d.toISOString().split('T')[0];
-  db.income.unshift(copy);
-  db.invoiceCounter++;
-  save(); renderIncome(); toast('Invoice duplicated as ' + copy.invNo);
-}
-
-// ─── PAGINATION ───
-let incPage = 0, histPage = 0;
-const PAGE_SIZE = 50;
-
-function renderPagination(containerId, page, total, onPage) {
-  const el = document.getElementById(containerId);
-  if(!el) return;
-  const pages = Math.ceil(total / PAGE_SIZE);
-  if(pages <= 1) { el.innerHTML=''; return; }
-  let html = '';
-  if(page > 0) html += `<button class="rbtn" onclick="(${onPage.name||onPage.toString()})(${page-1})">‹ Prev</button>`;
-  html += `<span style="font-size:.78rem;color:var(--muted);">Page ${page+1} of ${pages}</span>`;
-  if(page < pages-1) html += `<button class="rbtn active" onclick="(${onPage.name||onPage.toString()})(${page+1})">Next ›</button>`;
-  el.innerHTML = html;
-}
-function setIncPage(p) { incPage=p; renderIncome(); }
-function setHistPage(p) { histPage=p; renderHistory(); }
-
-// ─── ADD CLIENT MODAL ───
-function openAddClientModal() {
-  ['nc-name','nc-email','nc-phone','nc-gstin','nc-address'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  openModal('addClientModal');
-}
-function saveNewClient() {
-  const name = document.getElementById('nc-name').value.trim();
-  if(!name) { toast('Client name required','err'); return; }
-  if(!db.clients) db.clients = {};
-  if(!db.clients[name]) db.clients[name] = { payments:[] };
-  db.clients[name].email = document.getElementById('nc-email').value.trim();
-  db.clients[name].phone = document.getElementById('nc-phone').value.trim();
-  db.clients[name].gstin = document.getElementById('nc-gstin').value.trim();
-  db.clients[name].address = document.getElementById('nc-address').value.trim();
-  save(); renderClients(); closeModal('addClientModal');
-  toast('Client ' + name + ' added ✓');
-}
-
-// ─── PATCH renderOverview to show outstanding stats ───
-const _origRenderOverview = typeof renderOverview === 'function' ? renderOverview : null;
-function patchOverviewStats() {
-  const outstanding = (db.income||[]).filter(i=>i.status==='pending'||i.status==='partial').reduce((s,i)=>s+(+i.amount||0)-rcv(i),0);
-  const overdue = (db.income||[]).filter(i=>{
-    if(i.status==='received') return false;
-    if(!i.dueDate) return false;
-    return new Date(i.dueDate) < new Date();
-  }).reduce((s,i)=>s+(+i.amount||0)-rcv(i),0);
-  const cur = db.profile&&db.profile.currency?db.profile.currency:'₹';
-  const fmt = n=>cur+Math.round(n).toLocaleString('en-IN');
-  const sc1 = document.getElementById('sc-outstanding'); if(sc1) sc1.textContent=fmt(outstanding);
-  const sc2 = document.getElementById('sc-outstanding-sub');
-  const pendCount = (db.income||[]).filter(i=>i.status==='pending'||i.status==='partial').length;
-  if(sc2) sc2.textContent=pendCount+' unpaid invoice'+(pendCount!==1?'s':'');
-  const sc3 = document.getElementById('sc-overdue2'); if(sc3) sc3.textContent=fmt(overdue);
-  const sc4 = document.getElementById('sc-overdue2-sub');
-  const ovCount = (db.income||[]).filter(i=>{if(i.status==='received')return false;if(!i.dueDate)return false;return new Date(i.dueDate)<new Date();}).length;
-  if(sc4) sc4.textContent=ovCount+' invoice'+(ovCount!==1?'s':'')+' past due';
-}
-
-// Hook into renderOverview
-const __origRO = renderOverview;
-renderOverview = function() {
-  __origRO();
-  setTimeout(patchOverviewStats, 10);
-};
-
-// ─── PATCH renderIncome to add checkbox + duplicate + client filter + overdue + pagination ───
-const __origRI = renderIncome;
-renderIncome = function() {
-  fillIncClientFilter();
-  // get filter values
-  const statusFilter = (() => { const el = document.querySelector('#incTabs .itab.active'); return el ? el.dataset.f : 'all'; })();
-  const q = (document.getElementById('incSearch')||{}).value||'';
-  const clientF = (document.getElementById('incClientFilter')||{}).value||'';
-  const now = new Date();
-
-  let rows = (db.income||[]).filter(i=>{
-    if(q && !((i.client||'').toLowerCase().includes(q.toLowerCase())||(i.desc||'').toLowerCase().includes(q.toLowerCase())||(i.invNo||'').toLowerCase().includes(q.toLowerCase()))) return false;
-    if(clientF && i.client !== clientF) return false;
-    if(statusFilter==='received') return i.status==='received';
-    if(statusFilter==='pending') return i.status==='pending';
-    if(statusFilter==='partial') return i.status==='partial';
-    if(statusFilter==='overdue') return i.status!=='received' && i.dueDate && new Date(i.dueDate)<now;
-    return true;
-  }).sort((a,b)=>b.date>a.date?1:-1);
-
-  const total = rows.length;
-  const paginated = rows.slice(incPage * PAGE_SIZE, (incPage+1) * PAGE_SIZE);
-
-  const tbody = document.getElementById('incTbody');
-  if(!tbody) return;
-
-  if(!paginated.length) {
-    tbody.innerHTML = `<tr><td colspan="10" class="empty"><div class="empty-icon">📭</div><p>No invoices</p></td></tr>`;
-    renderPagination('incPagination', incPage, total, setIncPage);
-    return;
-  }
-
-  const cur = db.profile&&db.profile.currency?db.profile.currency:'₹';
-  const fmt = n=>cur+Math.round(+n||0).toLocaleString('en-IN');
-
-  tbody.innerHTML = paginated.map(i=>{
-    const isOverdue = i.status!=='received' && i.dueDate && new Date(i.dueDate)<now;
-    const daysOv = i.dueDate ? Math.floor((now-new Date(i.dueDate))/(1000*60*60*24)) : 0;
-    const overdueTag = isOverdue ? `<span style="font-size:.65rem;color:var(--red);margin-left:4px;">${daysOv}d overdue</span>` : '';
-    const statusBadge = i.status==='received'?'<span class="badge b-rec">Received</span>':
-                        i.status==='partial'?'<span class="badge b-part">Partial</span>':
-                        isOverdue?'<span class="badge b-over">Overdue</span>':
-                        '<span class="badge b-pend">Pending</span>';
-    const recvAmt = rcv(i);
-    return `<tr class="${isOverdue?'row-overdue':''}">
-      <td><input type="checkbox" class="inc-row-cb" data-id="${i.id}" ${bulkSelected.has(i.id)?'checked':''} onchange="toggleRowSel(this)" style="cursor:pointer;"></td>
-      <td style="font-weight:600;font-size:.78rem;">${i.invNo||'—'}</td>
-      <td>${i.client||'—'}</td>
-      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i.desc||'—'}</td>
-      <td>${fmt(i.amount)}</td>
-      <td>${recvAmt>0?fmt(recvAmt):'—'}</td>
-      <td>${i.dueDate||'—'}${overdueTag}</td>
-      <td>${statusBadge}</td>
-      <td style="font-size:.76rem;color:var(--muted);">${i.cat||'—'}</td>
-      <td>
-        <div style="display:flex;gap:3px;flex-wrap:nowrap;">
-          <button class="ibtn" onclick="quickReceive('${i.id}')" title="Mark received">✓</button>
-          <button class="ibtn" onclick="duplicateInvoice('${i.id}')" title="Duplicate">⧉</button>
-          <button class="ibtn" onclick="openInvoicePreview('${i.id}')" title="Preview">👁</button>
-          <button class="ibtn" onclick="editIncome('${i.id}')" title="Edit">✏</button>
-          <button class="ibtn" style="color:var(--red);" onclick="deleteIncome('${i.id}')" title="Delete">✕</button>
-        </div>
-      </td>
-    </tr>`;
-  }).join('');
-
-  renderPagination('incPagination', incPage, total, setIncPage);
-};
-
-// ─── PATCH renderHistory to add date range filter + pagination ───
-const __origRH = renderHistory;
-renderHistory = function() {
-  const q = (document.getElementById('histSearch')||{}).value||'';
-  const year = (document.getElementById('histYear')||{}).value||'';
-  const fromD = (document.getElementById('histFrom')||{}).value||'';
-  const toD = (document.getElementById('histTo')||{}).value||'';
-
-  const allTx = [
-    ...(db.income||[]).map(i=>({date:i.date,type:'Income',title:(i.invNo?i.invNo+' – ':'')+i.client,cat:i.cat||'',amount:+i.amount||0,status:i.status})),
-    ...(db.expenses||[]).map(e=>({date:e.date,type:'Expense',title:e.title||'',cat:e.cat||'',amount:+e.amount||0,status:''}))
-  ].filter(t=>{
-    if(q && !t.title.toLowerCase().includes(q.toLowerCase()) && !t.cat.toLowerCase().includes(q.toLowerCase())) return false;
-    if(year && !t.date.startsWith(year)) return false;
-    if(fromD && t.date < fromD) return false;
-    if(toD && t.date > toD) return false;
-    return true;
-  }).sort((a,b)=>b.date>a.date?1:-1);
-
-  const total = allTx.length;
-  const paginated = allTx.slice(histPage * PAGE_SIZE, (histPage+1) * PAGE_SIZE);
-
-  const tbody = document.getElementById('histTbody');
-  if(!tbody) return;
-
-  if(!paginated.length) {
-    tbody.innerHTML = '<tr><td colspan="6" class="empty"><div class="empty-icon">📭</div><p>No transactions</p></td></tr>';
-    renderPagination('histPagination', histPage, total, setHistPage);
-    return;
-  }
-
-  const cur = db.profile&&db.profile.currency?db.profile.currency:'₹';
-  const fmt = n=>cur+Math.round(+n||0).toLocaleString('en-IN');
-
-  tbody.innerHTML = paginated.map(t=>`<tr>
-    <td>${t.date}</td>
-    <td><span class="badge ${t.type==='Income'?'b-rec':'b-pend'}">${t.type}</span></td>
-    <td>${t.title}</td>
-    <td><span class="badge b-cat">${t.cat||'—'}</span></td>
-    <td>${fmt(t.amount)}</td>
-    <td>${t.status?`<span class="badge b-${t.status==='received'?'rec':t.status==='partial'?'part':'pend'}">${t.status}</span>`:'—'}</td>
-  </tr>`).join('');
-
-  renderPagination('histPagination', histPage, total, setHistPage);
-};
-
-// ─── QUICK RECEIVE helper (check status, prompt if partial) ───
-function quickReceive(id) {
-  const inv = db.income.find(i=>i.id===id);
-  if(!inv) return;
-  if(inv.status === 'received') { toast('Already marked received'); return; }
-  const choice = confirm('Mark as FULLY received?\nCancel = enter partial amount');
-  if(choice) {
-    inv.status = 'received'; inv.received = +inv.amount;
-    save(); renderIncome(); renderOverview(); toast('Invoice marked received ✓');
-  } else {
-    const amt = prompt('Enter amount received (₹):', rcv(inv)||'');
-    if(amt === null) return;
-    const n = parseFloat(amt);
-    if(isNaN(n)) { toast('Invalid amount','err'); return; }
-    inv.received = n;
-    inv.status = n >= +inv.amount ? 'received' : 'partial';
-    save(); renderIncome(); renderOverview(); toast('Payment recorded ✓');
-  }
-}
-
-// ─── Initialize sidebar active state on load ───
-document.addEventListener('DOMContentLoaded', function() {
-  // set initial active sidebar item
-  const activeTab = document.querySelector('.tab.active');
-  if(activeTab) {
-    const id = activeTab.id.replace('tab-','');
-    document.querySelectorAll('.sn').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
-  }
-});
 
 </script>
 </body>
