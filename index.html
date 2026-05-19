@@ -419,11 +419,13 @@ tbody tr.row-overdue{background:#FFF7F8;}
 .lock-banner-cta{font-size:.72rem;font-weight:700;color:var(--red);white-space:nowrap;}
 
 /* SETTINGS */
-.stabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px;}
-.stab{background:none;border:none;color:var(--muted);cursor:pointer;padding:9px 18px;
+.stabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:24px;overflow-x:auto;}
+.stab{background:none;border:none;color:var(--muted);cursor:pointer;padding:10px 16px;display:inline-flex;align-items:center;gap:7px;
   font-size:.8rem;font-weight:400;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;transition:all .15s;}
-.stab.active{color:var(--text);border-bottom-color:var(--red);font-weight:600;}
+.stab.active{color:var(--red);border-bottom-color:var(--red);font-weight:600;}
+.stab.active svg{stroke:var(--red);}
 .stab:hover:not(.active){color:var(--text);}
+.stab svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:stroke .15s;}
 
 /* TOGGLE */
 .toggle{width:34px;height:18px;background:#CCC;border-radius:9px;position:relative;
@@ -893,11 +895,11 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 <div class="tab" id="tab-settings">
   <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize StudioBills</p></div></div>
   <div class="stabs">
-    <button class="stab active" data-st="profile">👤 Profile</button>
-    <button class="stab" data-st="appearance">🎨 Appearance</button>
-    <button class="stab" data-st="categories">🏷 Categories</button>
-    <button class="stab" data-st="backup">💾 Backup</button>
-    <button class="stab" data-st="about">ℹ About</button>
+    <button class="stab active" data-st="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profile</button>
+    <button class="stab" data-st="appearance"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a4 4 0 0 1 4 4c0 2-2 3-2 5H10c0-2-2-3-2-5a4 4 0 0 1 4-4z"/><path d="M10 16h4M12 19v2"/></svg>Appearance</button>
+    <button class="stab" data-st="categories"><svg viewBox="0 0 24 24"><path d="M3 7h7l2-4h9"/><path d="M3 12h9l2-4h7"/><path d="M3 17h5l2-4h11"/></svg>Categories</button>
+    <button class="stab" data-st="backup"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Backup</button>
+    <button class="stab" data-st="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="8.5"/><path d="M12 11v6"/></svg>About</button>
   </div>
   <div id="stab-profile">
     <div class="card" style="max-width:500px;">
@@ -1636,7 +1638,7 @@ async function deleteAccount(){
 
 // ─── FX RATES ───
 async function fetchFxRates(){
-  if(db.fxRates?.date===today())return;// already fresh today
+  if(db.fxRates?.date===today()&&db.fxRates?._v===2)return;// already fresh (v2 USD-based)
   try{
     // from=USD gives: rates.INR = INR per 1 USD (direct), rates.GBP/EUR/AED per 1 USD
     const res=await fetch('https://api.frankfurter.app/latest?from=USD&to=INR,GBP,EUR,AED');
@@ -1650,7 +1652,7 @@ async function fetchFxRates(){
     });
     // Sanity check — if any rate looks wrong, fall back
     if(rates.USD<70||rates.USD>120) throw new Error('rate sanity fail');
-    db.fxRates={date:today(),rates};
+    db.fxRates={date:today(),rates,_v:2};
     save();
     ['ai','ei'].forEach(pfx=>{
       const codeEl=document.getElementById(pfx+'-currency-code');
@@ -2856,13 +2858,15 @@ const INV_TYPE_DEFS={
 };
 
 function showInvTab(tab,pfx){
-  // 'payment' is now merged into 'invoice' tab — redirect
   if(tab==='payment')tab='invoice';
-  ['invoice','payment','options'].forEach(t=>{
+  // For addIncomeModal (ai), tax section is always visible — only toggle invoice/payment
+  const toToggle=pfx==='ai'?['invoice','payment']:['invoice','payment','options'];
+  toToggle.forEach(t=>{
     const el=document.getElementById(pfx+'-tab-'+t);
     if(el)el.style.display=t===tab?'':'none';
   });
-  // Also show/hide the inline payment section
+  // For addIncomeModal, always keep options (tax section) visible
+  if(pfx==='ai'){const opts=document.getElementById('ai-tab-options');if(opts)opts.style.display='';}
   const payInline=document.getElementById(pfx+'-payment-inline');
   if(payInline)payInline.style.display=tab==='invoice'?'':'none';
   document.querySelectorAll(`[data-invtab]`).forEach(b=>b.classList.toggle('active',b.dataset.invtab===tab));
