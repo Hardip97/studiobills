@@ -419,14 +419,41 @@ tbody tr.row-overdue{background:#FFF7F8;}
 .lock-banner-sub{font-size:.73rem;color:var(--muted);font-weight:300;}
 .lock-banner-cta{font-size:.72rem;font-weight:700;color:var(--red);white-space:nowrap;}
 
-/* SETTINGS */
-.stabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:24px;overflow-x:auto;}
-.stab{background:none;border:none;color:var(--muted);cursor:pointer;padding:10px 16px;display:inline-flex;align-items:center;gap:7px;
-  font-size:.8rem;font-weight:400;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit;transition:all .15s;}
-.stab.active{color:var(--red);border-bottom-color:var(--red);font-weight:600;}
-.stab.active svg{stroke:var(--red);}
-.stab:hover:not(.active){color:var(--text);}
-.stab svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:stroke .15s;}
+/* SETTINGS — pill tabs + bento cards */
+.stabs{display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap;border-bottom:none;}
+.stab{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:100px;border:1.5px solid var(--border);background:var(--glass-bg);backdrop-filter:blur(20px);font-family:inherit;font-size:.8rem;font-weight:500;color:var(--muted);cursor:pointer;transition:.15s;}
+.stab svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.stab.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:600;}
+.stab.active svg{stroke:#fff;}
+.stab:hover:not(.active){border-color:var(--text);color:var(--text);}
+/* Settings bento grid */
+.st-grid{display:grid;gap:16px;}
+.st-g2{grid-template-columns:1fr 1fr;}
+@media(max-width:640px){.st-g2{grid-template-columns:1fr;}}
+.st-card{background:var(--glass-bg);backdrop-filter:blur(60px) saturate(200%);-webkit-backdrop-filter:blur(60px) saturate(200%);border:1px solid var(--glass-border);border-radius:var(--r);padding:22px;box-shadow:var(--glass-shadow);}
+.st-full{grid-column:1/-1;}
+.st-clabel{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:16px;}
+.st-field{margin-bottom:13px;}
+.st-field:last-child{margin-bottom:0;}
+.st-flabel{font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+.st-input{width:100%;padding:9px 13px;border:1.5px solid var(--border);border-radius:9px;background:rgba(0,0,0,0.02);font-family:inherit;font-size:.86rem;color:var(--text);outline:none;transition:border .15s;}
+body.dark .st-input{background:rgba(255,255,255,0.04);}
+.st-input:focus{border-color:var(--red);}
+.st-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
+.st-row:last-child{border-bottom:none;padding-bottom:0;}
+.st-rlbl{font-size:.86rem;font-weight:500;}
+.st-rsub{font-size:.72rem;color:var(--muted);margin-top:1px;}
+.st-bkbtn{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid var(--border);background:none;font-family:inherit;cursor:pointer;text-align:left;margin-bottom:10px;transition:border .15s;color:var(--text);}
+.st-bkbtn:hover{border-color:var(--text);}
+.st-bkbtn.bk-primary{background:var(--text);border-color:var(--text);color:var(--bg);}
+.st-bkicon{width:34px;height:34px;border-radius:9px;background:rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+body.dark .st-bkicon{background:rgba(255,255,255,0.08);}
+.st-bkbtn.bk-primary .st-bkicon{background:rgba(255,255,255,0.14);}
+.st-bkicon svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.st-bktitle{font-size:.84rem;font-weight:600;}
+.st-bksub{font-size:.71rem;color:var(--muted);margin-top:1px;}
+.st-bkbtn.bk-primary .st-bksub{color:rgba(255,255,255,.5);}
+.st-plan-row{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;background:var(--green-soft);border-radius:10px;margin-bottom:10px;}
 
 /* TOGGLE */
 .toggle{width:34px;height:18px;background:#CCC;border-radius:9px;position:relative;
@@ -895,55 +922,81 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 <!-- ══════════════════════ SETTINGS ══════════════════════ -->
 <div class="tab" id="tab-settings">
   <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize StudioBills</p></div></div>
+  <!-- PILL TABS -->
   <div class="stabs">
     <button class="stab active" data-st="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profile</button>
-    <button class="stab" data-st="appearance"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a4 4 0 0 1 4 4c0 2-2 3-2 5H10c0-2-2-3-2-5a4 4 0 0 1 4-4z"/><path d="M10 16h4M12 19v2"/></svg>Appearance</button>
-    <button class="stab" data-st="categories"><svg viewBox="0 0 24 24"><path d="M3 7h7l2-4h9"/><path d="M3 12h9l2-4h7"/><path d="M3 17h5l2-4h11"/></svg>Categories</button>
+    <button class="stab" data-st="appearance"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>Appearance</button>
+    <button class="stab" data-st="categories"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>Categories</button>
     <button class="stab" data-st="backup"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Backup</button>
-    <button class="stab" data-st="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="8.5"/><path d="M12 11v6"/></svg>About</button>
+    <button class="stab" data-st="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 8v.5"/></svg>About</button>
   </div>
+
+  <!-- ── PROFILE ── -->
   <div id="stab-profile">
-    <div class="card" style="max-width:500px;">
-      <div class="card-title" style="margin-bottom:16px;">Studio Profile</div>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <div class="fg"><label>Studio Name</label><input id="s-studio" placeholder="e.g. Bright Studio Co."></div>
-        <div class="fg"><label>Your Name</label><input id="s-owner" placeholder="e.g. John Doe"></div>
-        <div class="fg"><label>Email</label><input id="s-email" placeholder="e.g. john@studio.com"></div>
-        <div class="fg"><label>Phone</label><input id="s-phone" placeholder="e.g. +91 98765 43210"></div>
-        <div class="fg"><label>Address</label><textarea id="s-address" rows="2" placeholder="e.g. 123 MG Road, Ahmedabad, Gujarat - 380001"></textarea></div>
-        <div class="fg"><label>Currency</label><select id="s-currency" style="max-width:140px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.83rem;background:var(--bg);color:var(--text);">
-  <option value="₹">₹ INR – Indian Rupee</option>
-  <option value="$">$ USD – US Dollar</option>
-  <option value="£">£ GBP – British Pound</option>
-  <option value="€">€ EUR – Euro</option>
-  <option value="د.إ">د.إ AED – UAE Dirham</option>
-</select></div>
-        <div style="height:1px;background:var(--border);margin:4px 0;"></div>
-        <div style="font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.03em;text-transform:uppercase;">Payment Information</div>
-        <div class="fg"><label>Role / Title</label><input id="s-role" placeholder="e.g. Freelance Designer · Photographer · Consultant"></div>
-        <div class="fg"><label>UPI / GPay / PhonePe ID</label><input id="s-upi" placeholder="e.g. yourname@okicici"></div>
-        <div class="fg"><label>Bank Name</label><input id="s-bank" placeholder="e.g. HDFC Bank"></div>
-        <div class="fg"><label>Account Number</label><input id="s-account" placeholder="e.g. 1234567890123456"></div>
-        <div class="fg"><label>IFSC Code</label><input id="s-ifsc" placeholder="e.g. HDFC0001234"></div>
-        <div class="fg"><label>SWIFT / BIC Code <span style="font-weight:300;">(for international transfers)</span></label><input id="s-swift" placeholder="e.g. PUNBINBBGDB"></div>
-        <div class="fg"><label>PayPal / Wise Email <span style="font-weight:300;">(international clients)</span></label><input id="s-paypal" placeholder="e.g. yourname@paypal.com"></div>
-        <div style="height:1px;background:var(--border);margin:4px 0;"></div>
-        <div style="font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.03em;text-transform:uppercase;">Tax Information</div>
-        <div class="fg"><label>Your GSTIN <span style="font-weight:300;">(if registered)</span></label><input id="s-gstin" placeholder="22AAAAA0000A1Z5"></div>
-        <div class="fg"><label>PAN Number</label><input id="s-pan" placeholder="AAAAA0000A"></div>
+    <div class="st-grid st-g2">
+      <!-- Studio Identity -->
+      <div class="st-card">
+        <div class="st-clabel">Studio Identity</div>
+        <div class="st-field"><div class="st-flabel">Studio Name</div><input class="st-input" id="s-studio" placeholder="e.g. Bright Studio Co."></div>
+        <div class="st-field"><div class="st-flabel">Your Name</div><input class="st-input" id="s-owner" placeholder="e.g. John Doe"></div>
+        <div class="st-field"><div class="st-flabel">Role / Title</div><input class="st-input" id="s-role" placeholder="e.g. AI Filmmaker · VFX Artist"></div>
+        <div class="st-field"><div class="st-flabel">Currency</div>
+          <select class="st-input" id="s-currency">
+            <option value="₹">₹ INR – Indian Rupee</option>
+            <option value="$">$ USD – US Dollar</option>
+            <option value="£">£ GBP – British Pound</option>
+            <option value="€">€ EUR – Euro</option>
+            <option value="د.إ">د.إ AED – UAE Dirham</option>
+          </select>
+        </div>
+      </div>
+      <!-- Contact Details -->
+      <div class="st-card">
+        <div class="st-clabel">Contact Details</div>
+        <div class="st-field"><div class="st-flabel">Email</div><input class="st-input" id="s-email" placeholder="e.g. john@studio.com"></div>
+        <div class="st-field"><div class="st-flabel">Phone</div><input class="st-input" id="s-phone" placeholder="e.g. +91 98765 43210"></div>
+        <div class="st-field"><div class="st-flabel">Address</div><textarea class="st-input" id="s-address" rows="3" placeholder="Your address"></textarea></div>
+      </div>
+      <!-- Payment Info -->
+      <div class="st-card st-full">
+        <div class="st-clabel">Payment Information</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
+          <div class="st-field"><div class="st-flabel">UPI / GPay / PhonePe</div><input class="st-input" id="s-upi" placeholder="yourname@okicici"></div>
+          <div class="st-field"><div class="st-flabel">Bank Name</div><input class="st-input" id="s-bank" placeholder="e.g. HDFC Bank"></div>
+          <div class="st-field"><div class="st-flabel">Account Number</div><input class="st-input" id="s-account" placeholder="1234567890123456"></div>
+          <div class="st-field"><div class="st-flabel">IFSC Code</div><input class="st-input" id="s-ifsc" placeholder="HDFC0001234"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+          <div class="st-field"><div class="st-flabel">SWIFT / BIC Code <span style="font-weight:300;text-transform:none;">(international)</span></div><input class="st-input" id="s-swift" placeholder="PUNBINBBGDB"></div>
+          <div class="st-field"><div class="st-flabel">PayPal / Wise Email</div><input class="st-input" id="s-paypal" placeholder="yourname@paypal.com"></div>
+        </div>
+      </div>
+      <!-- Tax Info -->
+      <div class="st-card">
+        <div class="st-clabel">Tax Information</div>
+        <div class="st-field"><div class="st-flabel">GSTIN <span style="font-weight:300;text-transform:none;">(if registered)</span></div><input class="st-input" id="s-gstin" placeholder="22AAAAA0000A1Z5"></div>
+        <div class="st-field"><div class="st-flabel">PAN Number</div><input class="st-input" id="s-pan" placeholder="AAAAA0000A"></div>
+      </div>
+      <!-- Save -->
+      <div class="st-card" style="display:flex;align-items:center;justify-content:flex-end;padding:16px 22px;">
         <button class="btn btn-red" onclick="saveProfile()">Save Profile</button>
       </div>
     </div>
   </div>
+
+  <!-- ── APPEARANCE ── -->
   <div id="stab-appearance" style="display:none;">
-    <div class="card" style="max-width:480px;">
-      <div class="card-title" style="margin-bottom:16px;">Appearance</div>
-      <div class="appear-row">
-        <div><div class="appear-label">Dark Mode</div><div class="appear-sub">Switch to dark background</div></div>
-        <label class="toggle-wrap"><input type="checkbox" id="s-darkmode" onchange="toggleDark(this.checked)"><span class="toggle-slider"></span></label>
+    <div class="st-grid st-g2">
+      <div class="st-card">
+        <div class="st-clabel">Display</div>
+        <div class="st-row">
+          <div><div class="st-rlbl">Dark Mode</div><div class="st-rsub">Switch to dark background</div></div>
+          <label class="toggle-wrap"><input type="checkbox" id="s-darkmode" onchange="toggleDark(this.checked)"><span class="toggle-slider"></span></label>
+        </div>
       </div>
-      <div class="appear-row" style="flex-direction:column;align-items:flex-start;gap:12px;">
-        <div><div class="appear-label">Accent Colour</div><div class="appear-sub">Brand colour used across the app</div></div>
+      <div class="st-card">
+        <div class="st-clabel">Accent Colour</div>
+        <div class="st-rsub" style="margin-bottom:14px;">Brand colour used across the app</div>
         <div class="colour-swatches" id="colourSwatches">
           <div class="cswatch sel" data-colour="#FF0035" style="background:#FF0035;" onclick="setAccent('#FF0035',this)" title="Red"></div>
           <div class="cswatch" data-colour="#2563EB" style="background:#2563EB;" onclick="setAccent('#2563EB',this)" title="Blue"></div>
@@ -957,62 +1010,83 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       </div>
     </div>
   </div>
+
+  <!-- ── CATEGORIES ── -->
   <div id="stab-categories" style="display:none;">
-    <div class="g2" style="max-width:680px;gap:16px;">
-      <div class="card">
-        <div class="card-title" style="margin-bottom:12px;">Income Categories</div>
+    <div class="st-grid st-g2">
+      <div class="st-card">
+        <div class="st-clabel">Income Categories</div>
         <div class="cat-pills" id="incCatPills"></div>
-        <div style="display:flex;gap:8px;"><input id="newIncCat" placeholder="New category…" style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.79rem;background:var(--bg);"><button class="btn btn-dark btn-sm" onclick="addCat('inc')">Add</button></div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <input id="newIncCat" placeholder="New income category…" class="st-input" style="flex:1;">
+          <button class="btn btn-dark btn-sm" onclick="addCat('inc')">Add</button>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-title" style="margin-bottom:12px;">Expense Categories</div>
+      <div class="st-card">
+        <div class="st-clabel">Expense Categories</div>
         <div class="cat-pills" id="expCatPills"></div>
-        <div style="display:flex;gap:8px;"><input id="newExpCat" placeholder="New category…" style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.79rem;background:var(--bg);"><button class="btn btn-dark btn-sm" onclick="addCat('exp')">Add</button></div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <input id="newExpCat" placeholder="New expense category…" class="st-input" style="flex:1;">
+          <button class="btn btn-dark btn-sm" onclick="addCat('exp')">Add</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- ── BACKUP ── -->
   <div id="stab-backup" style="display:none;">
-    <div class="card" style="max-width:480px;">
-      <div class="card-title" style="margin-bottom:16px;">Backup &amp; Restore</div>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <button class="btn btn-dark" onclick="exportBackup()">⬇ Export Backup (JSON)</button>
-        <label class="btn btn-ghost" style="cursor:pointer;">📂 Import Backup (JSON)<input type="file" accept=".json" onchange="importBackup(event)" style="display:none;"></label>
-        <div style="height:1px;background:var(--border);margin:4px 0;"></div>
-        <button class="btn btn-ghost btn-sm" style="color:var(--red);border-color:rgba(255,0,53,.3);" onclick="clearAll()">🗑 Clear All Data</button>
+    <div class="st-grid st-g2">
+      <div class="st-card">
+        <div class="st-clabel">Backup &amp; Restore</div>
+        <button class="st-bkbtn bk-primary" onclick="exportBackup()">
+          <div class="st-bkicon"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div>
+          <div><div class="st-bktitle">Export Backup (JSON)</div><div class="st-bksub">Download all your data as a local file</div></div>
+        </button>
+        <label class="st-bkbtn" style="cursor:pointer;">
+          <div class="st-bkicon"><svg viewBox="0 0 24 24"><path d="M12 21V8M8 12l4-4 4 4"/><path d="M4 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/></svg></div>
+          <div><div class="st-bktitle">Import Backup (JSON)</div><div class="st-bksub">Restore from a previous backup file</div></div>
+          <input type="file" accept=".json" onchange="importBackup(event)" style="display:none;">
+        </label>
+        <p style="font-size:.71rem;color:var(--muted);line-height:1.6;margin-top:4px;">Data syncs via Supabase. Export a local backup before clearing site data.</p>
       </div>
-      <p style="margin-top:14px;font-size:.73rem;color:var(--muted2);line-height:1.6;">Data is stored in your browser's localStorage. Export a backup before switching browsers or clearing site data.</p>
+      <div class="st-card" style="border:1px solid rgba(255,0,53,.2);">
+        <div class="st-clabel" style="color:var(--red);">Danger Zone</div>
+        <div style="font-size:.79rem;color:var(--muted);line-height:1.6;margin-bottom:16px;">Permanently deletes your data. These actions cannot be undone.</div>
+        <button class="btn btn-ghost btn-sm" style="color:var(--red);border-color:rgba(255,0,53,.3);width:100%;margin-bottom:8px;" onclick="clearAll()">🗑 Clear All Data</button>
+        <button class="btn" onclick="deleteAccount()" style="background:transparent;border:1px solid var(--red);color:var(--red);font-size:.8rem;font-weight:600;width:100%;padding:9px;">🗑 Delete My Account</button>
+      </div>
     </div>
   </div>
+
+  <!-- ── ABOUT ── -->
   <div id="stab-about" style="display:none;">
-    <!-- Plan Status Card -->
-    <div class="card" style="max-width:380px;margin-bottom:16px;padding:20px 24px;" id="planStatusCard">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;">Your Plan</div>
-        <span id="planBadgeEl" class="plan-badge free">Free</span>
+    <div class="st-grid st-g2">
+      <!-- App card -->
+      <div class="st-card">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+          <div class="logo-icon" style="width:50px;height:50px;border-radius:13px;font-size:.95rem;flex-shrink:0;">SB</div>
+          <div>
+            <div style="font-size:1rem;font-weight:700;">StudioBills</div>
+            <div style="font-size:.73rem;color:var(--muted);">Version 1.0</div>
+          </div>
+        </div>
+        <div style="font-size:.78rem;color:var(--muted);line-height:1.7;font-weight:300;">Billing tracker for creative studios. Powered by Supabase — your data syncs securely across devices.</div>
       </div>
-      <div id="planStatusMsg" style="font-size:.82rem;color:var(--muted);font-weight:300;line-height:1.6;margin-bottom:14px;">You're on the Free plan — 2 clients, watermarked PDF.</div>
-      <button id="planUpgradeBtn" class="btn btn-red btn-sm" onclick="showUpgradeModal('Pro features')" style="width:100%;">⚡ Upgrade to Pro</button>
-    </div>
-    <div class="card" style="max-width:380px;text-align:center;padding:32px;margin-bottom:16px;">
-      <div class="logo-icon" style="width:48px;height:48px;border-radius:12px;font-size:1rem;margin:0 auto 12px;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;">SB</div>
-      <div style="font-size:1rem;font-weight:700;">StudioBills</div>
-      <div style="font-size:.76rem;color:var(--muted);margin:4px 0 14px;">Version 1.0</div>
-      <div style="font-size:.79rem;color:var(--muted);line-height:1.7;font-weight:300;">Billing tracker for creative studios. Powered by Supabase — your data syncs securely across devices.</div>
-    </div>
-    <!-- Danger Zone -->
-    <div class="card" style="max-width:380px;border:1px solid rgba(255,0,53,.25);padding:20px 24px;">
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--red);text-transform:uppercase;margin-bottom:10px;">⚠ Danger Zone</div>
-      <div style="font-size:.81rem;color:var(--muted);font-weight:300;margin-bottom:16px;line-height:1.6;">Permanently deletes your account and all associated data — invoices, expenses, clients, and profile. This action <strong>cannot be undone</strong>.</div>
-      <button class="btn" onclick="deleteAccount()" style="background:transparent;border:1px solid var(--red);color:var(--red);font-size:.8rem;font-weight:600;width:100%;padding:9px;">🗑 Delete My Account</button>
-    </div>
-    <!-- Legal -->
-    <div class="card" style="max-width:380px;padding:20px 24px;">
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Legal</div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <a href="/privacy-policy.html" target="_blank" style="font-size:.83rem;color:var(--text);text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);transition:border .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
+      <!-- Plan + Legal -->
+      <div class="st-card" id="planStatusCard">
+        <div class="st-clabel">Your Plan</div>
+        <div class="st-plan-row">
+          <div style="font-size:.82rem;font-weight:600;color:var(--green);">Plan Status</div>
+          <span id="planBadgeEl" class="plan-badge free">Free</span>
+        </div>
+        <div id="planStatusMsg" style="font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:14px;">You're on the Free plan — 2 clients, watermarked PDF.</div>
+        <button id="planUpgradeBtn" class="btn btn-red btn-sm" onclick="showUpgradeModal('Pro features')" style="width:100%;">⚡ Upgrade to Pro</button>
+        <div style="height:1px;background:var(--border);margin:16px 0;"></div>
+        <div class="st-clabel">Legal</div>
+        <a href="/privacy-policy.html" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);font-size:.82rem;color:var(--text);text-decoration:none;margin-bottom:8px;transition:border .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
           <span>🔒 Privacy Policy</span><span style="font-size:.7rem;color:var(--muted);">↗</span>
         </a>
-        <a href="/terms-of-service.html" target="_blank" style="font-size:.83rem;color:var(--text);text-decoration:none;display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);transition:border .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
+        <a href="/terms-of-service.html" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);font-size:.82rem;color:var(--text);text-decoration:none;transition:border .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
           <span>📄 Terms of Service</span><span style="font-size:.7rem;color:var(--muted);">↗</span>
         </a>
       </div>
