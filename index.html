@@ -1631,7 +1631,7 @@ const FX_CURRENCIES={
   AED:{symbol:'د.إ',flag:'🇦🇪',name:'UAE Dirham'},
 };
 // Fallback rates (used instantly; overwritten by live API on load)
-const FX_FALLBACK={INR:1,USD:85,GBP:109,EUR:95,AED:23};
+const FX_FALLBACK={INR:1,USD:97,GBP:122,EUR:108,AED:26};
 let db={income:[],expenses:[],invoiceCounter:0,clients:{},fxRates:{date:"",rates:{...FX_FALLBACK}},profile:{...DEFAULT_PROFILE},plan:'free',planExpiry:null,cats:{inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']}};
 let viewMonth=new Date();
 let activeRange='6M';
@@ -1773,33 +1773,55 @@ async function deleteAccount(){
 
 // ─── FX RATES ───
 async function fetchFxRates(){
-  if(db.fxRates?.date===today()&&db.fxRates?._v===2)return;// already fresh (v2 USD-based)
-  try{
-    // from=USD gives: rates.INR = INR per 1 USD (direct), rates.GBP/EUR/AED per 1 USD
-    const res=await fetch('https://api.frankfurter.app/latest?from=USD&to=INR,GBP,EUR,AED');
-    if(!res.ok)throw new Error('fetch failed');
-    const data=await res.json();
-    const inrPerUsd=data.rates.INR||85;
-    const rates={INR:1,USD:Math.round(inrPerUsd)};
-    // GBP/EUR/AED: 1 CODE = (inrPerUsd / rates[CODE]) INR
-    ['GBP','EUR','AED'].forEach(code=>{
-      if(data.rates[code]) rates[code]=Math.round(inrPerUsd/data.rates[code]);
+  if(db.fxRates?.date===today()&&db.fxRates?._v===3)return;// already fresh today
+  // Helper: parse rates from a USD-base response (rates = X per 1 USD)
+  function buildRates(r){
+    const inrPerUsd=+r.INR||+r.inr||97;
+    const rates={INR:1,USD:Math.round(inrPerUsd*100)/100};
+    ['GBP','EUR','AED'].forEach(c=>{
+      const v=+r[c]||+r[c.toLowerCase()];
+      if(v>0)rates[c]=Math.round((inrPerUsd/v)*100)/100;
     });
-    // Sanity check — if any rate looks wrong, fall back
-    if(rates.USD<70||rates.USD>120) throw new Error('rate sanity fail');
-    db.fxRates={date:today(),rates,_v:2};
+    return rates;
+  }
+  async function trySource(url,parser){
+    const r=await fetch(url,{signal:AbortSignal.timeout(6000)});
+    if(!r.ok)throw new Error('http '+r.status);
+    return parser(await r.json());
+  }
+  try{
+    let rates;
+    // Source 1: exchangerate-api.com free tier (no key needed)
+    try{
+      rates=await trySource(
+        'https://api.exchangerate-api.com/v4/latest/USD',
+        d=>buildRates(d.rates)
+      );
+      console.log('FX source 1 OK');
+    }catch(e1){
+      // Source 2: fawazahmed0 CDN (no key needed, daily updated)
+      console.log('FX source 1 failed, trying source 2:',e1.message);
+      rates=await trySource(
+        'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json',
+        d=>buildRates(d.usd||d.USD||{})
+      );
+      console.log('FX source 2 OK');
+    }
+    // Sanity check
+    if(!rates.USD||rates.USD<80||rates.USD>130)throw new Error('rate sanity fail: USD='+rates.USD);
+    db.fxRates={date:today(),rates,_v:3};
     save();
     ['ai','ei'].forEach(pfx=>{
       const codeEl=document.getElementById(pfx+'-currency-code');
       if(codeEl&&codeEl.value&&codeEl.value!=='INR')onCurrencySelect(pfx,codeEl.value);
     });
-    console.log('FX rates updated:',rates);
+    console.log('FX rates live:',rates);
   }catch(e){
-    // Ensure fallback rates are loaded
-    if(!db.fxRates?.rates?.USD||db.fxRates.rates.USD<2){
+    // Both sources failed — keep whatever we have, or use updated fallback
+    if(!db.fxRates?.rates?.USD||db.fxRates.rates.USD<80){
       db.fxRates={date:'',rates:{...FX_FALLBACK}};
     }
-    console.log('FX fetch failed, using fallback:',db.fxRates.rates);
+    console.log('FX fetch failed, using fallback:',db.fxRates.rates,e.message);
   }
 }
 
