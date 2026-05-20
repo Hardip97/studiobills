@@ -1,98 +1,154 @@
-const crypto = require('crypto');
+/**
+ * StudioBills — Razorpay Webhook Handler
+ * Vercel Serverless Function: /api/webhook
+ *
+ * Flow:
+ *   User pays on Razorpay → Razorpay POSTs this URL → Plan updated in Supabase
+ *   User returns to app → visibilitychange fires → refreshPlanFromSupabase() → Pro unlocked ✓
+ *
+ * Env vars needed in Vercel (Settings → Environment Variables):
+ *   RAZORPAY_WEBHOOK_SECRET   — Razorpay Dashboard → Settings → Webhooks
+ *   SUPABASE_URL              — your Supabase project URL
+ *   SUPABASE_SERVICE_ROLE_KEY — Supabase Dashboard → Settings → API → service_role key
+ */
 
-const SUPABASE_URL          = process.env.SUPABASE_URL;
-const SUPABASE_SERVICE_KEY  = process.env.SUPABASE_SERVICE_KEY;
-const WEBHOOK_SECRET        = process.env.RAZORPAY_WEBHOOK_SECRET;
+import crypto from 'crypto';
 
-// Amount in paise (Razorpay uses paise, not rupees)
-const MONTHLY_AMOUNT = 14900; // ₹149
-const YEARLY_AMOUNT  = 99900; // ₹999
-
-module.exports = async (req, res) => {
-  if (req.method !== 'POST') return res.status(405).end('Method not allowed');
-
-  // ── 1. Verify Razorpay signature ──
-  const signature = req.headers['x-razorpay-signature'];
-  if (WEBHOOK_SECRET) {
-    if (!signature) return res.status(400).json({ error: 'Missing signature' });
-    const bodyStr = JSON.stringify(req.body);
-    const expected = crypto.createHmac('sha256', WEBHOOK_SECRET).update(bodyStr).digest('hex');
-    if (signature !== expected) return res.status(400).json({ error: 'Invalid signature' });
-  }
-
-  const event = req.body;
-  console.log('Webhook received:', event.event);
-
-  // ── 2. Only handle payment.captured ──
-  if (event.event !== 'payment.captured') {
-    return res.status(200).json({ status: 'ignored', event: event.event });
-  }
-
-  const payment = event.payload?.payment?.entity;
-  if (!payment) return res.status(200).json({ status: 'no_payment_data' });
-
-  const email      = payment.email?.toLowerCase()?.trim();
-  const amountPaise = payment.amount;
-
-  if (!email) return res.status(200).json({ status: 'no_email' });
-
-  // ── 3. Determine plan from amount ──
-  const isYearly  = amountPaise === YEARLY_AMOUNT;
-  const isMonthly = amountPaise === MONTHLY_AMOUNT;
-
-  if (!isYearly && !isMonthly) {
-    console.log('Unknown plan amount:', amountPaise);
-    return res.status(200).json({ status: 'unknown_amount', amount: amountPaise });
-  }
-
-  // ── 4. Calculate expiry ──
-  const expiry = new Date();
-  if (isYearly)  expiry.setFullYear(expiry.getFullYear() + 1);
-  if (isMonthly) expiry.setMonth(expiry.getMonth() + 1);
-
-  // ── 5. Connect to Supabase with service role key ──
-  const { createClient } = require('@supabase/supabase-js');
-  const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
-
-  // ── 6. Find user by email ──
-  const { data: { users }, error: listErr } = await supabase.auth.admin.listUsers({ perPage: 1000 });
-  if (listErr) {
-    console.error('Error listing users:', listErr.message);
-    return res.status(500).json({ error: listErr.message });
-  }
-
-  const user = users.find(u => u.email?.toLowerCase() === email);
-  if (!user) {
-    console.log('⚠️ No StudioBills account found for email:', email);
-    return res.status(200).json({ status: 'user_not_found', email });
-  }
-
-  // ── 7. Fetch existing user data from Supabase ──
-  const { data: userData } = await supabase
-    .from('user_data')
-    .select('data')
-    .eq('user_id', user.id)
-    .single();
-
-  const db = userData?.data || {};
-
-  // ── 8. Upgrade plan ──
-  db.plan             = 'pro';
-  db.planExpiry       = expiry.toISOString();
-  db.planType         = isYearly ? 'yearly' : 'monthly';
-  db.planActivatedAt  = new Date().toISOString();
-  db.planPaymentId    = payment.id;
-  db._ts              = Date.now();
-
-  const { error: upsertErr } = await supabase
-    .from('user_data')
-    .upsert({ user_id: user.id, data: db, updated_at: new Date().toISOString() });
-
-  if (upsertErr) {
-    console.error('Error updating plan:', upsertErr.message);
-    return res.status(500).json({ error: upsertErr.message });
-  }
-
-  console.log(`✅ Plan upgraded: ${email} → ${db.planType}, expires: ${expiry.toISOString()}`);
-  return res.status(200).json({ status: 'ok', plan: 'pro', type: db.planType, expiry: expiry.toISOString() });
+// Disable Vercel body parser so we can verify the raw body signature
+export const config = {
+  api: { bodyParser: false },
 };
+
+// ── helpers ───────────────────────────────────────────────────────────────────
+
+async function getRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', c => chunks.push(c));
+    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+    req.on('error', reject);
+  });
+}
+
+async function supaFetch(path, method = 'GET', body = null) {
+  const url  = `${process.env.SUPABASE_URL}${path}`;
+  const opts = {
+    method,
+    headers: {
+      'apikey':        process.env.SUPABASE_SERVICE_ROLE_KEY,
+      'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+      'Content-Type':  'application/json',
+      'Prefer':        'resolution=merge-duplicates',
+    },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(url, opts);
+  try { return await res.json(); } catch { return null; }
+}
+
+// ── main handler ──────────────────────────────────────────────────────────────
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // 1. Read raw body
+  const rawBody = await getRawBody(req);
+
+  // 2. Verify Razorpay HMAC-SHA256 signature
+  const signature = req.headers['x-razorpay-signature'];
+  const secret    = process.env.RAZORPAY_WEBHOOK_SECRET;
+
+  if (!signature || !secret) {
+    console.error('Missing signature or RAZORPAY_WEBHOOK_SECRET env var');
+    return res.status(400).json({ error: 'Missing signature' });
+  }
+
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(rawBody)
+    .digest('hex');
+
+  if (signature !== expected) {
+    console.error('Razorpay signature mismatch — possible fake request');
+    return res.status(400).json({ error: 'Invalid signature' });
+  }
+
+  // 3. Parse event
+  let event;
+  try { event = JSON.parse(rawBody); }
+  catch { return res.status(400).json({ error: 'Invalid JSON' }); }
+
+  const eventType = event.event;
+  console.log(`Razorpay event received: ${eventType}`);
+
+  // 4. Only handle payment success events — ignore everything else
+  if (!['payment_link.paid', 'payment.captured'].includes(eventType)) {
+    return res.status(200).json({ received: true, skipped: true });
+  }
+
+  // 5. Extract payment details
+  const payment = event.payload?.payment?.entity;
+  const email   = payment?.email?.toLowerCase().trim();
+  const amount  = payment?.amount || 0; // paise (₹1 = 100 paise)
+
+  if (!email) {
+    console.error('No email in Razorpay payload');
+    return res.status(400).json({ error: 'No email in payment' });
+  }
+
+  // 6. Determine plan type from amount
+  //    Monthly ₹149 = 14900 paise  → 31 days
+  //    Yearly  ₹999 = 99900 paise  → 366 days
+  const isYearly   = amount >= 50000;
+  const planDays   = isYearly ? 366 : 31;
+  const planExpiry = new Date(Date.now() + planDays * 86400 * 1000).toISOString();
+
+  console.log(`Payment: ${email} | ₹${amount / 100} | ${isYearly ? 'yearly' : 'monthly'}`);
+
+  // 7. Find Supabase user by email (admin API)
+  const authData = await supaFetch('/auth/v1/admin/users?page=1&per_page=1000');
+  const users    = authData?.users || [];
+  const user     = users.find(u => u.email?.toLowerCase() === email);
+
+  if (!user) {
+    // Edge case: user paid but hasn't registered yet
+    // Store in pending_plans table — picked up on first login
+    console.warn(`No user found for ${email} — queuing pending plan`);
+    await supaFetch('/rest/v1/pending_plans', 'POST', {
+      email,
+      plan:         'pro',
+      plan_expiry:  planExpiry,
+      paid_at:      new Date().toISOString(),
+      amount_paise: amount,
+    });
+    return res.status(200).json({ queued: true, email });
+  }
+
+  // 8. Get existing user data (to preserve income/expenses etc.)
+  const rows     = await supaFetch(`/rest/v1/user_data?user_id=eq.${user.id}&select=data`);
+  const existing = rows?.[0]?.data || {};
+
+  // 9. Merge plan into existing data — never overwrite income/expense records
+  const updated = {
+    ...existing,
+    plan:       'pro',
+    planExpiry: planExpiry,
+    _ts:        Date.now(),
+  };
+
+  await supaFetch('/rest/v1/user_data', 'POST', {
+    user_id: user.id,
+    data:    updated,
+  });
+
+  console.log(`✅ Pro activated: ${email} | expires ${planExpiry}`);
+  return res.status(200).json({
+    success:   true,
+    email,
+    plan:      'pro',
+    expiry:    planExpiry,
+    plan_type: isYearly ? 'yearly' : 'monthly',
+  });
+}
