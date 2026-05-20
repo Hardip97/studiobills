@@ -2347,14 +2347,17 @@ function saveIncome(){
   const fxRate=f.exchangeRate||1;
   const foreignAmt=Math.round(t.gross);
   const amountINR=Math.round(t.gross*fxRate);
+  // Always store received in INR — multiply foreign input by exchange rate
+  const receivedINR=f.currency==='INR'?(+f.received||0):Math.round((+f.received||0)*fxRate);
   const inv={id:uid(),invNo,...f,
     foreignAmount:foreignAmt,
     amount:amountINR,
+    received:receivedINR,
     exchangeRate:fxRate,
     _totals:t};
   if(inv.isCreditNote)inv.amount=-Math.abs(inv.amount);
-  if(inv.received>=inv.amount)inv.status='received';
-  else if(inv.received>0)inv.status='partial';
+  if(receivedINR>=amountINR)inv.status='received';
+  else if(receivedINR>0)inv.status='partial';
   if(inv.isDraft)inv.status='draft';
   db.income.push(inv);save();closeModal('addIncomeModal');
   showInvTab('invoice','ai');resetInvForm('ai');
@@ -2380,14 +2383,16 @@ function updateIncome(){
   const invNo=f.invNo&&f.invNo.trim()?f.invNo.trim():i.invNo;
   const fxRateU=f.exchangeRate||1;
   const foreignAmtU=Math.round(t.gross);
+  const receivedINRU=f.currency==='INR'?(+f.received||0):Math.round((+f.received||0)*fxRateU);
   Object.assign(i,f,{invNo,
     foreignAmount:foreignAmtU,
     amount:Math.round(t.gross*fxRateU),
+    received:receivedINRU,
     exchangeRate:fxRateU,
     _totals:t});
   if(i.isCreditNote)i.amount=-Math.abs(i.amount);
-  if(i.received>=Math.abs(i.amount))i.status='received';
-  else if(i.received>0)i.status='partial';
+  if(receivedINRU>=Math.abs(Math.round(t.gross*fxRateU)))i.status='received';
+  else if(receivedINRU>0)i.status='partial';
   if(i.isDraft)i.status='draft';
   save();closeModal('editIncomeModal');toast('Updated ✓');renderOverview();renderIncome();
 }
@@ -3109,7 +3114,7 @@ function onCurrencySelect(pfx,code){
     if(code==='INR'){infoEl.innerHTML='';}
     else{
       const rate=(+db.fxRates?.rates?.[code]>2)?db.fxRates.rates[code]:FX_FALLBACK[code];
-      const dateStr=db.fxRates?.date||'cached';
+      const dateStr=db.fxRates?.date&&db.fxRates.date!==''?db.fxRates.date:'fallback';
       infoEl.innerHTML=rate
         ?`1 ${code} = <strong>₹${rate}</strong> <span style="color:var(--muted2);font-size:.7rem;">· ${dateStr}</span>`
         :`<span style="color:var(--muted2)">Rate not loaded — check connection</span>`;
@@ -3162,7 +3167,7 @@ function readInvForm(pfx){
     qrUpi:document.getElementById(pfx+'-qrupi')?.value.trim()||'',
     showQr:document.getElementById(pfx+'-showqr')?.checked!==false,
     currency:document.getElementById(pfx+'-currency-code')?.value||'INR',
-    exchangeRate:FX_CURRENCIES[document.getElementById(pfx+'-currency-code')?.value||'INR']?((document.getElementById(pfx+'-currency-code')?.value||'INR')==='INR'?1:(db.fxRates?.rates?.[document.getElementById(pfx+'-currency-code')?.value]||1)):1,
+    exchangeRate:(()=>{const c=document.getElementById(pfx+'-currency-code')?.value||'INR';return c==='INR'?1:(+db.fxRates?.rates?.[c]>2?+db.fxRates.rates[c]:FX_FALLBACK[c]||85);})(),
     recurring:document.getElementById(pfx+'-isrecurring')?.checked||false,
     template:invFormTpl[pfx]||'classic',
     invType:invFormType[pfx]||'general',
@@ -3181,7 +3186,7 @@ function populateInvForm(pfx,inv){
   if(document.getElementById(pfx+'-due'))document.getElementById(pfx+'-due').value=inv.due||'';
   if(document.getElementById(pfx+'-cat'))document.getElementById(pfx+'-cat').value=inv.cat||'';
   if(document.getElementById(pfx+'-status'))document.getElementById(pfx+'-status').value=inv.status||'pending';
-  if(document.getElementById(pfx+'-received'))document.getElementById(pfx+'-received').value=inv.received||0;
+  if(document.getElementById(pfx+'-received')){const dispRate=inv.exchangeRate&&inv.exchangeRate>1?inv.exchangeRate:1;const dispRcv=inv.currency&&inv.currency!=='INR'?Math.round((+inv.received||0)/dispRate*100)/100:(+inv.received||0);document.getElementById(pfx+'-received').value=dispRcv||0;}
   if(document.getElementById(pfx+'-hsn'))document.getElementById(pfx+'-hsn').value=inv.hsn||'';
   if(document.getElementById(pfx+'-pos'))document.getElementById(pfx+'-pos').value=inv.pos||'';
   if(document.getElementById(pfx+'-ponum'))document.getElementById(pfx+'-ponum').value=inv.ponum||'';
