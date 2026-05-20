@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>StudioBills</title>
+<title>Trackvista</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23FF0035'/%3E%3Ctext x='16' y='22' font-family='Arial Black,Arial' font-size='13' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-0.5'%3ESB%3C/text%3E%3C/svg%3E"/>
 <!-- PWA -->
 <link rel="manifest" href="/manifest.json"/>
@@ -11,9 +11,9 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-<meta name="apple-mobile-web-app-title" content="StudioBills"/>
+<meta name="apple-mobile-web-app-title" content="Trackvista"/>
 <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
-<meta name="description" content="Freelance billing & invoicing app for creative professionals"/>
+<meta name="description" content="Freelance billing &amp; invoicing app for creative professionals"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
@@ -710,7 +710,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <button id="authSubmit" class="auth-btn" onclick="authMode==='signin'?signIn():signUp()">Sign In</button>
     <div id="authSpinner">Signing in…</div>
     <div class="auth-toggle" id="authToggle">
-      New to StudioBills? <span onclick="toggleAuthMode()">Create account</span>
+      New to Trackvista? <span onclick="toggleAuthMode()">Create account</span>
     </div>
     <div style="margin-top:16px;text-align:center;font-size:.71rem;color:var(--muted2);line-height:1.6;">
       By continuing, you agree to our
@@ -1006,7 +1006,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 <!-- ══════════════════════ SETTINGS ══════════════════════ -->
 <div class="tab" id="tab-settings">
-  <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize StudioBills</p></div></div>
+  <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize Trackvista</p></div></div>
   <!-- PILL TABS -->
   <div class="stabs">
     <button class="stab active" data-st="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profile</button>
@@ -1135,7 +1135,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
         <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
           <div class="logo-icon" style="width:50px;height:50px;border-radius:13px;font-size:.95rem;flex-shrink:0;">SB</div>
           <div>
-            <div style="font-size:1rem;font-weight:700;">StudioBills</div>
+            <div style="font-size:1rem;font-weight:700;">Trackvista</div>
             <div style="font-size:.73rem;color:var(--muted);">Version 1.0</div>
           </div>
         </div>
@@ -1691,7 +1691,7 @@ function toggleAuthMode(){
   document.getElementById('authTitle').textContent=isSignup?'Create account':'Welcome back';
   document.getElementById('authSub').textContent=isSignup?'Start your free account':'Sign in to your account';
   document.getElementById('authSubmit').textContent=isSignup?'Create Account':'Sign In';
-  document.getElementById('authToggle').innerHTML=isSignup?'Already have an account? <span onclick="toggleAuthMode()">Sign in</span>':'New to StudioBills? <span onclick="toggleAuthMode()">Create account</span>';
+  document.getElementById('authToggle').innerHTML=isSignup?'Already have an account? <span onclick="toggleAuthMode()">Sign in</span>':'New to Trackvista? <span onclick="toggleAuthMode()">Create account</span>';
   document.getElementById('authSpinner').textContent=isSignup?'Creating account…':'Signing in…';
   setAuthMsg('');
 }
@@ -3588,8 +3588,8 @@ function buildInvoiceHTML(inv){
   const qrHTML=(inv.showQr!==false&&qrUpi)?buildQR(qrUpi,p.ownerName||p.studioName,t.net||t.gross,num):'';
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
-  const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">StudioBills Free</div>`:'';
-  const watermarkFooterHTML=!isPro()?`<div style="text-align:center;font-size:10px;color:#BBB;margin-top:18px;padding-top:10px;border-top:1px solid #EEE;">Created with StudioBills Free — <a href="https://studiobills.vercel.app" style="color:#FF0035;">Upgrade to Pro</a> to remove watermark</div>`:'';
+  const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">Trackvista Free</div>`:'';
+  const watermarkFooterHTML=!isPro()?`<div style="text-align:center;font-size:10px;color:#BBB;margin-top:18px;padding-top:10px;border-top:1px solid #EEE;">Created with Trackvista Free — <a href="https://trackvista.vercel.app" style="color:#FF0035;">Upgrade to Pro</a> to remove watermark</div>`:'';
   const _invDateObj=inv.date?new Date(inv.date):new Date();
   const _months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const _dd=String(_invDateObj.getDate()).padStart(2,'0');
@@ -4047,9 +4047,9 @@ ${db.profile.phone||''}`);
 }
 
 // ─── EXPORT / IMPORT ───
-function exportIncXLSX(){const rows=db.income.map(i=>({Client:i.client,Description:invDesc(i),Amount:+i.amount||0,Received:+i.received||0,Date:i.date,DueDate:i.due||'',Category:i.cat||'',Status:i.status,Notes:i.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Income');XLSX.writeFile(wb,'StudioBills_Income.xlsx');toast('Excel exported ✓');}
-function exportExpXLSX(){const rows=db.expenses.map(e=>({Title:e.title,Category:e.cat||'',Amount:+e.amount||0,Date:e.date,Recurring:e.recurring?'Yes':'No',Notes:e.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Expenses');XLSX.writeFile(wb,'StudioBills_Expenses.xlsx');toast('Excel exported ✓');}
-function exportReportXLSX(){const y=document.getElementById('reportYearSel').value||new Date().getFullYear();const m=['01','02','03','04','05','06','07','08','09','10','11','12'];const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const rows=m.map((mo,i)=>{const k=`${y}-${mo}`;const inc=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);const rec=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.received||0),0);const exp=db.expenses.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);return{Month:`${ml[i]} ${y}`,Billed:inc,Received:rec,Expenses:exp,Net:rec-exp};});const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`Report ${y}`);XLSX.writeFile(wb,`StudioBills_Report_${y}.xlsx`);toast('Report exported ✓');}
+function exportIncXLSX(){const rows=db.income.map(i=>({Client:i.client,Description:invDesc(i),Amount:+i.amount||0,Received:+i.received||0,Date:i.date,DueDate:i.due||'',Category:i.cat||'',Status:i.status,Notes:i.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Income');XLSX.writeFile(wb,'Trackvista_Income.xlsx');toast('Excel exported ✓');}
+function exportExpXLSX(){const rows=db.expenses.map(e=>({Title:e.title,Category:e.cat||'',Amount:+e.amount||0,Date:e.date,Recurring:e.recurring?'Yes':'No',Notes:e.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Expenses');XLSX.writeFile(wb,'Trackvista_Expenses.xlsx');toast('Excel exported ✓');}
+function exportReportXLSX(){const y=document.getElementById('reportYearSel').value||new Date().getFullYear();const m=['01','02','03','04','05','06','07','08','09','10','11','12'];const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const rows=m.map((mo,i)=>{const k=`${y}-${mo}`;const inc=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);const rec=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.received||0),0);const exp=db.expenses.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);return{Month:`${ml[i]} ${y}`,Billed:inc,Received:rec,Expenses:exp,Net:rec-exp};});const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`Report ${y}`);XLSX.writeFile(wb,`Trackvista_Report_${y}.xlsx`);toast('Report exported ✓');}
 function exportGSTXLSX(){
   if(!isPro()){showUpgradeModal('GST Excel export');return;}
   const y=document.getElementById('reportYearSel').value||new Date().getFullYear();
@@ -4061,9 +4061,9 @@ function exportGSTXLSX(){
     invs.forEach(inv=>{const t=inv._totals||{};if(t.gstOn){taxable+=t.taxable||0;cgst+=t.cgst||0;sgst+=t.sgst||0;igst+=t.igst||0;}if(t.tdsOn)tds+=t.tds||0;});
     return{Month:`${ml[i]} ${y}`,Taxable:taxable,CGST:cgst,SGST:sgst,IGST:igst,TDS:tds,'Net GST':cgst+sgst+igst};
   });
-  const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`GST ${y}`);XLSX.writeFile(wb,`StudioBills_GST_${y}.xlsx`);toast('GST Excel exported ✓');
+  const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`GST ${y}`);XLSX.writeFile(wb,`Trackvista_GST_${y}.xlsx`);toast('GST Excel exported ✓');
 }
-function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`StudioBills_Backup_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Backup exported ✓');}
+function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`Trackvista_Backup_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Backup exported ✓');}
 function importBackup(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{
   let d=JSON.parse(ev.target.result);
   // ── Convert old format (v1/v2/v3) → v4 ──
@@ -4335,7 +4335,6 @@ renderOverview = function(){
 
 </script>
 <script>
-// Register service worker for PWA / offline support
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
     navigator.serviceWorker.register('/sw.js')
