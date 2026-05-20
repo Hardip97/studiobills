@@ -93,26 +93,26 @@ function saveQuickIncome(){
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#F5F5F7;--white:#fff;--text:#1C1C1E;--muted:#86868B;--muted2:#C7C7CC;
-  --border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.04);
-  --red:#FF0035;--red2:#D6002D;--red-soft:rgba(255,0,53,.07);
-  --green:#00C853;--green-soft:rgba(0,200,83,.1);
-  --orange:#FF6B00;--orange-soft:rgba(255,107,0,.08);
-  --lime:#8FFE01;--black:#1C1C1E;
-  --r:16px;--r2:10px;
-  --glass-bg:rgba(255,255,255,0.82);
-  --glass-border:rgba(255,255,255,0.9);
-  --glass-shadow:0 2px 20px rgba(0,0,0,0.06),0 1px 0 rgba(255,255,255,1) inset,0 -1px 0 rgba(0,0,0,0.03) inset;
+  --bg:#EEECE6;--white:#fff;--text:#0F0F14;--muted:#706F7A;--muted2:#AEADB8;
+  --border:rgba(0,0,0,0.06);--border2:rgba(0,0,0,0.04);
+  --red:#FF2255;--red2:#D41A44;--red-soft:rgba(255,34,85,.08);
+  --green:#00C07A;--green-soft:rgba(0,192,122,.1);
+  --orange:#FF6B35;--orange-soft:rgba(255,107,53,.08);
+  --lime:#C8FF1E;--black:#0F0F14;--violet:#7B5CF8;
+  --r:18px;--r2:10px;
+  --glass-bg:rgba(255,255,255,0.88);
+  --glass-border:rgba(255,255,255,0.95);
+  --glass-shadow:0 2px 24px rgba(0,0,0,0.05),0 1px 0 rgba(255,255,255,1) inset,0 -1px 0 rgba(0,0,0,0.02) inset;
 }
 /* ── DARK MODE ── */
 body.dark{
-  --bg:#161618;--white:#1C1C1E;--text:#E8E8E8;--muted:#888;--muted2:#555;
-  --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.06);--black:#E8E8E8;
-  --red-soft:rgba(255,0,53,.14);
-  --green-soft:rgba(0,200,83,.12);--orange-soft:rgba(255,107,0,.1);
-  --glass-bg:rgba(30,30,32,0.82);
-  --glass-border:rgba(255,255,255,0.1);
-  --glass-shadow:0 2px 16px rgba(0,0,0,0.3),0 8px 32px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.08);
+  --bg:#0C0C10;--white:#141419;--text:#F0F0F5;--muted:#A0A0B0;--muted2:#505060;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.05);--black:#F0F0F5;
+  --red-soft:rgba(255,34,85,.14);
+  --green-soft:rgba(0,192,122,.12);--orange-soft:rgba(255,107,53,.1);
+  --glass-bg:rgba(20,20,25,0.88);
+  --glass-border:rgba(255,255,255,0.08);
+  --glass-shadow:0 2px 20px rgba(0,0,0,0.4),0 8px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.06);
 }
 body.dark .sidebar{background:rgba(22,22,24,0.88);}
 body.dark .sn{color:#888;}
@@ -362,6 +362,75 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* ══ BENTO GRID SYSTEM — Top 1% Cinema Editorial ══ */
+.bento-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;padding:20px 24px 24px;}
+.bento-card{border-radius:22px;padding:24px;position:relative;overflow:hidden;
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s ease;}
+.bento-card:hover{transform:translateY(-3px) scale(1.005);
+  box-shadow:0 24px 64px rgba(0,0,0,.13);}
+/* Column spans */
+.bc-s4{grid-column:span 4;}
+.bc-s6{grid-column:span 6;}
+.bc-s8{grid-column:span 8;}
+.bc-s12{grid-column:span 12;}
+.bc-r2{grid-row:span 2;}
+/* Card color themes — override CSS vars for child inheritance */
+.bc-dark{background:#0F0F14;color:#fff;
+  --text:#fff;--black:#fff;--muted:rgba(255,255,255,.42);--muted2:rgba(255,255,255,.26);
+  --border:rgba(255,255,255,.09);--border2:rgba(255,255,255,.06);--bg:#0F0F14;}
+.bc-lime{background:var(--lime);color:#0F0F14;
+  --text:#0F0F14;--black:#0F0F14;--muted:rgba(0,0,0,.52);--muted2:rgba(0,0,0,.32);
+  --border:rgba(0,0,0,.1);--border2:rgba(0,0,0,.07);--red:#D41A44;}
+.bc-surface{background:#fff;color:var(--text);}
+.bc-warm{background:#FFF8F0;color:var(--text);}
+.bc-navy{background:#0B1628;color:#fff;
+  --text:#fff;--black:#fff;--muted:rgba(255,255,255,.38);--muted2:rgba(255,255,255,.22);
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.05);}
+.bc-rose{background:rgba(255,34,85,.07);color:var(--text);}
+/* Dark mode overrides */
+body.dark .bc-surface{background:#141419;color:#F0F0F5;}
+body.dark .bc-warm{background:#18140D;}
+body.dark .bc-rose{background:rgba(255,34,85,.14);}
+/* Bento typography */
+.bc-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--muted);margin-bottom:10px;}
+.bc-value{font-size:2.2rem;font-weight:200;letter-spacing:-.06em;line-height:1;
+  font-variant-numeric:tabular-nums;color:var(--text);}
+.bc-value-lg{font-size:3.2rem;font-weight:200;letter-spacing:-.07em;line-height:1;
+  font-variant-numeric:tabular-nums;color:var(--text);}
+.bc-sub{font-size:.74rem;font-weight:300;color:var(--muted);margin-top:8px;line-height:1.4;}
+/* Month nav pill in hero */
+.bc-mnav{display:inline-flex;align-items:center;gap:4px;margin-top:16px;
+  background:rgba(255,255,255,.1);border-radius:100px;padding:5px 10px 5px 6px;}
+.bc-mnav button{background:none;border:none;color:inherit;cursor:pointer;
+  font-size:1.1rem;padding:0 3px;opacity:.6;line-height:1;transition:opacity .12s;}
+.bc-mnav button:hover{opacity:1;}
+.bc-mnav span{font-size:.76rem;font-weight:500;min-width:72px;text-align:center;color:#fff;}
+/* Quick-add button */
+.bc-add-btn{display:inline-flex;align-items:center;gap:8px;margin-top:20px;
+  padding:11px 20px;border-radius:100px;border:none;font-family:inherit;
+  font-size:.82rem;font-weight:600;cursor:pointer;
+  background:var(--lime);color:#0F0F14;transition:all .15s;}
+.bc-add-btn:hover{filter:brightness(1.08);transform:scale(1.03);}
+.bc-add-btn svg{flex-shrink:0;}
+/* Overdue accent bar */
+.bc-accent-bar{position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--red);border-radius:22px 22px 0 0;}
+/* Divider inside card */
+.bc-divider{border:none;border-top:1px solid rgba(255,34,85,.12);margin:14px 0;}
+/* Chart area inside navy card */
+.bc-navy .leg{color:rgba(255,255,255,.4);}
+.bc-navy .leg.active{color:#fff;border-color:rgba(255,255,255,.14);}
+.bc-navy .rbtn{color:rgba(255,255,255,.38);}
+.bc-navy .rbtn.active{background:rgba(255,255,255,.12);color:#fff;}
+.bc-navy .rbtn:hover:not(.active){color:rgba(255,255,255,.68);}
+.bc-navy .chart-xlabels{color:rgba(255,255,255,.22);padding:2px 0 8px;}
+/* Badge overrides for lime card */
+.bc-lime .ns-badge{background:rgba(0,0,0,.14);color:#0F0F14;}
+/* Studio name in hero */
+.bc-studio-name{font-size:.78rem;font-weight:500;color:rgba(255,255,255,.45);
+  margin-bottom:16px;letter-spacing:.01em;}
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r2);border:none;
@@ -683,7 +752,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
   .mob-header{display:flex;}
 
   /* ── FULL-BLEED NATIVE LAYOUT ── */
-  .content{margin-left:0;padding:60px 0 84px;background:#F2F2F7;}
+  .content{margin-left:0;padding:60px 0 84px;background:var(--bg);}
 
   /* Cards full-bleed — no side rounding, native section feel */
   .card{border-radius:0;box-shadow:none;border-left:none;border-right:none;
@@ -1063,93 +1132,121 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 <!-- ══════════════════════ OVERVIEW ══════════════════════ -->
 <div class="tab active" id="tab-overview">
-  <div class="ph">
-    <div>
-      <h1><strong>Overview</strong></h1>
-      <p id="ovSubtitle">Loading…</p>
-    </div>
-    <div class="ph-actions">
-      <div class="mnav">
+  <!-- Hidden compat elements for JS that targets old IDs -->
+  <div style="display:none">
+    <p id="ovSubtitle"></p>
+    <span id="ns-recv-badge"></span>
+    <span id="ns-exp-badge"></span>
+    <span id="sc-income">₹0</span>
+    <span id="sc-exp">₹0</span>
+    <span id="sc-overdue">₹0</span>
+    <span id="sc-overdue-sub">0</span>
+  </div>
+  <!-- ONBOARDING CARDS (injected by JS) -->
+  <div id="onboardingCards" style="padding:10px 24px 0;"></div>
+
+  <!-- ══ BENTO GRID ══ -->
+  <div class="bento-grid">
+
+    <!-- ① HERO — dark, 4 cols × 2 rows -->
+    <div class="bento-card bc-dark bc-s4 bc-r2" style="display:flex;flex-direction:column;">
+      <div class="bc-studio-name" id="bcStudioName">StudioBills</div>
+      <div class="bc-label">Net Balance</div>
+      <div class="bc-value-lg" id="heroNet">₹0</div>
+      <div class="bc-sub" id="heroSub">Received − Expenses</div>
+      <div class="bc-mnav">
         <button onclick="shiftMonth(-1)">&#8249;</button>
         <span id="mnavLabel">—</span>
         <button onclick="shiftMonth(1)">&#8250;</button>
       </div>
+      <div style="flex:1;"></div>
+      <button class="bc-add-btn" onclick="openModal('addIncomeModal')">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="7.5" y1="1.5" x2="7.5" y2="13.5"/><line x1="1.5" y1="7.5" x2="13.5" y2="7.5"/></svg>
+        Add Invoice
+      </button>
     </div>
-  </div>
 
-  <!-- ONBOARDING CARDS (injected by JS) -->
-  <div id="onboardingCards"></div>
+    <!-- ② BILLED — white -->
+    <div class="bento-card bc-surface bc-s4">
+      <div class="bc-label">Billed This Month</div>
+      <div class="bc-value" id="ns-billed">₹0</div>
+      <div class="bc-sub" id="sc-income-sub">0 invoices</div>
+    </div>
 
-  <!-- NODUS STATS + HERO NET ROW -->
-  <div class="nodus-row">
-    <div class="ns-cell">
-      <div class="ns-lbl">Billed</div>
-      <div class="ns-num" id="ns-billed">₹0</div>
+    <!-- ③ RECEIVED — lime -->
+    <div class="bento-card bc-lime bc-s4">
+      <div class="bc-label">Received</div>
+      <div class="bc-value" id="ns-recv">₹0</div>
+      <div class="bc-sub" style="margin-top:10px;">Collected this month</div>
     </div>
-    <div class="ns-cell">
-      <div class="ns-lbl">Received</div>
-      <div class="ns-num" id="ns-recv">₹0 <span class="ns-badge up" id="ns-recv-badge"></span></div>
-    </div>
-    <div class="ns-cell">
-      <div class="ns-lbl">Expenses</div>
-      <div class="ns-num" id="ns-exp">₹0 <span class="ns-badge dn" id="ns-exp-badge" style="display:none"></span></div>
-    </div>
-    <div class="ns-cell">
-      <div class="ns-lbl">Net Balance</div>
-      <div class="hero-net-num" id="heroNet">₹0</div>
-      <div class="hero-net-sub" id="heroSub">Received − Expenses</div>
-    </div>
-  </div>
 
-  <!-- FULL-WIDTH NODUS CHART -->
-  <div class="chart-card">
-    <div class="chart-legend-row">
-      <div class="leg active" id="legIncome"><span class="leg-dot" style="background:var(--red)"></span>Income</div>
-      <div class="leg" id="legExp"><span class="leg-dot" style="background:#AAAAAA" id="legExpDot"></span>Expenses</div>
-      <div style="margin-left:auto;display:flex;gap:4px;">
-        <button class="rbtn active" id="gs-line" onclick="setChartStyle('line')" title="Area wave">Area</button>
-        <button class="rbtn" id="gs-bars" onclick="setChartStyle('bars')" title="Bar chart">Bars</button>
+    <!-- ④ EXPENSES — warm -->
+    <div class="bento-card bc-warm bc-s4">
+      <div class="bc-label">Expenses</div>
+      <div class="bc-value" id="ns-exp">₹0</div>
+      <div class="bc-sub" id="sc-exp-sub">0 entries</div>
+    </div>
+
+    <!-- ⑤ CLIENTS — surface -->
+    <div class="bento-card bc-surface bc-s4">
+      <div class="bc-label">Active Clients</div>
+      <div class="bc-value" id="sc-clients">0</div>
+      <div class="bc-sub">all time</div>
+    </div>
+
+    <!-- ⑥ CHART — navy, 8 cols -->
+    <div class="bento-card bc-navy bc-s8" style="padding:20px 20px 0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="leg active" id="legIncome"><span class="leg-dot" style="background:var(--red)"></span>Income</div>
+          <div class="leg" id="legExp"><span class="leg-dot" style="background:#888" id="legExpDot"></span>Expenses</div>
+        </div>
+        <div style="display:flex;gap:2px;">
+          <button class="rbtn active" id="gs-line" onclick="setChartStyle('line')" title="Area">Area</button>
+          <button class="rbtn" id="gs-bars" onclick="setChartStyle('bars')" title="Bars">Bars</button>
+        </div>
       </div>
-    </div>
-    <div class="chart-area">
-      <div class="chart-canvas-wrap" id="chartCanvasWrap">
-        <canvas id="mainChart"></canvas>
-        <div class="ann-bub red" id="annPeak" style="display:none;">▲</div>
-        <div class="ann-bub black" id="annLow" style="display:none;">⚡</div>
+      <div class="chart-area" style="padding:0;">
+        <div class="chart-canvas-wrap" id="chartCanvasWrap" style="height:190px;">
+          <canvas id="mainChart"></canvas>
+          <div class="ann-bub red" id="annPeak" style="display:none;">▲</div>
+          <div class="ann-bub black" id="annLow" style="display:none;">⚡</div>
+        </div>
       </div>
+      <div class="range-row" style="padding:4px 0 6px;">
+        <button class="rbtn" data-range="3M">3M</button>
+        <button class="rbtn active" data-range="6M">6M</button>
+        <button class="rbtn" data-range="1Y">1Y</button>
+        <button class="rbtn" data-range="ALL">ALL</button>
+      </div>
+      <div class="chart-xlabels" id="chartXLabels"></div>
     </div>
-    <div class="range-row">
-      <button class="rbtn" data-range="3M">3M</button>
-      <button class="rbtn active" data-range="6M">6M</button>
-      <button class="rbtn" data-range="1Y">1Y</button>
-      <button class="rbtn" data-range="ALL">ALL</button>
+
+    <!-- ⑦ OVERDUE — rose, 4 cols -->
+    <div class="bento-card bc-rose bc-s4">
+      <div class="bc-accent-bar"></div>
+      <div class="bc-label">Overdue</div>
+      <div style="font-size:2rem;font-weight:200;letter-spacing:-.06em;color:var(--red);font-variant-numeric:tabular-nums;" id="sc-overdue2">₹0</div>
+      <div class="bc-sub" id="sc-overdue2-sub">past due date</div>
+      <hr class="bc-divider" style="border-color:rgba(255,34,85,.12);">
+      <div class="bc-label" style="margin-bottom:6px;">All Outstanding</div>
+      <div style="font-size:1.55rem;font-weight:300;letter-spacing:-.05em;color:var(--red);font-variant-numeric:tabular-nums;" id="sc-outstanding">₹0</div>
+      <div class="bc-sub" id="sc-outstanding-sub">all-time unpaid</div>
     </div>
-    <div class="chart-xlabels" id="chartXLabels"></div>
-  </div>
 
-  <!-- STAT CARDS -->
-  <div class="g4" style="margin-bottom:16px;">
-    <div class="stat-card"><div class="sc-lbl">Month Income</div><div class="sc-val" id="sc-income">₹0</div><div class="sc-sub" id="sc-income-sub">0 invoices</div></div>
-    <div class="stat-card"><div class="sc-lbl">Month Expenses</div><div class="sc-val" id="sc-exp">₹0</div><div class="sc-sub" id="sc-exp-sub">0 entries</div></div>
-    <div class="stat-card"><div class="sc-lbl">Overdue</div><div class="sc-val" id="sc-overdue" style="color:var(--red)">₹0</div><div class="sc-sub" id="sc-overdue-sub">0 invoices</div></div>
-    <div class="stat-card"><div class="sc-lbl">Active Clients</div><div class="sc-val" id="sc-clients">0</div><div class="sc-sub">total clients</div></div>
-  </div>
-  <div class="g2" style="margin-bottom:16px;gap:14px;">
-    <div class="stat-card" style="border-left:3px solid var(--red);"><div class="sc-lbl">Total Outstanding</div><div class="sc-val" id="sc-outstanding" style="color:var(--red);">₹0</div><div class="sc-sub" id="sc-outstanding-sub">all-time unpaid</div></div>
-    <div class="stat-card" style="border-left:3px solid var(--orange);"><div class="sc-lbl">Overdue</div><div class="sc-val" id="sc-overdue2" style="color:var(--orange);">₹0</div><div class="sc-sub" id="sc-overdue2-sub">past due date</div></div>
-  </div>
-
-  <!-- RECENT ROWS -->
-  <div class="g2" style="gap:16px;">
-    <div class="card" style="padding:16px 20px;">
+    <!-- ⑧ RECENT INCOME — 6 cols -->
+    <div class="bento-card bc-surface bc-s6" style="padding:20px 22px;">
       <div class="chd"><div class="card-title">Recent Income</div><button class="btn btn-ghost btn-xs" onclick="showTab('income')">View all</button></div>
       <div id="recentIncList"></div>
     </div>
-    <div class="card" style="padding:16px 20px;">
+
+    <!-- ⑨ RECENT EXPENSES — 6 cols -->
+    <div class="bento-card bc-surface bc-s6" style="padding:20px 22px;">
       <div class="chd"><div class="card-title">Recent Expenses</div><button class="btn btn-ghost btn-xs" onclick="showTab('expenses')">View all</button></div>
       <div id="recentExpList"></div>
     </div>
-  </div>
+
+  </div><!-- /.bento-grid -->
 </div>
 
 <!-- ══════════════════════ INCOME ══════════════════════ -->
@@ -2357,6 +2454,8 @@ function renderOverview(){
   const expenses=mExp.reduce((s,e)=>s+(+e.amount||0),0);
   const net=received-expenses;
 
+  const bcSN=document.getElementById('bcStudioName');
+  if(bcSN)bcSN.textContent=db.profile?.studioName||'StudioBills';
   document.getElementById('ns-billed').innerHTML=fmt(billed);
   document.getElementById('ns-recv').innerHTML=`${fmt(received)} <span class="ns-badge up">${billed>0?Math.round(received/billed*100)+'%':'—'}</span>`;
   document.getElementById('ns-exp').innerHTML=fmt(expenses);
@@ -2483,7 +2582,7 @@ function drawMainChart(){
             ticks:{color:'#aaa',font:{size:11,family:'Outfit',weight:'300'},padding:6},
             border:{display:false}},
           y:{display:true,
-            grid:{color:'rgba(0,0,0,0.05)',drawBorder:false},
+            grid:{color:'rgba(255,255,255,0.07)',drawBorder:false},
             ticks:{callback:v=>fmt(v),color:'#bbb',font:{size:10,family:'Outfit',weight:'300'},maxTicksLimit:5},
             border:{display:false},
             min:0,max:globalMax*1.3}
@@ -2518,7 +2617,7 @@ function drawMainChart(){
       const wave=(0.38+0.42*Math.abs(Math.sin(t*Math.PI*2.8+mi*1.9)))
                *(0.65+0.35*Math.abs(Math.sin(t*Math.PI*6.1+b*0.7+mi*0.9)));
       barHeightsArr.push(Math.max(baseH*wave, globalMax*0.04));
-      barColorsArr.push(isSelected?'rgba(255,0,53,0.48)':'rgba(0,0,0,0.09)');
+      barColorsArr.push(isSelected?'rgba(255,34,85,0.55)':'rgba(255,255,255,0.07)');
     }
     // Centre of each month = bar index (mi*BPM + 11); only set when > 0 so spanGaps skips empty months
     if(incData[mi]>0)incLine[mi*BPM+11]=incData[mi];
@@ -3968,6 +4067,31 @@ function buildInvoiceHTML(inv){
 .inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;}
 .inv-qr-label{font-size:9px;color:#999;letter-spacing:.04em;text-transform:uppercase;}
 @page{margin:0;size:A4 portrait;}
+
+/* ── BENTO MOBILE ── */
+@media(max-width:900px){
+  .bento-grid{grid-template-columns:repeat(6,1fr);gap:12px;padding:14px 16px;}
+  .bc-s4{grid-column:span 3;}
+  .bc-s6{grid-column:span 6;}
+  .bc-s8{grid-column:span 6;}
+  .bc-s12{grid-column:span 6;}
+  .bc-r2{grid-row:span 1;}
+  .bento-card.bc-dark{grid-column:span 6;}
+  .bento-card.bc-navy{grid-column:span 6;}
+  .bento-card.bc-rose{grid-column:span 6;}
+  .bc-value-lg{font-size:2.6rem;}
+}
+@media(max-width:600px){
+  .bento-grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:10px 10px 20px;}
+  .bc-s4,.bc-s6,.bc-s8,.bc-s12{grid-column:span 1;}
+  .bento-card.bc-dark,.bento-card.bc-navy,.bento-card.bc-rose,
+  .bento-card.bc-surface.bc-s6{grid-column:span 2;}
+  .bento-card{border-radius:16px;padding:16px;}
+  .bc-value-lg{font-size:2rem;}
+  .bc-value{font-size:1.5rem;}
+  .bc-mnav{margin-top:10px;}
+  .bc-add-btn{margin-top:14px;padding:9px 16px;font-size:.78rem;}
+}
 @media print{html,body{background:#F2EDE3;}.page{margin:0;}.save-btn{display:none;}}
 </style></head><body>
 <button class="save-btn" onclick="window.print()">⬇ Save as PDF</button>
