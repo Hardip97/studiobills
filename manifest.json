@@ -1,7 +1,7 @@
 {
-  "name": "Trackvista",
-  "short_name": "Trackvista",
-  "description": "Freelance billing & money tracking app for creative professionals",
+  "name": "StudioBills",
+  "short_name": "StudioBills",
+  "description": "Freelance billing & invoicing app for creative professionals",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -29,7 +29,7 @@
       "src": "/icons/feature-graphic.png",
       "sizes": "1024x500",
       "type": "image/png",
-      "label": "Trackvista Dashboard"
+      "label": "StudioBills Dashboard"
     }
   ],
   "shortcuts": [

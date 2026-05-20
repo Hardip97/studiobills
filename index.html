@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Trackvista</title>
+<title>StudioBills</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23FF0035'/%3E%3Ctext x='16' y='22' font-family='Arial Black,Arial' font-size='13' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-0.5'%3ESB%3C/text%3E%3C/svg%3E"/>
 <!-- PWA -->
 <link rel="manifest" href="/manifest.json"/>
@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-<meta name="apple-mobile-web-app-title" content="Trackvista"/>
+<meta name="apple-mobile-web-app-title" content="StudioBills"/>
 <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
 <meta name="description" content="Freelance billing &amp; invoicing app for creative professionals"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -637,19 +637,106 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 /* BOTTOM NAV */
 .bot-nav{display:none;}
+/* ── MOBILE HEADER ── */
+.mob-header{display:none;position:fixed;top:0;left:0;right:0;height:54px;z-index:300;
+  background:var(--white);border-bottom:1px solid var(--border);
+  padding:0 16px;align-items:center;justify-content:space-between;}
+.mob-header-logo{display:flex;align-items:center;gap:8px;}
+.mob-header-icon{width:30px;height:30px;background:var(--red);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:.72rem;font-weight:800;flex-shrink:0;}
+.mob-header-name{font-size:.95rem;font-weight:700;letter-spacing:-.02em;color:var(--text);}
+.mob-header-right{display:flex;align-items:center;gap:8px;}
+.mob-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#FF0035,#FF6B00);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:.6rem;font-weight:700;
+  cursor:pointer;flex-shrink:0;}
+
+/* ── MORE DRAWER ── */
+.more-drawer-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;
+  align-items:flex-end;}
+.more-drawer-bg.open{display:flex;}
+.more-drawer{background:var(--white);border-radius:20px 20px 0 0;padding:12px 0 calc(16px + env(safe-area-inset-bottom));
+  width:100%;box-shadow:0 -4px 24px rgba(0,0,0,.12);}
+.more-drawer-handle{width:36px;height:4px;background:var(--muted2);border-radius:2px;margin:0 auto 16px;}
+.more-drawer-title{font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.06em;padding:0 20px 8px;}
+.more-drawer-item{display:flex;align-items:center;gap:14px;padding:14px 20px;cursor:pointer;
+  transition:background .1s;}
+.more-drawer-item:hover,.more-drawer-item:active{background:var(--border2);}
+.more-drawer-item.active .mdi-icon{stroke:var(--red);}
+.more-drawer-item.active .mdi-label{color:var(--red);font-weight:600;}
+.mdi-icon-wrap{width:40px;height:40px;border-radius:11px;background:var(--border2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.mdi-icon{width:20px;height:20px;stroke:var(--text);fill:none;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;}
+.mdi-label{font-size:.88rem;font-weight:500;color:var(--text);}
+.mdi-arrow{margin-left:auto;width:16px;height:16px;stroke:var(--muted2);fill:none;
+  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ── BOTTOM NAV ── */
+.bot-nav{display:none;}
+
+/* ── FAB ── */
+.mob-fab{display:none;}
+
 @media(max-width:768px){
   .sidebar{display:none;}
-  .content{margin-left:0;padding:14px 14px 70px;}
+  .mob-header{display:flex;}
+  .content{margin-left:0;padding:68px 14px 88px;}
   .nodus-row{grid-template-columns:1fr 1fr;}
   .nodus-row .ns-cell:last-child{grid-column:1/-1;align-items:flex-start;border-top:1px solid var(--border);border-right:none;}
   .g2,.g3,.g4{grid-template-columns:1fr 1fr;}
-  .bot-nav{display:flex;position:fixed;bottom:0;left:0;right:0;height:54px;background:var(--white);
-    border-top:1px solid var(--border);z-index:200;justify-content:space-around;align-items:center;}
-  .bot-nav button{background:none;border:none;color:var(--muted2);cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 10px;
-    font-size:.57rem;font-weight:500;font-family:inherit;}
-  .bot-nav button span.ico{font-size:1.05rem;}
-  .bot-nav button.active{color:var(--red);}
+
+  /* Bottom nav */
+  .bot-nav{
+    display:flex;position:fixed;bottom:0;left:0;right:0;
+    height:calc(64px + env(safe-area-inset-bottom));
+    padding-bottom:env(safe-area-inset-bottom);
+    background:var(--white);border-top:.5px solid var(--border);
+    z-index:200;justify-content:space-around;align-items:center;}
+  .bot-nav-item{
+    background:none;border:none;cursor:pointer;font-family:inherit;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    padding:6px 14px;min-width:52px;
+    color:var(--muted2);transition:color .15s;}
+  .bot-nav-item:active{transform:scale(.92);}
+  .bot-nav-item.active{color:var(--red);}
+  .bot-nav-item svg{width:22px;height:22px;stroke:currentColor;fill:none;
+    stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .bot-nav-item span{font-size:.55rem;font-weight:500;letter-spacing:.01em;}
+  .bot-nav-item.active svg{stroke-width:2.2;}
+
+  /* FAB — floating add button */
+  .mob-fab{
+    display:flex;position:fixed;
+    bottom:calc(72px + env(safe-area-inset-bottom));
+    right:18px;
+    width:52px;height:52px;border-radius:50%;
+    background:var(--red);color:#fff;border:none;cursor:pointer;
+    align-items:center;justify-content:center;
+    box-shadow:0 4px 16px rgba(255,0,53,.4);
+    transition:transform .15s,box-shadow .15s;z-index:201;}
+  .mob-fab:active{transform:scale(.92);box-shadow:0 2px 8px rgba(255,0,53,.35);}
+  .mob-fab svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round;}
+
+  /* FAB mini menu */
+  .fab-menu{display:none;position:fixed;bottom:calc(134px + env(safe-area-inset-bottom));
+    right:18px;flex-direction:column;gap:10px;align-items:flex-end;z-index:201;}
+  .fab-menu.open{display:flex;}
+  .fab-menu-item{display:flex;align-items:center;gap:8px;cursor:pointer;}
+  .fab-menu-label{background:var(--text);color:var(--white);font-size:.75rem;font-weight:500;
+    padding:5px 10px;border-radius:8px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+  .fab-menu-btn{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.18);}
+  .fab-menu-btn svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round;}
+  .fab-menu-btn.inc{background:#00C853;}
+  .fab-menu-btn.exp{background:#FF6B00;}
+
+  /* Touch-optimized rows */
+  tbody tr td{padding:11px 10px;}
+  .ph{padding:10px 0 14px;}
+  .ph h1{font-size:1.4rem;}
 }
 
 /* ── AUTH OVERLAY ── */
@@ -710,7 +797,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <button id="authSubmit" class="auth-btn" onclick="authMode==='signin'?signIn():signUp()">Sign In</button>
     <div id="authSpinner">Signing in…</div>
     <div class="auth-toggle" id="authToggle">
-      New to Trackvista? <span onclick="toggleAuthMode()">Create account</span>
+      New to StudioBills? <span onclick="toggleAuthMode()">Create account</span>
     </div>
     <div style="margin-top:16px;text-align:center;font-size:.71rem;color:var(--muted2);line-height:1.6;">
       By continuing, you agree to our
@@ -765,6 +852,46 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- ── MOBILE HEADER ── -->
+<header class="mob-header" id="mobHeader">
+  <div class="mob-header-logo">
+    <div class="mob-header-icon">SB</div>
+    <span class="mob-header-name">StudioBills</span>
+  </div>
+  <div class="mob-header-right">
+    <div class="mob-avatar" id="mobAvatar" onclick="showTab('settings')">HD</div>
+  </div>
+</header>
+
+<!-- ── MORE DRAWER ── -->
+<div class="more-drawer-bg" id="moreDrawerBg" onclick="closeMobMore(event)">
+  <div class="more-drawer" id="moreDrawer">
+    <div class="more-drawer-handle"></div>
+    <div class="more-drawer-title">More</div>
+    <div class="more-drawer-item" id="mdi-reports" onclick="moreNavTo('reports')">
+      <div class="mdi-icon-wrap"><svg class="mdi-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <span class="mdi-label">Reports</span>
+      <svg class="mdi-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="more-drawer-item" id="mdi-clients" onclick="moreNavTo('clients')">
+      <div class="mdi-icon-wrap"><svg class="mdi-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <span class="mdi-label">Clients</span>
+      <svg class="mdi-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="more-drawer-item" id="mdi-history" onclick="moreNavTo('history')">
+      <div class="mdi-icon-wrap"><svg class="mdi-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <span class="mdi-label">History</span>
+      <svg class="mdi-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="more-drawer-item" id="mdi-settings" onclick="moreNavTo('settings')">
+      <div class="mdi-icon-wrap"><svg class="mdi-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+      <span class="mdi-label">Settings</span>
+      <svg class="mdi-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </div>
+</div>
+
 <div class="content">
 
 <!-- ══════════════════════ OVERVIEW ══════════════════════ -->
@@ -1006,7 +1133,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 <!-- ══════════════════════ SETTINGS ══════════════════════ -->
 <div class="tab" id="tab-settings">
-  <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize Trackvista</p></div></div>
+  <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize StudioBills</p></div></div>
   <!-- PILL TABS -->
   <div class="stabs">
     <button class="stab active" data-st="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profile</button>
@@ -1135,7 +1262,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
         <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
           <div class="logo-icon" style="width:50px;height:50px;border-radius:13px;font-size:.95rem;flex-shrink:0;">SB</div>
           <div>
-            <div style="font-size:1rem;font-weight:700;">Trackvista</div>
+            <div style="font-size:1rem;font-weight:700;">StudioBills</div>
             <div style="font-size:.73rem;color:var(--muted);">Version 1.0</div>
           </div>
         </div>
@@ -1166,13 +1293,40 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 </div><!-- .content -->
 
 <!-- MOBILE BOTTOM NAV -->
-<div class="bot-nav" id="botNav">
-  <button data-tab="overview" class="active"><span class="ico">🏠</span>Home</button>
-  <button data-tab="income"><span class="ico">💸</span>Income</button>
-  <button data-tab="expenses"><span class="ico">🧾</span>Spend</button>
-  <button data-tab="clients"><span class="ico">👥</span>Clients</button>
-  <button data-tab="settings"><span class="ico">⚙️</span>Settings</button>
+<!-- ── FAB QUICK-ADD ── -->
+<div class="fab-menu" id="fabMenu">
+  <div class="fab-menu-item" onclick="closeFab();openModal('addIncomeModal')">
+    <span class="fab-menu-label">Add Income</span>
+    <button class="fab-menu-btn inc"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg></button>
+  </div>
+  <div class="fab-menu-item" onclick="closeFab();openModal('addExpenseModal')">
+    <span class="fab-menu-label">Add Expense</span>
+    <button class="fab-menu-btn exp"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
+  </div>
 </div>
+<button class="mob-fab" id="mobFab" onclick="toggleFab()">
+  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
+
+<!-- ── NATIVE BOTTOM NAV ── -->
+<nav class="bot-nav" id="botNav">
+  <button class="bot-nav-item active" data-tab="overview" id="bn-overview">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="bot-nav-item" data-tab="income" id="bn-income">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+    <span>Income</span>
+  </button>
+  <button class="bot-nav-item" data-tab="expenses" id="bn-expenses">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg>
+    <span>Expenses</span>
+  </button>
+  <button class="bot-nav-item" id="bn-more" onclick="openMobMore()">
+    <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg>
+    <span>More</span>
+  </button>
+</nav>
 
 <!-- ════════════════════ UPGRADE MODAL ════════════════════ -->
 <div class="modal-bg" id="upgradeModal">
@@ -1691,7 +1845,7 @@ function toggleAuthMode(){
   document.getElementById('authTitle').textContent=isSignup?'Create account':'Welcome back';
   document.getElementById('authSub').textContent=isSignup?'Start your free account':'Sign in to your account';
   document.getElementById('authSubmit').textContent=isSignup?'Create Account':'Sign In';
-  document.getElementById('authToggle').innerHTML=isSignup?'Already have an account? <span onclick="toggleAuthMode()">Sign in</span>':'New to Trackvista? <span onclick="toggleAuthMode()">Create account</span>';
+  document.getElementById('authToggle').innerHTML=isSignup?'Already have an account? <span onclick="toggleAuthMode()">Sign in</span>':'New to StudioBills? <span onclick="toggleAuthMode()">Create account</span>';
   document.getElementById('authSpinner').textContent=isSignup?'Creating account…':'Signing in…';
   setAuthMsg('');
 }
@@ -3588,8 +3742,8 @@ function buildInvoiceHTML(inv){
   const qrHTML=(inv.showQr!==false&&qrUpi)?buildQR(qrUpi,p.ownerName||p.studioName,t.net||t.gross,num):'';
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
-  const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">Trackvista Free</div>`:'';
-  const watermarkFooterHTML=!isPro()?`<div style="text-align:center;font-size:10px;color:#BBB;margin-top:18px;padding-top:10px;border-top:1px solid #EEE;">Created with Trackvista Free — <a href="https://trackvista.vercel.app" style="color:#FF0035;">Upgrade to Pro</a> to remove watermark</div>`:'';
+  const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">StudioBills Free</div>`:'';
+  const watermarkFooterHTML=!isPro()?`<div style="text-align:center;font-size:10px;color:#BBB;margin-top:18px;padding-top:10px;border-top:1px solid #EEE;">Created with StudioBills Free — <a href="https://studiobills.vercel.app" style="color:#FF0035;">Upgrade to Pro</a> to remove watermark</div>`:'';
   const _invDateObj=inv.date?new Date(inv.date):new Date();
   const _months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const _dd=String(_invDateObj.getDate()).padStart(2,'0');
@@ -4047,9 +4201,9 @@ ${db.profile.phone||''}`);
 }
 
 // ─── EXPORT / IMPORT ───
-function exportIncXLSX(){const rows=db.income.map(i=>({Client:i.client,Description:invDesc(i),Amount:+i.amount||0,Received:+i.received||0,Date:i.date,DueDate:i.due||'',Category:i.cat||'',Status:i.status,Notes:i.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Income');XLSX.writeFile(wb,'Trackvista_Income.xlsx');toast('Excel exported ✓');}
-function exportExpXLSX(){const rows=db.expenses.map(e=>({Title:e.title,Category:e.cat||'',Amount:+e.amount||0,Date:e.date,Recurring:e.recurring?'Yes':'No',Notes:e.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Expenses');XLSX.writeFile(wb,'Trackvista_Expenses.xlsx');toast('Excel exported ✓');}
-function exportReportXLSX(){const y=document.getElementById('reportYearSel').value||new Date().getFullYear();const m=['01','02','03','04','05','06','07','08','09','10','11','12'];const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const rows=m.map((mo,i)=>{const k=`${y}-${mo}`;const inc=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);const rec=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.received||0),0);const exp=db.expenses.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);return{Month:`${ml[i]} ${y}`,Billed:inc,Received:rec,Expenses:exp,Net:rec-exp};});const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`Report ${y}`);XLSX.writeFile(wb,`Trackvista_Report_${y}.xlsx`);toast('Report exported ✓');}
+function exportIncXLSX(){const rows=db.income.map(i=>({Client:i.client,Description:invDesc(i),Amount:+i.amount||0,Received:+i.received||0,Date:i.date,DueDate:i.due||'',Category:i.cat||'',Status:i.status,Notes:i.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Income');XLSX.writeFile(wb,'StudioBills_Income.xlsx');toast('Excel exported ✓');}
+function exportExpXLSX(){const rows=db.expenses.map(e=>({Title:e.title,Category:e.cat||'',Amount:+e.amount||0,Date:e.date,Recurring:e.recurring?'Yes':'No',Notes:e.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Expenses');XLSX.writeFile(wb,'StudioBills_Expenses.xlsx');toast('Excel exported ✓');}
+function exportReportXLSX(){const y=document.getElementById('reportYearSel').value||new Date().getFullYear();const m=['01','02','03','04','05','06','07','08','09','10','11','12'];const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const rows=m.map((mo,i)=>{const k=`${y}-${mo}`;const inc=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);const rec=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.received||0),0);const exp=db.expenses.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);return{Month:`${ml[i]} ${y}`,Billed:inc,Received:rec,Expenses:exp,Net:rec-exp};});const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`Report ${y}`);XLSX.writeFile(wb,`StudioBills_Report_${y}.xlsx`);toast('Report exported ✓');}
 function exportGSTXLSX(){
   if(!isPro()){showUpgradeModal('GST Excel export');return;}
   const y=document.getElementById('reportYearSel').value||new Date().getFullYear();
@@ -4061,9 +4215,9 @@ function exportGSTXLSX(){
     invs.forEach(inv=>{const t=inv._totals||{};if(t.gstOn){taxable+=t.taxable||0;cgst+=t.cgst||0;sgst+=t.sgst||0;igst+=t.igst||0;}if(t.tdsOn)tds+=t.tds||0;});
     return{Month:`${ml[i]} ${y}`,Taxable:taxable,CGST:cgst,SGST:sgst,IGST:igst,TDS:tds,'Net GST':cgst+sgst+igst};
   });
-  const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`GST ${y}`);XLSX.writeFile(wb,`Trackvista_GST_${y}.xlsx`);toast('GST Excel exported ✓');
+  const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`GST ${y}`);XLSX.writeFile(wb,`StudioBills_GST_${y}.xlsx`);toast('GST Excel exported ✓');
 }
-function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`Trackvista_Backup_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Backup exported ✓');}
+function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`StudioBills_Backup_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Backup exported ✓');}
 function importBackup(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{
   let d=JSON.parse(ev.target.result);
   // ── Convert old format (v1/v2/v3) → v4 ──
@@ -4145,7 +4299,38 @@ document.querySelectorAll('.modal-bg').forEach(bg=>bg.addEventListener('click',e
 
 // ─── WIRE UP TABS & BUTTONS ───
 document.querySelectorAll('.tn').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.tab)showTab(b.dataset.tab);}));
-document.querySelectorAll('#botNav button').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.tab)showTab(b.dataset.tab);}));
+// ── BOTTOM NAV ──
+document.querySelectorAll('#botNav .bot-nav-item[data-tab]').forEach(b=>{
+  b.addEventListener('click',()=>{closeFab();showTab(b.dataset.tab);});
+});
+
+// ── FAB ──
+let fabOpen=false;
+function toggleFab(){fabOpen=!fabOpen;document.getElementById('fabMenu').classList.toggle('open',fabOpen);const fab=document.getElementById('mobFab');fab.style.transform=fabOpen?'rotate(45deg)':'rotate(0)';}
+function closeFab(){fabOpen=false;const m=document.getElementById('fabMenu');if(m)m.classList.remove('open');const fab=document.getElementById('mobFab');if(fab)fab.style.transform='rotate(0)';}
+document.addEventListener('click',e=>{if(fabOpen&&!e.target.closest('#mobFab')&&!e.target.closest('#fabMenu'))closeFab();});
+
+// ── MORE DRAWER ──
+const MORE_TABS=['reports','clients','history','settings'];
+function openMobMore(){document.getElementById('moreDrawerBg').classList.add('open');}
+function closeMobMore(e){if(e.target===document.getElementById('moreDrawerBg'))document.getElementById('moreDrawerBg').classList.remove('open');}
+function moreNavTo(tab){document.getElementById('moreDrawerBg').classList.remove('open');showTab(tab);}
+
+// ── SYNC BOTTOM NAV WITH showTab ──
+const _origShowTab=showTab;
+showTab=function(name){
+  _origShowTab(name);
+  // Update bottom nav active state
+  document.querySelectorAll('#botNav .bot-nav-item').forEach(b=>b.classList.remove('active'));
+  const bn=document.getElementById('bn-'+name);
+  if(bn)bn.classList.add('active');
+  else{const more=document.getElementById('bn-more');if(more)more.classList.add('active');}
+  // Update more drawer active items
+  MORE_TABS.forEach(t=>{const el=document.getElementById('mdi-'+t);if(el)el.classList.toggle('active',t===name);});
+  // Sync mobile avatar initials
+  const av=document.getElementById('mobAvatar');
+  if(av){const sid=document.getElementById('userAvatar');if(sid)av.textContent=sid.textContent;}
+};
 document.querySelectorAll('.rbtn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.rbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeRange=b.dataset.range;drawMainChart();}));
 document.querySelectorAll('.stab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.stab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['profile','appearance','categories','backup','about'].forEach(s=>{const el=document.getElementById('stab-'+s);if(el)el.style.display=s===b.dataset.st?'block':'none';});}));
 document.querySelectorAll('#incTabs .itab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#incTabs .itab').forEach(x=>x.classList.remove('active'));b.classList.add('active');incFilter=b.dataset.f;renderIncome();}));
