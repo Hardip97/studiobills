@@ -2,10 +2,16 @@
   "version": 2,
   "builds": [
     { "src": "api/*.js", "use": "@vercel/node" },
-    { "src": "*.html", "use": "@vercel/static" }
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "manifest.json", "use": "@vercel/static" },
+    { "src": "sw.js", "use": "@vercel/static" },
+    { "src": "icons/**", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/manifest.json", "dest": "/manifest.json" },
+    { "src": "/sw.js", "dest": "/sw.js" },
+    { "src": "/icons/(.*)", "dest": "/icons/$1" },
     { "src": "/privacy-policy.html", "dest": "/privacy-policy.html" },
     { "src": "/terms-of-service.html", "dest": "/terms-of-service.html" },
     { "src": "/(.*)", "dest": "/index.html" }
