@@ -681,62 +681,159 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 @media(max-width:768px){
   .sidebar{display:none;}
   .mob-header{display:flex;}
-  .content{margin-left:0;padding:68px 14px 88px;}
-  .nodus-row{grid-template-columns:1fr 1fr;}
-  .nodus-row .ns-cell:last-child{grid-column:1/-1;align-items:flex-start;border-top:1px solid var(--border);border-right:none;}
-  .g2,.g3,.g4{grid-template-columns:1fr 1fr;}
+
+  /* ── FULL-BLEED NATIVE LAYOUT ── */
+  .content{margin-left:0;padding:60px 0 84px;background:#F2F2F7;}
+
+  /* Cards full-bleed — no side rounding, native section feel */
+  .card{border-radius:0;box-shadow:none;border-left:none;border-right:none;
+    margin-bottom:8px;border-bottom:1px solid #E0E0E5;}
+
+  /* Stat cards — full bleed grid with hairline separators */
+  .g2,.g3,.g4{grid-template-columns:1fr 1fr;gap:1px;background:#D1D1D6;
+    border-radius:0;margin-bottom:8px;}
+  .stat-card{border-radius:0;box-shadow:none;border:none;margin:0;padding:16px 14px;}
+  .sc-val{font-size:1.2rem;}
+
+  /* Nodus stats row */
+  .nodus-row{grid-template-columns:1fr 1fr;gap:1px;background:#D1D1D6;
+    border-radius:0;margin-bottom:8px;}
+  .ns-cell{background:#fff;border:none;padding:18px 14px;}
+  .ns-cell:last-child{grid-column:1/-1;align-items:flex-start;border-top:none;}
+  .ns-num{font-size:1.45rem;font-weight:700;}
+  .hero-net-num{font-size:1.6rem;font-weight:800;}
+
+  /* Chart full-bleed */
+  .chart-card{border-radius:0;box-shadow:none;border-left:none;border-right:none;margin-bottom:8px;}
+
+  /* Page headers — compact native style */
+  .ph{padding:14px 16px 8px;background:#fff;margin-bottom:0;}
+  .ph h1{font-size:1.3rem;}
+  .ph-actions{gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    padding-bottom:4px;flex-wrap:nowrap;}
+  .ph-actions .btn-ghost:not(.btn-dark){display:none;}
+  .ph-actions .btn-dark{display:flex;}
+  .ph-actions .search-wrap{min-width:120px;flex:1;}
+  .ph-actions select{min-width:90px;font-size:.75rem;}
+
+  /* Filter tabs — scrollable native pills */
+  .itabs{overflow-x:auto;-webkit-overflow-scrolling:touch;
+    flex-wrap:nowrap;padding:0 16px 6px;margin-bottom:0;gap:6px;
+    background:#fff;border-bottom:1px solid #E0E0E5;}
+  .itab{white-space:nowrap;padding:6px 14px;font-size:.75rem;border-radius:20px;
+    background:#F2F2F7;border:none;flex-shrink:0;}
+  .itab.active{background:var(--red);color:#fff;}
+
+  /* ── INCOME TABLE → NATIVE LIST ITEMS ── */
+  #tab-income .tbl-wrap,#tab-expenses .tbl-wrap{overflow-x:visible;}
+  #incTbody tr,#expTbody tr{
+    display:flex;flex-wrap:wrap;align-items:center;
+    padding:13px 16px;background:#fff;
+    border-bottom:1px solid #F2F2F7;gap:2px;
+    position:relative;}
+  #incTbody tr td,#expTbody tr td{border:none;padding:0;}
+  #incTbody thead,#expTbody thead{display:none;}
+
+  /* Income row layout */
+  #incTbody tr td:nth-child(1){display:none;}
+  #incTbody tr td:nth-child(2){order:4;flex:0 0 auto;
+    font-size:.65rem;font-weight:600;color:var(--muted);background:#F2F2F7;
+    padding:2px 6px;border-radius:4px;margin-left:4px;}
+  #incTbody tr td:nth-child(3){order:1;flex:1;
+    font-size:.9rem;font-weight:600;color:#1C1C1E;}
+  #incTbody tr td:nth-child(4){order:2;flex:1 0 100%;
+    font-size:.73rem;color:#8E8E93;margin-top:1px;font-weight:400;}
+  #incTbody tr td:nth-child(5){order:5;flex:0 0 auto;
+    font-size:.95rem;font-weight:700;margin-left:auto;}
+  #incTbody tr td:nth-child(6){display:none;}
+  #incTbody tr td:nth-child(7){display:none;}
+  #incTbody tr td:nth-child(8){order:3;flex:0 0 auto;}
+  #incTbody tr td:nth-child(9){display:none;}
+  #incTbody tr td:nth-child(10){order:6;flex:0 0 auto;
+    display:flex;gap:2px;align-items:center;}
+
+  /* Expense row layout */
+  #expTbody tr td:nth-child(1){order:1;flex:1;
+    font-size:.9rem;font-weight:600;color:#1C1C1E;}
+  #expTbody tr td:nth-child(2){order:2;flex:1 0 100%;margin-top:2px;}
+  #expTbody tr td:nth-child(3){order:3;flex:0 0 auto;margin-left:auto;
+    font-size:.95rem;font-weight:700;}
+  #expTbody tr td:nth-child(4){display:none;}
+  #expTbody tr td:nth-child(5){order:4;flex:0 0 auto;margin-left:6px;}
+  #expTbody tr td:nth-child(6){display:none;}
+  #expTbody tr td:nth-child(7){display:none;}
+  #expTbody tr td:nth-child(8){order:5;flex:0 0 auto;}
+
+  /* Action buttons — icon only, larger tap targets */
+  .ibtn{width:32px;height:32px;font-size:.85rem;border-radius:8px;background:#F2F2F7;}
+
+  /* Recent lists stack vertically */
+  #tab-overview .g2{grid-template-columns:1fr;gap:0;}
+
+  /* ── MODALS → BOTTOM SHEETS ── */
+  .modal-bg{align-items:flex-end !important;}
+  .modal{
+    border-radius:20px 20px 0 0 !important;
+    max-height:92dvh !important;
+    width:100% !important;
+    max-width:100% !important;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:calc(20px + env(safe-area-inset-bottom)) !important;}
+  /* Bottom sheet drag handle */
+  .modal::before{content:'';display:block;width:36px;height:4px;
+    background:#D1D1D6;border-radius:2px;margin:0 auto 16px;}
 
   /* Bottom nav */
   .bot-nav{
     display:flex;position:fixed;bottom:0;left:0;right:0;
     height:calc(64px + env(safe-area-inset-bottom));
     padding-bottom:env(safe-area-inset-bottom);
-    background:var(--white);border-top:.5px solid var(--border);
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-top:.5px solid rgba(0,0,0,.1);
     z-index:200;justify-content:space-around;align-items:center;}
   .bot-nav-item{
     background:none;border:none;cursor:pointer;font-family:inherit;
     display:flex;flex-direction:column;align-items:center;gap:3px;
     padding:6px 14px;min-width:52px;
-    color:var(--muted2);transition:color .15s;}
+    color:#8E8E93;transition:color .15s;}
   .bot-nav-item:active{transform:scale(.92);}
   .bot-nav-item.active{color:var(--red);}
   .bot-nav-item svg{width:22px;height:22px;stroke:currentColor;fill:none;
     stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
   .bot-nav-item span{font-size:.55rem;font-weight:500;letter-spacing:.01em;}
-  .bot-nav-item.active svg{stroke-width:2.2;}
+  .bot-nav-item.active svg{stroke-width:2.4;}
 
-  /* FAB — floating add button */
+  /* FAB */
   .mob-fab{
     display:flex;position:fixed;
-    bottom:calc(72px + env(safe-area-inset-bottom));
-    right:18px;
-    width:52px;height:52px;border-radius:50%;
+    bottom:calc(74px + env(safe-area-inset-bottom));right:18px;
+    width:54px;height:54px;border-radius:50%;
     background:var(--red);color:#fff;border:none;cursor:pointer;
     align-items:center;justify-content:center;
-    box-shadow:0 4px 16px rgba(255,0,53,.4);
+    box-shadow:0 4px 20px rgba(255,0,53,.45);
     transition:transform .15s,box-shadow .15s;z-index:201;}
-  .mob-fab:active{transform:scale(.92);box-shadow:0 2px 8px rgba(255,0,53,.35);}
-  .mob-fab svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;
+  .mob-fab:active{transform:scale(.92);}
+  .mob-fab svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2.2;
     stroke-linecap:round;stroke-linejoin:round;}
 
   /* FAB mini menu */
-  .fab-menu{display:none;position:fixed;bottom:calc(134px + env(safe-area-inset-bottom));
+  .fab-menu{display:none;position:fixed;
+    bottom:calc(140px + env(safe-area-inset-bottom));
     right:18px;flex-direction:column;gap:10px;align-items:flex-end;z-index:201;}
   .fab-menu.open{display:flex;}
   .fab-menu-item{display:flex;align-items:center;gap:8px;cursor:pointer;}
-  .fab-menu-label{background:var(--text);color:var(--white);font-size:.75rem;font-weight:500;
-    padding:5px 10px;border-radius:8px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.2);}
-  .fab-menu-btn{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.18);}
-  .fab-menu-btn svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;
+  .fab-menu-label{background:#1C1C1E;color:#fff;font-size:.75rem;font-weight:500;
+    padding:5px 10px;border-radius:8px;white-space:nowrap;
+    box-shadow:0 2px 8px rgba(0,0,0,.2);}
+  .fab-menu-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.2);}
+  .fab-menu-btn svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;
     stroke-linecap:round;stroke-linejoin:round;}
   .fab-menu-btn.inc{background:#00C853;}
   .fab-menu-btn.exp{background:#FF6B00;}
-
-  /* Touch-optimized rows */
-  tbody tr td{padding:11px 10px;}
-  .ph{padding:10px 0 14px;}
-  .ph h1{font-size:1.4rem;}
 }
 
 /* ── AUTH OVERLAY ── */
@@ -776,6 +873,76 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 </style>
 </head>
 <body>
+
+<!-- ══ ONBOARDING WELCOME SCREEN ══ -->
+<div id="welcomeOverlay" style="display:none;position:fixed;inset:0;z-index:9998;
+  background:linear-gradient(160deg,#FF0035 0%,#CC0028 100%);
+  flex-direction:column;align-items:center;justify-content:center;padding:32px;">
+  <div style="width:72px;height:72px;background:rgba(255,255,255,.15);border-radius:20px;
+    display:flex;align-items:center;justify-content:center;margin-bottom:24px;
+    font-size:2rem;font-weight:800;color:#fff;letter-spacing:-.05em;">SB</div>
+  <h1 style="color:#fff;font-size:2rem;font-weight:800;letter-spacing:-.04em;
+    text-align:center;margin:0 0 10px;">Welcome to<br>StudioBills</h1>
+  <p style="color:rgba(255,255,255,.8);font-size:1rem;text-align:center;
+    font-weight:300;max-width:280px;margin:0 0 40px;line-height:1.5;">
+    Your freelance billing app — invoices, income &amp; expenses in one place.</p>
+  <button onclick="startOnboarding()" style="background:#fff;color:var(--red);
+    border:none;border-radius:14px;padding:16px 40px;font-size:1rem;
+    font-weight:700;cursor:pointer;width:100%;max-width:320px;
+    box-shadow:0 4px 20px rgba(0,0,0,.15);">Get Started →</button>
+  <button onclick="skipOnboarding()" style="background:none;border:none;
+    color:rgba(255,255,255,.65);font-size:.85rem;margin-top:16px;cursor:pointer;
+    font-family:inherit;">Skip for now</button>
+</div>
+
+<!-- ══ PROFILE NUDGE CARD ══ -->
+<div id="profileNudge" style="display:none;background:#fff;border-radius:0;
+  border-left:3px solid var(--red);padding:14px 16px;margin-bottom:8px;
+  border-bottom:1px solid #E0E0E5;">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;background:rgba(255,0,53,.08);border-radius:10px;
+        display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF0035"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/></svg></div>
+      <div>
+        <div style="font-size:.85rem;font-weight:600;color:#1C1C1E;">Complete your profile</div>
+        <div style="font-size:.73rem;color:#8E8E93;margin-top:1px;">Add your studio name &amp; payment info</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button onclick="showTab('settings');closeProfileNudge()" style="background:var(--red);
+        color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:.78rem;
+        font-weight:600;cursor:pointer;font-family:inherit;">Set up</button>
+      <button onclick="closeProfileNudge()" style="background:#F2F2F7;color:#8E8E93;
+        border:none;border-radius:8px;padding:7px 10px;font-size:.78rem;
+        cursor:pointer;font-family:inherit;">✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRO EXPLAINER CARD ══ -->
+<div id="proExplainerCard" style="display:none;background:linear-gradient(135deg,#1C1C1E,#2C2C2E);
+  border-radius:0;padding:16px;margin-bottom:8px;border-bottom:1px solid #E0E0E5;">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div>
+      <div style="color:#fff;font-size:.85rem;font-weight:700;margin-bottom:3px;">
+        ⚡ Unlock Pro Features</div>
+      <div style="color:rgba(255,255,255,.6);font-size:.73rem;font-weight:300;">
+        Multi-currency · GST reports · Unlimited clients</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button onclick="showUpgradeModal('Pro')" style="background:var(--red);color:#fff;
+        border:none;border-radius:8px;padding:7px 14px;font-size:.78rem;font-weight:700;
+        cursor:pointer;font-family:inherit;white-space:nowrap;">₹999/yr</button>
+      <button onclick="closeProCard()" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.5);
+        border:none;border-radius:8px;padding:7px 10px;font-size:.78rem;
+        cursor:pointer;font-family:inherit;">✕</button>
+    </div>
+  </div>
+</div>
 
 <!-- AUTH OVERLAY -->
 <div id="authOverlay">
@@ -909,6 +1076,9 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       </div>
     </div>
   </div>
+
+  <!-- ONBOARDING CARDS (injected by JS) -->
+  <div id="onboardingCards"></div>
 
   <!-- NODUS STATS + HERO NET ROW -->
   <div class="nodus-row">
@@ -2024,6 +2194,8 @@ async function loadUserData(user){
 
 // ─── INIT APP UI ───
 function initAppUI(){
+  // Check onboarding on every init
+  setTimeout(checkOnboarding, 800);
   fillCatSelects();fillClientSuggest();
   setTimeout(checkRecurringInvoices, 300);
   setTimeout(checkRecurringExpenses, 400);
@@ -4300,6 +4472,69 @@ document.querySelectorAll('.modal-bg').forEach(bg=>bg.addEventListener('click',e
 // ─── WIRE UP TABS & BUTTONS ───
 document.querySelectorAll('.tn').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.tab)showTab(b.dataset.tab);}));
 // ── BOTTOM NAV ──
+
+// ─── ONBOARDING ────────────────────────────────────────────────────────────
+function checkOnboarding(){
+  if(!currentUser)return;
+  const isNewUser=!db._onboardingDone&&db.income.length===0&&db.expenses.length===0;
+  const noProfile=!db.profile?.studioName;
+
+  // Show welcome screen for brand new users
+  if(isNewUser&&!db._welcomeShown){
+    document.getElementById('welcomeOverlay').style.display='flex';
+    return;
+  }
+
+  // Show onboarding cards in overview
+  renderOnboardingCards();
+}
+
+function startOnboarding(){
+  document.getElementById('welcomeOverlay').style.display='none';
+  db._welcomeShown=true;
+  save();
+  renderOnboardingCards();
+  // Prompt to set up profile
+  setTimeout(()=>{ if(!db.profile?.studioName) document.getElementById('profileNudge').style.display='block'; },600);
+}
+
+function skipOnboarding(){
+  document.getElementById('welcomeOverlay').style.display='none';
+  db._welcomeShown=true;
+  db._onboardingDone=true;
+  save();
+}
+
+function renderOnboardingCards(){
+  const slot=document.getElementById('onboardingCards');
+  if(!slot)return;
+  const cards=[];
+
+  // Profile nudge — if no studio name set
+  if(!db.profile?.studioName&&!db._profileNudgeClosed){
+    cards.push(document.getElementById('profileNudge')?.outerHTML||'');
+    document.getElementById('profileNudge').style.display='block';
+  }
+
+  // Pro card — if on free plan and not closed
+  if(!isPro()&&!db._proCardClosed){
+    document.getElementById('proExplainerCard').style.display='block';
+  }
+}
+
+function closeProfileNudge(){
+  document.getElementById('profileNudge').style.display='none';
+  db._profileNudgeClosed=true;
+  save();
+}
+
+function closeProCard(){
+  document.getElementById('proExplainerCard').style.display='none';
+  db._proCardClosed=true;
+  save();
+}
+// ───────────────────────────────────────────────────────────────────────────
+
 document.querySelectorAll('#botNav .bot-nav-item[data-tab]').forEach(b=>{
   b.addEventListener('click',()=>{closeFab();showTab(b.dataset.tab);});
 });
