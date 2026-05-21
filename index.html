@@ -95,7 +95,7 @@ body.dark .topbar{background:rgba(12,12,16,0.92);}
 .tab{display:none;animation:fadeIn .15s ease;}
 .tab.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:none;}}
-.content{max-width:1380px;margin:0 auto;padding:16px 16px 60px;}
+.content{width:100%;padding:16px 20px 60px;}
 
 /* PAGE HEADER */
 .ph{background:#0F0F14;border-radius:22px;padding:18px 22px;
@@ -528,6 +528,92 @@ body.dark .itab.active{background:var(--text);color:#0C0C10;}
 .user-chip-email{font-size:.72rem;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .signout-btn{padding:5px 11px;border-radius:100px;font-size:.72rem;font-weight:500;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;font-family:inherit;}
 .signout-btn:hover{color:var(--red);border-color:rgba(255,0,53,.3);}
+
+/* ── INCOME/EXPENSE DARK STAT CARDS ── */
+.tab-stats-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;}
+.tab-stats-3p{display:grid;grid-template-columns:1fr 1fr 1fr 2fr;gap:12px;margin-bottom:12px;}
+.tbc{border-radius:20px;padding:20px 22px;}
+.tbc-dark{background:#0F0F14;color:#fff;border:1px solid rgba(255,255,255,.06);}
+.tbc-lime{background:#C8FF1E;color:#0F0F14;}
+.tbc-rose{background:rgba(255,34,85,.08);border:1px solid rgba(255,34,85,.12);}
+.tbc-warm{background:#FFF8F0;border:1px solid rgba(255,107,0,.1);}
+.tbc-surface{background:#fff;border:1px solid rgba(0,0,0,.07);}
+.tbc-lbl{font-size:.58rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;opacity:.32;margin-bottom:7px;}
+.tbc-val{font-size:1.9rem;font-weight:200;letter-spacing:-.06em;line-height:1.05;}
+.tbc-sub{font-size:.7rem;opacity:.38;margin-top:5px;}
+.tbc-badge{display:inline-flex;align-items:center;gap:4px;font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:20px;margin-top:8px;}
+.tbc-lime .tbc-lbl{opacity:.4;} .tbc-lime .tbc-sub{opacity:.5;}
+.tbc-dark .tbc-lbl{opacity:.32;} .tbc-dark .tbc-sub{opacity:.38;}
+/* cat breakdown in exp stat card */
+.exp-cat-list{display:flex;flex-direction:column;gap:0;}
+.exp-cat-item{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);}
+.exp-cat-item:last-child{border:none;}
+.exp-cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-right:7px;}
+.exp-cat-name{font-size:.72rem;font-weight:500;display:flex;align-items:center;}
+.exp-cat-amt{font-size:.72rem;font-weight:700;}
+.exp-cat-pct{font-size:.62rem;color:#AEADB8;margin-left:5px;}
+/* table card: filters embedded inside */
+.tab-table-card{background:#fff;border-radius:20px;border:1px solid rgba(0,0,0,.07);overflow:hidden;}
+.tab-table-head{padding:12px 16px;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+/* ── REPORTS OPTION E ── */
+.rep-hero{background:#141419;border-radius:22px;border:1px solid rgba(255,255,255,.06);padding:28px 32px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;margin-bottom:12px;}
+body.dark .rep-hero{background:#1C1C24;}
+.rep-hero-label{font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:10px;}
+.rep-hero-val{font-size:3.5rem;font-weight:200;letter-spacing:-.08em;line-height:1;}
+.rep-hero-sub{font-size:.8rem;color:rgba(255,255,255,.3);margin-top:8px;}
+.rep-hero-badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.rhb{padding:4px 11px;border-radius:100px;font-size:.67rem;font-weight:700;}
+.rhb-red{background:rgba(255,68,102,.15);color:#FF4466;}
+.rhb-lime{background:rgba(200,255,30,.15);color:#8AB800;}
+.rhb-amber{background:rgba(255,136,51,.15);color:#CC5500;}
+.rep-hero-right{display:flex;flex-direction:column;gap:9px;text-align:right;min-width:160px;}
+.rep-hs{display:flex;flex-direction:column;align-items:flex-end;}
+.rep-hs-lbl{font-size:.57rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.22);}
+.rep-hs-val{font-size:1.4rem;font-weight:300;letter-spacing:-.04em;margin-top:2px;color:#F0F0F5;}
+.rep-hs-div{height:1px;background:rgba(255,255,255,.08);width:100%;}
+.rep-chart-card{background:#141419;border-radius:22px;border:1px solid rgba(255,255,255,.06);padding:22px 22px 0;margin-bottom:12px;}
+body.dark .rep-chart-card{background:#1C1C24;}
+.rep-chart-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+.rep-leg{display:flex;gap:16px;padding:10px 0 16px;}
+.rep-leg-item{display:flex;align-items:center;gap:6px;font-size:.71rem;color:rgba(255,255,255,.35);}
+.rep-leg-dot{width:8px;height:8px;border-radius:50%;}
+.rep-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;}
+.rep-col-card{background:#141419;border-radius:22px;border:1px solid rgba(255,255,255,.06);padding:20px 22px;}
+body.dark .rep-col-card{background:#1C1C24;}
+.rep-col-title{font-size:.58rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:12px;}
+.rep-cat-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.rep-cat-row:last-child{border:none;}
+.rep-cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-right:8px;}
+.rep-cat-name{font-size:.72rem;font-weight:500;color:rgba(255,255,255,.6);display:flex;align-items:center;}
+.rep-cat-amt{font-size:.72rem;font-weight:700;color:#F0F0F5;}
+.rep-cat-pct{font-size:.62rem;color:rgba(255,255,255,.25);margin-left:5px;}
+.rep-mini-track{height:3px;background:rgba(255,255,255,.08);border-radius:100px;margin-top:4px;overflow:hidden;}
+.rep-mini-fill{height:100%;border-radius:100px;}
+.rep-out-row{display:flex;align-items:flex-start;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.rep-out-row:last-child{border:none;}
+.rep-out-client{font-size:.76rem;font-weight:600;color:#F0F0F5;}
+.rep-out-desc{font-size:.65rem;color:rgba(255,255,255,.28);margin-top:2px;}
+.rep-out-pill{font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block;margin-top:3px;}
+.rep-out-amt{font-size:.8rem;font-weight:700;color:#FF4466;text-align:right;}
+.rep-out-days{font-size:.64rem;color:rgba(255,255,255,.25);margin-top:2px;text-align:right;}
+.rep-mon-card{background:#141419;border-radius:22px;border:1px solid rgba(255,255,255,.06);padding:22px;margin-bottom:12px;}
+body.dark .rep-mon-card{background:#1C1C24;}
+.rep-mon-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;}
+.rep-mon-col-title{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:10px;}
+.rep-mon-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.rep-mon-row:last-child{border:none;}
+.rep-mon-name{font-size:.74rem;font-weight:600;min-width:50px;color:rgba(255,255,255,.55);}
+.rep-mon-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden;}
+.rep-mon-fill{height:100%;border-radius:100px;}
+.rep-mon-amt{font-size:.72rem;font-weight:700;min-width:70px;text-align:right;}
+@media(max-width:900px){
+  .tab-stats-4{grid-template-columns:repeat(2,1fr);}
+  .tab-stats-3p{grid-template-columns:1fr 1fr;}
+  .rep-3col{grid-template-columns:1fr;}
+  .rep-hero{grid-template-columns:1fr;}
+  .rep-mon-grid{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 <body>
@@ -716,14 +802,15 @@ body.dark .itab.active{background:var(--text);color:#0C0C10;}
       <button class="btn btn-red btn-sm" onclick="openModal('addIncomeModal')">+ New Invoice</button>
     </div>
   </div>
-  <div class="itabs" id="incTabs" style="margin-bottom:14px;">
-    <button class="itab active" data-f="all">All</button>
-    <button class="itab" data-f="received">Received</button>
-    <button class="itab" data-f="pending">Pending</button>
-    <button class="itab" data-f="partial">Partial</button>
-    <button class="itab" data-f="overdue">Overdue</button>
-  </div>
-  <div class="card" style="padding:0;overflow:hidden;">
+  <div class="tab-stats-4" id="incStatCards"></div>
+  <div class="tab-table-card">
+    <div class="tab-table-head" id="incTabs">
+      <button class="itab active" data-f="all">All</button>
+      <button class="itab" data-f="received">Received</button>
+      <button class="itab" data-f="pending">Pending</button>
+      <button class="itab" data-f="partial">Partial</button>
+      <button class="itab" data-f="overdue">Overdue</button>
+    </div>
     <div class="tbl-wrap"><table>
       <thead><tr><th>#</th><th>Client</th><th>Description</th><th>Amount</th><th>Received</th><th>Due Date</th><th>Status</th><th>Category</th><th></th></tr></thead>
       <tbody id="incTbody"></tbody>
@@ -741,11 +828,12 @@ body.dark .itab.active{background:var(--text);color:#0C0C10;}
       <button class="btn btn-red btn-sm" onclick="openModal('addExpModal')">+ Add Expense</button>
     </div>
   </div>
-  <div class="itabs" id="expTabs" style="margin-bottom:14px;">
-    <button class="itab active" data-ef="all">All</button>
-    <button class="itab" data-ef="recurring">Recurring</button>
-  </div>
-  <div class="card" style="padding:0;overflow:hidden;">
+  <div class="tab-stats-3p" id="expStatCards"></div>
+  <div class="tab-table-card">
+    <div class="tab-table-head" id="expTabs">
+      <button class="itab active" data-ef="all">All</button>
+      <button class="itab" data-ef="recurring">Recurring</button>
+    </div>
     <div class="tbl-wrap"><table>
       <thead><tr><th>Title</th><th>Category</th><th>Amount</th><th>Date</th><th>Recurring</th><th>Notes</th><th>Receipt</th><th></th></tr></thead>
       <tbody id="expTbody"></tbody>
@@ -758,28 +846,77 @@ body.dark .itab.active{background:var(--text);color:#0C0C10;}
   <div class="ph">
     <div><h1><strong>Reports</strong></h1><p>Annual analytics</p></div>
     <div class="ph-actions">
-      <select id="reportYearSel" style="padding:7px 12px;border:1px solid var(--border);border-radius:var(--r2);background:var(--white);font-family:inherit;font-size:.8rem;" onchange="renderReports()"></select>
+      <select id="reportYearSel" style="padding:7px 12px;border:1px solid rgba(255,255,255,.15);border-radius:100px;background:rgba(255,255,255,.1);font-family:inherit;font-size:.8rem;color:#fff;" onchange="renderReports()"></select>
       <button class="btn btn-dark btn-sm" onclick="exportReportXLSX()">⬇ Excel Report</button>
     </div>
   </div>
-  <div class="g4" id="reportStatCards" style="margin-bottom:16px;"></div>
-  <div class="g2" style="gap:16px;margin-bottom:16px;">
-    <div class="card"><div class="chd"><div class="card-title">Monthly Income vs Expenses</div></div><div style="height:200px;"><canvas id="reportChart"></canvas></div></div>
-    <div class="card"><div class="chd"><div class="card-title">Income by Category</div></div><div style="height:200px;"><canvas id="catChart"></canvas></div></div>
-  </div>
-  <div class="g2" style="gap:16px;margin-bottom:16px;">
-    <div class="card"><div class="chd"><div class="card-title">Expenses by Category</div></div><div style="height:200px;"><canvas id="expCatChart"></canvas></div></div>
-    <div class="card" style="padding:0;overflow:hidden;">
-      <div style="padding:16px 20px 12px;"><div class="card-title">Expense Breakdown</div></div>
-      <div id="expCatBreakdown" style="padding:0 20px 16px;"></div>
+  <!-- HERO CARD -->
+  <div class="rep-hero" id="repHeroCard">
+    <div class="rep-hero-left">
+      <div class="rep-hero-label" id="repHeroYear">2026 · Net Position</div>
+      <div class="rep-hero-val" id="repHeroNet">—</div>
+      <div class="rep-hero-sub" id="repHeroSub">Loading…</div>
+      <div class="rep-hero-badges" id="repHeroBadges"></div>
+    </div>
+    <div class="rep-hero-right">
+      <div class="rep-hs">
+        <div class="rep-hs-lbl">Total Billed</div>
+        <div class="rep-hs-val" id="repHsBilled">—</div>
+      </div>
+      <div class="rep-hs-div"></div>
+      <div class="rep-hs">
+        <div class="rep-hs-lbl">Received</div>
+        <div class="rep-hs-val" id="repHsRecv" style="color:#C8FF1E;">—</div>
+      </div>
+      <div class="rep-hs-div"></div>
+      <div class="rep-hs">
+        <div class="rep-hs-lbl">Expenses</div>
+        <div class="rep-hs-val" id="repHsExp" style="color:#FF4466;">—</div>
+      </div>
     </div>
   </div>
-  <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
-    <div style="padding:16px 20px 12px;"><div class="card-title">Monthly Breakdown</div></div>
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Month</th><th>Income</th><th>Received</th><th>Expenses</th><th>Net</th><th>Invoices</th></tr></thead>
-      <tbody id="reportTbody"></tbody>
-    </table></div>
+  <!-- FULL WIDTH CHART -->
+  <div class="rep-chart-card">
+    <div class="rep-chart-title">
+      <span>Monthly Income vs Expenses</span>
+    </div>
+    <canvas id="reportChart" height="200"></canvas>
+    <div class="rep-leg">
+      <div class="rep-leg-item"><div class="rep-leg-dot" style="background:#C8FF1E;"></div>Income Received</div>
+      <div class="rep-leg-item"><div class="rep-leg-dot" style="background:#FF4466;"></div>Expenses</div>
+    </div>
+  </div>
+  <!-- 3-COL: Income cats | Expense cats | Outstanding -->
+  <div class="rep-3col">
+    <div class="rep-col-card">
+      <div class="rep-col-title">Income by Category</div>
+      <div style="position:relative;width:100px;height:100px;margin:0 auto 12px;">
+        <canvas id="catChart"></canvas>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+          <div style="font-size:.85rem;font-weight:700;color:#F0F0F5;" id="incDonutCenter">—</div>
+        </div>
+      </div>
+      <div id="repIncCatList"></div>
+    </div>
+    <div class="rep-col-card">
+      <div class="rep-col-title">Expenses by Category</div>
+      <div style="position:relative;width:100px;height:100px;margin:0 auto 12px;">
+        <canvas id="expCatChart"></canvas>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+          <div style="font-size:.85rem;font-weight:700;color:#FF4466;" id="expDonutCenter">—</div>
+        </div>
+      </div>
+      <div id="expCatBreakdown"></div>
+    </div>
+    <div class="rep-col-card">
+      <div class="rep-col-title">Outstanding Dues</div>
+      <div id="outstandingDues"></div>
+    </div>
+  </div>
+  <!-- MONTHLY BREAKDOWN BAR LIST -->
+  <div class="rep-mon-card">
+    <div class="rep-col-title" style="margin-bottom:14px;">Monthly Breakdown</div>
+    <div class="rep-mon-grid" id="repMonGrid"></div>
   </div>
   <!-- GST Summary -->
   <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
@@ -793,11 +930,6 @@ body.dark .itab.active{background:var(--text);color:#0C0C10;}
     </table></div>
     <div id="gstTotal" style="padding:10px 20px;font-size:.8rem;font-weight:600;border-top:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap;color:var(--muted);"></div>
   </div>
-  <!-- Outstanding Dues -->
-  <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
-    <div style="padding:16px 20px 12px;"><div class="card-title">Outstanding Dues</div></div>
-    <div id="outstandingDues" style="padding:0 0 8px;"></div>
-  </div>
   <!-- Year-over-Year -->
   <div class="card" style="margin-bottom:16px;">
     <div class="card-title" style="margin-bottom:14px;">Year-over-Year</div>
@@ -805,6 +937,9 @@ body.dark .itab.active{background:var(--text);color:#0C0C10;}
   </div>
   <div class="card-title" style="margin-bottom:12px;">Archive</div>
   <div class="arc-grid" id="arcGrid"></div>
+  <!-- hidden stub for reportTbody — kept for xlsx export compat -->
+  <table style="display:none"><tbody id="reportTbody"></tbody></table>
+  <div id="reportStatCards" style="display:none;"></div>
 </div>
 
 <!-- ══════════════════════ CLIENTS ══════════════════════ -->
@@ -1716,6 +1851,18 @@ function sBadge(i){
 // ─── INCOME CRUD ───
 let incFilter='all';
 function renderIncome(){
+  // ── Income stat cards ──
+  const _iAll=db.income;
+  const _iBilled=_iAll.reduce((s,i)=>s+(+i.amount||0),0);
+  const _iRecv=_iAll.reduce((s,i)=>s+rcv(i),0);
+  const _iPend=_iAll.filter(i=>i.status==='pending'||i.status==='draft').reduce((s,i)=>s+(+i.amount||0)-rcv(i),0);
+  const _iOvd=_iAll.filter(i=>isOverdue(i)).reduce((s,i)=>s+(+i.amount||0)-rcv(i),0);
+  const _isc=document.getElementById('incStatCards');
+  if(_isc)_isc.innerHTML=`
+    <div class="tbc tbc-dark"><div class="tbc-lbl">Total Billed</div><div class="tbc-val">${fmt(_iBilled)}</div><div class="tbc-sub">${_iAll.length} invoices all time</div></div>
+    <div class="tbc tbc-lime"><div class="tbc-lbl">Received</div><div class="tbc-val">${fmt(_iRecv)}</div><div class="tbc-sub">${_iBilled>0?Math.round(_iRecv/_iBilled*100):0}% collected</div></div>
+    <div class="tbc tbc-surface"><div class="tbc-lbl">Pending</div><div class="tbc-val" style="color:#FF0035;">${fmt(_iPend)}</div><div class="tbc-sub">${_iAll.filter(i=>i.status==='pending').length} invoices awaiting</div></div>
+    <div class="tbc tbc-rose"><div class="tbc-lbl">Overdue</div><div class="tbc-val" style="color:#FF0035;">${fmt(_iOvd)}</div><div class="tbc-sub">${_iAll.filter(i=>isOverdue(i)).length} past due date</div></div>`;
   const q=(document.getElementById('incSearch')?.value||'').toLowerCase();
   let rows=[...db.income];
   if(incFilter==='received')rows=rows.filter(i=>i.status==='received');
@@ -1794,6 +1941,24 @@ function resetAddInc(){resetInvForm('ai');document.getElementById('ai-date').val
 // ─── EXPENSE CRUD ───
 let expFilter='all';
 function renderExpenses(){
+  // ── Expense stat cards ──
+  const _eAll=db.expenses;
+  const _eTotal=_eAll.reduce((s,e)=>s+(+e.amount||0),0);
+  const _eNow=new Date().toISOString().slice(0,7);
+  const _eMon=_eAll.filter(e=>e.date?.slice(0,7)===_eNow).reduce((s,e)=>s+(+e.amount||0),0);
+  const _eYr=new Date().getFullYear().toString();
+  const _eYear=_eAll.filter(e=>e.date?.startsWith(_eYr)).reduce((s,e)=>s+(+e.amount||0),0);
+  // category breakdown
+  const _catMap={};_eAll.forEach(e=>{const c=e.cat||'Other';_catMap[c]=(_catMap[c]||0)+(+e.amount||0);});
+  const _catPal=['#FF8833','#7B5CF8','#FF4466','#C8FF1E','#AEADB8','#00C853'];
+  const _catSorted=Object.entries(_catMap).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  const _catHtml=_catSorted.map(([c,v],i)=>`<div class="exp-cat-item"><div class="exp-cat-name"><div class="exp-cat-dot" style="background:${_catPal[i]||'#888'};"></div>${esc(c)}</div><div><span class="exp-cat-amt">${fmt(v)}</span><span class="exp-cat-pct">${_eTotal>0?Math.round(v/_eTotal*100):0}%</span></div></div>`).join('');
+  const _esc=document.getElementById('expStatCards');
+  if(_esc)_esc.innerHTML=`
+    <div class="tbc tbc-dark"><div class="tbc-lbl">This Month</div><div class="tbc-val">${fmt(_eMon)}</div><div class="tbc-sub">${_eAll.filter(e=>e.date?.slice(0,7)===_eNow).length} entries</div></div>
+    <div class="tbc tbc-surface"><div class="tbc-lbl">This Year</div><div class="tbc-val" style="color:#FF6B00;">${fmt(_eYear)}</div><div class="tbc-sub">${_eAll.filter(e=>e.date?.startsWith(_eYr)).length} entries total</div></div>
+    <div class="tbc tbc-warm"><div class="tbc-lbl">All Time</div><div class="tbc-val">${fmt(_eTotal)}</div><div class="tbc-sub">${_eAll.length} entries</div></div>
+    <div class="tbc tbc-surface"><div class="tbc-lbl">By Category</div><div class="exp-cat-list" style="margin-top:8px;">${_catHtml||'<div style="font-size:.72rem;color:#AEADB8;">No data</div>'}</div></div>`;
   const q=(document.getElementById('expSearch')?.value||'').toLowerCase();
   let rows=[...db.expenses];
   if(expFilter==='recurring')rows=rows.filter(e=>e.recurring);
@@ -1901,13 +2066,22 @@ function renderReports(){
     const net=rec-exp;
     return`<tr><td>${mLbls[i]} ${cur}</td><td>${fmt(inc)}</td><td style="color:var(--green)">${fmt(rec)}</td><td style="color:var(--red)">${fmt(exp)}</td><td style="font-weight:600;color:${net>=0?'var(--green)':'var(--red)'}">${fmt(net)}</td><td>${iByM[i].length}</td></tr>`;
   }).join('');
+  // Monthly bar grid
+  const _maxRec=Math.max(...iByM.map(a=>a.reduce((s,x)=>s+rcvR(x),0)),1);
+  const _maxExp=Math.max(...eByM.map(a=>a.reduce((s,x)=>s+(+x.amount||0),0)),1);
+  const _recBars=months.map((m,i)=>{const r=iByM[i].reduce((s,x)=>s+rcvR(x),0);const pct=Math.round(r/_maxRec*100);return`<div class="rep-mon-row"><div class="rep-mon-name">${mLbls[i]}</div><div class="rep-mon-track"><div class="rep-mon-fill" style="width:${pct}%;background:#C8FF1E;"></div></div><div class="rep-mon-amt" style="color:${r>0?'#C8FF1E':'rgba(255,255,255,.2)'};">${r>0?fmt(r):'—'}</div></div>`}).join('');
+  const _expBars=months.map((m,i)=>{const e=eByM[i].reduce((s,x)=>s+(+x.amount||0),0);const pct=Math.round(e/_maxExp*100);return`<div class="rep-mon-row"><div class="rep-mon-name">${mLbls[i]}</div><div class="rep-mon-track"><div class="rep-mon-fill" style="width:${pct}%;background:#FF4466;"></div></div><div class="rep-mon-amt" style="color:${e>0?'#FF4466':'rgba(255,255,255,.2)'};">${e>0?fmt(e):'—'}</div></div>`}).join('');
+  const _mg=document.getElementById('repMonGrid');
+  if(_mg)_mg.innerHTML=`<div><div class="rep-mon-col-title">Income Received</div>${_recBars}</div><div><div class="rep-mon-col-title">Expenses</div>${_expBars}</div>`;
   // bar chart
   const rCtx=document.getElementById('reportChart').getContext('2d');
   if(rptChart){rptChart.destroy();rptChart=null;}
-  rptChart=new Chart(rCtx,{type:'bar',data:{labels:mLbls,datasets:[
-    {label:'Received',data:iByM.map(a=>a.reduce((s,i)=>s+rcvR(i),0)),backgroundColor:'rgba(255,0,53,.7)',borderRadius:4},
-    {label:'Expenses',data:eByM.map(a=>a.reduce((s,e)=>s+(+e.amount||0),0)),backgroundColor:'rgba(200,200,200,.7)',borderRadius:4}
-  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}},scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v)}}}}});
+  const _gI=rCtx.createLinearGradient(0,0,0,200);_gI.addColorStop(0,'rgba(200,255,30,.18)');_gI.addColorStop(1,'rgba(200,255,30,.01)');
+  const _gE=rCtx.createLinearGradient(0,0,0,200);_gE.addColorStop(0,'rgba(255,68,102,.15)');_gE.addColorStop(1,'rgba(255,68,102,.01)');
+  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[
+    {label:'Received',data:iByM.map(a=>a.reduce((s,i)=>s+rcvR(i),0)),borderColor:'#C8FF1E',backgroundColor:_gI,borderWidth:2.5,tension:.45,fill:true,pointBackgroundColor:'#C8FF1E',pointRadius:4,pointHoverRadius:6},
+    {label:'Expenses',data:eByM.map(a=>a.reduce((s,e)=>s+(+e.amount||0),0)),borderColor:'#FF4466',backgroundColor:_gE,borderWidth:2.5,tension:.45,fill:true,pointBackgroundColor:'#FF4466',pointRadius:4,pointHoverRadius:6}
+  ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'#1E1E26',titleColor:'#fff',bodyColor:'rgba(255,255,255,.6)',padding:12,cornerRadius:12,borderColor:'rgba(255,255,255,.1)',borderWidth:1}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.3)',font:{size:11}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.3)',font:{size:11},callback:v=>fmt(v)}}}}});
   // category donut
   const catMap={};
   db.income.filter(i=>i.date?.startsWith(cur)).forEach(i=>{const c=i.cat||'Other';catMap[c]=(catMap[c]||0)+(+i.amount||0);});
@@ -1915,7 +2089,10 @@ function renderReports(){
   const pal=['#FF0035','#FF6B00','#8FFE01','#00C853','#3b82f6','#8b5cf6','#ec4899','#888'];
   const cCtx=document.getElementById('catChart').getContext('2d');
   if(catChart){catChart.destroy();catChart=null;}
-  catChart=new Chart(cCtx,{type:'doughnut',data:{labels:cL.length?cL:['No data'],datasets:[{data:cV.length?cV:[1],backgroundColor:cV.length?pal.slice(0,cL.length):['#E8E8E8'],borderWidth:0,hoverOffset:6}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}}}});
+  catChart=new Chart(cCtx,{type:'doughnut',data:{labels:cL.length?cL:['No data'],datasets:[{data:cV.length?cV:[1],backgroundColor:cV.length?pal.slice(0,cL.length):['rgba(255,255,255,.1)'],borderWidth:0,hoverOffset:4}]},options:{cutout:'68%',maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1E1E26',titleColor:'#fff',bodyColor:'rgba(255,255,255,.6)',padding:10,cornerRadius:10,borderColor:'rgba(255,255,255,.1)',borderWidth:1}}}});
+  const _idc=document.getElementById('incDonutCenter');if(_idc)_idc.textContent=fmt(cV.reduce((s,v)=>s+v,0));
+  const _incCatList=document.getElementById('repIncCatList');
+  if(_incCatList)_incCatList.innerHTML=cL.length?cL.map((c,i)=>`<div class="rep-cat-row"><div class="rep-cat-name"><div class="rep-cat-dot" style="background:${pal[i%pal.length]};"></div>${esc(c)}</div><div><span class="rep-cat-amt">${fmt(cV[i])}</span><span class="rep-cat-pct">${cV.reduce((s,v)=>s+v,0)>0?Math.round(cV[i]/cV.reduce((s,v)=>s+v,0)*100):0}%</span></div></div><div class="rep-mini-track"><div class="rep-mini-fill" style="width:${cV.reduce((s,v)=>s+v,0)>0?Math.round(cV[i]/cV.reduce((s,v)=>s+v,0)*100):0}%;background:${pal[i%pal.length]};"></div></div>`).join(''):'<div style="font-size:.72rem;color:rgba(255,255,255,.25);padding:8px 0;">No income data</div>';
   // expenses by category donut
   const expCatMap={};
   db.expenses.filter(e=>e.date?.startsWith(cur)).forEach(e=>{const c=e.cat||'Other';expCatMap[c]=(expCatMap[c]||0)+(+e.amount||0);});
@@ -1925,17 +2102,13 @@ function renderReports(){
   const expPal=['#FF6B00','#AAAAAA','#3b82f6','#8b5cf6','#ec4899','#00C853','#FF0035','#f59e0b'];
   const ecCtx=document.getElementById('expCatChart').getContext('2d');
   if(expCatChart){expCatChart.destroy();expCatChart=null;}
-  expCatChart=new Chart(ecCtx,{type:'doughnut',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length):['#E8E8E8'],borderWidth:0,hoverOffset:6}]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}}}});
+  expCatChart=new Chart(ecCtx,{type:'doughnut',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length):['rgba(255,255,255,.1)'],borderWidth:0,hoverOffset:4}]},options:{cutout:'68%',maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1E1E26',titleColor:'#fff',bodyColor:'rgba(255,255,255,.6)',padding:10,cornerRadius:10,borderColor:'rgba(255,255,255,.1)',borderWidth:1}}}});
+  const _edc=document.getElementById('expDonutCenter');if(_edc)_edc.textContent=fmt(ecTotal);
   // expense breakdown list
   document.getElementById('expCatBreakdown').innerHTML=ecL.length?ecL.map((c,i)=>{
     const pct=ecTotal>0?Math.round(ecV[i]/ecTotal*100):0;
-    return`<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border2);">
-      <div style="width:10px;height:10px;border-radius:50%;background:${expPal[i%expPal.length]};flex-shrink:0;"></div>
-      <div style="flex:1;font-size:.82rem;font-weight:400;">${esc(c)}</div>
-      <div style="font-size:.82rem;color:var(--muted);min-width:36px;text-align:right;">${pct}%</div>
-      <div style="font-size:.82rem;font-weight:600;min-width:70px;text-align:right;">${fmt(ecV[i])}</div>
-    </div>`;
-  }).join(''):`<div class="empty" style="padding:24px 0;"><div class="empty-icon">🧾</div><p>No expenses in ${cur}</p></div>`;
+    return`<div class="rep-cat-row"><div class="rep-cat-name"><div class="rep-cat-dot" style="background:${expPal[i%expPal.length]};"></div>${esc(c)}</div><div><span class="rep-cat-amt">${fmt(ecV[i])}</span><span class="rep-cat-pct">${pct}%</span></div></div><div class="rep-mini-track"><div class="rep-mini-fill" style="width:${pct}%;background:${expPal[i%expPal.length]};"></div></div>`;
+  }).join(''):`<div style="font-size:.72rem;color:rgba(255,255,255,.25);padding:8px 0;">No expenses in ${cur}</div>`;
   // archive
   const allYears=[...new Set([...db.income.map(i=>i.date?.slice(0,4)),...db.expenses.map(e=>e.date?.slice(0,4))].filter(Boolean))].sort((a,b)=>b-a);
   document.getElementById('arcGrid').innerHTML=allYears.map(y=>{
@@ -1972,14 +2145,15 @@ function renderReports(){
   const pendingInvs=db.income.filter(i=>i.status==='pending'||i.status==='partial').sort((a,b)=>(a.due||a.date)>(b.due||b.date)?1:-1);
   const todayMs=new Date(today()).getTime();
   document.getElementById('outstandingDues').innerHTML=pendingInvs.length
-    ?`<div class="tbl-wrap"><table><thead><tr><th>Invoice #</th><th>Client</th><th>Amount</th><th>Received</th><th>Balance</th><th>Due Date</th><th>Aging</th><th></th></tr></thead><tbody>${pendingInvs.map(i=>{
+    ?pendingInvs.map(i=>{
       const bal=(+i.amount||0)-rcvOD(i);
       const dueMs=i.due?new Date(i.due).getTime():null;
       const days=dueMs?Math.floor((todayMs-dueMs)/(864e5)):null;
-      const aging=days===null?'—':days>0?`<span style="color:var(--red);font-weight:600">+${days}d overdue</span>`:days===0?`<span style="color:var(--orange);font-weight:600">Due today</span>`:`<span style="color:var(--green)">${Math.abs(days)}d left</span>`;
-      return`<tr><td style="font-weight:600">${esc(i.invNo||'—')}</td><td>${esc(i.client||'—')}</td><td>${fmt(+i.amount||0)}</td><td style="color:var(--green)">${fmt(rcvOD(i))}</td><td style="color:var(--red);font-weight:600">${fmt(bal)}</td><td>${i.due?fmtShort(i.due):'On receipt'}</td><td>${aging}</td><td><button class="btn btn-ghost btn-sm" onclick="sendReminder('${i.id}')">📲 Remind</button></td></tr>`;
-    }).join('')}</tbody></table></div>`
-    :`<div class="empty" style="padding:24px 20px"><div class="empty-icon">✅</div><p>All invoices paid!</p></div>`;
+      const aging=days===null?'No due date':days>0?`${days}d overdue`:days===0?'Due today':`${Math.abs(days)}d left`;
+      const pillCls=days!==null&&days>0?'rep-out-pill" style="background:rgba(255,68,102,.15);color:#FF4466':'rep-out-pill" style="background:rgba(255,136,51,.12);color:#FF8833';
+      return`<div class="rep-out-row"><div class="rep-out-left"><div class="rep-out-client">${esc(i.client||'—')}</div><div class="rep-out-desc">${esc(invDesc(i)||i.invNo||'—')}</div><span class="${pillCls}">${aging}</span></div><div class="rep-out-right"><div class="rep-out-amt">${fmt(bal)}</div><div class="rep-out-days">${i.invNo||'—'}</div></div></div>`;
+    }).join('')+`<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:.71rem;color:rgba(255,255,255,.28);">Total outstanding</span><span style="font-size:1rem;font-weight:700;color:#FF4466;">${fmt(pendingInvs.reduce((s,i)=>s+(+i.amount||0)-rcvOD(i),0))}</span></div>`
+    :`<div style="font-size:.72rem;color:rgba(255,255,255,.3);padding:8px 0;text-align:center;">✅ All invoices paid!</div>`;
 
   // ── Year-over-Year ──
   const prevYear=String(+cur-1);
