@@ -3744,7 +3744,7 @@ function duplicateInvoice(id) {
   save();renderIncome();toast('Duplicated as '+copy.invNo);
 }
 
-function fetchFxRates(){
+async function fetchFxRates(){
   if(db.fxRates?.date===today()&&db.fxRates?._v===3)return;// already fresh today
   // Helper: parse rates from a USD-base response (rates = X per 1 USD)
   function buildRates(r){
