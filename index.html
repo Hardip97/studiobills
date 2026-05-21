@@ -1442,6 +1442,9 @@ function applyMigrations(){
   needsNo.forEach(i=>{db.invoiceCounter++;i.invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');});
 }
 
+// ─── GLOBAL HELPERS ───
+function rcv(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
+
 // ─── SAVE (localStorage + background Supabase sync) ───
 function save(){
   db._ts=Date.now(); // timestamp every save so we can compare with Supabase
@@ -3577,17 +3580,7 @@ document.querySelectorAll('#expTabs .itab').forEach(b=>b.addEventListener('click
 initAuth();
 
 
-// ═══════════════ FUNCTIONS RESTORED FROM V2 ═══════════════
-
-function buildRates(r){
-    const inrPerUsd=+r.INR||+r.inr||97;
-    const rates={INR:1,USD:Math.round(inrPerUsd*100)/100};
-    ['GBP','EUR','AED'].forEach(c=>{
-      const v=+r[c]||+r[c.toLowerCase()];
-      if(v>0)rates[c]=Math.round((inrPerUsd/v)*100)/100;
-    });
-    return rates;
-  }
+// ═══════════════ BULK ACTIONS ═══════════════
 
 function bulkMarkReceived() {
   if(!bulkSelected.size) return;
@@ -3685,7 +3678,7 @@ function closeProfileNudge(){
   save();
 }
 
-function deleteAccount(){
+async function deleteAccount(){
   if(!currentUser){toast('Not signed in','err');return;}
   // Double confirmation — first generic, then type email
   if(!confirm('Delete your account?\n\nThis will permanently erase ALL your data — invoices, expenses, clients, and settings.\n\nClick OK only if you are absolutely sure.'))return;
@@ -3905,9 +3898,7 @@ function quickReceive(id,btn){
   setTimeout(()=>{const inp=document.getElementById('qr-inp-'+id);if(inp)inp.focus();},50);
 }
 
-function rcvM(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
-
-function refreshPlanFromSupabase(){
+async function refreshPlanFromSupabase(){
   if(!currentUser||!supa)return;
   try{
     const{data}=await supa.from('user_data').select('data').eq('user_id',currentUser.id).single();
@@ -4119,12 +4110,6 @@ function toggleSelectAll(cb) {
   document.querySelectorAll('.inc-row-cb').forEach(r=>{r.checked=cb.checked; if(cb.checked) bulkSelected.add(r.dataset.id); else bulkSelected.delete(r.dataset.id);});
   updateBulkBar();
 }
-
-function trySource(url,parser){
-    const r=await fetch(url,{signal:AbortSignal.timeout(6000)});
-    if(!r.ok)throw new Error('http '+r.status);
-    return parser(await r.json());
-  }
 
 function updateBulkBar() {
   const bar=document.getElementById('bulkBar'); const cnt=document.getElementById('bulkCount');
