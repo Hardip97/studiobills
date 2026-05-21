@@ -1853,10 +1853,11 @@ let incFilter='all';
 function renderIncome(){
   // ── Income stat cards ──
   const _iAll=db.income;
+  const _r=(i)=>{const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;};
   const _iBilled=_iAll.reduce((s,i)=>s+(+i.amount||0),0);
-  const _iRecv=_iAll.reduce((s,i)=>s+rcv(i),0);
-  const _iPend=_iAll.filter(i=>i.status==='pending'||i.status==='draft').reduce((s,i)=>s+(+i.amount||0)-rcv(i),0);
-  const _iOvd=_iAll.filter(i=>isOverdue(i)).reduce((s,i)=>s+(+i.amount||0)-rcv(i),0);
+  const _iRecv=_iAll.reduce((s,i)=>s+_r(i),0);
+  const _iPend=_iAll.filter(i=>i.status==='pending'||i.status==='draft').reduce((s,i)=>s+(+i.amount||0)-_r(i),0);
+  const _iOvd=_iAll.filter(i=>isOverdue(i)).reduce((s,i)=>s+(+i.amount||0)-_r(i),0);
   const _isc=document.getElementById('incStatCards');
   if(_isc)_isc.innerHTML=`
     <div class="tbc tbc-dark"><div class="tbc-lbl">Total Billed</div><div class="tbc-val">${fmt(_iBilled)}</div><div class="tbc-sub">${_iAll.length} invoices all time</div></div>
@@ -2054,11 +2055,19 @@ function renderReports(){
   const tRec=iByM.reduce((s,a)=>s+a.reduce((ss,i)=>ss+rcvR(i),0),0);
   const tExp=eByM.reduce((s,a)=>s+a.reduce((ss,e)=>ss+(+e.amount||0),0),0);
   const tNet=tRec-tExp;
-  document.getElementById('reportStatCards').innerHTML=`
-    <div class="stat-card"><div class="sc-lbl">Total Billed</div><div class="sc-val">${fmt(tInc)}</div><div class="sc-sub">${cur}</div></div>
-    <div class="stat-card"><div class="sc-lbl">Total Received</div><div class="sc-val" style="color:var(--green)">${fmt(tRec)}</div></div>
-    <div class="stat-card"><div class="sc-lbl">Total Expenses</div><div class="sc-val" style="color:var(--red)">${fmt(tExp)}</div></div>
-    <div class="stat-card"><div class="sc-lbl">Net Profit</div><div class="sc-val" style="color:${tNet>=0?'var(--green)':'var(--red)'}">${fmt(tNet)}</div></div>`;
+  // ── Hero card population ──
+  const _hn=document.getElementById('repHeroNet');
+  if(_hn){_hn.textContent=fmt(tNet);_hn.style.color=tNet>=0?'#C8FF1E':'#FF4466';}
+  const _hy=document.getElementById('repHeroYear');
+  if(_hy)_hy.textContent=cur+' · Net Position';
+  const _hsub=document.getElementById('repHeroSub');
+  if(_hsub)_hsub.textContent=fmt(tRec)+' received − '+fmt(tExp)+' expenses = '+(tNet>=0?'profit':'deficit');
+  const _hbadges=document.getElementById('repHeroBadges');
+  if(_hbadges)_hbadges.innerHTML=`<span class="rhb ${tExp>tRec?'rhb-red':'rhb-lime'}">${tExp>tRec?'Expenses exceed income by '+(tInc>0?(tExp/tInc).toFixed(1)+'×':'—'):'Income exceeds expenses'}</span><span class="rhb rhb-lime">${db.income.filter(i=>i.date?.startsWith(cur)).length} invoices raised</span>`;
+  const _hBilled=document.getElementById('repHsBilled');if(_hBilled)_hBilled.textContent=fmt(tInc);
+  const _hRecv=document.getElementById('repHsRecv');if(_hRecv)_hRecv.textContent=fmt(tRec);
+  const _hExp=document.getElementById('repHsExp');if(_hExp)_hExp.textContent=fmt(tExp);
+  document.getElementById('reportStatCards').innerHTML='';
   document.getElementById('reportTbody').innerHTML=months.map((m,i)=>{
     const inc=iByM[i].reduce((s,x)=>s+(+x.amount||0),0);
     const rec=iByM[i].reduce((s,x)=>s+rcvR(x),0);
