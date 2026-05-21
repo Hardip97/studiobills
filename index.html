@@ -1982,19 +1982,24 @@ function saveIncome(){
   if(!f.client){toast('Client name required','err');return;}
   const t=calcInvTotals('ai');
   if(t.subtotal<=0){toast('Add at least one line item with a rate','err');return;}
-  // Use typed invoice number or auto-generate next
   let invNo=f.invNo&&f.invNo.trim()?f.invNo.trim():'';
-  if(!invNo){
-    db.invoiceCounter=(db.invoiceCounter||0)+1;
-    invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');
-  }
-  const inv={id:uid(),invNo,...f,amount:Math.round(t.gross),_totals:t};
+  if(!invNo)invNo=nextAvailableInvNo();
+  const fxRate=f.exchangeRate||1;
+  const foreignAmt=Math.round(t.gross);
+  const amountINR=Math.round(t.gross*fxRate);
+  const receivedINR=f.currency==='INR'?(+f.received||0):Math.round((+f.received||0)*fxRate);
+  const inv={id:uid(),invNo,...f,
+    foreignAmount:foreignAmt,
+    amount:amountINR,
+    received:receivedINR,
+    exchangeRate:fxRate,
+    _totals:t};
   if(inv.isCreditNote)inv.amount=-Math.abs(inv.amount);
-  if(inv.received>=inv.amount)inv.status='received';
-  else if(inv.received>0)inv.status='partial';
+  if(receivedINR>=amountINR)inv.status='received';
+  else if(receivedINR>0)inv.status='partial';
   if(inv.isDraft)inv.status='draft';
   db.income.push(inv);save();closeModal('addIncomeModal');
-  showInvTab('details','ai');resetInvForm('ai');
+  showInvTab('invoice','ai');resetInvForm('ai');
   fillCatSelects();fillClientSuggest();
   toast(inv.isDraft?'Draft saved ✓':'Invoice saved ✓');renderOverview();renderIncome();
 }
@@ -2015,15 +2020,34 @@ function updateIncome(){
   if(t.subtotal<=0){toast('Add at least one line item with a rate','err');return;}
   const i=db.income[idx];
   const invNo=f.invNo&&f.invNo.trim()?f.invNo.trim():i.invNo;
-  Object.assign(i,f,{invNo,amount:Math.round(t.gross),_totals:t});
+  const fxRate=f.exchangeRate||1;
+  const foreignAmt=Math.round(t.gross);
+  const amountINR=Math.round(t.gross*fxRate);
+  const receivedINR=f.currency==='INR'?(+f.received||0):Math.round((+f.received||0)*fxRate);
+  Object.assign(i,f,{invNo,
+    foreignAmount:foreignAmt,
+    amount:amountINR,
+    received:receivedINR,
+    exchangeRate:fxRate,
+    _totals:t});
   if(i.isCreditNote)i.amount=-Math.abs(i.amount);
-  if(i.received>=Math.abs(i.amount))i.status='received';
-  else if(i.received>0)i.status='partial';
+  if(receivedINR>=Math.abs(amountINR))i.status='received';
+  else if(receivedINR>0)i.status='partial';
   if(i.isDraft)i.status='draft';
   save();closeModal('editIncomeModal');toast('Updated ✓');renderOverview();renderIncome();
 }
 function delInc(id){if(!confirm('Delete invoice?'))return;db.income=db.income.filter(x=>x.id!==id);save();toast('Deleted');renderOverview();renderIncome();}
-function resetAddInc(){resetInvForm('ai');document.getElementById('ai-date').value=today();document.getElementById('ai-status').value='pending';document.getElementById('ai-received').value='';}
+function resetAddInc(){
+  resetInvForm('ai');
+  document.getElementById('ai-date').value=today();
+  document.getElementById('ai-status').value='pending';
+  document.getElementById('ai-received').value='';
+  const fields=['ai-client','ai-due','ai-terms','ai-hsn','ai-cgstin','ai-pos','ai-ponum','ai-qrupi'];
+  fields.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const checks=['ai-isdraft','ai-iscredit','ai-isrecurring','ai-reversecharge','ai-vatid'];
+  checks.forEach(id=>{const el=document.getElementById(id);if(el)el.checked=false;});
+  const badge=document.getElementById('ai-draft-badge');if(badge)badge.style.display='none';
+}
 
 // ─── EXPENSE CRUD ───
 let expFilter='all';
@@ -2745,6 +2769,42 @@ function populateInvForm(pfx,inv){
   updateInvTotals(pfx);
 }
 
+function saveQuickIncome(){
+  const amtEl=document.getElementById('qi-amount');
+  const amt=parseFloat(amtEl?.value||'');
+  if(isNaN(amt)||amt<=0){toast('Enter a valid amount','err');amtEl?.focus();return;}
+  const date=document.getElementById('qi-date')?.value||today();
+  const client=(document.getElementById('qi-client')?.value||'').trim()||'Misc';
+  const cat=(document.getElementById('qi-cat')?.value||'').trim();
+  const desc=(document.getElementById('qi-desc')?.value||'').trim();
+  const isRcv=document.getElementById('qi-received')?.checked;
+  const entry={
+    id:uid(),invNo:'',client,desc,cat,date,due:'',
+    lineItems:[{id:uid(),name:desc||'Income',qty:1,rate:amt,unit:''}],
+    amount:amt,received:isRcv?amt:0,
+    status:isRcv?'received':'pending',
+    currency:'INR',exchangeRate:1,foreignAmount:amt,
+    _totals:{items:[{name:desc||'Income',qty:1,rate:amt}],subtotal:amt,discount:0,taxable:amt,cgst:0,sgst:0,igst:0,gross:amt,tds:0,net:amt,gstOn:false,tdsOn:false,discOn:false}
+  };
+  db.income.unshift(entry);
+  save();
+  closeModal('quickIncomeModal');
+  renderIncome();renderOverview();
+  toast('Income saved ✓');
+}
+
+function nextAvailableInvNo(){
+  const used=new Set();
+  const income=(typeof db!=='undefined'&&db.income)||[];
+  income.forEach(i=>{
+    const m=(i.invNo||'').match(/^INV-(\d+)$/i);
+    if(m)used.add(parseInt(m[1],10));
+  });
+  let n=1;
+  while(used.has(n))n++;
+  return'INV-'+String(n).padStart(3,'0');
+}
+
 function resetInvForm(pfx){
   // Pre-fill invoice no with next sequential number
   const nextNo=nextAvailableInvNo();
@@ -2926,7 +2986,9 @@ function buildInvoiceHTML(inv){
   const tpl=inv.template||'classic';
   const p=db.profile;
   const num=inv.invNo||`INV-${inv.id.slice(-6).toUpperCase()}`;
-  const cur=inv.currency||p.currency||'₹';
+  // Convert currency code ('INR','USD') to symbol ('₹','$')
+  const _fxCurrencies={INR:'₹',USD:'$',GBP:'£',EUR:'€',AED:'د.إ'};
+  const cur=(typeof FX_CURRENCIES!=='undefined'&&FX_CURRENCIES[inv.currency]?.symbol)||_fxCurrencies[inv.currency]||inv.currency||p.currency||'₹';
   const t=invTotalsFromSaved(inv);
   const payLines=[];
   if(p.upi)payLines.push(`UPI / GPay / PhonePe: ${p.upi}`);
@@ -3382,7 +3444,25 @@ function importBackup(e){const f=e.target.files[0];if(!f)return;const r=new File
 function clearAll(){if(!confirm('Delete ALL data? This cannot be undone.'))return;const key=currentUser?DB+'_'+currentUser.id:DB;localStorage.removeItem(key);if(currentUser&&supa)supa.from('user_data').delete().eq('user_id',currentUser.id).then(()=>{});location.reload();}
 
 // ─── MODAL / TOAST UTILS ───
-function openModal(id){document.getElementById(id).classList.add('open');fillCatSelects();fillClientSuggest();}
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  fillCatSelects();fillClientSuggest();
+  if(id==='addIncomeModal'){
+    resetAddInc();
+    onCurrencySelect('ai','INR');
+    showInvTab('invoice','ai');
+    renderInvTypeBar('ai');
+    renderInvItems('ai');
+    updateInvTotals('ai');
+  }
+  if(id==='addExpModal'){
+    const el=document.getElementById('ae-title');if(el)el.value='';
+    const am=document.getElementById('ae-amount');if(am)am.value='';
+    const no=document.getElementById('ae-notes');if(no)no.value='';
+    const dt=document.getElementById('ae-date');if(dt)dt.value=today();
+    const tog=document.getElementById('ae-tog');if(tog)tog.classList.remove('on');
+  }
+}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function toast(msg,t){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(t==='err'?' t-err':'');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2800);}
 document.querySelectorAll('.modal-bg').forEach(bg=>bg.addEventListener('click',e=>{if(e.target===bg)bg.classList.remove('open');}));
