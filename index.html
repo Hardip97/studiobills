@@ -2527,8 +2527,7 @@ const INV_TYPE_DEFS={
 };
 
 function showInvTab(tab,pfx){
-  if(tab==='payment')tab='invoice';
-  const toToggle=pfx==='ai'?['invoice','payment']:['invoice','payment','options'];
+  const toToggle=pfx==='ai'?['invoice','payment','options']:['invoice','payment','options'];
   toToggle.forEach(t=>{
     const el=document.getElementById(pfx+'-tab-'+t);
     if(el)el.style.display=t===tab?'':'none';
