@@ -1585,8 +1585,17 @@ function showTab(name){
   document.querySelectorAll('.tn,[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===name);});
   location.hash=name; // persist current tab in URL so reload lands here
   if(name==='overview')renderOverview();
-  if(name==='income')renderIncome();
-  if(name==='expenses')renderExpenses();
+  if(name==='income'){
+    // Reset filter to All so user always sees full list on tab switch
+    incFilter='all';
+    document.querySelectorAll('#incTabs .itab').forEach(b=>b.classList.toggle('active',b.dataset.f==='all'));
+    renderIncome();
+  }
+  if(name==='expenses'){
+    expFilter='all';
+    document.querySelectorAll('#expTabs .itab').forEach(b=>b.classList.toggle('active',b.dataset.ef==='all'));
+    renderExpenses();
+  }
   if(name==='reports')renderReports();
   if(name==='clients')renderClients();
   if(name==='history')renderHistory();
@@ -2984,17 +2993,20 @@ function buildQR(upi,name,amount,invNo){
 
 function buildInvoiceHTML(inv){
   const tpl=inv.template||'classic';
-  const p=db.profile;
+  const p=db.profile||{};
   const num=inv.invNo||`INV-${inv.id.slice(-6).toUpperCase()}`;
-  // Convert currency code ('INR','USD') to symbol ('₹','$')
-  const _fxCurrencies={INR:'₹',USD:'$',GBP:'£',EUR:'€',AED:'د.إ'};
-  const cur=(typeof FX_CURRENCIES!=='undefined'&&FX_CURRENCIES[inv.currency]?.symbol)||_fxCurrencies[inv.currency]||inv.currency||p.currency||'₹';
+  const invCurCode=inv.currency&&FX_CURRENCIES[inv.currency]?inv.currency:'INR';
+  const cur=FX_CURRENCIES[invCurCode]?.symbol||inv.currency||p.currency||'₹';
+  const dispAmount=invCurCode!=='INR'&&inv.foreignAmount?inv.foreignAmount:null;
   const t=invTotalsFromSaved(inv);
+  const isIntl=invCurCode!=='INR';
   const payLines=[];
   if(p.upi)payLines.push(`UPI / GPay / PhonePe: ${p.upi}`);
   if(p.bankName)payLines.push(`Bank: ${p.bankName}`);
   if(p.accountNo)payLines.push(`Account No: ${p.accountNo}`);
   if(p.ifsc)payLines.push(`IFSC: ${p.ifsc}`);
+  if(p.swift)payLines.push(`SWIFT / BIC: ${p.swift}`);
+  if(p.paypal)payLines.push(`PayPal / Wise: ${p.paypal}`);
   const payHTML=payLines.join('<br>')||'(No payment info — add in Settings)';
   const ownerLines=[];
   if(p.role)ownerLines.push(p.role);
@@ -3006,14 +3018,35 @@ function buildInvoiceHTML(inv){
   const ownerHTML=ownerLines.join('<br>');
   const cp=(db.clients||{})[inv.client]||{};
   const clientAddr=cp.address||'';
+  const clientCountry=cp.country||'';
   const clientGstin=inv.cgstin||cp.gstin||'';
-  const clientInfo=`${esc(inv.client)}${clientAddr?`<br><span style="font-size:12px;color:#777;">${esc(clientAddr).replace(/\n/g,'<br>')}</span>`:''}${clientGstin?`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`:''}`;
+  const clientVatid=inv.vatid||cp.vatid||'';
+  let clientInfo=`${esc(inv.client)}`;
+  if(clientAddr)clientInfo+=`<br><span style="font-size:12px;color:#777;">${esc(clientAddr).replace(/\n/g,'<br>')}</span>`;
+  if(clientCountry)clientInfo+=`<br><span style="font-size:12px;color:#777;">${esc(clientCountry)}</span>`;
+  if(clientGstin)clientInfo+=`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`;
+  if(clientVatid)clientInfo+=`<br><span style="font-size:12px;color:#888;">VAT ID: ${esc(clientVatid)}</span>`;
+  // Classic template: full address, max-width handles wrapping
+  let clientInfoClassic=`${esc(inv.client)}`;
+  if(clientAddr)clientInfoClassic+=`<br><span style="font-size:12px;color:#777;">${esc(clientAddr).replace(/\n/g,', ')}</span>`;
+  if(clientCountry)clientInfoClassic+=`<br><span style="font-size:12px;color:#777;">${esc(clientCountry)}</span>`;
+  if(clientGstin)clientInfoClassic+=`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`;
+  if(clientVatid)clientInfoClassic+=`<br><span style="font-size:12px;color:#888;">VAT ID: ${esc(clientVatid)}</span>`;
   const hsnInfo=inv.hsn?`<div style="font-size:11px;color:#999;margin-top:4px;">HSN/SAC: ${esc(inv.hsn)}</div>`:'';
-  const termsInfo=inv.terms?`<div style="margin-top:18px;font-size:12px;color:#888;line-height:1.6;border-top:1px solid #E0E0E0;padding-top:14px;">${esc(inv.terms)}</div>`:'';
-  const qrHTML=buildQR(p.upi,p.ownerName||p.studioName,t.net||t.gross,num);
+  const legalExportNote='';
+  const termsInfo='';
+    const qrUpi=inv.qrUpi||p.upi;
+  const qrHTML=(inv.showQr!==false&&qrUpi)?buildQR(qrUpi,p.ownerName||p.studioName,t.net||t.gross,num):'';
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
-  const title=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}`;
+  const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">StudioBills Free</div>`:'';
+  const watermarkFooterHTML=!isPro()?`<div style="text-align:center;font-size:10px;color:#BBB;margin-top:18px;padding-top:10px;border-top:1px solid #EEE;">Created with StudioBills Free — <a href="https://studiobills.vercel.app" style="color:#FF0035;">Upgrade to Pro</a> to remove watermark</div>`:'';
+  const _invDateObj=inv.date?new Date(inv.date):new Date();
+  const _months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const _dd=String(_invDateObj.getDate()).padStart(2,'0');
+  const _mon=_months[_invDateObj.getMonth()];
+  const _yyyy=_invDateObj.getFullYear();
+  const title=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}_${_dd}${_mon}${_yyyy}`;
   const invType=inv.invType||'general';
   const itemRows=buildItemsRows(t.items,cur,invType,'table');
   const totalsHTML=buildTotalsHTML(t,cur,tpl);
@@ -3022,6 +3055,17 @@ function buildInvoiceHTML(inv){
   if(tpl==='classic'){
     const itemRowsClassic=buildItemsRows(t.items,cur,invType,'classic');
     const totalsClassic=buildTotalsHTML(t,cur,'classic');
+    // Build "From" block — name, role, address (max 1 line), email, phone, tax IDs
+    const fromLines=[];
+    if(p.ownerName)fromLines.push(`<div style="font-size:14px;font-weight:700;color:#111;margin-bottom:4px;">${esc(p.ownerName)}</div>`);
+    const fromMeta=[];
+    if(p.role)fromMeta.push(esc(p.role));
+    if(p.address)fromMeta.push(esc(p.address).replace(/\n/g,', '));
+    if(p.email)fromMeta.push(esc(p.email));
+    if(p.phone)fromMeta.push(esc(p.phone));
+    if(p.gstin)fromMeta.push(`GSTIN: ${esc(p.gstin)}`);
+    if(p.pan)fromMeta.push(`PAN: ${esc(p.pan)}`);
+    const fromHTML=fromLines.join('')+(fromMeta.length?`<div style="font-size:12px;color:#666;line-height:1.85;">${fromMeta.join('<br>')}</div>`:'');
     return`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${title}</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html,body{background:#E5E0D8;font-family:'Bricolage Grotesque',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
@@ -3029,20 +3073,9 @@ function buildInvoiceHTML(inv){
 .save-btn:hover{background:#333;}
 .page{width:794px;min-height:1123px;margin:0 auto 40px;background:#F2EDE3;padding:56px 60px;display:flex;flex-direction:column;}
 .hr{border:none;border-top:1px solid #C5BFB2;flex-shrink:0;}
-.header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:30px;}
-.invoice-title{font-size:96px;font-weight:800;color:#111;letter-spacing:-0.03em;line-height:1;}
-.header-meta{text-align:right;padding-bottom:8px;}
-.header-meta .date{font-size:14px;color:#555;margin-bottom:5px;}
-.header-meta .inv-no{font-size:14.5px;font-weight:700;color:#111;margin-bottom:5px;}
-.header-meta .due{font-size:14px;color:#555;}
-.billed-section{padding:26px 0;}
-.billed-label{font-size:14.5px;font-weight:700;color:#111;margin-bottom:9px;}
-.billed-detail{font-size:14.5px;color:#444;line-height:1.75;}
-.mid-spacer{height:32px;}
-.table-wrap{}
+.r{text-align:right;}
 .table-head{display:grid;grid-template-columns:1fr 110px;padding:11px 0;border-top:1.5px solid #111;border-bottom:1px solid #C5BFB2;}
 .th{font-size:14px;font-weight:700;color:#111;}
-.r{text-align:right;}
 .table-row{display:grid;grid-template-columns:1fr 110px;padding:16px 0;border-bottom:1px solid #C5BFB2;}
 .td{font-size:14px;color:#444;}
 .td-name{font-size:14px;font-weight:500;color:#111;margin-bottom:3px;}
@@ -3056,35 +3089,94 @@ function buildInvoiceHTML(inv){
 .total-final .lbl{font-size:15px;font-weight:700;color:#111;}
 .total-final .val{font-size:15px;font-weight:700;color:#111;}
 .flex-grow{flex:1;}
-.footer{border-top:1px solid #C5BFB2;padding:26px 0;border-bottom:1px solid #C5BFB2;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;}
-.footer-heading{font-size:14.5px;font-weight:700;color:#111;margin-bottom:11px;}
-.footer-detail{font-size:13px;color:#444;line-height:1.9;}
-.inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;}
-.inv-qr-label{font-size:9px;color:#888;}
+.section-label{font-size:10px;font-weight:700;color:#888;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+.inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.inv-qr-label{font-size:9px;color:#999;letter-spacing:.04em;text-transform:uppercase;}
 @page{margin:0;size:A4 portrait;}
+
+/* ── BENTO MOBILE ── */
+@media(max-width:900px){
+  .bento-grid{grid-template-columns:repeat(6,1fr);gap:12px;padding:14px 16px;}
+  .bc-s4{grid-column:span 3;}
+  .bc-s6{grid-column:span 6;}
+  .bc-s8{grid-column:span 6;}
+  .bc-s12{grid-column:span 6;}
+  .bc-r2{grid-row:span 1;}
+  .bento-card.bc-dark{grid-column:span 6;}
+  .bento-card.bc-navy{grid-column:span 6;}
+  .bento-card.bc-rose{grid-column:span 6;}
+  .bc-value-lg{font-size:2.6rem;}
+}
+@media(max-width:600px){
+  .bento-grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:10px 10px 20px;}
+  .bc-s4,.bc-s6,.bc-s8,.bc-s12{grid-column:span 1;}
+  .bento-card.bc-dark,.bento-card.bc-navy,.bento-card.bc-rose,
+  .bento-card.bc-surface.bc-s6{grid-column:span 2;}
+  .bento-card{border-radius:16px;padding:16px;}
+  .bc-value-lg{font-size:2rem;}
+  .bc-value{font-size:1.5rem;}
+  .bc-mnav{margin-top:10px;}
+  .bc-add-btn{margin-top:14px;padding:9px 16px;font-size:.78rem;}
+}
 @media print{html,body{background:#F2EDE3;}.page{margin:0;}.save-btn{display:none;}}
 </style></head><body>
 <button class="save-btn" onclick="window.print()">⬇ Save as PDF</button>
 <div class="page">
-  <div class="header"><div class="invoice-title">Invoice</div>
-    <div class="header-meta"><div class="date">${fmtLong(inv.date)}</div><div class="inv-no">Invoice No. ${num}</div><div class="due">Due: ${inv.due?fmtLong(inv.due):'On receipt'}</div>${creditBadge}${draftBadge}</div></div>
+
+  <!-- TOP ROW: PO/Ref left (if filled) · Invoice No right -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+    <div style="font-size:11px;color:#999;">${inv.ponum?`<span style="font-weight:600;color:#666;">PO / Ref:</span> ${esc(inv.ponum)}`:''}${inv.pos?`${inv.ponum?' &nbsp;·&nbsp; ':''}<span style="font-weight:600;color:#666;">Place of Supply:</span> ${esc(inv.pos)}`:''}</div>
+    <div style="font-size:16px;font-weight:800;color:#111;">${num}${creditBadge}${draftBadge}</div>
+  </div>
+
+  <!-- Invoice title left · Date & Due right -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;">
+    <div style="font-size:96px;font-weight:800;color:#111;letter-spacing:-0.03em;line-height:1;">Invoice</div>
+    <div style="text-align:right;font-size:13px;color:#666;line-height:2;padding-bottom:8px;">
+      <div><span style="color:#999;">Date</span>&nbsp;&nbsp;<strong style="color:#111;">${fmtLong(inv.date)}</strong></div>
+      <div><span style="color:#999;">Due</span>&nbsp;&nbsp;&nbsp;<strong style="color:#111;">${inv.due?fmtLong(inv.due):'On receipt'}</strong></div>
+    </div>
+  </div>
+
   <div class="hr"></div>
-  <div class="billed-section"><div class="billed-label">Billed to:</div><div class="billed-detail">${clientInfo}</div></div>
-  <div class="hr"></div><div class="mid-spacer"></div>
-  <div class="table-wrap">
+
+  <!-- Billed to left · From right -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:24px 0;gap:24px;">
+    <div style="max-width:45%;word-break:break-word;">
+      <div class="section-label">Billed to</div>
+      <div style="font-size:15px;font-weight:700;color:#111;">${clientInfoClassic}</div>
+    </div>
+    <div style="text-align:right;max-width:45%;word-break:break-word;">
+      <div class="section-label">From</div>
+      ${fromHTML}
+    </div>
+  </div>
+
+  <div class="hr"></div>
+  <div style="height:28px;"></div>
+
+  <!-- Line items -->
+  <div>
     <div class="table-head"><div class="th">Description</div><div class="th r">Amount</div></div>
     ${itemRowsClassic}
   </div>
   ${totalsClassic}
   ${hsnInfo}
+
   <div class="flex-grow"></div>
   ${termsInfo}
-  <div class="footer">
-    <div style="flex:1"><div class="footer-heading">Payment Information</div><div class="footer-detail">${payHTML}</div></div>
-    <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;">${qrHTML}<div style="font-size:9px;color:#888;margin-top:3px;">Scan to Pay</div></div>
-    <div style="flex:1;text-align:right;"><div class="footer-heading">${esc(p.ownerName||p.studioName||'Studio')}</div><div class="footer-detail">${ownerHTML}</div></div>
+
+  <!-- Footer: shaded box, payment left · QR right -->
+  <div style="margin-top:24px;background:#EAE5DA;border-radius:8px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px;">
+    <div style="flex:1;">
+      <div class="section-label">Payment Information</div>
+      <div style="font-size:12.5px;color:#555;line-height:2;">${payHTML}</div>
+    </div>
+    ${qrHTML}
   </div>
-</div></body></html>`;}
+
+  ${watermarkFooterHTML}
+</div>${watermarkHTML}</body></html>`;}
 
   // ── MINIMAL TEMPLATE ──
   if(tpl==='minimal'){
@@ -3132,13 +3224,15 @@ table.items td.r{text-align:right;}
   <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
   ${totalsHTML}
   ${hsnInfo}
+
   ${termsInfo}
   <div class="footer-strip">
     <div style="flex:1"><strong>Payment Information</strong><br>${payHTML}</div>
-    <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}<span style="font-size:8px;color:#bbb;margin-top:2px;">Scan to Pay</span></div>
+    <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}</div>
     <div style="flex:1;text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong><br>${ownerHTML}</div>
   </div>
-</div></body></html>`;}
+  ${watermarkFooterHTML}
+</div>${watermarkHTML}</body></html>`;}
 
   // ── MODERN TEMPLATE ──
   if(tpl==='modern'){
@@ -3194,15 +3288,17 @@ table.items td.r{text-align:right;}
     <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
+  
     ${termsInfo}
     <div class="flex-grow"></div>
     <div class="footer-band">
       <div style="flex:1"><strong>Payment Information</strong><br>${payHTML}</div>
-      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}<span style="font-size:8px;color:#bbb;margin-top:2px;">Scan to Pay</span></div>
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}</div>
       <div style="flex:1;text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong><br>${ownerHTML}</div>
     </div>
+    ${watermarkFooterHTML}
   </div>
-</div></body></html>`;}
+</div>${watermarkHTML}</body></html>`;}
 
   // ── ELEGANT TEMPLATE ──
   return`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${title}</title>
@@ -3254,15 +3350,17 @@ table.items td.r{text-align:right;}
     <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
+  
     ${termsInfo}
     <div class="flex-grow"></div>
     <div class="footer">
       <div style="flex:1"><strong>Payment Information</strong><br>${payHTML}</div>
-      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}<span style="font-size:8px;color:#bbb;margin-top:2px;font-family:sans-serif;">Scan to Pay</span></div>
+      <div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;">${qrHTML}</div>
       <div style="flex:1;text-align:right;"><strong>${esc(p.ownerName||p.studioName||'Studio')}</strong><br>${ownerHTML}</div>
     </div>
+    ${watermarkFooterHTML}
   </div>
-</div></body></html>`;}
+</div>${watermarkHTML}</body></html>`;}
 
 function genInvoice(){
   let inv=null;
@@ -3477,6 +3575,584 @@ document.querySelectorAll('#expTabs .itab').forEach(b=>b.addEventListener('click
 
 // ─── INIT ───
 initAuth();
+
+
+// ═══════════════ FUNCTIONS RESTORED FROM V2 ═══════════════
+
+function buildRates(r){
+    const inrPerUsd=+r.INR||+r.inr||97;
+    const rates={INR:1,USD:Math.round(inrPerUsd*100)/100};
+    ['GBP','EUR','AED'].forEach(c=>{
+      const v=+r[c]||+r[c.toLowerCase()];
+      if(v>0)rates[c]=Math.round((inrPerUsd/v)*100)/100;
+    });
+    return rates;
+  }
+
+function bulkMarkReceived() {
+  if(!bulkSelected.size) return;
+  let changed=0;
+  db.income.forEach(i=>{if(bulkSelected.has(i.id)&&i.status!=='received'){i.status='received';i.received=+i.amount||0;changed++;}});
+  if(changed){save();renderIncome();renderOverview();toast(changed+' invoice(s) marked received ✓');}
+  clearBulkSel();
+}
+
+function catDragLeave(e){e.currentTarget.classList.remove('drag-over');}
+
+function catDragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';e.currentTarget.classList.add('drag-over');}
+
+function catDragStart(e){
+  _catDragIdx=+e.currentTarget.dataset.idx;
+  _catDragT=e.currentTarget.dataset.t;
+  e.currentTarget.style.opacity='.45';
+  e.dataTransfer.effectAllowed='move';
+}
+
+function catDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  const toIdx=+e.currentTarget.dataset.idx;
+  const t=e.currentTarget.dataset.t;
+  if(_catDragT!==t||_catDragIdx===null||_catDragIdx===toIdx){_catDragIdx=null;return;}
+  const arr=db.cats[t]||[];
+  const [item]=arr.splice(_catDragIdx,1);
+  arr.splice(toIdx,0,item);
+  db.cats[t]=arr;
+  _catDragIdx=null;
+  save();renderCatPills(t);
+  toast('Category order saved ✓');
+}
+
+function checkOnboarding(){
+  if(!currentUser)return;
+  const isNewUser=!db._onboardingDone&&db.income.length===0&&db.expenses.length===0;
+  const noProfile=!db.profile?.studioName;
+
+  // Show welcome screen for brand new users
+  if(isNewUser&&!db._welcomeShown){
+    document.getElementById('welcomeOverlay').style.display='flex';
+    return;
+  }
+
+  // Show onboarding cards in overview
+  renderOnboardingCards();
+}
+
+function checkRecurringExpenses(){
+  const curMon=today().slice(0,7);
+  let generated=0;
+  const recurringBase=db.expenses.filter(e=>e.recurring);
+  // Group by title+cat — find latest per group
+  const groups={};
+  recurringBase.forEach(e=>{
+    const key=`${e.title||''}|${e.cat||''}`;
+    if(!groups[key]||e.date>groups[key].date)groups[key]=e;
+  });
+  Object.values(groups).forEach(base=>{
+    const baseMonth=base.date?.slice(0,7);
+    if(!baseMonth||baseMonth>=curMon)return;// already current month or future
+    // Check if a copy already exists this month
+    const alreadyExists=db.expenses.some(e=>e.recurringParent===base.id&&e.date?.slice(0,7)===curMon);
+    if(alreadyExists)return;
+    const newDate=curMon+'-'+base.date.slice(8);
+    const copy={...base,id:uid(),date:newDate,recurringParent:base.id};
+    db.expenses.push(copy);
+    generated++;
+  });
+  if(generated>0){save();toast(`${generated} recurring expense${generated>1?'s':''} added for ${curMon.replace('-','/')} ✓`);}
+}
+
+function clearBulkSel() {
+  bulkSelected.clear();
+  document.querySelectorAll('.inc-row-cb').forEach(r=>r.checked=false);
+  const cb=document.getElementById('selectAllInc'); if(cb) cb.checked=false;
+  updateBulkBar();
+}
+
+function closeFab(){fabOpen=false;const m=document.getElementById('fabMenu');if(m)m.classList.remove('open');const fab=document.getElementById('mobFab');if(fab)fab.style.transform='rotate(0)';}
+
+function closeMobMore(e){if(e.target===document.getElementById('moreDrawerBg'))document.getElementById('moreDrawerBg').classList.remove('open');}
+
+function closeProCard(){
+  document.getElementById('proExplainerCard').style.display='none';
+  db._proCardClosed=true;
+  save();
+}
+
+function closeProfileNudge(){
+  document.getElementById('profileNudge').style.display='none';
+  db._profileNudgeClosed=true;
+  save();
+}
+
+function deleteAccount(){
+  if(!currentUser){toast('Not signed in','err');return;}
+  // Double confirmation — first generic, then type email
+  if(!confirm('Delete your account?\n\nThis will permanently erase ALL your data — invoices, expenses, clients, and settings.\n\nClick OK only if you are absolutely sure.'))return;
+  const confirmEmail=prompt('To confirm, type your email address:');
+  if(!confirmEmail||confirmEmail.trim().toLowerCase()!==currentUser.email.toLowerCase()){
+    toast('Email did not match — account not deleted','err');return;
+  }
+  toast('Deleting account…');
+  try{
+    // 1. Delete all user data from user_data table
+    await supa.from('user_data').delete().eq('user_id',currentUser.id);
+    // 2. Delete the auth account via Supabase admin (requires RPC or edge function)
+    //    Fallback: sign out and show instruction if admin delete isn't available
+    const{error}=await supa.rpc('delete_user');
+    if(error){
+      // If RPC not available, clear data and sign out — user must contact support for auth deletion
+      await supa.auth.signOut();
+      currentUser=null;
+      db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:[...DEFAULT_CATS.inc],exp:[...DEFAULT_CATS.exp]}};
+      document.getElementById('authOverlay').style.display='flex';
+      document.getElementById('authEmail').value='';
+      document.getElementById('authPwd').value='';
+      toast('All data deleted. Auth account removal may take up to 24h.','err');
+      return;
+    }
+    // Success
+    currentUser=null;
+    db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:[...DEFAULT_CATS.inc],exp:[...DEFAULT_CATS.exp]}};
+    document.getElementById('authOverlay').style.display='flex';
+    document.getElementById('authEmail').value='';
+    document.getElementById('authPwd').value='';
+    toast('Account permanently deleted.');
+  }catch(e){
+    console.error(e);
+    toast('Error deleting account — please try again','err');
+  }
+}
+
+function doQRFull(id){
+  document.querySelectorAll('.qr-panel').forEach(p=>p.remove());
+  const inv=db.income.find(i=>i.id===id);if(!inv)return;
+  inv.status='received';inv.received=+inv.amount;
+  save();renderIncome();renderOverview();toast('Marked received ✓');
+}
+
+function doQRPartial(id){
+  const inp=document.getElementById('qr-inp-'+id);
+  const n=parseFloat(inp?.value||'');
+  if(isNaN(n)||n<0){toast('Enter a valid amount','err');return;}
+  document.querySelectorAll('.qr-panel').forEach(p=>p.remove());
+  const inv=db.income.find(i=>i.id===id);if(!inv)return;
+  inv.received=n;inv.status=n>=(+inv.amount)?'received':'partial';
+  save();renderIncome();renderOverview();toast('Payment recorded ✓');
+}
+
+function duplicateInvoice(id) {
+  const orig=db.income.find(i=>i.id===id); if(!orig)return;
+  const copy=JSON.parse(JSON.stringify(orig));
+  copy.id=uid(); copy.invNo=nextAvailableInvNo(); copy.status='pending';
+  copy.received=0; copy.date=today();
+  const d=new Date(); d.setDate(d.getDate()+30); copy.due=d.toISOString().split('T')[0];
+  db.income.unshift(copy); db.invoiceCounter=(db.invoiceCounter||0)+1;
+  save();renderIncome();toast('Duplicated as '+copy.invNo);
+}
+
+function fetchFxRates(){
+  if(db.fxRates?.date===today()&&db.fxRates?._v===3)return;// already fresh today
+  // Helper: parse rates from a USD-base response (rates = X per 1 USD)
+  function buildRates(r){
+    const inrPerUsd=+r.INR||+r.inr||97;
+    const rates={INR:1,USD:Math.round(inrPerUsd*100)/100};
+    ['GBP','EUR','AED'].forEach(c=>{
+      const v=+r[c]||+r[c.toLowerCase()];
+      if(v>0)rates[c]=Math.round((inrPerUsd/v)*100)/100;
+    });
+    return rates;
+  }
+  async function trySource(url,parser){
+    const r=await fetch(url,{signal:AbortSignal.timeout(6000)});
+    if(!r.ok)throw new Error('http '+r.status);
+    return parser(await r.json());
+  }
+  try{
+    let rates;
+    // Source 1: exchangerate-api.com free tier (no key needed)
+    try{
+      rates=await trySource(
+        'https://api.exchangerate-api.com/v4/latest/USD',
+        d=>buildRates(d.rates)
+      );
+      console.log('FX source 1 OK');
+    }catch(e1){
+      // Source 2: fawazahmed0 CDN (no key needed, daily updated)
+      console.log('FX source 1 failed, trying source 2:',e1.message);
+      rates=await trySource(
+        'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json',
+        d=>buildRates(d.usd||d.USD||{})
+      );
+      console.log('FX source 2 OK');
+    }
+    // Sanity check
+    if(!rates.USD||rates.USD<80||rates.USD>130)throw new Error('rate sanity fail: USD='+rates.USD);
+    db.fxRates={date:today(),rates,_v:3};
+    save();
+    ['ai','ei'].forEach(pfx=>{
+      const codeEl=document.getElementById(pfx+'-currency-code');
+      if(codeEl&&codeEl.value&&codeEl.value!=='INR')onCurrencySelect(pfx,codeEl.value);
+    });
+    console.log('FX rates live:',rates);
+  }catch(e){
+    // Both sources failed — keep whatever we have, or use updated fallback
+    if(!db.fxRates?.rates?.USD||db.fxRates.rates.USD<80){
+      db.fxRates={date:'',rates:{...FX_FALLBACK}};
+    }
+    console.log('FX fetch failed, using fallback:',db.fxRates.rates,e.message);
+  }
+}
+
+function fillIncClientFilter() {
+  const sel = document.getElementById('incClientFilter'); if(!sel) return;
+  const clients = [...new Set((db.income||[]).map(i=>i.client).filter(Boolean))].sort();
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All Clients</option>' + clients.map(c=>`<option value="${c}"${c===cur?' selected':''}>${c}</option>`).join('');
+}
+
+function globalSearchFn(q) {
+  const box=document.getElementById('gsResults'); if(!box)return;
+  if(!q||q.length<2){box.style.display='none';return;}
+  q=q.toLowerCase();
+  const results=[];
+  (db.income||[]).forEach(i=>{
+    if((i.client||'').toLowerCase().includes(q)||(i.desc||'').toLowerCase().includes(q)||(i.invNo||'').toLowerCase().includes(q))
+      results.push({label:(i.invNo||'INV')+' – '+(i.client||''), sub:(i.desc||'')+'  ₹'+(+i.amount||0).toLocaleString('en-IN'), tab:'income'});
+  });
+  Object.keys(db.clients||{}).forEach(name=>{
+    if(name.toLowerCase().includes(q)) results.push({label:name, sub:'Client', tab:'clients'});
+  });
+  if(!results.length){box.innerHTML='<div class="gs-item"><span class="gs-lbl">No results</span></div>';box.style.display='block';return;}
+  box.innerHTML=results.slice(0,8).map(r=>`<div class="gs-item" onclick="showTab('${r.tab}');document.getElementById('gsResults').style.display='none';document.getElementById('globalSearch').value=''"><div class="gs-lbl">${r.label}</div><div class="gs-sub">${r.sub}</div></div>`).join('');
+  box.style.display='block';
+}
+
+function h2r(hex,a){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return`rgba(${r},${g},${b},${a})`;
+}
+
+function isPro(){
+  const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
+  if(isOwner)return true;
+  if(db.plan==='pro'){
+    if(!db.planExpiry)return true;
+    return new Date(db.planExpiry)>new Date();
+  }
+  return false;
+}
+
+function mChg(a,b){if(a===0&&b===0)return'<span style="color:var(--muted2)">—</span>';if(a===0)return b>0?'<span style="color:var(--green);font-weight:600">+100%</span>':b<0?'<span style="color:var(--red);font-weight:600">-100%</span>':'<span style="color:var(--muted2)">—</span>';const pct=((b-a)/Math.abs(a)*100).toFixed(1);const col=+pct>0?'var(--green)':+pct<0?'var(--red)':'var(--muted)';return`<span style="color:${col};font-weight:600">${+pct>0?'+':''}${pct}%</span>`;}
+
+function mData(mo){
+    const k=`${cur}-${mo}`;
+    const invs=db.income.filter(i=>i.date?.startsWith(k));
+    const exps=db.expenses.filter(e=>e.date?.startsWith(k));
+    const billed=invs.reduce((s,i)=>s+(+i.amount||0),0);
+    const received=invs.reduce((s,i)=>s+rcvM(i),0);
+    const expenses=exps.reduce((s,e)=>s+(+e.amount||0),0);
+    return{billed,received,expenses,net:received-expenses};
+  }
+
+function moreNavTo(tab){document.getElementById('moreDrawerBg').classList.remove('open');showTab(tab);}
+
+function openAddClientModal() {
+  ['nc-name','nc-email','nc-phone','nc-gstin','nc-address'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  openModal('addClientModal');
+}
+
+function openMobMore(){document.getElementById('moreDrawerBg').classList.add('open');}
+
+function openQuickIncome(){
+  const d=document.getElementById('qi-date');if(d)d.value=today();
+  const cs=document.getElementById('qi-cat');
+  if(cs){
+    cs.innerHTML='<option value="">— select —</option>';
+    (db.cats.inc||[]).forEach(c=>{cs.innerHTML+=`<option value="${esc(c)}">${esc(c)}</option>`;});
+  }
+  ['qi-amount','qi-client','qi-desc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const rc=document.getElementById('qi-received');if(rc)rc.checked=true;
+  openModal('quickIncomeModal');
+  setTimeout(()=>document.getElementById('qi-amount')?.focus(),100);
+}
+
+function proceedToPayment(){
+  const link=selectedUpgradePlan==='monthly'?RAZORPAY_MONTHLY_LINK:RAZORPAY_YEARLY_LINK;
+  // Pre-fill email if available
+  const email=currentUser?.email||'';
+  const url=email?`${link}?prefill[email]=${encodeURIComponent(email)}`:link;
+  window.open(url,'_blank');
+  closeModal('upgradeModal');
+  toast('Redirecting to secure payment…');
+}
+
+function quickReceive(id,btn){
+  const inv=db.income.find(i=>i.id===id);if(!inv)return;
+  if(inv.status==='received'){toast('Already marked received');return;}
+  // Remove any existing panels
+  document.querySelectorAll('.qr-panel').forEach(p=>p.remove());
+  const cell=btn?btn.closest('td'):null;if(!cell)return;
+  const sym=db.profile.currency||'₹';
+  const panel=document.createElement('div');
+  panel.className='qr-panel';
+  panel.innerHTML=`<button class="qr-btn qr-full" onclick="doQRFull('${id}')">✓ Full ${sym}${fmt(+inv.amount)}</button>`+
+    `<span class="qr-sep">or partial:</span>`+
+    `<input class="qr-inp" id="qr-inp-${id}" type="number" min="0" placeholder="Amount" value="${rcv(inv)||''}">`+
+    `<button class="qr-btn qr-save" onclick="doQRPartial('${id}')">Save</button>`+
+    `<button class="qr-close" onclick="document.querySelectorAll('.qr-panel').forEach(p=>p.remove())">✕</button>`;
+  cell.appendChild(panel);
+  setTimeout(()=>{const inp=document.getElementById('qr-inp-'+id);if(inp)inp.focus();},50);
+}
+
+function rcvM(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
+
+function refreshPlanFromSupabase(){
+  if(!currentUser||!supa)return;
+  try{
+    const{data}=await supa.from('user_data').select('data').eq('user_id',currentUser.id).single();
+    if(!data?.data)return;
+    const remote=data.data;
+    const remoteTs=remote._ts||0;
+    const localTs=db._ts||0;
+    // SAFE: only sync plan field if remote is newer — never overwrite local income/expense data
+    if(remote.plan!==db.plan){
+      const wasFreePlan=!isPro();
+      db.plan=remote.plan; // only update plan, not the whole db
+      const key=DB+'_'+currentUser.id;
+      localStorage.setItem(key,JSON.stringify(db));
+      if(wasFreePlan&&isPro()){
+        toast('🎉 Pro plan activated! All features unlocked.');
+        updatePlanStatus();
+      }
+    }
+    // Only do a full sync if remote is strictly newer than local (e.g. edited on another device)
+    if(remoteTs>localTs){
+      const wasFreePlan=!isPro();
+      db=remote;
+      applyMigrations();
+      const key=DB+'_'+currentUser.id;
+      localStorage.setItem(key,JSON.stringify(db));
+      initAppUI();
+    }
+  }catch(e){}
+}
+
+function renderMoM(){
+  const cur=document.getElementById('reportYearSel').value||new Date().getFullYear();
+  const months=['01','02','03','04','05','06','07','08','09','10','11','12'];
+  const mLbls=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function rcvM(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
+  function mData(mo){
+    const k=`${cur}-${mo}`;
+    const invs=db.income.filter(i=>i.date?.startsWith(k));
+    const exps=db.expenses.filter(e=>e.date?.startsWith(k));
+    const billed=invs.reduce((s,i)=>s+(+i.amount||0),0);
+    const received=invs.reduce((s,i)=>s+rcvM(i),0);
+    const expenses=exps.reduce((s,e)=>s+(+e.amount||0),0);
+    return{billed,received,expenses,net:received-expenses};
+  }
+  function mChg(a,b){if(a===0&&b===0)return'<span style="color:var(--muted2)">—</span>';if(a===0)return b>0?'<span style="color:var(--green);font-weight:600">+100%</span>':b<0?'<span style="color:var(--red);font-weight:600">-100%</span>':'<span style="color:var(--muted2)">—</span>';const pct=((b-a)/Math.abs(a)*100).toFixed(1);const col=+pct>0?'var(--green)':+pct<0?'var(--red)':'var(--muted)';return`<span style="color:${col};font-weight:600">${+pct>0?'+':''}${pct}%</span>`;}
+  // Build rows: each month vs previous month
+  const rows=months.map((m,i)=>{
+    const cur_d=mData(m);
+    const prev_d=i>0?mData(months[i-1]):{billed:0,received:0,expenses:0,net:0};
+    return{label:mLbls[i],cur:cur_d,prev:prev_d,hasPrev:i>0};
+  }).filter(r=>r.cur.billed>0||r.cur.received>0||r.cur.expenses>0);
+  const sect=document.getElementById('yoySection');
+  if(!rows.length){sect.innerHTML='<div class="empty" style="padding:24px 0"><div class="empty-icon">📅</div><p>No data for '+cur+'</p></div>';return;}
+  sect.innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:.82rem;">
+    <thead><tr>
+      <th style="text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;border-bottom:2px solid var(--border)">Month</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Billed</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Received</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Expenses</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Net</th>
+      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">vs Prev Month</th>
+    </tr></thead><tbody>
+    ${rows.map(r=>`<tr>
+      <td style="padding:9px 12px;border-bottom:1px solid var(--border2);font-weight:600">${r.label}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${fmt(r.cur.billed)}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--green)">${fmt(r.cur.received)}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--red)">${fmt(r.cur.expenses)}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:${r.cur.net>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(r.cur.net)}</td>
+      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${r.hasPrev?mChg(r.prev.received,r.cur.received):'<span style="color:var(--muted2)">—</span>'}</td>
+    </tr>`).join('')}
+    </tbody></table>`;
+}
+
+function renderOnboardingCards(){
+  const slot=document.getElementById('onboardingCards');
+  if(!slot)return;
+  const cards=[];
+
+  // Profile nudge — if no studio name set
+  if(!db.profile?.studioName&&!db._profileNudgeClosed){
+    cards.push(document.getElementById('profileNudge')?.outerHTML||'');
+    document.getElementById('profileNudge').style.display='block';
+  }
+
+  // Pro card — if on free plan and not closed
+  if(!isPro()&&!db._proCardClosed){
+    document.getElementById('proExplainerCard').style.display='block';
+  }
+}
+
+function renderPagination(cid, page, total, fn) {
+  const el = document.getElementById(cid); if(!el) return;
+  const pages = Math.ceil(total/PAGE_SIZE);
+  if(pages<=1){el.innerHTML='';return;}
+  el.innerHTML =
+    (page>0?`<button class="rbtn" onclick="setIncPage(${page-1})">‹ Prev</button>`:'') +
+    `<span style="font-size:.78rem;color:var(--muted);">Page ${page+1} / ${pages}</span>` +
+    (page<pages-1?`<button class="rbtn active" onclick="setIncPage(${page+1})">Next ›</button>`:'');
+  // override onclick to use correct fn
+  el.querySelectorAll('button').forEach((b,i)=>{
+    const p2 = i===0 ? page-1 : page+1;
+    b.onclick = ()=>fn(p2);
+  });
+}
+
+function renderThemeCards(){
+  const grid=document.getElementById('themeCardGrid');if(!grid)return;
+  const cur=db.profile.theme||'ocean';
+  grid.innerHTML=Object.values(THEMES).map(T=>`
+    <div class="theme-card${cur===T.name?' selected':''}" onclick="setTheme('${T.name}')" style="background:${T.bg};">
+      <div class="theme-pal">
+        <div class="theme-pal-dot" style="background:${T.inc};"></div>
+        <div class="theme-pal-dot" style="background:${T.exp};"></div>
+        ${T.cats.slice(2,5).map(c=>`<div class="theme-pal-dot" style="background:${c};"></div>`).join('')}
+      </div>
+      <div class="theme-card-name" style="color:${T.dark?'#E8E8E8':'#1C1C1E'};">${T.label}</div>
+      <div class="theme-card-desc" style="color:${T.dark?'#888':'#86868B'};">${T.desc}</div>
+    </div>
+  `).join('');
+}
+
+function saveNewClient() {
+  const name=document.getElementById('nc-name').value.trim();
+  if(!name){toast('Client name required','err');return;}
+  if(!db.clients)db.clients={};
+  if(!db.clients[name])db.clients[name]={payments:[]};
+  db.clients[name].email=document.getElementById('nc-email').value.trim();
+  db.clients[name].phone=document.getElementById('nc-phone').value.trim();
+  db.clients[name].gstin=document.getElementById('nc-gstin').value.trim();
+  db.clients[name].address=document.getElementById('nc-address').value.trim();
+  save();renderClients();closeModal('addClientModal');toast('Client '+name+' added ✓');
+}
+
+function selectUpgradePlan(type){
+  selectedUpgradePlan=type;
+  // Update card highlight
+  document.getElementById('uplan-monthly').style.borderColor=type==='monthly'?'var(--red)':'var(--border)';
+  document.getElementById('uplan-yearly').style.borderColor=type==='yearly'?'var(--red)':'var(--border)';
+  // Update CTA button label
+  const cta=document.getElementById('upgradeCTABtn');
+  if(type==='monthly'){
+    cta.textContent='⚡ Get Pro — ₹149/month';
+  } else {
+    cta.textContent='⚡ Get Pro — ₹999/year';
+  }
+}
+
+function setHistPage(p){ histPage=p; renderHistory(); }
+
+function setIncPage(p){ incPage=p; renderIncome(); }
+
+function setTheme(name){
+  db.profile.theme=name;
+  applyTheme();
+  save();
+  renderThemeCards();
+  // Redraw report charts if on reports tab
+  if(typeof renderReports==='function'&&document.getElementById('tab-reports')?.classList.contains('active'))renderReports();
+}
+
+function showUpgradeModal(feature){
+  document.getElementById('upgradeFeatureName').textContent=feature||'this feature';
+  selectUpgradePlan('yearly'); // always open with yearly pre-selected
+  openModal('upgradeModal');
+}
+
+function skipOnboarding(){
+  document.getElementById('welcomeOverlay').style.display='none';
+  db._welcomeShown=true;
+  db._onboardingDone=true;
+  save();
+}
+
+function startOnboarding(){
+  document.getElementById('welcomeOverlay').style.display='none';
+  db._welcomeShown=true;
+  save();
+  renderOnboardingCards();
+  // Prompt to set up profile
+  setTimeout(()=>{ if(!db.profile?.studioName) document.getElementById('profileNudge').style.display='block'; },600);
+}
+
+function switchCompareMode(mode){
+  window._compareMode=mode;
+  const yBtn=document.getElementById('yoy-tab-yoy');
+  const mBtn=document.getElementById('yoy-tab-mom');
+  const title=document.getElementById('yoyCardTitle');
+  if(mode==='yoy'){
+    if(yBtn){yBtn.style.background='var(--red)';yBtn.style.color='#fff';}
+    if(mBtn){mBtn.style.background='transparent';mBtn.style.color='var(--muted)';}
+    if(title)title.textContent='Year-over-Year';
+    renderReports();
+  }else{
+    if(mBtn){mBtn.style.background='var(--red)';mBtn.style.color='#fff';}
+    if(yBtn){yBtn.style.background='transparent';yBtn.style.color='var(--muted)';}
+    if(title)title.textContent='Month-over-Month';
+    renderMoM();
+  }
+}
+
+function toggleFab(){fabOpen=!fabOpen;document.getElementById('fabMenu').classList.toggle('open',fabOpen);const fab=document.getElementById('mobFab');fab.style.transform=fabOpen?'rotate(45deg)':'rotate(0)';}
+
+function toggleRowSel(cb) {
+  if(cb.checked) bulkSelected.add(cb.dataset.id); else bulkSelected.delete(cb.dataset.id);
+  updateBulkBar();
+}
+
+function toggleSelectAll(cb) {
+  document.querySelectorAll('.inc-row-cb').forEach(r=>{r.checked=cb.checked; if(cb.checked) bulkSelected.add(r.dataset.id); else bulkSelected.delete(r.dataset.id);});
+  updateBulkBar();
+}
+
+function trySource(url,parser){
+    const r=await fetch(url,{signal:AbortSignal.timeout(6000)});
+    if(!r.ok)throw new Error('http '+r.status);
+    return parser(await r.json());
+  }
+
+function updateBulkBar() {
+  const bar=document.getElementById('bulkBar'); const cnt=document.getElementById('bulkCount');
+  if(!bar)return;
+  if(bulkSelected.size>0){bar.style.display='flex';if(cnt)cnt.textContent=bulkSelected.size+' selected';}
+  else bar.style.display='none';
+}
+
+function updatePlanStatus(){
+  const pro=isPro();
+  const badge=document.getElementById('planBadgeEl');
+  const msg=document.getElementById('planStatusMsg');
+  const btn=document.getElementById('planUpgradeBtn');
+  if(!badge)return;
+  if(pro){
+    badge.textContent='Pro ✓';badge.className='plan-badge pro';
+    const expiry=db.planExpiry?` · Renews ${new Date(db.planExpiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}`:'';
+    msg.textContent=`You have full access to all features.${expiry}`;
+    btn.style.display='none';
+  } else {
+    badge.textContent='Free';badge.className='plan-badge free';
+    const clientCount=[...new Set(db.income.map(i=>i.client).filter(Boolean))].length;
+    msg.textContent=`${clientCount}/2 clients used. Upgrade for unlimited clients, clean PDFs, GST reports, multi-currency & WhatsApp sharing.`;
+    btn.style.display='block';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
 </script>
 </body>
 </html>
