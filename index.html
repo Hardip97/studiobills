@@ -1107,10 +1107,10 @@ body.dark .rep-mon-card{background:#1C1C24;}
       <div class="fg"><label>Status</label><select id="ai-status"><option value="pending">Pending</option><option value="partial">Partial</option><option value="received">Received</option></select></div>
       <div class="fg"><label>Currency</label><div style="display:flex;gap:5px;flex-wrap:wrap;" id="ai-currency-bar">
         <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ai','INR')">🇮🇳 INR</button>
-        <button class="fx-btn" data-code="USD" onclick="isPro()?onCurrencySelect('ai','USD'):showUpgradeModal('multi-currency invoicing')">🇺🇸 USD</button>
-        <button class="fx-btn" data-code="GBP" onclick="isPro()?onCurrencySelect('ai','GBP'):showUpgradeModal('multi-currency invoicing')">🇬🇧 GBP</button>
-        <button class="fx-btn" data-code="EUR" onclick="isPro()?onCurrencySelect('ai','EUR'):showUpgradeModal('multi-currency invoicing')">🇪🇺 EUR</button>
-        <button class="fx-btn" data-code="AED" onclick="isPro()?onCurrencySelect('ai','AED'):showUpgradeModal('multi-currency invoicing')">🇦🇪 AED</button>
+        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ai','USD')">🇺🇸 USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ai','GBP')">🇬🇧 GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ai','EUR')">🇪🇺 EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ai','AED')">🇦🇪 AED</button>
       </div>
       <div id="ai-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:3px;min-height:14px;"></div></div>
     </div>
@@ -1226,10 +1226,10 @@ body.dark .rep-mon-card{background:#1C1C24;}
       <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Currency</label>
       <div style="display:flex;gap:7px;flex-wrap:wrap;" id="ei-currency-bar">
         <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ei','INR')">🇮🇳 INR</button>
-        <button class="fx-btn" data-code="USD" onclick="isPro()?onCurrencySelect('ei','USD'):showUpgradeModal('multi-currency invoicing')">🇺🇸 USD</button>
-        <button class="fx-btn" data-code="GBP" onclick="isPro()?onCurrencySelect('ei','GBP'):showUpgradeModal('multi-currency invoicing')">🇬🇧 GBP</button>
-        <button class="fx-btn" data-code="EUR" onclick="isPro()?onCurrencySelect('ei','EUR'):showUpgradeModal('multi-currency invoicing')">🇪🇺 EUR</button>
-        <button class="fx-btn" data-code="AED" onclick="isPro()?onCurrencySelect('ei','AED'):showUpgradeModal('multi-currency invoicing')">🇦🇪 AED</button>
+        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ei','USD')">🇺🇸 USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ei','GBP')">🇬🇧 GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ei','EUR')">🇪🇺 EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ei','AED')">🇦🇪 AED</button>
       </div>
       <div id="ei-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:5px;min-height:16px;"></div>
     </div>
