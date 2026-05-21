@@ -665,6 +665,7 @@ body.dark .rep-mon-card{background:#1C1C24;}
   <div class="topbar-r">
     <button class="tb-btn" onclick="exportBackup()" title="Export all data as JSON">⬇ Export</button>
     <label class="tb-btn" style="cursor:pointer;" title="Import JSON backup">📂 Import<input type="file" accept=".json" onchange="importBackup(event)" style="display:none;"></label>
+    <button class="btn btn-ghost btn-sm" onclick="openQuickIncome()">+ Income</button>
     <button class="btn btn-red btn-sm" onclick="openModal('addIncomeModal')">+ Invoice</button>
     <div class="user-chip" title="Signed in user">
       <div class="user-chip-av" id="userAvatar">HD</div>
@@ -803,6 +804,7 @@ body.dark .rep-mon-card{background:#1C1C24;}
     <div class="ph-actions">
       <div class="search-wrap"><input class="search-inp" id="incSearch" placeholder="Search client…" oninput="renderIncome()"></div>
       <button class="btn btn-ghost btn-sm" onclick="exportIncXLSX()">⬇ Excel</button>
+      <button class="btn btn-ghost btn-sm" onclick="openQuickIncome()">+ Quick Income</button>
       <button class="btn btn-red btn-sm" onclick="openModal('addIncomeModal')">+ New Invoice</button>
     </div>
   </div>
@@ -1077,6 +1079,31 @@ body.dark .rep-mon-card{background:#1C1C24;}
 </div>
 
 <!-- ════════════════════ MODALS ════════════════════ -->
+
+<!-- QUICK INCOME MODAL -->
+<div class="modal-bg" id="quickIncomeModal">
+<div class="modal" style="max-width:460px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <div><h2>Quick Income</h2><p style="font-size:.78rem;color:var(--muted);font-weight:300;margin-top:2px;">Simple income — no invoice needed</p></div>
+    <button class="ibtn" onclick="closeModal('quickIncomeModal')">✕</button>
+  </div>
+  <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+    <div class="fg"><label>Amount (₹) *</label><input id="qi-amount" type="number" min="0" placeholder="e.g. 15000" style="font-size:1rem;font-weight:600;"></div>
+    <div class="fg"><label>Date *</label><input id="qi-date" type="date"></div>
+    <div class="fg"><label>Client / Source</label><input id="qi-client" list="clientSuggest" placeholder="Who paid?"></div>
+    <div class="fg"><label>Category</label><select id="qi-cat"><option value="">— select —</option></select></div>
+  </div>
+  <div class="fg" style="margin-bottom:14px;"><label>Description</label><input id="qi-desc" placeholder="e.g. Retainer, Session fee, Freelance work…"></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:10px 12px;background:var(--bg);border-radius:8px;">
+    <input type="checkbox" id="qi-received" checked style="width:15px;height:15px;cursor:pointer;accent-color:var(--green);">
+    <label for="qi-received" style="font-size:.82rem;cursor:pointer;">Mark as already received</label>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-ghost" onclick="closeModal('quickIncomeModal')">Cancel</button>
+    <button class="btn btn-red" onclick="saveQuickIncome()">Save Income</button>
+  </div>
+</div></div>
+
 <div class="modal-bg" id="addIncomeModal">
 <div class="modal" style="max-width:780px;min-height:640px;display:flex;flex-direction:column;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
