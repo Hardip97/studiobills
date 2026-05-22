@@ -1153,6 +1153,10 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <span id="sc-overdue">₹0</span>
     <span id="sc-overdue-sub">0</span>
     <span id="sc-clients">0</span>
+    <span id="sc-overdue2">₹0</span>
+    <span id="sc-overdue2-sub"></span>
+    <span id="sc-outstanding">₹0</span>
+    <span id="sc-outstanding-sub"></span>
   </div>
   <!-- ONBOARDING CARDS (injected by JS) -->
   <div id="onboardingCards" style="padding:10px 24px 0;"></div>
@@ -1219,8 +1223,8 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div class="bc-sub" style="margin-top:10px;">Collected this month</div>
     </div>
 
-    <!-- ⑦ CHART — navy, 8 cols -->
-    <div class="bento-card bc-navy bc-s8" style="padding:20px 20px 0;">
+    <!-- ⑦ CHART — navy, full width -->
+    <div class="bento-card bc-navy bc-s12" style="padding:20px 20px 0;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
         <div style="display:flex;align-items:center;gap:8px;">
           <div class="leg active" id="legIncome"><span class="leg-dot" style="background:var(--red)"></span>Income</div>
@@ -1247,19 +1251,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div class="chart-xlabels" id="chartXLabels"></div>
     </div>
 
-    <!-- ⑧ OVERDUE / OUTSTANDING — rose, 4 cols -->
-    <div class="bento-card bc-rose bc-s4">
-      <div class="bc-accent-bar"></div>
-      <div class="bc-label">Overdue</div>
-      <div style="font-size:2rem;font-weight:200;letter-spacing:-.06em;color:var(--red);font-variant-numeric:tabular-nums;" id="sc-overdue2">₹0</div>
-      <div class="bc-sub" id="sc-overdue2-sub">past due date</div>
-      <hr class="bc-divider" style="border-color:rgba(255,34,85,.12);">
-      <div class="bc-label" style="margin-bottom:6px;">All Outstanding</div>
-      <div style="font-size:1.55rem;font-weight:300;letter-spacing:-.05em;color:var(--red);font-variant-numeric:tabular-nums;" id="sc-outstanding">₹0</div>
-      <div class="bc-sub" id="sc-outstanding-sub">all-time unpaid</div>
-    </div>
-
-    <!-- ⑨ RECENT INCOME — 6 cols -->
+    <!-- ⑧ RECENT INCOME — 6 cols -->
     <div class="bento-card bc-surface bc-s6" style="padding:20px 22px;">
       <div class="chd"><div class="card-title">Recent Income</div><button class="btn btn-ghost btn-xs" onclick="showTab('income')">View all</button></div>
       <div id="recentIncList"></div>
