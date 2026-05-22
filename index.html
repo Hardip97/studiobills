@@ -1160,13 +1160,15 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
   <!-- ══ BENTO GRID ══ -->
   <div class="bento-grid">
 
-    <!-- ① HERO — dark, 4 cols × 2 rows -->
-    <div class="bento-card bc-dark bc-s4 bc-r2" style="display:flex;flex-direction:column;">
-      <div class="bc-studio-name" id="bcStudioName">StudioBills</div>
-      <div class="bc-label">Net Balance</div>
-      <div class="bc-value-lg" id="heroNet">₹0</div>
-      <div class="bc-sub" id="heroSub">Received − Expenses</div>
-      <div class="bc-mnav">
+    <!-- ① HERO — dark, 4 cols × 1 row (compact) -->
+    <div class="bento-card bc-dark bc-s4" style="display:flex;flex-direction:column;justify-content:space-between;">
+      <div>
+        <div class="bc-studio-name" id="bcStudioName">StudioBills</div>
+        <div class="bc-label">Net Balance</div>
+        <div class="bc-value-lg" id="heroNet">₹0</div>
+        <div class="bc-sub" id="heroSub" style="margin-top:6px;">Received − Expenses</div>
+      </div>
+      <div class="bc-mnav" style="margin-top:14px;">
         <button onclick="shiftMonth(-1)">&#8249;</button>
         <span id="mnavLabel">—</span>
         <button onclick="shiftMonth(1)">&#8250;</button>
@@ -1196,25 +1198,25 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <button class="bc-add-btn" onclick="openModal('addExpModal')" style="margin-top:16px;background:#0F0F14;color:#fff;align-self:flex-start;">+ Add Expense</button>
     </div>
 
-    <!-- ④ BILLED — white -->
+    <!-- ④ EXPENSES — warm, below hero -->
+    <div class="bento-card bc-rose bc-s4">
+      <div class="bc-label">Expenses</div>
+      <div class="bc-value" id="ns-exp" style="color:var(--red);">₹0</div>
+      <div class="bc-sub" id="sc-exp-sub">0 entries</div>
+    </div>
+
+    <!-- ⑤ BILLED — white -->
     <div class="bento-card bc-surface bc-s4">
       <div class="bc-label">Billed This Month</div>
       <div class="bc-value" id="ns-billed">₹0</div>
       <div class="bc-sub" id="sc-income-sub">0 invoices</div>
     </div>
 
-    <!-- ⑤ RECEIVED — lime -->
+    <!-- ⑥ RECEIVED — lime -->
     <div class="bento-card bc-lime bc-s4">
       <div class="bc-label">Received</div>
       <div class="bc-value" id="ns-recv">₹0</div>
       <div class="bc-sub" style="margin-top:10px;">Collected this month</div>
-    </div>
-
-    <!-- ⑥ EXPENSES — warm -->
-    <div class="bento-card bc-warm bc-s4">
-      <div class="bc-label">Expenses</div>
-      <div class="bc-value" id="ns-exp">₹0</div>
-      <div class="bc-sub" id="sc-exp-sub">0 entries</div>
     </div>
 
     <!-- ⑦ CHART — navy, 8 cols -->
@@ -1257,14 +1259,14 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div class="bc-sub" id="sc-outstanding-sub">all-time unpaid</div>
     </div>
 
-    <!-- ⑨ RECENT INCOME — 4 cols -->
-    <div class="bento-card bc-surface bc-s4" style="padding:20px 22px;">
+    <!-- ⑨ RECENT INCOME — 6 cols -->
+    <div class="bento-card bc-surface bc-s6" style="padding:20px 22px;">
       <div class="chd"><div class="card-title">Recent Income</div><button class="btn btn-ghost btn-xs" onclick="showTab('income')">View all</button></div>
       <div id="recentIncList"></div>
     </div>
 
-    <!-- ⑩ RECENT EXPENSES — 4 cols -->
-    <div class="bento-card bc-surface bc-s4" style="padding:20px 22px;">
+    <!-- ⑩ RECENT EXPENSES — 6 cols -->
+    <div class="bento-card bc-surface bc-s6" style="padding:20px 22px;">
       <div class="chd"><div class="card-title">Recent Expenses</div><button class="btn btn-ghost btn-xs" onclick="showTab('expenses')">View all</button></div>
       <div id="recentExpList"></div>
     </div>
