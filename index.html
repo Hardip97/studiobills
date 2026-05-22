@@ -431,6 +431,17 @@ body.dark .bc-rose{background:rgba(255,34,85,.14);}
 /* Studio name in hero */
 .bc-studio-name{font-size:.78rem;font-weight:500;color:rgba(255,255,255,.45);
   margin-bottom:16px;letter-spacing:.01em;}
+/* Action cards (Add Income / Add Expense) */
+.bc-action-card{display:flex;flex-direction:column;justify-content:space-between;min-height:130px;}
+.bc-action-icon{font-size:2rem;margin-bottom:8px;line-height:1;}
+.bc-action-title{font-size:1.08rem;font-weight:700;letter-spacing:-.025em;color:var(--text);}
+.bc-action-sub{font-size:.74rem;opacity:.48;margin-top:3px;font-weight:300;line-height:1.4;}
+.bc-action-btns{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.bc-lime .bc-action-title,.bc-lime .bc-add-btn{color:#0F0F14;}
+.bc-warm .bc-action-title{color:#0F0F14;}
+/* Card header row */
+.chd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.card-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r2);border:none;
@@ -1141,6 +1152,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <span id="sc-exp">₹0</span>
     <span id="sc-overdue">₹0</span>
     <span id="sc-overdue-sub">0</span>
+    <span id="sc-clients">0</span>
   </div>
   <!-- ONBOARDING CARDS (injected by JS) -->
   <div id="onboardingCards" style="padding:10px 24px 0;"></div>
@@ -1159,42 +1171,53 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
         <span id="mnavLabel">—</span>
         <button onclick="shiftMonth(1)">&#8250;</button>
       </div>
-      <div style="flex:1;"></div>
-      <button class="bc-add-btn" onclick="openModal('addIncomeModal')">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="7.5" y1="1.5" x2="7.5" y2="13.5"/><line x1="1.5" y1="7.5" x2="13.5" y2="7.5"/></svg>
-        Add Invoice
-      </button>
     </div>
 
-    <!-- ② BILLED — white -->
+    <!-- ② ADD INCOME — lime action card -->
+    <div class="bento-card bc-lime bc-s4 bc-action-card">
+      <div>
+        <div class="bc-action-icon">💸</div>
+        <div class="bc-action-title">Add Income</div>
+        <div class="bc-action-sub">Log a payment or quick receipt</div>
+      </div>
+      <div class="bc-action-btns">
+        <button class="bc-add-btn" onclick="openQuickIncome()" style="padding:9px 16px;font-size:.78rem;">+ Quick</button>
+        <button class="bc-add-btn" onclick="openModal('addIncomeModal')" style="background:rgba(0,0,0,.12);padding:9px 16px;font-size:.78rem;">+ Invoice</button>
+      </div>
+    </div>
+
+    <!-- ③ ADD EXPENSE — warm action card -->
+    <div class="bento-card bc-warm bc-s4 bc-action-card">
+      <div>
+        <div class="bc-action-icon">🧾</div>
+        <div class="bc-action-title">Add Expense</div>
+        <div class="bc-action-sub">Record a business cost</div>
+      </div>
+      <button class="bc-add-btn" onclick="openModal('addExpModal')" style="margin-top:16px;background:#0F0F14;color:#fff;align-self:flex-start;">+ Add Expense</button>
+    </div>
+
+    <!-- ④ BILLED — white -->
     <div class="bento-card bc-surface bc-s4">
       <div class="bc-label">Billed This Month</div>
       <div class="bc-value" id="ns-billed">₹0</div>
       <div class="bc-sub" id="sc-income-sub">0 invoices</div>
     </div>
 
-    <!-- ③ RECEIVED — lime -->
+    <!-- ⑤ RECEIVED — lime -->
     <div class="bento-card bc-lime bc-s4">
       <div class="bc-label">Received</div>
       <div class="bc-value" id="ns-recv">₹0</div>
       <div class="bc-sub" style="margin-top:10px;">Collected this month</div>
     </div>
 
-    <!-- ④ EXPENSES — warm -->
+    <!-- ⑥ EXPENSES — warm -->
     <div class="bento-card bc-warm bc-s4">
       <div class="bc-label">Expenses</div>
       <div class="bc-value" id="ns-exp">₹0</div>
       <div class="bc-sub" id="sc-exp-sub">0 entries</div>
     </div>
 
-    <!-- ⑤ CLIENTS — surface -->
-    <div class="bento-card bc-surface bc-s4">
-      <div class="bc-label">Active Clients</div>
-      <div class="bc-value" id="sc-clients">0</div>
-      <div class="bc-sub">all time</div>
-    </div>
-
-    <!-- ⑥ CHART — navy, 8 cols -->
+    <!-- ⑦ CHART — navy, 8 cols -->
     <div class="bento-card bc-navy bc-s8" style="padding:20px 20px 0;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
         <div style="display:flex;align-items:center;gap:8px;">
@@ -1222,7 +1245,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div class="chart-xlabels" id="chartXLabels"></div>
     </div>
 
-    <!-- ⑦ OVERDUE — rose, 4 cols -->
+    <!-- ⑧ OVERDUE / OUTSTANDING — rose, 4 cols -->
     <div class="bento-card bc-rose bc-s4">
       <div class="bc-accent-bar"></div>
       <div class="bc-label">Overdue</div>
@@ -1234,14 +1257,14 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       <div class="bc-sub" id="sc-outstanding-sub">all-time unpaid</div>
     </div>
 
-    <!-- ⑧ RECENT INCOME — 6 cols -->
-    <div class="bento-card bc-surface bc-s6" style="padding:20px 22px;">
+    <!-- ⑨ RECENT INCOME — 4 cols -->
+    <div class="bento-card bc-surface bc-s4" style="padding:20px 22px;">
       <div class="chd"><div class="card-title">Recent Income</div><button class="btn btn-ghost btn-xs" onclick="showTab('income')">View all</button></div>
       <div id="recentIncList"></div>
     </div>
 
-    <!-- ⑨ RECENT EXPENSES — 6 cols -->
-    <div class="bento-card bc-surface bc-s6" style="padding:20px 22px;">
+    <!-- ⑩ RECENT EXPENSES — 4 cols -->
+    <div class="bento-card bc-surface bc-s4" style="padding:20px 22px;">
       <div class="chd"><div class="card-title">Recent Expenses</div><button class="btn btn-ghost btn-xs" onclick="showTab('expenses')">View all</button></div>
       <div id="recentExpList"></div>
     </div>
@@ -4080,17 +4103,21 @@ function buildInvoiceHTML(inv){
   .bento-card.bc-navy{grid-column:span 6;}
   .bento-card.bc-rose{grid-column:span 6;}
   .bc-value-lg{font-size:2.6rem;}
+  .bc-action-card{min-height:110px;}
 }
 @media(max-width:600px){
   .bento-grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:10px 10px 20px;}
   .bc-s4,.bc-s6,.bc-s8,.bc-s12{grid-column:span 1;}
-  .bento-card.bc-dark,.bento-card.bc-navy,.bento-card.bc-rose,
-  .bento-card.bc-surface.bc-s6{grid-column:span 2;}
+  .bento-card.bc-dark,.bento-card.bc-navy,.bento-card.bc-rose{grid-column:span 2;}
+  .bento-card.bc-action-card{grid-column:span 1;}
   .bento-card{border-radius:16px;padding:16px;}
   .bc-value-lg{font-size:2rem;}
   .bc-value{font-size:1.5rem;}
   .bc-mnav{margin-top:10px;}
-  .bc-add-btn{margin-top:14px;padding:9px 16px;font-size:.78rem;}
+  .bc-add-btn{margin-top:12px;padding:8px 14px;font-size:.76rem;}
+  .bc-action-icon{font-size:1.5rem;}
+  .bc-action-title{font-size:.96rem;}
+  .bc-action-btns{gap:6px;}
 }
 @media print{html,body{background:#F2EDE3;}.page{margin:0;}.save-btn{display:none;}}
 </style></head><body>
