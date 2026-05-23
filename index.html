@@ -1031,73 +1031,119 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .signout-btn{padding:5px 11px;border-radius:100px;font-size:.72rem;font-weight:500;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;font-family:inherit;}
 .signout-btn:hover{color:var(--coral);border-color:rgba(255,74,43,.3);}
 
-/* ── REPORTS STORY LAYOUT ── */
-.rpt-story{display:flex;flex-direction:column;gap:0;}
-.rpt-chapter{display:grid;gap:20px;align-items:start;margin-bottom:32px;}
-.rpt-chapter.layout-stat-chart{grid-template-columns:minmax(280px,1fr) 2fr;}
-.rpt-chapter.layout-chart-stat{grid-template-columns:2fr minmax(280px,1fr);}
-.rpt-stat-block{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:28px 28px 24px;box-shadow:0 1px 3px rgba(0,0,0,.06);height:100%;box-sizing:border-box;}
-.rpt-chapter-badge{display:inline-block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:3px 9px;border-radius:4px;margin-bottom:10px;background:var(--purple-soft);color:var(--purple);}
-.rpt-chapter-badge.ch-exp{background:var(--amber-soft);color:var(--amber);}
-.rpt-chapter-badge.ch-net{background:var(--green-soft);color:var(--green);}
-.rpt-chapter-badge.ch-gst{background:var(--teal-soft);color:var(--teal);}
-.rpt-stat-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:6px;}
-.rpt-stat-hero{font-size:2.6rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:6px;}
-.rpt-stat-divider{width:36px;height:3px;border-radius:2px;margin:14px 0;}
-.rpt-stat-desc{font-size:.8rem;color:var(--muted);line-height:1.6;margin-bottom:12px;}
-.rpt-stat-pill{display:inline-flex;align-items:center;gap:5px;font-size:.73rem;font-weight:700;padding:4px 11px;border-radius:20px;margin-bottom:14px;}
-.pill-inc{background:var(--green-soft);color:var(--green);}
-.pill-exp{background:var(--err-soft);color:var(--err);}
-.pill-net{background:var(--green-soft);color:var(--green);}
-.pill-neu{background:var(--purple-soft);color:var(--purple);}
-.rpt-meta-rows{display:flex;flex-direction:column;gap:7px;}
-.rpt-meta-row{display:flex;justify-content:space-between;font-size:.79rem;}
-.rpt-meta-row span:first-child{color:var(--muted);}
-.rpt-meta-row span:last-child{font-weight:700;}
-.rpt-chart-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
-.rpt-chart-card+.rpt-chart-card{margin-top:12px;}
-.rpt-cc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.rpt-cc-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);}
-.rpt-cc-badge{font-size:.68rem;font-weight:600;padding:2px 9px;border-radius:20px;background:var(--purple-soft);color:var(--purple);}
-.rpt-inline-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
-.rpt-im-tile{background:var(--bg);border-radius:8px;padding:10px;text-align:center;}
-.rpt-im-val{font-size:1rem;font-weight:800;letter-spacing:-.02em;}
-.rpt-im-lbl{font-size:.65rem;color:var(--muted2);margin-top:2px;}
-.rpt-2col-chart{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;}
-.rpt-cat-legend{display:flex;flex-direction:column;gap:8px;}
-.rpt-cat-item{display:flex;align-items:center;gap:8px;}
-.rpt-cat-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-.rpt-cat-name{font-size:.79rem;font-weight:600;color:var(--text);}
-.rpt-cat-sub{font-size:.69rem;color:var(--muted2);}
-.rpt-q-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;}
-.rpt-q-tile{background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:12px;text-align:center;}
-.rpt-q-tile.featured{background:var(--purple-soft);border-color:var(--purple-soft2);}
-.rpt-q-lbl{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:6px;}
-.rpt-q-tile.featured .rpt-q-lbl{color:var(--purple);}
-.rpt-q-val{font-size:.95rem;font-weight:800;color:var(--text);}
-.rpt-q-tile.featured .rpt-q-val{color:var(--purple);}
-.rpt-section-div{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
-.rpt-section-div-line{flex:1;height:1px;background:var(--border);}
-.rpt-section-div-lbl{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted2);}
-.rpt-outstanding-hero{font-size:1.6rem;font-weight:900;letter-spacing:-.03em;margin-bottom:4px;}
-.rpt-tl{display:flex;flex-direction:column;margin-top:14px;}
-.rpt-tl-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border2);}
-.rpt-tl-item:last-child{border-bottom:none;}
-.rpt-tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
-.rpt-tl-body{flex:1;}
-.rpt-tl-client{font-size:.82rem;font-weight:600;color:var(--text);}
-.rpt-tl-inv{font-size:.72rem;color:var(--muted2);}
-.rpt-tl-right{text-align:right;}
-.rpt-tl-amt{font-size:.85rem;font-weight:700;}
-.rpt-tl-age{font-size:.68rem;font-weight:600;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:3px;}
+/* ── REPORTS BENTO B (DARK) ── */
+.rpt-bento-body{background:#0D0F14;border-radius:16px;padding:18px;margin-bottom:28px;}
+.rpt-bento{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;}
+.rb{border-radius:16px;padding:20px;position:relative;overflow:hidden;}
+.rb.rc2{grid-column:span 2;}.rb.rc3{grid-column:span 3;}.rb.rc4{grid-column:span 4;}.rb.rc5{grid-column:span 5;}.rb.rc6{grid-column:span 6;}.rb.rc7{grid-column:span 7;}.rb.rc12{grid-column:span 12;}
+.rb-dark{background:#161923;border:1px solid #1e2433;}
+.rb-inc{background:linear-gradient(135deg,#3730a3 0%,#635BFF 55%,#818cf8 100%);}
+.rb-exp{background:linear-gradient(135deg,#92400e 0%,#d97706 60%,#fbbf24 100%);}
+.rb-glow-g{background:#161923;border:1px solid rgba(16,185,129,.25);box-shadow:0 0 0 1px rgba(16,185,129,.08);}
+.rb-glow-b{background:#161923;border:1px solid rgba(14,165,233,.25);box-shadow:0 0 0 1px rgba(14,165,233,.08);}
+.rb-glow-r{background:#161923;border:1px solid rgba(244,63,94,.25);box-shadow:0 0 0 1px rgba(244,63,94,.08);}
+/* KPI */
+.rbk-tag{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;}
+.rbk-tag.w{color:rgba(255,255,255,.6);}.rbk-tag.d{color:#475569;}
+.rbk-big{font-size:2rem;font-weight:900;letter-spacing:-.05em;line-height:1;}
+.rbk-big.w{color:#fff;}
+.rbk-sub{font-size:.72rem;margin-top:5px;}
+.rbk-sub.w{color:rgba(255,255,255,.55);}.rbk-sub.d{color:#64748b;}
+.rbk-pill{display:inline-flex;align-items:center;gap:3px;font-size:.63rem;font-weight:700;padding:3px 9px;border-radius:10px;margin-top:8px;}
+.rbk-pill.pup{background:rgba(16,185,129,.2);color:#34d399;}
+.rbk-pill.pdn{background:rgba(244,63,94,.15);color:#fb7185;}
+.rbk-pill.pneu{background:rgba(99,91,255,.25);color:#a5b4fc;}
+/* Meta rows inside hero cards */
+.rb-meta{display:flex;flex-direction:column;gap:6px;margin-top:14px;}
+.rb-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;}
+.rb-meta-row .lbl{color:rgba(255,255,255,.4);}
+.rb-meta-row .val{font-weight:700;color:rgba(255,255,255,.9);}
+/* 2×2 mini tile grid */
+.rb-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;height:100%;}
+.rb-mg-tile{background:#0f111a;border-radius:12px;padding:14px;}
+.rb-mg-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#475569;margin-bottom:7px;}
+.rb-mg-val{font-size:1.3rem;font-weight:900;letter-spacing:-.03em;}
+.rb-mg-val.green{color:#34d399;}.rb-mg-val.blue{color:#38bdf8;}.rb-mg-val.neu{color:#a5b4fc;}.rb-mg-val.white{color:#f1f5f9;}
+.rb-mg-sub{font-size:.65rem;margin-top:3px;}
+.rb-mg-sub.up{color:#34d399;}.rb-mg-sub.neu{color:#64748b;}
+/* Chart header */
+.rb-ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.rb-ch-lbl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#475569;}
+.rb-ch-pill{font-size:.63rem;font-weight:600;padding:2px 9px;border-radius:8px;}
+.rb-cp-inc{background:rgba(99,91,255,.2);color:#a5b4fc;}
+.rb-cp-exp{background:rgba(245,158,11,.15);color:#fbbf24;}
+.rb-cp-net{background:rgba(16,185,129,.15);color:#34d399;}
+.rb-cp-gst{background:rgba(14,165,233,.15);color:#38bdf8;}
+.rb-cp-out{background:rgba(244,63,94,.15);color:#fb7185;}
+/* Expense donut layout */
+.rb-exp-inner{display:grid;grid-template-columns:140px 1fr;gap:14px;align-items:center;}
+.rb-leg{display:flex;flex-direction:column;gap:9px;}
+.rb-leg-item{display:flex;align-items:center;gap:8px;}
+.rb-leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.rb-leg-name{font-size:.74rem;font-weight:600;color:#e2e8f0;}
+.rb-leg-pct{font-size:.64rem;color:#475569;}
+/* Net inline metrics dark overrides */
+.rpt-bento-body .rpt-inline-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.rpt-bento-body .rpt-im-tile{background:#0f111a;border-radius:8px;padding:10px;text-align:center;}
+.rpt-bento-body .rpt-im-val{font-size:.95rem;font-weight:800;color:#f1f5f9;}
+.rpt-bento-body .rpt-im-lbl{font-size:.62rem;color:#475569;margin-top:2px;}
+/* GST quarters dark */
+.rb-gst-qs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
+.rb-gst-q{background:#0f111a;border-radius:10px;padding:10px;text-align:center;}
+.rb-gst-q-lbl{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#475569;margin-bottom:4px;}
+.rb-gst-q-val{font-size:1rem;font-weight:800;color:#38bdf8;}
+/* Outstanding timeline dark */
+.rpt-bento-body .rpt-tl-item{border-bottom-color:#1e2433;}
+.rpt-bento-body .rpt-tl-client{color:#e2e8f0;}
+.rpt-bento-body .rpt-tl-inv{color:#475569;}
+.rpt-bento-body .rpt-tl-amt{color:#fb7185 !important;}
+/* Category items dark */
+.rpt-bento-body .rpt-cat-name{color:#e2e8f0;}
+.rpt-bento-body .rpt-cat-sub{color:#475569;}
+/* Age badges dark */
 .age-ok{background:var(--green-soft);color:var(--green);}
 .age-warn{background:var(--amber-soft);color:var(--amber);}
 .age-late{background:var(--err-soft);color:var(--err);}
-@media(max-width:860px){
-  .rpt-chapter.layout-stat-chart,.rpt-chapter.layout-chart-stat{grid-template-columns:1fr;}
-  .rpt-chapter.layout-chart-stat .rpt-stat-block{order:-1;}
-  .rpt-inline-metrics{grid-template-columns:repeat(2,1fr);}
-  .rpt-q-grid{grid-template-columns:repeat(2,1fr);}
+.rpt-bento-body .age-ok{background:rgba(16,185,129,.15)!important;color:#34d399!important;}
+.rpt-bento-body .age-warn{background:rgba(245,158,11,.15)!important;color:#fbbf24!important;}
+.rpt-bento-body .age-late{background:rgba(244,63,94,.15)!important;color:#fb7185!important;}
+/* Rpt-q-tile dark overrides (GST quarters generated by JS) */
+.rpt-bento-body .rpt-q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.rpt-bento-body .rpt-q-tile{background:#0f111a;border:1px solid #1e2433;border-radius:8px;padding:10px;text-align:center;}
+.rpt-bento-body .rpt-q-tile.featured{background:rgba(99,91,255,.15);border-color:rgba(99,91,255,.3);}
+.rpt-bento-body .rpt-q-lbl{color:#475569;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
+.rpt-bento-body .rpt-q-tile.featured .rpt-q-lbl{color:#a5b4fc;}
+.rpt-bento-body .rpt-q-val{color:#38bdf8;font-size:.95rem;font-weight:800;}
+.rpt-bento-body .rpt-q-tile.featured .rpt-q-val{color:#a5b4fc;}
+/* Section dividers dark */
+.rpt-bento-body .rpt-section-div{display:flex;align-items:center;gap:10px;margin-bottom:16px;margin-top:20px;}
+.rpt-bento-body .rpt-section-div-line{flex:1;height:1px;background:#1e2433;}
+.rpt-bento-body .rpt-section-div-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#334155;}
+/* Cards + tables dark */
+.rpt-bento-body .card{background:#161923;border-color:#1e2433;}
+.rpt-bento-body .card-title{color:#e2e8f0;}
+.rpt-bento-body table th{background:#0f111a;color:#475569;border-bottom:2px solid #1e2433;}
+.rpt-bento-body table tbody tr{border-top-color:#1e2433;}
+.rpt-bento-body table tbody tr:hover{background:#1e2433;}
+.rpt-bento-body table td{color:#e2e8f0;}
+.rpt-bento-body .tbl-wrap{border-color:#1e2433;}
+/* Archive dark */
+.rpt-bento-body .arc-card{background:#161923;border-color:#1e2433;}
+.rpt-bento-body .arc-card:hover{background:#1e2433;}
+.rpt-bento-body .arc-card h3{color:#f1f5f9;}
+.rpt-bento-body .arc-row span:first-child{color:#475569;}
+/* Stat-pill (used by rpt-net-badge className override - keep classes defined) */
+.rpt-stat-pill{display:inline-flex;align-items:center;gap:3px;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:12px;}
+.pill-inc,.pill-net{background:rgba(16,185,129,.15);color:#34d399;}
+.pill-exp{background:rgba(244,63,94,.15);color:#fb7185;}
+.pill-neu{background:rgba(99,91,255,.2);color:#a5b4fc;}
+/* Outstanding full table link */
+.rpt-bento-body .lock-banner{background:#1e2433 !important;border-color:#334155 !important;}
+@media(max-width:900px){
+  .rb.rc4,.rb.rc5,.rb.rc6{grid-column:span 12;}
+  .rb.rc2,.rb.rc3{grid-column:span 6;}
+  .rb-exp-inner{grid-template-columns:1fr;}
+  .rpt-bento-body .rpt-inline-metrics{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
@@ -1538,160 +1584,143 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
   <div id="expCatBreakdown" style="display:none;"></div>
   <div id="reportStatCards" style="display:none;"></div>
 
-  <div class="rpt-story">
+  <div class="rpt-bento-body">
 
-    <!-- ── Chapter 1: Income ── -->
-    <div class="rpt-chapter layout-stat-chart">
-      <div class="rpt-stat-block">
-        <div class="rpt-chapter-badge">Income</div>
-        <div class="rpt-stat-label">Total Billed</div>
-        <div class="rpt-stat-hero" id="rpt-inc-billed" style="color:var(--purple);">—</div>
-        <div class="rpt-stat-divider" style="background:var(--purple);"></div>
-        <div class="rpt-stat-desc" id="rpt-inc-desc">Loading…</div>
-        <div class="rpt-stat-pill pill-inc" id="rpt-inc-badge">—</div>
-        <div class="rpt-meta-rows">
-          <div class="rpt-meta-row"><span>Avg. per month</span><span id="rpt-inc-avg">—</span></div>
-          <div class="rpt-meta-row"><span>Best month</span><span id="rpt-inc-best">—</span></div>
-          <div class="rpt-meta-row"><span>Total invoices</span><span id="rpt-inc-count">—</span></div>
-          <div class="rpt-meta-row"><span>Total received</span><span id="rpt-inc-received" style="color:var(--green);">—</span></div>
+    <!-- Hidden text/badge elements set by JS but not shown in bento -->
+    <span id="rpt-inc-year-badge" style="display:none;"></span>
+    <span id="rpt-inc-desc" style="display:none;"></span>
+    <span id="rpt-exp-desc" style="display:none;"></span>
+    <span id="rpt-net-desc" style="display:none;"></span>
+    <span id="rpt-net-badge" style="display:none;"></span>
+
+    <div class="rpt-bento">
+
+      <!-- ── Row 1: Hero Income (4) + Hero Expense (2) + Mini Tiles (6) ── -->
+      <div class="rb rc4 rb-inc">
+        <div class="rbk-tag w">Total Billed</div>
+        <div class="rbk-big w" id="rpt-inc-billed">—</div>
+        <div class="rbk-sub w"><span id="rpt-inc-count">—</span> invoices this year</div>
+        <div class="rbk-pill pneu" id="rpt-inc-badge">—</div>
+        <div class="rb-meta">
+          <div class="rb-meta-row"><span class="lbl">Received</span><span class="val" id="rpt-inc-received">—</span></div>
+          <div class="rb-meta-row"><span class="lbl">Avg / month</span><span class="val" id="rpt-inc-avg">—</span></div>
+          <div class="rb-meta-row"><span class="lbl">Best month</span><span class="val" id="rpt-inc-best">—</span></div>
         </div>
       </div>
-      <div>
-        <div class="rpt-chart-card">
-          <div class="rpt-cc-header">
-            <div class="rpt-cc-title">Monthly Income Trend</div>
-            <span class="rpt-cc-badge" id="rpt-inc-year-badge">This year</span>
+
+      <div class="rb rc2 rb-exp">
+        <div class="rbk-tag w">Total Expenses</div>
+        <div class="rbk-big w" id="rpt-exp-total">—</div>
+        <div class="rbk-pill pdn" id="rpt-exp-badge">—</div>
+        <div class="rb-meta">
+          <div class="rb-meta-row"><span class="lbl">Avg / month</span><span class="val" id="rpt-exp-avg">—</span></div>
+          <div class="rb-meta-row"><span class="lbl">Peak month</span><span class="val" id="rpt-exp-peak">—</span></div>
+          <div class="rb-meta-row"><span class="lbl">Margin</span><span class="val" id="rpt-exp-margin">—</span></div>
+        </div>
+      </div>
+
+      <div class="rb rc6 rb-dark" style="padding:14px;">
+        <div class="rb-mini-grid">
+          <div class="rb-mg-tile">
+            <div class="rb-mg-lbl">Net Profit</div>
+            <div class="rb-mg-val green" id="rpt-net-total">—</div>
+            <div class="rb-mg-sub up">After expenses</div>
           </div>
-          <div style="height:200px;"><canvas id="reportChart"></canvas></div>
-        </div>
-        <div class="rpt-chart-card">
-          <div class="rpt-cc-header"><div class="rpt-cc-title">Income by Category</div></div>
-          <div id="rptIncCats" style="display:flex;flex-direction:column;gap:8px;"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div></div>
-
-    <!-- ── Chapter 2: Expenses ── -->
-    <div class="rpt-chapter layout-chart-stat">
-      <div>
-        <div class="rpt-chart-card">
-          <div class="rpt-cc-header"><div class="rpt-cc-title">Expense Breakdown</div></div>
-          <div class="rpt-2col-chart">
-            <div style="height:160px;"><canvas id="rptExpDonut"></canvas></div>
-            <div class="rpt-cat-legend" id="rptExpLegend"></div>
+          <div class="rb-mg-tile">
+            <div class="rb-mg-lbl">Profit Margin</div>
+            <div class="rb-mg-val blue" id="rpt-net-margin2">—</div>
+            <div class="rb-mg-sub neu">Of received income</div>
+          </div>
+          <div class="rb-mg-tile">
+            <div class="rb-mg-lbl">Best Net Month</div>
+            <div class="rb-mg-val white" style="font-size:.95rem;" id="rpt-net-best">—</div>
+            <div class="rb-mg-sub neu">Highest profit</div>
+          </div>
+          <div class="rb-mg-tile">
+            <div class="rb-mg-lbl">Avg Net / Month</div>
+            <div class="rb-mg-val neu" id="rpt-net-avg">—</div>
+            <div class="rb-mg-sub neu">Monthly average</div>
           </div>
         </div>
-        <div class="rpt-chart-card">
-          <div class="rpt-cc-header"><div class="rpt-cc-title">Monthly Expenses</div></div>
-          <div style="height:130px;"><canvas id="rptExpTrend"></canvas></div>
-        </div>
       </div>
-      <div class="rpt-stat-block">
-        <div class="rpt-chapter-badge ch-exp">Expenses</div>
-        <div class="rpt-stat-label">Total Spent</div>
-        <div class="rpt-stat-hero" id="rpt-exp-total" style="color:var(--amber);">—</div>
-        <div class="rpt-stat-divider" style="background:var(--amber);"></div>
-        <div class="rpt-stat-desc" id="rpt-exp-desc">Loading…</div>
-        <div class="rpt-stat-pill pill-exp" id="rpt-exp-badge">—</div>
-        <div class="rpt-meta-rows">
-          <div class="rpt-meta-row"><span>Avg. per month</span><span id="rpt-exp-avg">—</span></div>
-          <div class="rpt-meta-row"><span>Peak month</span><span id="rpt-exp-peak">—</span></div>
-          <div class="rpt-meta-row"><span>Profit margin</span><span id="rpt-exp-margin" style="color:var(--green);">—</span></div>
-        </div>
-      </div>
-    </div>
 
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div></div>
+      <!-- ── Row 2: Income Trend (6) + Expense Donut (6) ── -->
+      <div class="rb rc6 rb-dark">
+        <div class="rb-ch"><span class="rb-ch-lbl">Income Trend</span><span class="rb-ch-pill rb-cp-inc">Monthly</span></div>
+        <div style="height:160px;"><canvas id="reportChart"></canvas></div>
+        <div id="rptIncCats" style="display:flex;flex-direction:column;gap:5px;margin-top:12px;"></div>
+      </div>
 
-    <!-- ── Chapter 3: Net Profit ── -->
-    <div class="rpt-chapter layout-stat-chart">
-      <div class="rpt-stat-block">
-        <div class="rpt-chapter-badge ch-net">Net Profit</div>
-        <div class="rpt-stat-label">Net Profit</div>
-        <div class="rpt-stat-hero" id="rpt-net-total" style="color:var(--green);">—</div>
-        <div class="rpt-stat-divider" style="background:var(--green);"></div>
-        <div class="rpt-stat-desc" id="rpt-net-desc">Loading…</div>
-        <div class="rpt-stat-pill pill-net" id="rpt-net-badge">—</div>
-        <div class="rpt-meta-rows">
-          <div class="rpt-meta-row"><span>Best month</span><span id="rpt-net-best" style="color:var(--green);">—</span></div>
-          <div class="rpt-meta-row"><span>Avg. net/month</span><span id="rpt-net-avg">—</span></div>
-          <div class="rpt-meta-row"><span>Profit margin</span><span id="rpt-net-margin2" style="color:var(--purple);">—</span></div>
+      <div class="rb rc6 rb-dark">
+        <div class="rb-ch"><span class="rb-ch-lbl">Expense Breakdown</span><span class="rb-ch-pill rb-cp-exp">By Category</span></div>
+        <div class="rb-exp-inner">
+          <div style="height:155px;"><canvas id="rptExpDonut"></canvas></div>
+          <div class="rb-leg" id="rptExpLegend"></div>
         </div>
       </div>
-      <div class="rpt-chart-card">
-        <div class="rpt-cc-header">
-          <div class="rpt-cc-title">Income vs Expenses vs Net</div>
-          <span class="rpt-cc-badge">Monthly</span>
-        </div>
+
+      <!-- ── Row 3: Net Profit (5) + GST (4) + Outstanding (3) ── -->
+      <div class="rb rc5 rb-glow-g">
+        <div class="rb-ch"><span class="rb-ch-lbl">Net Profit</span><span class="rb-ch-pill rb-cp-net">Income vs Expenses</span></div>
         <div class="rpt-inline-metrics" id="rptNetMetrics"></div>
-        <div style="height:170px;"><canvas id="rptNetChart"></canvas></div>
+        <div style="height:150px;"><canvas id="rptNetChart"></canvas></div>
       </div>
-    </div>
 
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div></div>
-
-    <!-- ── Chapter 4: GST + Outstanding ── -->
-    <div class="rpt-chapter layout-chart-stat">
-      <div>
-        <div class="rpt-chart-card">
-          <div class="rpt-cc-header">
-            <div class="rpt-cc-title">Monthly GST Collected</div>
-            <button class="btn btn-dark btn-sm" onclick="exportGSTXLSX()" style="font-size:.68rem;padding:4px 10px;">⬇ Excel</button>
-          </div>
-          <div style="height:150px;"><canvas id="rptGstChart"></canvas></div>
-          <div class="rpt-q-grid" id="rptGstQuarters"></div>
-        </div>
-        <!-- GST detail table (collapsed, accessible) -->
-        <div class="rpt-chart-card" style="margin-top:12px;padding:0;overflow:hidden;">
-          <div style="padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;">
-            <div class="rpt-cc-title" style="display:block;">GST Detail Table</div>
-          </div>
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>Month</th><th>Taxable</th><th>CGST</th><th>SGST</th><th>IGST</th><th>TDS</th><th>Net GST</th></tr></thead>
-            <tbody id="gstTbody"></tbody>
-          </table></div>
-          <div id="gstTotal" style="padding:10px 18px;font-size:.78rem;font-weight:600;border-top:1px solid var(--border);display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);"></div>
-        </div>
+      <div class="rb rc4 rb-glow-b">
+        <div class="rb-ch"><span class="rb-ch-lbl">GST Collected</span><span class="rb-ch-pill rb-cp-gst">18%</span></div>
+        <div style="font-size:1.5rem;font-weight:900;letter-spacing:-.04em;color:#38bdf8;" id="rpt-gst-total">—</div>
+        <div style="height:90px;margin:10px 0 0;"><canvas id="rptGstChart"></canvas></div>
+        <div class="rpt-q-grid" id="rptGstQuarters"></div>
       </div>
-      <div class="rpt-stat-block">
-        <div class="rpt-chapter-badge ch-gst">GST &amp; Outstanding</div>
-        <div class="rpt-stat-label">GST Collected</div>
-        <div class="rpt-stat-hero" id="rpt-gst-total" style="color:var(--teal);font-size:1.9rem;">—</div>
-        <div class="rpt-stat-divider" style="background:var(--teal);"></div>
-        <div class="rpt-stat-label" style="margin-top:4px;">Outstanding Dues</div>
-        <div class="rpt-outstanding-hero" id="rpt-out-total" style="color:var(--err);">—</div>
-        <div class="rpt-stat-desc" id="rpt-out-desc">—</div>
+
+      <div class="rb rc3 rb-glow-r">
+        <div class="rb-ch"><span class="rb-ch-lbl">Outstanding</span><span class="rb-ch-pill rb-cp-out" id="rpt-out-total">₹0</span></div>
+        <div style="font-size:.71rem;color:#64748b;margin-bottom:8px;" id="rpt-out-desc">—</div>
         <div class="rpt-tl" id="rptOutTimeline"></div>
       </div>
+
+    </div><!-- /rpt-bento -->
+
+    <!-- Hidden canvas for expense trend (JS creates chart here) -->
+    <canvas id="rptExpTrend" style="display:none;width:1px;height:1px;position:absolute;"></canvas>
+
+    <!-- ── GST Detail Table ── -->
+    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">GST Details</div><div class="rpt-section-div-line"></div></div>
+    <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
+      <div style="padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;">
+        <div class="card-title">GST Detail Table</div>
+        <button class="btn btn-dark btn-sm" onclick="exportGSTXLSX()" style="font-size:.68rem;padding:4px 10px;">⬇ Excel</button>
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Month</th><th>Taxable</th><th>CGST</th><th>SGST</th><th>IGST</th><th>TDS</th><th>Net GST</th></tr></thead>
+        <tbody id="gstTbody"></tbody>
+      </table></div>
+      <div id="gstTotal" style="padding:10px 18px;font-size:.78rem;font-weight:600;border-top:1px solid #1e2433;display:flex;gap:18px;flex-wrap:wrap;color:#475569;"></div>
     </div>
 
-    <!-- ── Outstanding full table ── -->
-    <div class="card" style="margin-bottom:28px;padding:0;overflow:hidden;">
-      <div style="padding:14px 20px 10px;display:flex;align-items:center;justify-content:space-between;">
-        <div class="card-title">All Outstanding Invoices</div>
-      </div>
+    <!-- ── All Outstanding ── -->
+    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">All Outstanding Invoices</div><div class="rpt-section-div-line"></div></div>
+    <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
       <div id="outstandingDues" style="padding:0 0 8px;"></div>
     </div>
 
-    <!-- ── Monthly Breakdown Table ── -->
+    <!-- ── Monthly Breakdown ── -->
     <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">Monthly Breakdown</div><div class="rpt-section-div-line"></div></div>
-    <div class="card" style="margin-bottom:28px;padding:0;overflow:hidden;">
+    <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
       <div class="tbl-wrap"><table>
         <thead><tr><th>Month</th><th>Income</th><th>Received</th><th>Expenses</th><th>Net</th><th>Invoices</th></tr></thead>
         <tbody id="reportTbody"></tbody>
       </table></div>
     </div>
 
-    <!-- ── Year-over-Year / Month-over-Month ── -->
+    <!-- ── Year-over-Year / MoM ── -->
     <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">Comparison</div><div class="rpt-section-div-line"></div></div>
-    <div class="card" style="margin-bottom:28px;">
+    <div class="card" style="margin-bottom:16px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
         <div class="card-title" id="yoyCardTitle">Year-over-Year</div>
-        <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;">
+        <div style="display:flex;gap:0;border:1px solid #1e2433;border-radius:var(--r2);overflow:hidden;">
           <button id="yoy-tab-yoy" onclick="switchCompareMode('yoy')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:var(--purple);color:#fff;font-family:inherit;">YoY</button>
-          <button id="yoy-tab-mom" onclick="switchCompareMode('mom')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--muted);font-family:inherit;">MoM</button>
+          <button id="yoy-tab-mom" onclick="switchCompareMode('mom')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:transparent;color:#475569;font-family:inherit;">MoM</button>
         </div>
       </div>
       <div id="yoySection" style="overflow-x:auto;"></div>
@@ -1699,9 +1728,9 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
     <!-- ── Archive ── -->
     <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">Archive</div><div class="rpt-section-div-line"></div></div>
-    <div class="arc-grid" id="arcGrid" style="margin-bottom:32px;"></div>
+    <div class="arc-grid" id="arcGrid" style="margin-bottom:20px;"></div>
 
-  </div><!-- /rpt-story -->
+  </div><!-- /rpt-bento-body -->
 </div>
 
 <!-- ══════════════════════ CLIENTS ══════════════════════ -->
@@ -3340,7 +3369,7 @@ function renderReports(){
   // Income trend line chart
   if(rptChart){rptChart.destroy();rptChart=null;}
   const rCtx=document.getElementById('reportChart').getContext('2d');
-  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[{label:'Income',data:incData,borderColor:window._TC.inc||'#635BFF',backgroundColor:h2r(window._TC.inc||'#635BFF',.1),fill:true,tension:.4,borderWidth:2.5,pointRadius:3,pointBackgroundColor:window._TC.inc||'#635BFF'}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:11}}}}}});
+  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[{label:'Income',data:incData,borderColor:window._TC.inc||'#818cf8',backgroundColor:'rgba(99,91,255,.12)',fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:window._TC.inc||'#818cf8',pointBorderColor:'#161923',pointBorderWidth:2}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#475569'}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#475569'}}}}});
   // Income category pills
   const catMap={};
   db.income.filter(i=>i.date?.startsWith(cur)).forEach(i=>{const c=i.cat||'Other';catMap[c]=(catMap[c]||0)+(+i.amount||0);});
@@ -3352,7 +3381,7 @@ function renderReports(){
     return`<div class="rpt-cat-item">
       <div class="rpt-cat-dot" style="background:${pal[i%pal.length]};"></div>
       <div style="flex:1;"><div class="rpt-cat-name">${esc(c)}</div><div class="rpt-cat-sub">${fmt(cV[i])} · ${pct}%</div></div>
-      <div style="width:80px;height:5px;background:var(--border2);border-radius:3px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${pal[i%pal.length]};border-radius:3px;"></div></div>
+      <div style="width:80px;height:4px;background:#1e2433;border-radius:3px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${pal[i%pal.length]};border-radius:3px;"></div></div>
     </div>`;
   }).join(''):`<div class="empty" style="padding:12px 0;"><p style="color:var(--muted2);font-size:.8rem;">No income in ${cur}</p></div>`;
 
@@ -3376,11 +3405,11 @@ function renderReports(){
   const ecTotal=ecV.reduce((s,v)=>s+v,0)||1;
   if(rptExpDonutChart){rptExpDonutChart.destroy();rptExpDonutChart=null;}
   const edCtx=document.getElementById('rptExpDonut').getContext('2d');
-  rptExpDonutChart=new Chart(edCtx,{type:'doughnut',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length):['#E8E8E8'],borderWidth:0,hoverOffset:4}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
+  rptExpDonutChart=new Chart(edCtx,{type:'doughnut',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length):['#2a2e3d'],borderWidth:2,borderColor:'#161923',hoverOffset:4}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
   document.getElementById('rptExpLegend').innerHTML=ecL.length?ecL.slice(0,5).map((c,i)=>{
     const pct=Math.round(ecV[i]/ecTotal*100);
-    return`<div class="rpt-cat-item"><div class="rpt-cat-dot" style="background:${expPal[i%expPal.length]};"></div><div><div class="rpt-cat-name">${esc(c)}</div><div class="rpt-cat-sub">${fmt(ecV[i])} · ${pct}%</div></div></div>`;
-  }).join(''):`<div style="color:var(--muted2);font-size:.8rem;">No expenses in ${cur}</div>`;
+    return`<div class="rb-leg-item"><div class="rb-leg-dot" style="background:${expPal[i%expPal.length]};"></div><div><div class="rb-leg-name">${esc(c)}</div><div class="rb-leg-pct">${fmt(ecV[i])} · ${pct}%</div></div></div>`;
+  }).join(''):`<div style="color:#475569;font-size:.8rem;">No expenses in ${cur}</div>`;
   // Expense trend bar
   if(rptExpTrendChart){rptExpTrendChart.destroy();rptExpTrendChart=null;}
   const etCtx=document.getElementById('rptExpTrend').getContext('2d');
@@ -3413,10 +3442,10 @@ function renderReports(){
   if(rptNetChartInst){rptNetChartInst.destroy();rptNetChartInst=null;}
   const ncCtx=document.getElementById('rptNetChart').getContext('2d');
   rptNetChartInst=new Chart(ncCtx,{data:{labels:mLbls,datasets:[
-    {type:'bar',label:'Income',data:incData,backgroundColor:h2r(window._TC.inc||'#635BFF',.75),borderRadius:5,borderSkipped:false},
-    {type:'bar',label:'Expenses',data:expData,backgroundColor:h2r(window._TC.exp||'#F59E0B',.65),borderRadius:5,borderSkipped:false},
-    {type:'line',label:'Net',data:netData,borderColor:'#1DB954',backgroundColor:'rgba(29,185,84,.08)',fill:false,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:'#1DB954'}
-  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:11}}}}}});
+    {type:'bar',label:'Income',data:incData,backgroundColor:'rgba(129,140,248,.75)',borderRadius:4,borderSkipped:false},
+    {type:'bar',label:'Expenses',data:expData,backgroundColor:'rgba(251,191,36,.65)',borderRadius:4,borderSkipped:false},
+    {type:'line',label:'Net',data:netData,borderColor:'#34d399',backgroundColor:'rgba(52,211,153,.08)',fill:false,tension:.4,borderWidth:2,pointRadius:2,pointBackgroundColor:'#34d399'}
+  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10},color:'#64748b',padding:8}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#475569'}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#475569'}}}}});
 
   // ── Chapter 4: GST ──
   const gstTots={taxable:0,cgst:0,sgst:0,igst:0,tds:0};
@@ -3430,7 +3459,7 @@ function renderReports(){
   // GST bar chart
   if(rptGstChartInst){rptGstChartInst.destroy();rptGstChartInst=null;}
   const gcCtx=document.getElementById('rptGstChart').getContext('2d');
-  rptGstChartInst=new Chart(gcCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'GST',data:gstByM.map(g=>g.net),backgroundColor:'rgba(14,165,233,.75)',borderRadius:6,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:10}}}}}});
+  rptGstChartInst=new Chart(gcCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'GST',data:gstByM.map(g=>g.net),backgroundColor:'rgba(56,189,248,.65)',borderRadius:5,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'#475569'}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>fmt(v),font:{size:9},color:'#475569'}}}}});
   // GST detail table
   if(!isPro()){
     document.getElementById('gstTbody').innerHTML=`<tr><td colspan="7" style="padding:0;"></td></tr>`;
