@@ -1033,10 +1033,10 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 /* ── REPORTS STORY LAYOUT ── */
 .rpt-story{display:flex;flex-direction:column;gap:0;}
-.rpt-chapter{display:grid;gap:16px;align-items:start;margin-bottom:28px;}
-.rpt-chapter.layout-stat-chart{grid-template-columns:260px 1fr;}
-.rpt-chapter.layout-chart-stat{grid-template-columns:1fr 260px;}
-.rpt-stat-block{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.rpt-chapter{display:grid;gap:20px;align-items:start;margin-bottom:32px;}
+.rpt-chapter.layout-stat-chart{grid-template-columns:minmax(280px,1fr) 2fr;}
+.rpt-chapter.layout-chart-stat{grid-template-columns:2fr minmax(280px,1fr);}
+.rpt-stat-block{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:28px 28px 24px;box-shadow:0 1px 3px rgba(0,0,0,.06);height:100%;box-sizing:border-box;}
 .rpt-chapter-badge{display:inline-block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:3px 9px;border-radius:4px;margin-bottom:10px;background:var(--purple-soft);color:var(--purple);}
 .rpt-chapter-badge.ch-exp{background:var(--amber-soft);color:var(--amber);}
 .rpt-chapter-badge.ch-net{background:var(--green-soft);color:var(--green);}
@@ -1525,7 +1525,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 <!-- ══════════════════════ REPORTS ══════════════════════ -->
 <div class="tab" id="tab-reports">
   <div class="ph">
-    <div><h1><strong>Financial Story</strong></h1><p>Your year in numbers</p></div>
+    <div><h1><strong>Reports</strong></h1><p>Your year at a glance</p></div>
     <div class="ph-actions">
       <select id="reportYearSel" style="padding:7px 12px;border:1px solid var(--border);border-radius:var(--r2);background:var(--white);font-family:inherit;font-size:.8rem;" onchange="renderReports()"></select>
       <button class="btn btn-dark btn-sm" onclick="exportReportXLSX()">⬇ Excel Report</button>
@@ -1543,7 +1543,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <!-- ── Chapter 1: Income ── -->
     <div class="rpt-chapter layout-stat-chart">
       <div class="rpt-stat-block">
-        <div class="rpt-chapter-badge">Chapter 1 · Income</div>
+        <div class="rpt-chapter-badge">Income</div>
         <div class="rpt-stat-label">Total Billed</div>
         <div class="rpt-stat-hero" id="rpt-inc-billed" style="color:var(--purple);">—</div>
         <div class="rpt-stat-divider" style="background:var(--purple);"></div>
@@ -1571,7 +1571,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       </div>
     </div>
 
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">Expenses</div><div class="rpt-section-div-line"></div></div>
+    <div class="rpt-section-div"><div class="rpt-section-div-line"></div></div>
 
     <!-- ── Chapter 2: Expenses ── -->
     <div class="rpt-chapter layout-chart-stat">
@@ -1589,7 +1589,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
         </div>
       </div>
       <div class="rpt-stat-block">
-        <div class="rpt-chapter-badge ch-exp">Chapter 2 · Expenses</div>
+        <div class="rpt-chapter-badge ch-exp">Expenses</div>
         <div class="rpt-stat-label">Total Spent</div>
         <div class="rpt-stat-hero" id="rpt-exp-total" style="color:var(--amber);">—</div>
         <div class="rpt-stat-divider" style="background:var(--amber);"></div>
@@ -1603,12 +1603,12 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       </div>
     </div>
 
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">Net Profit</div><div class="rpt-section-div-line"></div></div>
+    <div class="rpt-section-div"><div class="rpt-section-div-line"></div></div>
 
     <!-- ── Chapter 3: Net Profit ── -->
     <div class="rpt-chapter layout-stat-chart">
       <div class="rpt-stat-block">
-        <div class="rpt-chapter-badge ch-net">Chapter 3 · Profit</div>
+        <div class="rpt-chapter-badge ch-net">Net Profit</div>
         <div class="rpt-stat-label">Net Profit</div>
         <div class="rpt-stat-hero" id="rpt-net-total" style="color:var(--green);">—</div>
         <div class="rpt-stat-divider" style="background:var(--green);"></div>
@@ -1630,7 +1630,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
       </div>
     </div>
 
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">GST &amp; Outstanding</div><div class="rpt-section-div-line"></div></div>
+    <div class="rpt-section-div"><div class="rpt-section-div-line"></div></div>
 
     <!-- ── Chapter 4: GST + Outstanding ── -->
     <div class="rpt-chapter layout-chart-stat">
@@ -1656,7 +1656,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
         </div>
       </div>
       <div class="rpt-stat-block">
-        <div class="rpt-chapter-badge ch-gst">Chapter 4 · GST &amp; Dues</div>
+        <div class="rpt-chapter-badge ch-gst">GST &amp; Outstanding</div>
         <div class="rpt-stat-label">GST Collected</div>
         <div class="rpt-stat-hero" id="rpt-gst-total" style="color:var(--teal);font-size:1.9rem;">—</div>
         <div class="rpt-stat-divider" style="background:var(--teal);"></div>
