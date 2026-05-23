@@ -1031,18 +1031,18 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .signout-btn{padding:5px 11px;border-radius:100px;font-size:.72rem;font-weight:500;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;font-family:inherit;}
 .signout-btn:hover{color:var(--coral);border-color:rgba(255,74,43,.3);}
 
-/* ── REPORTS BENTO B (DARK) ── */
-.rpt-bento-body{background:#0D0F14;border-radius:16px;padding:18px;margin-bottom:28px;}
+/* ── REPORTS BENTO (LIGHT THEME) ── */
+.rpt-bento-body{background:transparent;padding:0;margin-bottom:28px;}
 .rpt-bento{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;}
 .rb{border-radius:16px;padding:20px;position:relative;overflow:hidden;}
 .rb.rc2{grid-column:span 2;}.rb.rc3{grid-column:span 3;}.rb.rc4{grid-column:span 4;}.rb.rc5{grid-column:span 5;}.rb.rc6{grid-column:span 6;}.rb.rc7{grid-column:span 7;}.rb.rc12{grid-column:span 12;}
-.rb-dark{background:#161923;border:1px solid #1e2433;}
+.rb-dark{background:#fff;border:1px solid #e8ecf0;box-shadow:0 1px 3px rgba(0,0,0,.05);}
 .rb-inc{background:linear-gradient(135deg,#134e4a 0%,#0d9488 55%,#2dd4bf 100%);}
 .rb-exp{background:linear-gradient(135deg,#92400e 0%,#d97706 60%,#fbbf24 100%);}
-.rb-net-hero{background:#161923;border:1px solid rgba(16,185,129,.3);box-shadow:0 0 24px rgba(16,185,129,.08);}
-.rb-glow-g{background:#161923;border:1px solid rgba(16,185,129,.25);box-shadow:0 0 0 1px rgba(16,185,129,.08);}
-.rb-glow-b{background:#161923;border:1px solid rgba(14,165,233,.25);box-shadow:0 0 0 1px rgba(14,165,233,.08);}
-.rb-glow-r{background:#161923;border:1px solid rgba(244,63,94,.25);box-shadow:0 0 0 1px rgba(244,63,94,.08);}
+.rb-net-hero{background:#fff;border:1px solid #a7f3d0;box-shadow:0 4px 20px rgba(16,185,129,.08);}
+.rb-glow-g{background:#fff;border:1px solid #a7f3d0;}
+.rb-glow-b{background:#fff;border:1px solid #bae6fd;}
+.rb-glow-r{background:#fff;border:1px solid #fecaca;}
 /* KPI */
 .rbk-tag{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;}
 .rbk-tag.w{color:rgba(255,255,255,.6);}.rbk-tag.d{color:#475569;}
@@ -1053,7 +1053,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rbk-pill{display:inline-flex;align-items:center;gap:3px;font-size:.63rem;font-weight:700;padding:3px 9px;border-radius:10px;margin-top:8px;}
 .rbk-pill.pup{background:rgba(16,185,129,.2);color:#34d399;}
 .rbk-pill.pdn{background:rgba(244,63,94,.15);color:#fb7185;}
-.rbk-pill.pneu{background:rgba(45,212,191,.2);color:#2dd4bf;}
+.rbk-pill.pneu{background:#ccfbf1;color:#0d9488;}
 /* Meta rows inside hero cards */
 .rb-meta{display:flex;flex-direction:column;gap:6px;margin-top:14px;}
 .rb-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;}
@@ -1061,85 +1061,83 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rb-meta-row .val{font-weight:700;color:rgba(255,255,255,.9);}
 /* 2×2 mini tile grid */
 .rb-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;height:100%;}
-.rb-mg-tile{background:#0f111a;border-radius:12px;padding:14px;}
-.rb-mg-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#475569;margin-bottom:7px;}
+.rb-mg-tile{background:#f8fafc;border-radius:12px;padding:14px;}
+.rb-mg-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:7px;}
 .rb-mg-val{font-size:1.3rem;font-weight:900;letter-spacing:-.03em;}
-.rb-mg-val.green{color:#34d399;}.rb-mg-val.blue{color:#38bdf8;}.rb-mg-val.neu{color:#a5b4fc;}.rb-mg-val.white{color:#f1f5f9;}
+.rb-mg-val.green{color:#059669;}.rb-mg-val.blue{color:#0284c7;}.rb-mg-val.neu{color:#635BFF;}.rb-mg-val.white{color:#0f172a;}
 .rb-mg-sub{font-size:.65rem;margin-top:3px;}
-.rb-mg-sub.up{color:#34d399;}.rb-mg-sub.neu{color:#64748b;}
+.rb-mg-sub.up{color:#16a34a;}.rb-mg-sub.neu{color:#94a3b8;}
 /* Chart header */
 .rb-ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .rb-ch-lbl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#475569;}
 .rb-ch-pill{font-size:.63rem;font-weight:600;padding:2px 9px;border-radius:8px;}
-.rb-cp-inc{background:rgba(45,212,191,.15);color:#2dd4bf;}
-.rb-cp-exp{background:rgba(245,158,11,.15);color:#fbbf24;}
-.rb-cp-net{background:rgba(16,185,129,.15);color:#34d399;}
-.rb-cp-gst{background:rgba(14,165,233,.15);color:#38bdf8;}
-.rb-cp-out{background:rgba(244,63,94,.15);color:#fb7185;}
+.rb-cp-inc{background:#ccfbf1;color:#0d9488;}
+.rb-cp-exp{background:#fef3c7;color:#d97706;}
+.rb-cp-net{background:#dcfce7;color:#16a34a;}
+.rb-cp-gst{background:#e0f2fe;color:#0284c7;}
+.rb-cp-out{background:#fee2e2;color:#dc2626;}
 /* Expense donut layout */
 .rb-exp-inner{display:grid;grid-template-columns:140px 1fr;gap:14px;align-items:center;}
 .rb-leg{display:flex;flex-direction:column;gap:9px;}
 .rb-leg-item{display:flex;align-items:center;gap:8px;}
 .rb-leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-.rb-leg-name{font-size:.74rem;font-weight:600;color:#e2e8f0;}
+.rb-leg-name{font-size:.74rem;font-weight:600;color:#334155;}
 .rb-leg-pct{font-size:.64rem;color:#475569;}
 /* Net inline metrics dark overrides */
 .rpt-bento-body .rpt-inline-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
-.rpt-bento-body .rpt-im-tile{background:#0f111a;border-radius:8px;padding:10px;text-align:center;}
-.rpt-bento-body .rpt-im-val{font-size:.95rem;font-weight:800;color:#f1f5f9;}
-.rpt-bento-body .rpt-im-lbl{font-size:.62rem;color:#475569;margin-top:2px;}
+.rpt-bento-body .rpt-im-tile{background:#f8fafc;border-radius:8px;padding:10px;text-align:center;}
+.rpt-bento-body .rpt-im-val{font-size:.95rem;font-weight:800;color:#0f172a;}
+.rpt-bento-body .rpt-im-lbl{font-size:.62rem;color:#94a3b8;margin-top:2px;}
 /* GST quarters dark */
 .rb-gst-qs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
-.rb-gst-q{background:#0f111a;border-radius:10px;padding:10px;text-align:center;}
-.rb-gst-q-lbl{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#475569;margin-bottom:4px;}
-.rb-gst-q-val{font-size:1rem;font-weight:800;color:#38bdf8;}
+.rb-gst-q{background:#f8fafc;border-radius:10px;padding:10px;text-align:center;}
+.rb-gst-q-lbl{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:4px;}
+.rb-gst-q-val{font-size:1rem;font-weight:800;color:#0284c7;}
 /* Outstanding timeline dark */
-.rpt-bento-body .rpt-tl-item{border-bottom-color:#1e2433;}
-.rpt-bento-body .rpt-tl-client{color:#e2e8f0;}
-.rpt-bento-body .rpt-tl-inv{color:#475569;}
-.rpt-bento-body .rpt-tl-amt{color:#fb7185 !important;}
+.rpt-bento-body .rpt-tl-item{border-bottom-color:#f1f5f9;}
+.rpt-bento-body .rpt-tl-client{color:#0f172a;}
+.rpt-bento-body .rpt-tl-inv{color:#94a3b8;}
+.rpt-bento-body .rpt-tl-amt{color:#dc2626 !important;}
 /* Category items dark */
-.rpt-bento-body .rpt-cat-name{color:#e2e8f0;}
-.rpt-bento-body .rpt-cat-sub{color:#475569;}
+.rpt-bento-body .rpt-cat-name{color:#334155;}
+.rpt-bento-body .rpt-cat-sub{color:#94a3b8;}
 /* Age badges dark */
 .age-ok{background:var(--green-soft);color:var(--green);}
 .age-warn{background:var(--amber-soft);color:var(--amber);}
 .age-late{background:var(--err-soft);color:var(--err);}
-.rpt-bento-body .age-ok{background:rgba(16,185,129,.15)!important;color:#34d399!important;}
-.rpt-bento-body .age-warn{background:rgba(245,158,11,.15)!important;color:#fbbf24!important;}
-.rpt-bento-body .age-late{background:rgba(244,63,94,.15)!important;color:#fb7185!important;}
+/* light theme — age badges use standard colors */
 /* Rpt-q-tile dark overrides (GST quarters generated by JS) */
 .rpt-bento-body .rpt-q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
-.rpt-bento-body .rpt-q-tile{background:#0f111a;border:1px solid #1e2433;border-radius:8px;padding:10px;text-align:center;}
-.rpt-bento-body .rpt-q-tile.featured{background:rgba(99,91,255,.15);border-color:rgba(99,91,255,.3);}
-.rpt-bento-body .rpt-q-lbl{color:#475569;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
-.rpt-bento-body .rpt-q-tile.featured .rpt-q-lbl{color:#a5b4fc;}
-.rpt-bento-body .rpt-q-val{color:#38bdf8;font-size:.95rem;font-weight:800;}
-.rpt-bento-body .rpt-q-tile.featured .rpt-q-val{color:#a5b4fc;}
+.rpt-bento-body .rpt-q-tile{background:#f8fafc;border:1px solid #e8ecf0;border-radius:8px;padding:10px;text-align:center;}
+.rpt-bento-body .rpt-q-tile.featured{background:#ede9fe;border-color:rgba(99,91,255,.3);}
+.rpt-bento-body .rpt-q-lbl{color:#94a3b8;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
+.rpt-bento-body .rpt-q-tile.featured .rpt-q-lbl{color:#635BFF;}
+.rpt-bento-body .rpt-q-val{color:#0284c7;font-size:.95rem;font-weight:800;}
+.rpt-bento-body .rpt-q-tile.featured .rpt-q-val{color:#635BFF;}
 /* Section dividers dark */
 .rpt-bento-body .rpt-section-div{display:flex;align-items:center;gap:10px;margin-bottom:16px;margin-top:20px;}
-.rpt-bento-body .rpt-section-div-line{flex:1;height:1px;background:#1e2433;}
-.rpt-bento-body .rpt-section-div-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#334155;}
+.rpt-bento-body .rpt-section-div-line{flex:1;height:1px;background:#e8ecf0;}
+.rpt-bento-body .rpt-section-div-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;}
 /* Cards + tables dark */
-.rpt-bento-body .card{background:#161923;border-color:#1e2433;}
-.rpt-bento-body .card-title{color:#e2e8f0;}
-.rpt-bento-body table th{background:#0f111a;color:#475569;border-bottom:2px solid #1e2433;}
-.rpt-bento-body table tbody tr{border-top-color:#1e2433;}
-.rpt-bento-body table tbody tr:hover{background:#1e2433;}
-.rpt-bento-body table td{color:#e2e8f0;}
-.rpt-bento-body .tbl-wrap{border-color:#1e2433;}
+.rpt-bento-body .card{background:#fff;border-color:#e8ecf0;}
+.rpt-bento-body .card-title{color:#0f172a;}
+.rpt-bento-body table th{background:#f9fafb;color:#64748b;border-bottom:2px solid #e8ecf0;}
+.rpt-bento-body table tbody tr{border-top-color:#f1f5f9;}
+.rpt-bento-body table tbody tr:hover{background:#f9fafb;}
+.rpt-bento-body table td{color:#334155;}
+.rpt-bento-body .tbl-wrap{border-color:#e8ecf0;}
 /* Archive dark */
-.rpt-bento-body .arc-card{background:#161923;border-color:#1e2433;}
-.rpt-bento-body .arc-card:hover{background:#1e2433;}
-.rpt-bento-body .arc-card h3{color:#f1f5f9;}
-.rpt-bento-body .arc-row span:first-child{color:#475569;}
+.rpt-bento-body .arc-card{background:#fff;border-color:#e8ecf0;}
+.rpt-bento-body .arc-card:hover{background:#f9fafb;}
+.rpt-bento-body .arc-card h3{color:#0f172a;}
+.rpt-bento-body .arc-row span:first-child{color:#94a3b8;}
 /* Stat-pill (used by rpt-net-badge className override - keep classes defined) */
 .rpt-stat-pill{display:inline-flex;align-items:center;gap:3px;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:12px;}
-.pill-inc,.pill-net{background:rgba(16,185,129,.15);color:#34d399;}
-.pill-exp{background:rgba(244,63,94,.15);color:#fb7185;}
-.pill-neu{background:rgba(99,91,255,.2);color:#a5b4fc;}
+.pill-inc,.pill-net{background:#dcfce7;color:#16a34a;}
+.pill-exp{background:#fee2e2;color:#dc2626;}
+.pill-neu{background:#ede9fe;color:#635BFF;}
 /* Outstanding full table link */
-.rpt-bento-body .lock-banner{background:#1e2433 !important;border-color:#334155 !important;}
+.rpt-bento-body .lock-banner{background:#f8fafc !important;border-color:#e8ecf0 !important;}
 @media(max-width:900px){
   .rb.rc4,.rb.rc5,.rb.rc6{grid-column:span 12;}
   .rb.rc2,.rb.rc3{grid-column:span 6;}
@@ -1596,7 +1594,29 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
     <div class="rpt-bento">
 
-      <!-- ── Row 1: Hero Income (4) + Hero Expense (2) + Mini Tiles (6) ── -->
+      <!-- ── Row 1: Net Profit hero (3) + Income (4) + Expenses (2) + Mini Tiles (3) ── -->
+
+      <!-- Net Profit hero card — FIRST -->
+      <div class="rb rc3 rb-net-hero">
+        <div class="rbk-tag d">Net Profit</div>
+        <div class="rbk-big" id="rpt-net-total" style="color:#059669;">—</div>
+        <div class="rbk-sub d">After all expenses</div>
+        <div class="rb-meta">
+          <div class="rb-meta-row" style="border-top:1px solid #e8ecf0;padding-top:10px;margin-top:6px;">
+            <span class="lbl" style="color:#94a3b8;">Margin</span>
+            <span class="val" id="rpt-net-margin2" style="color:#0284c7;">—</span>
+          </div>
+          <div class="rb-meta-row">
+            <span class="lbl" style="color:#94a3b8;">Best month</span>
+            <span class="val" id="rpt-net-best" style="color:#0f172a;font-size:.72rem;">—</span>
+          </div>
+          <div class="rb-meta-row">
+            <span class="lbl" style="color:#94a3b8;">Avg / month</span>
+            <span class="val" id="rpt-net-avg" style="color:#0f172a;">—</span>
+          </div>
+        </div>
+      </div>
+
       <div class="rb rc4 rb-inc">
         <div class="rbk-tag w">Total Billed</div>
         <div class="rbk-big w" id="rpt-inc-billed">—</div>
@@ -1617,27 +1637,6 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
           <div class="rb-meta-row"><span class="lbl">Avg / month</span><span class="val" id="rpt-exp-avg">—</span></div>
           <div class="rb-meta-row"><span class="lbl">Peak month</span><span class="val" id="rpt-exp-peak">—</span></div>
           <div class="rb-meta-row"><span class="lbl">Margin</span><span class="val" id="rpt-exp-margin">—</span></div>
-        </div>
-      </div>
-
-      <!-- Net Profit hero card -->
-      <div class="rb rc3 rb-net-hero">
-        <div class="rbk-tag d">Net Profit</div>
-        <div class="rbk-big" id="rpt-net-total" style="color:#34d399;">—</div>
-        <div class="rbk-sub d">After all expenses</div>
-        <div class="rb-meta">
-          <div class="rb-meta-row" style="border-top:1px solid #1e2433;padding-top:10px;margin-top:6px;">
-            <span class="lbl" style="color:#475569;">Margin</span>
-            <span class="val" id="rpt-net-margin2" style="color:#38bdf8;">—</span>
-          </div>
-          <div class="rb-meta-row">
-            <span class="lbl" style="color:#475569;">Best month</span>
-            <span class="val" id="rpt-net-best" style="color:#e2e8f0;font-size:.72rem;">—</span>
-          </div>
-          <div class="rb-meta-row">
-            <span class="lbl" style="color:#475569;">Avg / month</span>
-            <span class="val" id="rpt-net-avg" style="color:#e2e8f0;">—</span>
-          </div>
         </div>
       </div>
 
@@ -1679,7 +1678,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
       <div class="rb rc4 rb-glow-b">
         <div class="rb-ch"><span class="rb-ch-lbl">GST Collected</span><span class="rb-ch-pill rb-cp-gst">18%</span></div>
-        <div style="font-size:1.5rem;font-weight:900;letter-spacing:-.04em;color:#38bdf8;" id="rpt-gst-total">—</div>
+        <div style="font-size:1.5rem;font-weight:900;letter-spacing:-.04em;color:#0284c7;" id="rpt-gst-total">—</div>
         <div style="height:90px;margin:10px 0 0;"><canvas id="rptGstChart"></canvas></div>
         <div class="rpt-q-grid" id="rptGstQuarters"></div>
       </div>
@@ -3383,13 +3382,13 @@ function renderReports(){
   if(colRate)colRate.textContent=tInc>0?Math.round(tRec/tInc*100)+'%':'—';
   // Net profit color based on positive/negative
   const netEl=document.getElementById('rpt-net-total');
-  if(netEl)netEl.style.color=tNet>=0?'#34d399':'#fb7185';
+  if(netEl)netEl.style.color=tNet>=0?'#059669':'#dc2626';
   document.getElementById('rpt-inc-desc').textContent=`Across ${db.income.filter(i=>i.date?.startsWith(cur)).length} invoices in ${cur}. Track received vs billed to stay on top of cash flow.`;
   document.getElementById('rpt-inc-badge').textContent=tRec>0?`${fmt(tRec)} received`:'No income yet';
   // Income trend line chart
   if(rptChart){rptChart.destroy();rptChart=null;}
   const rCtx=document.getElementById('reportChart').getContext('2d');
-  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[{label:'Income',data:incData,borderColor:'#2dd4bf',backgroundColor:'rgba(13,148,136,.15)',fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:'#2dd4bf',pointBorderColor:'#161923',pointBorderWidth:2}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#475569'}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#475569'}}}}});
+  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[{label:'Income',data:incData,borderColor:'#0d9488',backgroundColor:'rgba(13,148,136,.08)',fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:'#0d9488',pointBorderColor:'#fff',pointBorderWidth:2}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#94a3b8'}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#94a3b8'}}}}});
   // Income category pills
   const catMap={};
   db.income.filter(i=>i.date?.startsWith(cur)).forEach(i=>{const c=i.cat||'Other';catMap[c]=(catMap[c]||0)+(+i.amount||0);});
@@ -3401,7 +3400,7 @@ function renderReports(){
     return`<div class="rpt-cat-item">
       <div class="rpt-cat-dot" style="background:${pal[i%pal.length]};"></div>
       <div style="flex:1;"><div class="rpt-cat-name">${esc(c)}</div><div class="rpt-cat-sub">${fmt(cV[i])} · ${pct}%</div></div>
-      <div style="width:80px;height:4px;background:#1e2433;border-radius:3px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${pal[i%pal.length]};border-radius:3px;"></div></div>
+      <div style="width:80px;height:4px;background:#f1f5f9;border-radius:3px;overflow:hidden;"><div style="width:${pct}%;height:100%;background:${pal[i%pal.length]};border-radius:3px;"></div></div>
     </div>`;
   }).join(''):`<div class="empty" style="padding:12px 0;"><p style="color:var(--muted2);font-size:.8rem;">No income in ${cur}</p></div>`;
 
@@ -3425,7 +3424,7 @@ function renderReports(){
   const ecTotal=ecV.reduce((s,v)=>s+v,0)||1;
   if(rptExpDonutChart){rptExpDonutChart.destroy();rptExpDonutChart=null;}
   const edCtx=document.getElementById('rptExpDonut').getContext('2d');
-  rptExpDonutChart=new Chart(edCtx,{type:'bar',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length).map(c=>c+'cc'):['#2a2e3d'],borderRadius:6,borderSkipped:false,barThickness:16}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>fmt(v),font:{size:9},color:'#475569'}},y:{grid:{display:false},ticks:{font:{size:10},color:'#e2e8f0'}}}}});
+  rptExpDonutChart=new Chart(edCtx,{type:'bar',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length).map(c=>c+'cc'):['#e2e8f0'],borderRadius:6,borderSkipped:false,barThickness:16}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}}},scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:9},color:'#94a3b8'}},y:{grid:{display:false},ticks:{font:{size:10},color:'#334155'}}}}});
   document.getElementById('rptExpLegend').innerHTML=ecL.length?ecL.slice(0,5).map((c,i)=>{
     const pct=Math.round(ecV[i]/ecTotal*100);
     return`<div class="rb-leg-item"><div class="rb-leg-dot" style="background:${expPal[i%expPal.length]};"></div><div><div class="rb-leg-name">${esc(c)}</div><div class="rb-leg-pct">${fmt(ecV[i])} · ${pct}%</div></div></div>`;
@@ -3441,7 +3440,7 @@ function renderReports(){
   const activeNetMonths=netData.filter(v=>v!==0).length||1;
   const avgNet=tNet/activeNetMonths;
   document.getElementById('rpt-net-total').textContent=fmt(tNet);
-  document.getElementById('rpt-net-total').style.color=tNet>=0?'#34d399':'#fb7185';
+  document.getElementById('rpt-net-total').style.color=tNet>=0?'#059669':'#dc2626';
   document.getElementById('rpt-net-best').textContent=bestNetVal>-Infinity&&bestNetVal!==0?`${mLbls[bestNetIdx]} ${fmt(bestNetVal)}`:'—';
   document.getElementById('rpt-net-avg').textContent=fmt(Math.round(avgNet));
   document.getElementById('rpt-net-margin2').textContent=tRec>0?`${margin}% margin`:'—';
@@ -3465,7 +3464,7 @@ function renderReports(){
     {type:'bar',label:'Income',data:incData,backgroundColor:'rgba(129,140,248,.75)',borderRadius:4,borderSkipped:false},
     {type:'bar',label:'Expenses',data:expData,backgroundColor:'rgba(251,191,36,.65)',borderRadius:4,borderSkipped:false},
     {type:'line',label:'Net',data:netData,borderColor:'#34d399',backgroundColor:'rgba(52,211,153,.08)',fill:false,tension:.4,borderWidth:2,pointRadius:2,pointBackgroundColor:'#34d399'}
-  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10},color:'#64748b',padding:8}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#475569'}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#475569'}}}}});
+  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10},color:'#64748b',padding:8}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#94a3b8'}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#94a3b8'}}}}});
 
   // ── Chapter 4: GST ──
   const gstTots={taxable:0,cgst:0,sgst:0,igst:0,tds:0};
@@ -3479,7 +3478,7 @@ function renderReports(){
   // GST bar chart
   if(rptGstChartInst){rptGstChartInst.destroy();rptGstChartInst=null;}
   const gcCtx=document.getElementById('rptGstChart').getContext('2d');
-  rptGstChartInst=new Chart(gcCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'GST',data:gstByM.map(g=>g.net),backgroundColor:'rgba(56,189,248,.65)',borderRadius:5,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'#475569'}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>fmt(v),font:{size:9},color:'#475569'}}}}});
+  rptGstChartInst=new Chart(gcCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'GST',data:gstByM.map(g=>g.net),backgroundColor:'rgba(2,132,199,.55)',borderRadius:5,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'#94a3b8'}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:9},color:'#94a3b8'}}}}});
   // GST detail table
   if(!isPro()){
     document.getElementById('gstTbody').innerHTML=`<tr><td colspan="7" style="padding:0;"></td></tr>`;
