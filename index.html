@@ -1037,8 +1037,9 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rb{border-radius:16px;padding:20px;position:relative;overflow:hidden;}
 .rb.rc2{grid-column:span 2;}.rb.rc3{grid-column:span 3;}.rb.rc4{grid-column:span 4;}.rb.rc5{grid-column:span 5;}.rb.rc6{grid-column:span 6;}.rb.rc7{grid-column:span 7;}.rb.rc12{grid-column:span 12;}
 .rb-dark{background:#161923;border:1px solid #1e2433;}
-.rb-inc{background:linear-gradient(135deg,#3730a3 0%,#635BFF 55%,#818cf8 100%);}
+.rb-inc{background:linear-gradient(135deg,#134e4a 0%,#0d9488 55%,#2dd4bf 100%);}
 .rb-exp{background:linear-gradient(135deg,#92400e 0%,#d97706 60%,#fbbf24 100%);}
+.rb-net-hero{background:#161923;border:1px solid rgba(16,185,129,.3);box-shadow:0 0 24px rgba(16,185,129,.08);}
 .rb-glow-g{background:#161923;border:1px solid rgba(16,185,129,.25);box-shadow:0 0 0 1px rgba(16,185,129,.08);}
 .rb-glow-b{background:#161923;border:1px solid rgba(14,165,233,.25);box-shadow:0 0 0 1px rgba(14,165,233,.08);}
 .rb-glow-r{background:#161923;border:1px solid rgba(244,63,94,.25);box-shadow:0 0 0 1px rgba(244,63,94,.08);}
@@ -1052,7 +1053,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rbk-pill{display:inline-flex;align-items:center;gap:3px;font-size:.63rem;font-weight:700;padding:3px 9px;border-radius:10px;margin-top:8px;}
 .rbk-pill.pup{background:rgba(16,185,129,.2);color:#34d399;}
 .rbk-pill.pdn{background:rgba(244,63,94,.15);color:#fb7185;}
-.rbk-pill.pneu{background:rgba(99,91,255,.25);color:#a5b4fc;}
+.rbk-pill.pneu{background:rgba(45,212,191,.2);color:#2dd4bf;}
 /* Meta rows inside hero cards */
 .rb-meta{display:flex;flex-direction:column;gap:6px;margin-top:14px;}
 .rb-meta-row{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;}
@@ -1070,7 +1071,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rb-ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .rb-ch-lbl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#475569;}
 .rb-ch-pill{font-size:.63rem;font-weight:600;padding:2px 9px;border-radius:8px;}
-.rb-cp-inc{background:rgba(99,91,255,.2);color:#a5b4fc;}
+.rb-cp-inc{background:rgba(45,212,191,.15);color:#2dd4bf;}
 .rb-cp-exp{background:rgba(245,158,11,.15);color:#fbbf24;}
 .rb-cp-net{background:rgba(16,185,129,.15);color:#34d399;}
 .rb-cp-gst{background:rgba(14,165,233,.15);color:#38bdf8;}
@@ -1619,27 +1620,39 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
         </div>
       </div>
 
-      <div class="rb rc6 rb-dark" style="padding:14px;">
-        <div class="rb-mini-grid">
+      <!-- Net Profit hero card -->
+      <div class="rb rc3 rb-net-hero">
+        <div class="rbk-tag d">Net Profit</div>
+        <div class="rbk-big" id="rpt-net-total" style="color:#34d399;">—</div>
+        <div class="rbk-sub d">After all expenses</div>
+        <div class="rb-meta">
+          <div class="rb-meta-row" style="border-top:1px solid #1e2433;padding-top:10px;margin-top:6px;">
+            <span class="lbl" style="color:#475569;">Margin</span>
+            <span class="val" id="rpt-net-margin2" style="color:#38bdf8;">—</span>
+          </div>
+          <div class="rb-meta-row">
+            <span class="lbl" style="color:#475569;">Best month</span>
+            <span class="val" id="rpt-net-best" style="color:#e2e8f0;font-size:.72rem;">—</span>
+          </div>
+          <div class="rb-meta-row">
+            <span class="lbl" style="color:#475569;">Avg / month</span>
+            <span class="val" id="rpt-net-avg" style="color:#e2e8f0;">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 mini tiles -->
+      <div class="rb rc3 rb-dark" style="padding:14px;">
+        <div class="rb-mini-grid" style="grid-template-columns:1fr;grid-template-rows:1fr 1fr;">
           <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Net Profit</div>
-            <div class="rb-mg-val green" id="rpt-net-total">—</div>
-            <div class="rb-mg-sub up">After expenses</div>
+            <div class="rb-mg-lbl">Total Invoices</div>
+            <div class="rb-mg-val white" id="rpt-inc-count-tile">—</div>
+            <div class="rb-mg-sub neu">This year</div>
           </div>
           <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Profit Margin</div>
-            <div class="rb-mg-val blue" id="rpt-net-margin2">—</div>
-            <div class="rb-mg-sub neu">Of received income</div>
-          </div>
-          <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Best Net Month</div>
-            <div class="rb-mg-val white" style="font-size:.95rem;" id="rpt-net-best">—</div>
-            <div class="rb-mg-sub neu">Highest profit</div>
-          </div>
-          <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Avg Net / Month</div>
-            <div class="rb-mg-val neu" id="rpt-net-avg">—</div>
-            <div class="rb-mg-sub neu">Monthly average</div>
+            <div class="rb-mg-lbl">Collection Rate</div>
+            <div class="rb-mg-val green" id="rpt-collection-rate">—</div>
+            <div class="rb-mg-sub up">Billed vs received</div>
           </div>
         </div>
       </div>
@@ -1653,10 +1666,8 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
       <div class="rb rc6 rb-dark">
         <div class="rb-ch"><span class="rb-ch-lbl">Expense Breakdown</span><span class="rb-ch-pill rb-cp-exp">By Category</span></div>
-        <div class="rb-exp-inner">
-          <div style="height:155px;"><canvas id="rptExpDonut"></canvas></div>
-          <div class="rb-leg" id="rptExpLegend"></div>
-        </div>
+        <div style="height:190px;"><canvas id="rptExpDonut"></canvas></div>
+        <div id="rptExpLegend" style="display:none;"></div>
       </div>
 
       <!-- ── Row 3: Net Profit (5) + GST (4) + Outstanding (3) ── -->
@@ -3362,14 +3373,23 @@ function renderReports(){
   document.getElementById('rpt-inc-received').textContent=fmt(tRec);
   document.getElementById('rpt-inc-avg').textContent=fmt(Math.round(avgInc));
   document.getElementById('rpt-inc-best').textContent=bestIncVal>0?`${mLbls[bestIncIdx]} ${fmt(bestIncVal)}`:'—';
-  document.getElementById('rpt-inc-count').textContent=db.income.filter(i=>i.date?.startsWith(cur)).length;
+  const incCount=db.income.filter(i=>i.date?.startsWith(cur)).length;
+  document.getElementById('rpt-inc-count').textContent=incCount;
   document.getElementById('rpt-inc-year-badge').textContent=cur;
+  // Mini tiles
+  const incCountTile=document.getElementById('rpt-inc-count-tile');
+  if(incCountTile)incCountTile.textContent=incCount;
+  const colRate=document.getElementById('rpt-collection-rate');
+  if(colRate)colRate.textContent=tInc>0?Math.round(tRec/tInc*100)+'%':'—';
+  // Net profit color based on positive/negative
+  const netEl=document.getElementById('rpt-net-total');
+  if(netEl)netEl.style.color=tNet>=0?'#34d399':'#fb7185';
   document.getElementById('rpt-inc-desc').textContent=`Across ${db.income.filter(i=>i.date?.startsWith(cur)).length} invoices in ${cur}. Track received vs billed to stay on top of cash flow.`;
   document.getElementById('rpt-inc-badge').textContent=tRec>0?`${fmt(tRec)} received`:'No income yet';
   // Income trend line chart
   if(rptChart){rptChart.destroy();rptChart=null;}
   const rCtx=document.getElementById('reportChart').getContext('2d');
-  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[{label:'Income',data:incData,borderColor:window._TC.inc||'#818cf8',backgroundColor:'rgba(99,91,255,.12)',fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:window._TC.inc||'#818cf8',pointBorderColor:'#161923',pointBorderWidth:2}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#475569'}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#475569'}}}}});
+  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[{label:'Income',data:incData,borderColor:'#2dd4bf',backgroundColor:'rgba(13,148,136,.15)',fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:'#2dd4bf',pointBorderColor:'#161923',pointBorderWidth:2}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#475569'}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#475569'}}}}});
   // Income category pills
   const catMap={};
   db.income.filter(i=>i.date?.startsWith(cur)).forEach(i=>{const c=i.cat||'Other';catMap[c]=(catMap[c]||0)+(+i.amount||0);});
@@ -3405,7 +3425,7 @@ function renderReports(){
   const ecTotal=ecV.reduce((s,v)=>s+v,0)||1;
   if(rptExpDonutChart){rptExpDonutChart.destroy();rptExpDonutChart=null;}
   const edCtx=document.getElementById('rptExpDonut').getContext('2d');
-  rptExpDonutChart=new Chart(edCtx,{type:'doughnut',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length):['#2a2e3d'],borderWidth:2,borderColor:'#161923',hoverOffset:4}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
+  rptExpDonutChart=new Chart(edCtx,{type:'bar',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length).map(c=>c+'cc'):['#2a2e3d'],borderRadius:6,borderSkipped:false,barThickness:16}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>fmt(v),font:{size:9},color:'#475569'}},y:{grid:{display:false},ticks:{font:{size:10},color:'#e2e8f0'}}}}});
   document.getElementById('rptExpLegend').innerHTML=ecL.length?ecL.slice(0,5).map((c,i)=>{
     const pct=Math.round(ecV[i]/ecTotal*100);
     return`<div class="rb-leg-item"><div class="rb-leg-dot" style="background:${expPal[i%expPal.length]};"></div><div><div class="rb-leg-name">${esc(c)}</div><div class="rb-leg-pct">${fmt(ecV[i])} · ${pct}%</div></div></div>`;
@@ -3421,7 +3441,7 @@ function renderReports(){
   const activeNetMonths=netData.filter(v=>v!==0).length||1;
   const avgNet=tNet/activeNetMonths;
   document.getElementById('rpt-net-total').textContent=fmt(tNet);
-  document.getElementById('rpt-net-total').style.color=tNet>=0?'var(--green)':'var(--err)';
+  document.getElementById('rpt-net-total').style.color=tNet>=0?'#34d399':'#fb7185';
   document.getElementById('rpt-net-best').textContent=bestNetVal>-Infinity&&bestNetVal!==0?`${mLbls[bestNetIdx]} ${fmt(bestNetVal)}`:'—';
   document.getElementById('rpt-net-avg').textContent=fmt(Math.round(avgNet));
   document.getElementById('rpt-net-margin2').textContent=tRec>0?`${margin}% margin`:'—';
