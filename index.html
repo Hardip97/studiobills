@@ -393,6 +393,8 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
   border-color:transparent;color:#fff;}
 .pm-kpi.pm-featured::after{content:'';position:absolute;top:-30px;right:-30px;
   width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.07);}
+/* Force white text on featured card — overrides JS inline color for positive net */
+.pm-kpi.pm-featured #heroNet{color:#fff!important;}
 .pm-kpi-label{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;
   color:var(--muted2);margin-bottom:12px;}
 .pm-featured .pm-kpi-label{color:rgba(255,255,255,.65);}
@@ -1247,7 +1249,8 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
       <!-- Net Balance — featured purple -->
       <div class="pm-kpi pm-featured">
-        <div class="bc-studio-name" id="bcStudioName" style="color:rgba(255,255,255,.5);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Net Balance</div>
+        <div style="color:rgba(255,255,255,.5);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px;">Net Balance</div>
+        <div class="bc-studio-name" id="bcStudioName" style="color:rgba(255,255,255,.75);font-size:.78rem;font-weight:600;letter-spacing:-.01em;margin-bottom:10px;text-transform:none;">StudioBills</div>
         <div class="pm-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         <div class="pm-kpi-value" id="heroNet">₹0</div>
         <div class="pm-kpi-meta">
@@ -1377,7 +1380,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
           <div class="pm-tcard-title">Recent Income</div>
           <button class="pm-tcard-link" onclick="showTab('income')">View all →</button>
         </div>
-        <div id="recentIncList"></div>
+        <div id="recentIncList" style="padding:0 18px;"></div>
       </div>
 
       <div class="pm-table-card">
@@ -1385,7 +1388,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
           <div class="pm-tcard-title">Recent Expenses</div>
           <button class="pm-tcard-link" onclick="showTab('expenses')">View all →</button>
         </div>
-        <div id="recentExpList"></div>
+        <div id="recentExpList" style="padding:0 18px;"></div>
       </div>
 
     </div>
@@ -2435,6 +2438,13 @@ async function loadUserData(user){
 
 // ─── INIT APP UI ───
 function initAppUI(){
+  // Restore saved chart range preference
+  if(db.profile?.chartRange){
+    activeRange=db.profile.chartRange;
+    document.querySelectorAll('[data-range]').forEach(b=>{
+      b.classList.toggle('active',b.dataset.range===activeRange);
+    });
+  }
   // Check onboarding on every init
   setTimeout(checkOnboarding, 800);
   fillCatSelects();fillClientSuggest();
@@ -4831,7 +4841,14 @@ showTab=function(name){
   const av=document.getElementById('mobAvatar');
   if(av){const sid=document.getElementById('userAvatar');if(sid)av.textContent=sid.textContent;}
 };
-document.querySelectorAll('.rbtn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.rbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeRange=b.dataset.range;drawMainChart();}));
+// Range buttons only — scoped to [data-range] so Area/Bars style toggle never accidentally resets activeRange
+document.querySelectorAll('[data-range]').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('[data-range]').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  activeRange=b.dataset.range;
+  if(db.profile)db.profile.chartRange=activeRange; save();
+  drawMainChart();
+}));
 document.querySelectorAll('.stab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.stab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['profile','appearance','categories','backup','about'].forEach(s=>{const el=document.getElementById('stab-'+s);if(el)el.style.display=s===b.dataset.st?'block':'none';});}));
 document.querySelectorAll('#incTabs .itab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#incTabs .itab').forEach(x=>x.classList.remove('active'));b.classList.add('active');incFilter=b.dataset.f;renderIncome();}));
 document.querySelectorAll('#expTabs .itab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#expTabs .itab').forEach(x=>x.classList.remove('active'));b.classList.add('active');expFilter=b.dataset.ef;renderExpenses();}));
