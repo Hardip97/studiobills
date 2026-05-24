@@ -200,7 +200,7 @@ body.theme-ocean{
 }
 /* Emerald Night — dark navy */
 body.theme-emerald{
-  --bg:#0B1A2C;--white:#0E2240;--text:#E8F5E9;--muted:#546A60;--muted2:#3A5A50;
+  --bg:#0B1A2C;--white:#0E2240;--s1:#0E2240;--text:#E8F5E9;--muted:#546A60;--muted2:#8AADA0;
   --border:rgba(0,230,118,0.1);--border2:rgba(0,230,118,0.05);--black:#E8F5E9;
   --red:#00E676;--red2:#00BF5E;--red-soft:rgba(0,230,118,.12);
   --green:#FFD740;--green-soft:rgba(255,215,64,.12);
@@ -232,7 +232,7 @@ body.theme-arctic{
 }
 /* Ash & Rose — dark charcoal, rose */
 body.theme-ash{
-  --bg:#1A1A1E;--white:#242428;--text:#F8F8F8;--muted:#888;--muted2:#555;
+  --bg:#1A1A1E;--white:#242428;--s1:#242428;--text:#F8F8F8;--muted:#888;--muted2:#666;
   --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.04);--black:#F8F8F8;
   --red:#FF4D8D;--red2:#D63878;--red-soft:rgba(255,77,141,.12);
   --green:#34D399;--green-soft:rgba(52,211,153,.12);
@@ -431,7 +431,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
   transition:box-shadow .2s,transform .18s;}
 .pm-kpi:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
 /* Featured KPI (net balance) */
-.pm-kpi.pm-featured{background:linear-gradient(135deg,var(--purple) 0%,var(--purple-d) 100%);
+.pm-kpi.pm-featured{background:linear-gradient(135deg,var(--red) 0%,var(--red2) 100%);
   border-color:transparent;color:#fff;}
 .pm-kpi.pm-featured::after{content:'';position:absolute;top:-30px;right:-30px;
   width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.07);}
@@ -602,7 +602,7 @@ thead th{padding:10px 14px;text-align:left;font-size:.64rem;font-weight:600;colo
 tbody td{padding:12px 14px;border-bottom:1px solid var(--border2);vertical-align:middle;font-weight:300;}
 tbody tr:last-child td{border-bottom:none;}
 tbody tr:hover td{background:#FAFAFA;}
-tbody tr.row-overdue{background:#FFF7F8;}
+tbody tr.row-overdue{background:var(--red-soft);}
 
 /* BADGES */
 .badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:100px;font-size:.67rem;font-weight:600;}
@@ -900,7 +900,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
   /* Nodus stats row */
   .nodus-row{grid-template-columns:1fr 1fr;gap:1px;background:#D1D1D6;
     border-radius:0;margin-bottom:8px;}
-  .ns-cell{background:#fff;border:none;padding:18px 14px;}
+  .ns-cell{background:var(--white);border:none;padding:18px 14px;}
   .ns-cell:last-child{grid-column:1/-1;align-items:flex-start;border-top:none;}
   .ns-num{font-size:1.45rem;font-weight:700;}
   .hero-net-num{font-size:1.6rem;font-weight:800;}
@@ -909,7 +909,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
   .chart-card{border-radius:0;box-shadow:none;border-left:none;border-right:none;margin-bottom:8px;}
 
   /* Page headers — compact native style */
-  .ph{padding:14px 16px 8px;background:#fff;margin-bottom:0;}
+  .ph{padding:14px 16px 8px;background:var(--white);margin-bottom:0;}
   .ph h1{font-size:1.3rem;}
   .ph-actions{gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;
     padding-bottom:4px;flex-wrap:nowrap;}
@@ -921,17 +921,17 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
   /* Filter tabs — scrollable native pills */
   .itabs{overflow-x:auto;-webkit-overflow-scrolling:touch;
     flex-wrap:nowrap;padding:0 16px 6px;margin-bottom:0;gap:6px;
-    background:#fff;border-bottom:1px solid #E0E0E5;}
+    background:var(--white);border-bottom:1px solid var(--border);}
   .itab{white-space:nowrap;padding:6px 14px;font-size:.75rem;border-radius:20px;
-    background:#F2F2F7;border:none;flex-shrink:0;}
+    background:var(--bg);border:none;flex-shrink:0;}
   .itab.active{background:var(--red);color:#fff;}
 
   /* ── INCOME TABLE → NATIVE LIST ITEMS ── */
   #tab-income .tbl-wrap,#tab-expenses .tbl-wrap{overflow-x:visible;}
   #incTbody tr,#expTbody tr{
     display:flex;flex-wrap:wrap;align-items:center;
-    padding:13px 16px;background:#fff;
-    border-bottom:1px solid #F2F2F7;gap:2px;
+    padding:13px 16px;background:var(--white);
+    border-bottom:1px solid var(--border2);gap:2px;
     position:relative;}
   #incTbody tr td,#expTbody tr td{border:none;padding:0;}
   #incTbody thead,#expTbody thead{display:none;}
@@ -1062,7 +1062,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 #authSpinner{display:none;text-align:center;margin-top:8px;font-size:.78rem;color:var(--muted);}
 .auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--muted2);font-size:.75rem;}
 .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border);}
-.google-btn{width:100%;padding:10px;background:#fff;color:#3c4043;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.85rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s,box-shadow .15s;}
+.google-btn{width:100%;padding:10px;background:var(--white);color:var(--text);border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.85rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s,box-shadow .15s;}
 .google-btn:hover{background:#f8f8f8;box-shadow:0 1px 6px rgba(0,0,0,.1);}
 
 /* ── USER CHIP IN TOPBAR ── */
@@ -1211,9 +1211,9 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 </div>
 
 <!-- ══ PROFILE NUDGE CARD ══ -->
-<div id="profileNudge" style="display:none;background:#fff;border-radius:0;
+<div id="profileNudge" style="display:none;background:var(--white);border-radius:0;
   border-left:3px solid var(--red);padding:14px 16px;margin-bottom:8px;
-  border-bottom:1px solid #E0E0E5;">
+  border-bottom:1px solid var(--border);">
   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
     <div style="display:flex;align-items:center;gap:10px;">
       <div style="width:36px;height:36px;background:rgba(255,0,53,.08);border-radius:10px;
@@ -2929,6 +2929,12 @@ function getMonthSpan(){
 
 function drawMainChart(){
   const canvas=document.getElementById('mainChart');if(!canvas)return;
+  // Theme-aware chart colors
+  const _cs=getComputedStyle(document.body);
+  const _isDark=document.body.classList.contains('theme-ash')||document.body.classList.contains('theme-emerald');
+  const _gridCol=_isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.05)';
+  const _tickCol=_isDark?'#bbb':'#94a3b8';
+  const _ptBorder=_cs.getPropertyValue('--white').trim()||'#fff';
   const months=getMonths();
   const lbls=months.map(m=>{const[y,mo]=m.split('-');return new Date(+y,+mo-1,1).toLocaleDateString('en-IN',{month:'short'});});
   const curMk=`${viewMonth.getFullYear()}-${String(viewMonth.getMonth()+1).padStart(2,'0')}`;
@@ -2976,13 +2982,13 @@ function drawMainChart(){
           borderColor:window._TC.inc,backgroundColor:incGrad,
           fill:true,tension:0.45,
           pointRadius:5,pointBackgroundColor:window._TC.inc,
-          pointBorderColor:'#fff',pointBorderWidth:2.5,
+          pointBorderColor:_ptBorder,pointBorderWidth:2.5,
           pointHoverRadius:7,borderWidth:2.5,order:1},
         {label:'Expenses',data:expData,
           borderColor:window._TC.exp,backgroundColor:expGrad,
           fill:true,tension:0.45,
           pointRadius:5,pointBackgroundColor:window._TC.exp,
-          pointBorderColor:'#fff',pointBorderWidth:2.5,
+          pointBorderColor:_ptBorder,pointBorderWidth:2.5,
           pointHoverRadius:7,borderWidth:2.5,order:2}
       ]},
       options:{
@@ -2996,11 +3002,11 @@ function drawMainChart(){
         },
         scales:{
           x:{grid:{display:false},
-            ticks:{color:'#aaa',font:{size:11,family:'Outfit',weight:'300'},padding:6},
+            ticks:{color:_tickCol,font:{size:11,family:'Outfit',weight:'300'},padding:6},
             border:{display:false}},
           y:{display:true,
-            grid:{color:'rgba(255,255,255,0.07)',drawBorder:false},
-            ticks:{callback:v=>fmt(v),color:'#bbb',font:{size:10,family:'Outfit',weight:'300'},maxTicksLimit:5},
+            grid:{color:_gridCol,drawBorder:false},
+            ticks:{callback:v=>fmt(v),color:_tickCol,font:{size:10,family:'Outfit',weight:'300'},maxTicksLimit:5},
             border:{display:false},
             min:0,max:globalMax*1.3}
         }
@@ -3374,6 +3380,12 @@ function resetAddExp(){['ae-title','ae-amount','ae-notes'].forEach(id=>{const el
 
 // ─── REPORTS ───
 function renderReports(){
+  // Theme-aware chart colours
+  const _isDark=document.body.classList.contains('theme-ash')||document.body.classList.contains('theme-emerald');
+  const _gridCol=_isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.05)';
+  const _tickCol=_isDark?'#bbb':'#94a3b8';
+  const _tickColDark=_isDark?'#888':'#334155';
+  const _legendCol=_isDark?'#bbb':'#64748b';
   // ── Year selector setup ──
   const years=[...new Set([...db.income.map(i=>i.date?.slice(0,4)),...db.expenses.map(e=>e.date?.slice(0,4))].filter(Boolean))].sort((a,b)=>b-a);
   if(!years.length)years.push(String(new Date().getFullYear()));
@@ -3421,7 +3433,7 @@ function renderReports(){
   // Income trend line chart
   if(rptChart){rptChart.destroy();rptChart=null;}
   const rCtx=document.getElementById('reportChart').getContext('2d');
-  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[{label:'Income',data:incData,borderColor:'#0d9488',backgroundColor:'rgba(13,148,136,.08)',fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:'#0d9488',pointBorderColor:'#fff',pointBorderWidth:2}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#94a3b8'}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#94a3b8'}}}}});
+  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[{label:'Income',data:incData,borderColor:'#0d9488',backgroundColor:'rgba(13,148,136,.08)',fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:'#0d9488',pointBorderColor:'#fff',pointBorderWidth:2}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:_tickCol}},y:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:10},color:_tickCol}}}}});
   // Income category pills
   const catMap={};
   db.income.filter(i=>i.date?.startsWith(cur)).forEach(i=>{const c=i.cat||'Other';catMap[c]=(catMap[c]||0)+(+i.amount||0);});
@@ -3457,7 +3469,7 @@ function renderReports(){
   const ecTotal=ecV.reduce((s,v)=>s+v,0)||1;
   if(rptExpDonutChart){rptExpDonutChart.destroy();rptExpDonutChart=null;}
   const edCtx=document.getElementById('rptExpDonut').getContext('2d');
-  rptExpDonutChart=new Chart(edCtx,{type:'bar',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length).map(c=>c+'cc'):['#e2e8f0'],borderRadius:6,borderSkipped:false,barThickness:16}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}}},scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:9},color:'#94a3b8'}},y:{grid:{display:false},ticks:{font:{size:10},color:'#334155'}}}}});
+  rptExpDonutChart=new Chart(edCtx,{type:'bar',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length).map(c=>c+'cc'):['#e2e8f0'],borderRadius:6,borderSkipped:false,barThickness:16}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}}},scales:{x:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:9},color:_tickCol}},y:{grid:{display:false},ticks:{font:{size:10},color:_tickColDark}}}}});
   document.getElementById('rptExpLegend').innerHTML=ecL.length?ecL.slice(0,5).map((c,i)=>{
     const pct=Math.round(ecV[i]/ecTotal*100);
     return`<div class="rb-leg-item"><div class="rb-leg-dot" style="background:${expPal[i%expPal.length]};"></div><div><div class="rb-leg-name">${esc(c)}</div><div class="rb-leg-pct">${fmt(ecV[i])} · ${pct}%</div></div></div>`;
@@ -3465,7 +3477,7 @@ function renderReports(){
   // Expense trend bar
   if(rptExpTrendChart){rptExpTrendChart.destroy();rptExpTrendChart=null;}
   const etCtx=document.getElementById('rptExpTrend').getContext('2d');
-  rptExpTrendChart=new Chart(etCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'Expenses',data:expData,backgroundColor:h2r(window._TC.exp||'#F59E0B',.7),borderRadius:5,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:10}}}}}});
+  rptExpTrendChart=new Chart(etCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'Expenses',data:expData,backgroundColor:h2r(window._TC.exp||'#F59E0B',.7),borderRadius:5,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:_tickCol}},y:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:10},color:_tickCol}}}}});
 
   // ── Chapter 3: Net Profit ──
   let bestNetIdx=0,bestNetVal=-Infinity;
@@ -3497,7 +3509,7 @@ function renderReports(){
     {type:'bar',label:'Income',data:incData,backgroundColor:'rgba(129,140,248,.75)',borderRadius:4,borderSkipped:false},
     {type:'bar',label:'Expenses',data:expData,backgroundColor:'rgba(251,191,36,.65)',borderRadius:4,borderSkipped:false},
     {type:'line',label:'Net',data:netData,borderColor:'#34d399',backgroundColor:'rgba(52,211,153,.08)',fill:false,tension:.4,borderWidth:2,pointRadius:2,pointBackgroundColor:'#34d399'}
-  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10},color:'#64748b',padding:8}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#94a3b8'}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:10},color:'#94a3b8'}}}}});
+  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10},color:_legendCol,padding:8}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:_tickCol}},y:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:10},color:_tickCol}}}}});
 
   // ── Chapter 4: GST ──
   const gstTots={taxable:0,cgst:0,sgst:0,igst:0,tds:0};
@@ -3511,7 +3523,7 @@ function renderReports(){
   // GST bar chart
   if(rptGstChartInst){rptGstChartInst.destroy();rptGstChartInst=null;}
   const gcCtx=document.getElementById('rptGstChart').getContext('2d');
-  rptGstChartInst=new Chart(gcCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'GST',data:gstByM.map(g=>g.net),backgroundColor:'rgba(2,132,199,.55)',borderRadius:5,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'#94a3b8'}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>fmt(v),font:{size:9},color:'#94a3b8'}}}}});
+  rptGstChartInst=new Chart(gcCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'GST',data:gstByM.map(g=>g.net),backgroundColor:'rgba(2,132,199,.55)',borderRadius:5,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:_tickCol}},y:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:9},color:_tickCol}}}}});
   // GST detail table
   if(!isPro()){
     document.getElementById('gstTbody').innerHTML=`<tr><td colspan="7" style="padding:0;"></td></tr>`;
