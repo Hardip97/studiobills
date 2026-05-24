@@ -1066,7 +1066,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rb-mg-val{font-size:1.3rem;font-weight:900;letter-spacing:-.03em;}
 .rb-mg-val.green{color:#059669;}.rb-mg-val.blue{color:#0284c7;}.rb-mg-val.neu{color:#635BFF;}.rb-mg-val.white{color:#0f172a;}
 .rb-mg-sub{font-size:.65rem;margin-top:3px;}
-.rb-mg-sub.up{color:#16a34a;}.rb-mg-sub.neu{color:#94a3b8;}
+.rb-mg-sub.up{color:#16a34a;}.rb-mg-sub.neu{color:#94a3b8;}.rb-mg-sub.dn{color:#dc2626;}
 /* Chart header */
 .rb-ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .rb-ch-lbl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#475569;}
@@ -1591,13 +1591,18 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <span id="rpt-exp-desc" style="display:none;"></span>
     <span id="rpt-net-desc" style="display:none;"></span>
     <span id="rpt-net-badge" style="display:none;"></span>
+    <span id="rpt-inc-badge" style="display:none;"></span>
+    <span id="rpt-inc-best" style="display:none;"></span>
+    <span id="rpt-exp-badge" style="display:none;"></span>
+    <span id="rpt-exp-peak" style="display:none;"></span>
+    <span id="rpt-exp-margin" style="display:none;"></span>
 
     <div class="rpt-bento">
 
-      <!-- ── Row 1: Net Profit hero (3) + Income (4) + Expenses (2) + Mini Tiles (3) ── -->
+      <!-- ── Row 1: Net Profit Hero (6) + 2×2 Mini Stats (6) ── -->
 
       <!-- Net Profit hero card — FIRST -->
-      <div class="rb rc3 rb-net-hero">
+      <div class="rb rc6 rb-net-hero">
         <div class="rbk-tag d">Net Profit</div>
         <div class="rbk-big" id="rpt-net-total" style="color:#059669;">—</div>
         <div class="rbk-sub d">After all expenses</div>
@@ -1617,41 +1622,28 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
         </div>
       </div>
 
-      <div class="rb rc4 rb-inc">
-        <div class="rbk-tag w">Total Billed</div>
-        <div class="rbk-big w" id="rpt-inc-billed">—</div>
-        <div class="rbk-sub w"><span id="rpt-inc-count">—</span> invoices this year</div>
-        <div class="rbk-pill pneu" id="rpt-inc-badge">—</div>
-        <div class="rb-meta">
-          <div class="rb-meta-row"><span class="lbl">Received</span><span class="val" id="rpt-inc-received">—</span></div>
-          <div class="rb-meta-row"><span class="lbl">Avg / month</span><span class="val" id="rpt-inc-avg">—</span></div>
-          <div class="rb-meta-row"><span class="lbl">Best month</span><span class="val" id="rpt-inc-best">—</span></div>
-        </div>
-      </div>
-
-      <div class="rb rc2 rb-exp">
-        <div class="rbk-tag w">Total Expenses</div>
-        <div class="rbk-big w" id="rpt-exp-total">—</div>
-        <div class="rbk-pill pdn" id="rpt-exp-badge">—</div>
-        <div class="rb-meta">
-          <div class="rb-meta-row"><span class="lbl">Avg / month</span><span class="val" id="rpt-exp-avg">—</span></div>
-          <div class="rb-meta-row"><span class="lbl">Peak month</span><span class="val" id="rpt-exp-peak">—</span></div>
-          <div class="rb-meta-row"><span class="lbl">Margin</span><span class="val" id="rpt-exp-margin">—</span></div>
-        </div>
-      </div>
-
-      <!-- 2 mini tiles -->
-      <div class="rb rc3 rb-dark" style="padding:14px;">
-        <div class="rb-mini-grid" style="grid-template-columns:1fr;grid-template-rows:1fr 1fr;">
+      <!-- 2×2 Mini stats grid -->
+      <div class="rb rc6 rb-dark" style="padding:14px;">
+        <div class="rb-mini-grid">
           <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Total Invoices</div>
-            <div class="rb-mg-val white" id="rpt-inc-count-tile">—</div>
-            <div class="rb-mg-sub neu">This year</div>
+            <div class="rb-mg-lbl">Total Billed</div>
+            <div class="rb-mg-val neu" id="rpt-inc-billed">—</div>
+            <div class="rb-mg-sub neu"><span id="rpt-inc-count">—</span> invoices</div>
           </div>
           <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Collection Rate</div>
-            <div class="rb-mg-val green" id="rpt-collection-rate">—</div>
-            <div class="rb-mg-sub up">Billed vs received</div>
+            <div class="rb-mg-lbl">Received</div>
+            <div class="rb-mg-val green" id="rpt-inc-received">—</div>
+            <div class="rb-mg-sub up"><span id="rpt-collection-rate">—</span> collected</div>
+          </div>
+          <div class="rb-mg-tile">
+            <div class="rb-mg-lbl">Expenses</div>
+            <div class="rb-mg-val" style="color:#d97706;" id="rpt-exp-total">—</div>
+            <div class="rb-mg-sub neu">Avg <span id="rpt-exp-avg">—</span>/mo</div>
+          </div>
+          <div class="rb-mg-tile">
+            <div class="rb-mg-lbl">Avg / Month</div>
+            <div class="rb-mg-val neu" id="rpt-inc-avg">—</div>
+            <div class="rb-mg-sub neu">Monthly income</div>
           </div>
         </div>
       </div>
