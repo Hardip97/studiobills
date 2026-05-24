@@ -1087,11 +1087,11 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rb-glow-r{background:var(--white);border:1px solid #fecaca;}
 /* KPI */
 .rbk-tag{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;}
-.rbk-tag.w{color:rgba(255,255,255,.6);}.rbk-tag.d{color:#475569;}
+.rbk-tag.w{color:rgba(255,255,255,.6);}.rbk-tag.d{color:var(--muted);}
 .rbk-big{font-size:2rem;font-weight:900;letter-spacing:-.05em;line-height:1;}
 .rbk-big.w{color:#fff;}
 .rbk-sub{font-size:.72rem;margin-top:5px;}
-.rbk-sub.w{color:rgba(255,255,255,.55);}.rbk-sub.d{color:#64748b;}
+.rbk-sub.w{color:rgba(255,255,255,.55);}.rbk-sub.d{color:var(--muted);}
 .rbk-pill{display:inline-flex;align-items:center;gap:3px;font-size:.63rem;font-weight:700;padding:3px 9px;border-radius:10px;margin-top:8px;}
 .rbk-pill.pup{background:rgba(16,185,129,.2);color:#34d399;}
 .rbk-pill.pdn{background:rgba(244,63,94,.15);color:#fb7185;}
@@ -1103,15 +1103,15 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rb-meta-row .val{font-weight:700;color:rgba(255,255,255,.9);}
 /* 2×2 mini tile grid */
 .rb-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;height:100%;}
-.rb-mg-tile{background:#f8fafc;border-radius:12px;padding:14px;}
-.rb-mg-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:7px;}
+.rb-mg-tile{background:var(--bg);border-radius:12px;padding:14px;}
+.rb-mg-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:7px;}
 .rb-mg-val{font-size:1.3rem;font-weight:900;letter-spacing:-.03em;}
-.rb-mg-val.green{color:#059669;}.rb-mg-val.blue{color:#0284c7;}.rb-mg-val.neu{color:#635BFF;}.rb-mg-val.white{color:#0f172a;}
+.rb-mg-val.green{color:#059669;}.rb-mg-val.blue{color:#0284c7;}.rb-mg-val.neu{color:#635BFF;}.rb-mg-val.white{color:var(--text);}
 .rb-mg-sub{font-size:.65rem;margin-top:3px;}
-.rb-mg-sub.up{color:#16a34a;}.rb-mg-sub.neu{color:#94a3b8;}.rb-mg-sub.dn{color:#dc2626;}
+.rb-mg-sub.up{color:#16a34a;}.rb-mg-sub.neu{color:var(--muted);}.rb-mg-sub.dn{color:#dc2626;}
 /* Chart header */
 .rb-ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.rb-ch-lbl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:#475569;}
+.rb-ch-lbl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);}
 .rb-ch-pill{font-size:.63rem;font-weight:600;padding:2px 9px;border-radius:8px;}
 .rb-cp-inc{background:#ccfbf1;color:#0d9488;}
 .rb-cp-exp{background:#fef3c7;color:#d97706;}
@@ -1123,63 +1123,62 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rb-leg{display:flex;flex-direction:column;gap:9px;}
 .rb-leg-item{display:flex;align-items:center;gap:8px;}
 .rb-leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-.rb-leg-name{font-size:.74rem;font-weight:600;color:#334155;}
-.rb-leg-pct{font-size:.64rem;color:#475569;}
-/* Net inline metrics dark overrides */
+.rb-leg-name{font-size:.74rem;font-weight:600;color:var(--text);}
+.rb-leg-pct{font-size:.64rem;color:var(--muted);}
+/* Net inline metrics */
 .rpt-bento-body .rpt-inline-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
-.rpt-bento-body .rpt-im-tile{background:#f8fafc;border-radius:8px;padding:10px;text-align:center;}
-.rpt-bento-body .rpt-im-val{font-size:.95rem;font-weight:800;color:#0f172a;}
-.rpt-bento-body .rpt-im-lbl{font-size:.62rem;color:#94a3b8;margin-top:2px;}
-/* GST quarters dark */
+.rpt-bento-body .rpt-im-tile{background:var(--bg);border-radius:8px;padding:10px;text-align:center;}
+.rpt-bento-body .rpt-im-val{font-size:.95rem;font-weight:800;color:var(--text);}
+.rpt-bento-body .rpt-im-lbl{font-size:.62rem;color:var(--muted);margin-top:2px;}
+/* GST quarters */
 .rb-gst-qs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
-.rb-gst-q{background:#f8fafc;border-radius:10px;padding:10px;text-align:center;}
-.rb-gst-q-lbl{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:4px;}
+.rb-gst-q{background:var(--bg);border-radius:10px;padding:10px;text-align:center;}
+.rb-gst-q-lbl{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px;}
 .rb-gst-q-val{font-size:1rem;font-weight:800;color:#0284c7;}
-/* Outstanding timeline dark */
-.rpt-bento-body .rpt-tl-item{border-bottom-color:#f1f5f9;}
-.rpt-bento-body .rpt-tl-client{color:#0f172a;}
-.rpt-bento-body .rpt-tl-inv{color:#94a3b8;}
+/* Outstanding timeline */
+.rpt-bento-body .rpt-tl-item{border-bottom-color:var(--border2);}
+.rpt-bento-body .rpt-tl-client{color:var(--text);}
+.rpt-bento-body .rpt-tl-inv{color:var(--muted);}
 .rpt-bento-body .rpt-tl-amt{color:#dc2626 !important;}
-/* Category items dark */
-.rpt-bento-body .rpt-cat-name{color:#334155;}
-.rpt-bento-body .rpt-cat-sub{color:#94a3b8;}
-/* Age badges dark */
+/* Category items */
+.rpt-bento-body .rpt-cat-name{color:var(--text);}
+.rpt-bento-body .rpt-cat-sub{color:var(--muted);}
+/* Age badges */
 .age-ok{background:var(--green-soft);color:var(--green);}
 .age-warn{background:var(--amber-soft);color:var(--amber);}
 .age-late{background:var(--err-soft);color:var(--err);}
-/* light theme — age badges use standard colors */
-/* Rpt-q-tile dark overrides (GST quarters generated by JS) */
+/* GST quarter tiles generated by JS */
 .rpt-bento-body .rpt-q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
-.rpt-bento-body .rpt-q-tile{background:#f8fafc;border:1px solid #e8ecf0;border-radius:8px;padding:10px;text-align:center;}
+.rpt-bento-body .rpt-q-tile{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;}
 .rpt-bento-body .rpt-q-tile.featured{background:#ede9fe;border-color:rgba(99,91,255,.3);}
-.rpt-bento-body .rpt-q-lbl{color:#94a3b8;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
+.rpt-bento-body .rpt-q-lbl{color:var(--muted);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
 .rpt-bento-body .rpt-q-tile.featured .rpt-q-lbl{color:#635BFF;}
 .rpt-bento-body .rpt-q-val{color:#0284c7;font-size:.95rem;font-weight:800;}
 .rpt-bento-body .rpt-q-tile.featured .rpt-q-val{color:#635BFF;}
-/* Section dividers dark */
+/* Section dividers */
 .rpt-bento-body .rpt-section-div{display:flex;align-items:center;gap:10px;margin-bottom:16px;margin-top:20px;}
-.rpt-bento-body .rpt-section-div-line{flex:1;height:1px;background:#e8ecf0;}
-.rpt-bento-body .rpt-section-div-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;}
-/* Cards + tables dark */
-.rpt-bento-body .card{background:#fff;border-color:#e8ecf0;}
-.rpt-bento-body .card-title{color:#0f172a;}
-.rpt-bento-body table th{background:#f9fafb;color:#64748b;border-bottom:2px solid #e8ecf0;}
-.rpt-bento-body table tbody tr{border-top-color:#f1f5f9;}
-.rpt-bento-body table tbody tr:hover{background:#f9fafb;}
-.rpt-bento-body table td{color:#334155;}
-.rpt-bento-body .tbl-wrap{border-color:#e8ecf0;}
-/* Archive dark */
-.rpt-bento-body .arc-card{background:#fff;border-color:#e8ecf0;}
-.rpt-bento-body .arc-card:hover{background:#f9fafb;}
-.rpt-bento-body .arc-card h3{color:#0f172a;}
-.rpt-bento-body .arc-row span:first-child{color:#94a3b8;}
-/* Stat-pill (used by rpt-net-badge className override - keep classes defined) */
+.rpt-bento-body .rpt-section-div-line{flex:1;height:1px;background:var(--border);}
+.rpt-bento-body .rpt-section-div-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);}
+/* Cards + tables */
+.rpt-bento-body .card{background:var(--white);border-color:var(--border);}
+.rpt-bento-body .card-title{color:var(--text);}
+.rpt-bento-body table th{background:var(--bg);color:var(--muted);border-bottom:2px solid var(--border);}
+.rpt-bento-body table tbody tr{border-top-color:var(--border2);}
+.rpt-bento-body table tbody tr:hover{background:var(--bg);}
+.rpt-bento-body table td{color:var(--text);}
+.rpt-bento-body .tbl-wrap{border-color:var(--border);}
+/* Archive */
+.rpt-bento-body .arc-card{background:var(--white);border-color:var(--border);}
+.rpt-bento-body .arc-card:hover{background:var(--bg);}
+.rpt-bento-body .arc-card h3{color:var(--text);}
+.rpt-bento-body .arc-row span:first-child{color:var(--muted);}
+/* Stat-pill */
 .rpt-stat-pill{display:inline-flex;align-items:center;gap:3px;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:12px;}
 .pill-inc,.pill-net{background:#dcfce7;color:#16a34a;}
 .pill-exp{background:#fee2e2;color:#dc2626;}
 .pill-neu{background:#ede9fe;color:#635BFF;}
-/* Outstanding full table link */
-.rpt-bento-body .lock-banner{background:#f8fafc !important;border-color:#e8ecf0 !important;}
+/* Lock banner */
+.rpt-bento-body .lock-banner{background:var(--bg) !important;border-color:var(--border) !important;}
 @media(max-width:900px){
   .rb.rc4,.rb.rc5,.rb.rc6{grid-column:span 12;}
   .rb.rc2,.rb.rc3{grid-column:span 6;}
@@ -1649,17 +1648,17 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
         <div class="rbk-big" id="rpt-net-total" style="color:#059669;">—</div>
         <div class="rbk-sub d">After all expenses</div>
         <div class="rb-meta">
-          <div class="rb-meta-row" style="border-top:1px solid #e8ecf0;padding-top:10px;margin-top:6px;">
-            <span class="lbl" style="color:#94a3b8;">Margin</span>
+          <div class="rb-meta-row" style="border-top:1px solid var(--border);padding-top:10px;margin-top:6px;">
+            <span class="lbl" style="color:var(--muted);">Margin</span>
             <span class="val" id="rpt-net-margin2" style="color:#0284c7;">—</span>
           </div>
           <div class="rb-meta-row">
-            <span class="lbl" style="color:#94a3b8;">Best month</span>
-            <span class="val" id="rpt-net-best" style="color:#0f172a;font-size:.72rem;">—</span>
+            <span class="lbl" style="color:var(--muted);">Best month</span>
+            <span class="val" id="rpt-net-best" style="color:var(--text);font-size:.72rem;">—</span>
           </div>
           <div class="rb-meta-row">
-            <span class="lbl" style="color:#94a3b8;">Avg / month</span>
-            <span class="val" id="rpt-net-avg" style="color:#0f172a;">—</span>
+            <span class="lbl" style="color:var(--muted);">Avg / month</span>
+            <span class="val" id="rpt-net-avg" style="color:var(--text);">—</span>
           </div>
         </div>
       </div>
@@ -1739,7 +1738,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
         <thead><tr><th>Month</th><th>Taxable</th><th>CGST</th><th>SGST</th><th>IGST</th><th>TDS</th><th>Net GST</th></tr></thead>
         <tbody id="gstTbody"></tbody>
       </table></div>
-      <div id="gstTotal" style="padding:10px 18px;font-size:.78rem;font-weight:600;border-top:1px solid #1e2433;display:flex;gap:18px;flex-wrap:wrap;color:#475569;"></div>
+      <div id="gstTotal" style="padding:10px 18px;font-size:.78rem;font-weight:600;border-top:1px solid var(--border);display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);"></div>
     </div>
 
     <!-- ── All Outstanding ── -->
@@ -1762,9 +1761,9 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
     <div class="card" style="margin-bottom:16px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
         <div class="card-title" id="yoyCardTitle">Year-over-Year</div>
-        <div style="display:flex;gap:0;border:1px solid #1e2433;border-radius:var(--r2);overflow:hidden;">
+        <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;">
           <button id="yoy-tab-yoy" onclick="switchCompareMode('yoy')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:var(--purple);color:#fff;font-family:inherit;">YoY</button>
-          <button id="yoy-tab-mom" onclick="switchCompareMode('mom')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:transparent;color:#475569;font-family:inherit;">MoM</button>
+          <button id="yoy-tab-mom" onclick="switchCompareMode('mom')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--muted);font-family:inherit;">MoM</button>
         </div>
       </div>
       <div id="yoySection" style="overflow-x:auto;"></div>
