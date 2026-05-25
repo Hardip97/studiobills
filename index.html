@@ -1183,6 +1183,97 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
   .rb-exp-inner{grid-template-columns:1fr;}
   .rpt-bento-body .rpt-inline-metrics{grid-template-columns:repeat(2,1fr);}
 }
+
+/* ── AI CHAT WIDGET ── */
+.sb-chat-bubble{
+  position:fixed;bottom:90px;right:22px;z-index:1200;
+  width:52px;height:52px;border-radius:50%;
+  background:var(--red);color:#fff;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.18);
+  transition:transform .15s,box-shadow .15s;
+}
+.sb-chat-bubble:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(0,0,0,.22);}
+.sb-chat-bubble svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.sb-chat-bubble .sb-chat-dot{
+  position:absolute;top:4px;right:4px;width:10px;height:10px;
+  border-radius:50%;background:#8FFE01;border:2px solid var(--bg);
+  display:none;
+}
+.sb-chat-bubble.has-key .sb-chat-dot{display:block;}
+
+.sb-chat-panel{
+  position:fixed;bottom:155px;right:18px;z-index:1200;
+  width:360px;max-width:calc(100vw - 36px);
+  border-radius:20px;background:var(--s1);
+  border:1px solid var(--border);
+  box-shadow:0 16px 48px rgba(0,0,0,.16),0 4px 12px rgba(0,0,0,.08);
+  display:flex;flex-direction:column;overflow:hidden;
+  transform:translateY(16px) scale(.96);opacity:0;pointer-events:none;
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .18s;
+}
+.sb-chat-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+
+.sb-chat-header{
+  display:flex;align-items:center;gap:10px;padding:14px 16px;
+  border-bottom:1px solid var(--border);background:var(--red);color:#fff;
+}
+.sb-chat-header-icon{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.sb-chat-header-title{font-size:.88rem;font-weight:700;flex:1;}
+.sb-chat-header-sub{font-size:.68rem;opacity:.75;margin-top:1px;}
+.sb-chat-close{background:none;border:none;color:#fff;cursor:pointer;padding:4px;opacity:.7;transition:opacity .15s;line-height:1;}
+.sb-chat-close:hover{opacity:1;}
+
+.sb-chat-msgs{
+  flex:1;overflow-y:auto;padding:14px 12px;
+  display:flex;flex-direction:column;gap:10px;
+  min-height:220px;max-height:340px;
+}
+.sb-msg{display:flex;gap:8px;align-items:flex-start;}
+.sb-msg.user{flex-direction:row-reverse;}
+.sb-msg-bubble{
+  max-width:82%;padding:9px 13px;border-radius:16px;
+  font-size:.82rem;line-height:1.5;font-weight:300;
+}
+.sb-msg.ai .sb-msg-bubble{
+  background:var(--bg);color:var(--text);
+  border-radius:4px 16px 16px 16px;
+}
+.sb-msg.user .sb-msg-bubble{
+  background:var(--red);color:#fff;
+  border-radius:16px 4px 16px 16px;
+}
+.sb-msg-avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;}
+.sb-msg.ai .sb-msg-avatar{background:var(--red);color:#fff;}
+.sb-msg.user .sb-msg-avatar{background:var(--green);color:#fff;}
+
+.sb-chat-typing{display:flex;gap:4px;align-items:center;padding:4px 2px;}
+.sb-chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted2);animation:sbTyping 1.1s infinite;}
+.sb-chat-typing span:nth-child(2){animation-delay:.18s;}
+.sb-chat-typing span:nth-child(3){animation-delay:.36s;}
+@keyframes sbTyping{0%,80%,100%{transform:scale(.7);opacity:.5;}40%{transform:scale(1);opacity:1;}}
+
+.sb-chat-footer{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;}
+.sb-chat-input{
+  flex:1;border:1px solid var(--border);border-radius:22px;
+  padding:9px 14px;font-family:inherit;font-size:.82rem;
+  background:var(--bg);color:var(--text);resize:none;height:38px;
+  transition:border .15s;outline:none;
+}
+.sb-chat-input:focus{border-color:var(--red);}
+.sb-chat-send{
+  width:38px;height:38px;border-radius:50%;background:var(--red);
+  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:transform .12s;
+}
+.sb-chat-send:hover{transform:scale(1.08);}
+.sb-chat-send svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.sb-chat-no-key{padding:20px 16px;text-align:center;font-size:.8rem;color:var(--muted);line-height:1.7;}
+.sb-chat-no-key a{color:var(--red);text-decoration:none;}
+.sb-chat-suggestions{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px 0;}
+.sb-sug{padding:5px 11px;border:1px solid var(--border);border-radius:20px;font-size:.74rem;cursor:pointer;color:var(--muted);background:var(--bg);transition:border-color .12s,color .12s;white-space:nowrap;}
+.sb-sug:hover{border-color:var(--red);color:var(--red);}
+@media(max-width:500px){.sb-chat-panel{width:calc(100vw - 24px);right:12px;}.sb-chat-bubble{bottom:80px;right:16px;}}
 </style>
 </head>
 <body>
@@ -1942,6 +2033,17 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
           </div>
         </div>
         <div style="font-size:.78rem;color:var(--muted);line-height:1.7;font-weight:300;">Billing tracker for creative studios. Powered by Supabase — your data syncs securely across devices.</div>
+      </div>
+      <!-- AI Assistant -->
+      <div class="st-card" style="grid-column:1/-1;">
+        <div class="st-clabel">🤖 AI Assistant (Gemini)</div>
+        <div style="font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:12px;font-weight:300;">Power the StudioBills AI chatbot with your free Gemini API key. Get one at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--red);">aistudio.google.com</a> — free tier includes 1M tokens/day.</div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <input id="s-gemini-key" type="password" placeholder="Paste your Gemini API key here…" style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.82rem;background:var(--bg);color:var(--text);" autocomplete="off"/>
+          <button class="btn btn-red btn-sm" onclick="saveGeminiKey()" style="white-space:nowrap;">Save Key</button>
+          <button class="btn btn-ghost btn-sm" onclick="testGeminiKey()" style="white-space:nowrap;">Test</button>
+        </div>
+        <div id="gemini-key-status" style="margin-top:8px;font-size:.75rem;color:var(--muted);display:none;"></div>
       </div>
       <!-- Plan + Legal -->
       <div class="st-card" id="planStatusCard">
@@ -5402,6 +5504,401 @@ renderOverview = function(){
 };
 
 </script>
+<!-- ── AI CHAT WIDGET ── -->
+<button class="sb-chat-bubble" id="sbChatBubble" onclick="sbToggleChat()" title="AI Assistant">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <span class="sb-chat-dot"></span>
+</button>
+
+<div class="sb-chat-panel" id="sbChatPanel">
+  <div class="sb-chat-header">
+    <div class="sb-chat-header-icon">✨</div>
+    <div style="flex:1;">
+      <div class="sb-chat-header-title">StudioBills AI</div>
+      <div class="sb-chat-header-sub">Powered by Gemini · Free</div>
+    </div>
+    <button class="sb-chat-close" onclick="sbToggleChat()" aria-label="Close chat">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div id="sbChatBody"><!-- filled by sbInitChat() --></div>
+
+  <div class="sb-chat-footer" id="sbChatFooter" style="display:none;">
+    <input class="sb-chat-input" id="sbChatInput" type="text" placeholder="Ask anything…" autocomplete="off"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sbSend();}"/>
+    <button class="sb-chat-send" onclick="sbSend()" title="Send">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+//  STUDIOBILLS AI — Gemini chatbot
+// ══════════════════════════════════════════════════
+(function(){
+
+// ── Key helpers ──────────────────────────────────
+function gKey(){return(db.profile&&db.profile.geminiKey)||'';}
+window.saveGeminiKey=function(){
+  const v=document.getElementById('s-gemini-key')?.value?.trim();
+  if(!v){toast('Please enter your Gemini API key','err');return;}
+  db.profile.geminiKey=v;
+  save();
+  toast('Gemini API key saved ✓');
+  document.getElementById('s-gemini-key').value='••••••••••••••••';
+  sbUpdateBubble();
+};
+window.testGeminiKey=async function(){
+  const key=document.getElementById('s-gemini-key')?.value?.trim()||gKey();
+  if(!key){toast('Enter a key first','err');return;}
+  const el=document.getElementById('gemini-key-status');
+  if(el){el.style.display='block';el.style.color='var(--muted)';el.textContent='Testing key…';}
+  try{
+    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({contents:[{parts:[{text:'Say "OK" only.'}]}]})
+    });
+    const j=await r.json();
+    if(j.candidates&&j.candidates[0]){
+      if(el){el.style.color='var(--green)';el.textContent='✓ Key is valid and working!';}
+    } else {
+      if(el){el.style.color='var(--err)';el.textContent='✗ Invalid key — check and try again.';}
+    }
+  }catch(e){
+    if(el){el.style.color='var(--err)';el.textContent='✗ Network error: '+e.message;}
+  }
+};
+
+// Populate key field when Settings renders
+const _origRenderSettings=window.renderSettings;
+function _patchSettings(){
+  const el=document.getElementById('s-gemini-key');
+  if(el&&gKey())el.value='••••••••••••••••';
+}
+document.addEventListener('click',e=>{
+  if(e.target&&e.target.closest&&e.target.closest('[data-st="about"]'))
+    setTimeout(_patchSettings,50);
+});
+
+// ── Panel state ──────────────────────────────────
+let _sbOpen=false;
+let _sbHistory=[]; // {role:'user'|'model', parts:[{text}]}
+
+function sbUpdateBubble(){
+  const b=document.getElementById('sbChatBubble');
+  if(b)b.classList.toggle('has-key',!!gKey());
+}
+
+window.sbToggleChat=function(){
+  _sbOpen=!_sbOpen;
+  const panel=document.getElementById('sbChatPanel');
+  if(panel)panel.classList.toggle('open',_sbOpen);
+  if(_sbOpen){
+    sbInitChat();
+    setTimeout(()=>document.getElementById('sbChatInput')?.focus(),260);
+  }
+};
+
+// ── Init chat body ───────────────────────────────
+function sbInitChat(){
+  const body=document.getElementById('sbChatBody');
+  const footer=document.getElementById('sbChatFooter');
+  if(!body)return;
+
+  if(!gKey()){
+    body.innerHTML=`<div class="sb-chat-no-key">
+      <div style="font-size:1.8rem;margin-bottom:8px;">🔑</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:6px;">Add your Gemini API key</div>
+      <div>Go to <strong>Settings → About</strong> and paste your free API key from
+      <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>.<br/><br/>
+      Free tier: 1M tokens/day · No credit card needed.</div>
+    </div>`;
+    if(footer)footer.style.display='none';
+    return;
+  }
+
+  if(footer)footer.style.display='flex';
+  if(_sbHistory.length===0){
+    body.innerHTML=`<div class="sb-chat-msgs" id="sbMsgs">
+      <div class="sb-msg ai">
+        <div class="sb-msg-avatar">AI</div>
+        <div class="sb-msg-bubble">Hey! I'm your StudioBills AI assistant. I can add invoices, log expenses, check your balance, and more — just ask in plain language 👋</div>
+      </div>
+    </div>
+    <div class="sb-chat-suggestions">
+      <div class="sb-sug" onclick="sbQuick('What is my balance this month?')">💰 My balance</div>
+      <div class="sb-sug" onclick="sbQuick('Add an expense of ₹200 for tea')">+ Add expense</div>
+      <div class="sb-sug" onclick="sbQuick('Create invoice for ₹15000 from Client Name for branding project')">📄 New invoice</div>
+      <div class="sb-sug" onclick="sbQuick('Which invoices are pending?')">📋 Pending dues</div>
+    </div>`;
+  }
+}
+
+window.sbQuick=function(text){
+  const inp=document.getElementById('sbChatInput');
+  if(inp)inp.value=text;
+  sbSend();
+};
+
+// ── Append message to UI ────────────────────────
+function sbAppendMsg(role,html){
+  const msgs=document.getElementById('sbMsgs');
+  if(!msgs)return;
+  const div=document.createElement('div');
+  div.className='sb-msg '+(role==='user'?'user':'ai');
+  const name=(db.profile&&db.profile.ownerName)?db.profile.ownerName.charAt(0).toUpperCase():'U';
+  const avatar=role==='user'?`<div class="sb-msg-avatar">${name}</div>`:'<div class="sb-msg-avatar">AI</div>';
+  if(role==='user'){
+    div.innerHTML=`${avatar}<div class="sb-msg-bubble">${sbEscHtml(html)}</div>`;
+  } else {
+    div.innerHTML=`${avatar}<div class="sb-msg-bubble">${html}</div>`;
+  }
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return div;
+}
+
+function sbEscHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function sbShowTyping(){
+  const msgs=document.getElementById('sbMsgs');
+  if(!msgs)return null;
+  const div=document.createElement('div');
+  div.className='sb-msg ai';div.id='sbTyping';
+  div.innerHTML='<div class="sb-msg-avatar">AI</div><div class="sb-msg-bubble"><div class="sb-chat-typing"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return div;
+}
+
+// ── Send ─────────────────────────────────────────
+window.sbSend=async function(){
+  const inp=document.getElementById('sbChatInput');
+  const text=(inp?.value||'').trim();
+  if(!text)return;
+  if(inp)inp.value='';
+
+  // Remove suggestions
+  document.querySelector('.sb-chat-suggestions')?.remove();
+
+  sbAppendMsg('user',text);
+  _sbHistory.push({role:'user',parts:[{text}]});
+
+  const typing=sbShowTyping();
+  const btn=document.getElementById('sbChatBubble');
+  if(inp)inp.disabled=true;
+
+  try{
+    const reply=await sbCallGemini(text);
+    typing?.remove();
+    sbHandleReply(reply);
+  }catch(e){
+    typing?.remove();
+    sbAppendMsg('ai','Sorry, I hit an error: '+sbEscHtml(e.message)+'. Please check your API key in Settings → About.');
+  } finally {
+    if(inp){inp.disabled=false;inp.focus();}
+  }
+};
+
+// ── Build context string ─────────────────────────
+function sbContext(){
+  const now=new Date();
+  const mo=now.getMonth();const yr=now.getFullYear();
+  const incThis=(db.income||[]).filter(i=>{ const d=new Date(i.date);return d.getMonth()===mo&&d.getFullYear()===yr;});
+  const expThis=(db.expenses||[]).filter(e=>{ const d=new Date(e.date);return d.getMonth()===mo&&d.getFullYear()===yr;});
+  const totalInc=incThis.reduce((s,i)=>s+(+i.amount||0),0);
+  const totalExp=expThis.reduce((s,e)=>s+(+e.amount||0),0);
+  const totalRecv=incThis.reduce((s,i)=>s+rcv(i),0);
+  const pending=(db.income||[]).filter(i=>i.status!=='received').slice(0,10).map(i=>`  - INV ${i.invNo||'?'} | ${i.client} | ₹${i.amount} | ${i.status} | due:${i.due||'—'}`).join('\n');
+  const clients=[...new Set((db.income||[]).map(i=>i.client).filter(Boolean))];
+  const incCats=(db.cats&&db.cats.inc)||['Design','Development','Photography','Consulting','Other'];
+  const expCats=(db.cats&&db.cats.exp)||['Software','Travel','Food','Equipment','Other'];
+  const mo_name=now.toLocaleString('en-IN',{month:'long',year:'numeric'});
+  return `Today: ${now.toISOString().slice(0,10)} (${mo_name})
+Studio: ${(db.profile&&db.profile.studioName)||'StudioBills'}
+Owner: ${(db.profile&&db.profile.ownerName)||'User'}
+Currency: ${(db.profile&&db.profile.currency)||'₹'}
+This month — Income: ₹${totalInc} | Received: ₹${totalRecv} | Expenses: ₹${totalExp} | Net: ₹${totalInc-totalExp}
+Clients: ${clients.slice(0,15).join(', ')||'none yet'}
+Income categories: ${incCats.join(', ')}
+Expense categories: ${expCats.join(', ')}
+Recent pending invoices:
+${pending||'  (none)'}`;
+}
+
+// ── Call Gemini ──────────────────────────────────
+async function sbCallGemini(userText){
+  const key=gKey();
+  const sysPrompt=`You are StudioBills AI, a smart billing assistant built into a freelance studio billing app.
+
+APP CONTEXT:
+${sbContext()}
+
+YOUR CAPABILITIES — you can execute these actions:
+1. add_income — create invoice/income entry
+2. add_expense — log an expense
+3. mark_received — mark an invoice as fully received
+4. query — answer questions from the data above
+
+RESPONSE FORMAT — always reply with ONLY valid JSON (no markdown, no code blocks):
+{
+  "reply": "Friendly message to show the user (can use ₹ symbol, be conversational)",
+  "actions": []
+}
+
+ACTION SCHEMAS:
+add_income: {"type":"add_income","client":"Client Name","desc":"Project description","amount":5000,"date":"YYYY-MM-DD","cat":"Design","status":"pending"}
+  - status is "pending" unless user says they received/already paid
+  - If user doesn't specify a date, use today
+  - Pick the best matching income category from the list above
+
+add_expense: {"type":"add_expense","title":"Expense name","amount":200,"date":"YYYY-MM-DD","cat":"Food"}
+  - Pick the best matching expense category from the list above
+  - If user doesn't specify a date, use today
+
+mark_received: {"type":"mark_received","invNo":"INV-001"}
+  - Only use an invNo that exists in the pending list above
+
+For query (balance questions, pending dues, client totals) — set actions:[] and answer in the reply field.
+
+IMPORTANT RULES:
+- If the user is adding income/expense, include the action AND a confirmation reply
+- Never make up invoice numbers or client names — use what the user provides
+- Keep replies short, friendly, and professional
+- Always reply in the same language the user writes in
+- If something is unclear, ask for clarification instead of guessing`;
+
+  // Build conversation for multi-turn
+  const contents=[];
+  // Add system as first user turn (Gemini 1.5 flash supports system instruction differently)
+  const convHistory=_sbHistory.slice(-10); // last 5 pairs max
+
+  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      system_instruction:{parts:[{text:sysPrompt}]},
+      contents:convHistory,
+      generationConfig:{temperature:0.3,maxOutputTokens:600}
+    })
+  });
+
+  if(!r.ok){
+    const err=await r.json().catch(()=>({}));
+    throw new Error((err.error&&err.error.message)||`HTTP ${r.status}`);
+  }
+  const data=await r.json();
+  const raw=data?.candidates?.[0]?.content?.parts?.[0]?.text||'{"reply":"Sorry, no response.","actions":[]}';
+  return raw;
+}
+
+// ── Handle reply & execute actions ──────────────
+function sbHandleReply(raw){
+  // Strip markdown code fences if model wraps output
+  let clean=raw.trim().replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/```$/,'').trim();
+  let parsed;
+  try{parsed=JSON.parse(clean);}
+  catch(e){
+    // Fallback: show raw text
+    sbAppendMsg('ai',sbEscHtml(raw));
+    _sbHistory.push({role:'model',parts:[{text:raw}]});
+    return;
+  }
+
+  _sbHistory.push({role:'model',parts:[{text:raw}]});
+
+  const actions=parsed.actions||[];
+  const execResults=[];
+  actions.forEach(act=>{
+    try{
+      const res=sbExecuteAction(act);
+      if(res)execResults.push(res);
+    }catch(ex){execResults.push('⚠ '+ex.message);}
+  });
+
+  let replyHtml=sbEscHtml(parsed.reply||'Done!');
+  if(execResults.length>0){
+    replyHtml+='<div style="margin-top:6px;font-size:.75rem;opacity:.7;">'+execResults.map(r=>'✓ '+sbEscHtml(r)).join('<br/>')+'</div>';
+  }
+  sbAppendMsg('ai',replyHtml);
+}
+
+// ── Execute an action ────────────────────────────
+function sbExecuteAction(act){
+  const todayStr=new Date().toISOString().slice(0,10);
+  if(act.type==='add_income'){
+    if(!isPro()){
+      const existingClients=new Set((db.income||[]).map(i=>i.client).filter(Boolean));
+      if(act.client&&!existingClients.has(act.client)&&existingClients.size>=2){
+        throw new Error('Free plan allows 2 clients. Upgrade to add more.');
+      }
+    }
+    const amt=Math.abs(parseFloat(act.amount)||0);
+    if(amt<=0)throw new Error('Invalid amount');
+    const entry={
+      id:uid(),
+      invNo:nextAvailableInvNo(),
+      client:act.client||'Client',
+      desc:act.desc||'Income',
+      cat:act.cat||'',
+      date:act.date||todayStr,
+      due:'',
+      items:[{desc:act.desc||'Income',qty:1,rate:amt,amount:amt}],
+      amount:amt,
+      received:act.status==='received'?amt:0,
+      status:act.status||'pending',
+      currency:'INR',exchangeRate:1,foreignAmount:amt,
+      _totals:{subtotal:amt,gross:amt,gst:0,tds:0,discount:0,net:amt}
+    };
+    db.income.unshift(entry);
+    save();
+    renderIncome();renderOverview();
+    return `Invoice ${entry.invNo} added — ₹${amt.toLocaleString('en-IN')} from ${entry.client}`;
+  }
+
+  if(act.type==='add_expense'){
+    const amt=Math.abs(parseFloat(act.amount)||0);
+    if(amt<=0)throw new Error('Invalid expense amount');
+    const entry={
+      id:uid(),
+      title:act.title||'Expense',
+      amount:amt,
+      cat:act.cat||'',
+      date:act.date||todayStr,
+      note:''
+    };
+    db.expenses.unshift(entry);
+    save();
+    renderExpenses();renderOverview();
+    return `Expense logged — ₹${amt.toLocaleString('en-IN')} for ${entry.title}`;
+  }
+
+  if(act.type==='mark_received'){
+    const inv=(db.income||[]).find(i=>i.invNo===act.invNo);
+    if(!inv)throw new Error('Invoice '+act.invNo+' not found');
+    inv.status='received';
+    inv.received=+inv.amount||0;
+    save();
+    renderIncome();renderOverview();
+    return `${act.invNo} marked as received`;
+  }
+
+  return null;
+}
+
+// ── Init on load ─────────────────────────────────
+document.addEventListener('DOMContentLoaded',()=>setTimeout(sbUpdateBubble,800));
+// Also update bubble whenever save() is called — patch save
+const _origSave=window.save;
+if(_origSave){
+  window.save=function(){_origSave.apply(this,arguments);sbUpdateBubble();};
+}
+
+})();
+</script>
+
 <script>
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
