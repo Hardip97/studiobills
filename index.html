@@ -1248,13 +1248,10 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .cal-empty-title{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:6px;}
 .cal-empty-sub{font-size:.8rem;}
 
-/* Event modal specifics */
-.cal-type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px;}
-.cal-type-btn{padding:10px;border:2px solid var(--border);border-radius:10px;background:var(--bg);cursor:pointer;text-align:center;font-family:inherit;transition:border-color .15s;}
-.cal-type-btn:hover,.cal-type-btn.sel{border-color:var(--red);}
-.cal-type-btn.sel{background:var(--red-soft);}
-.cal-type-icon{font-size:1.2rem;margin-bottom:3px;}
-.cal-type-label{font-size:.72rem;font-weight:600;color:var(--text);}
+/* Event modal — type pills */
+.cal-type-pill{padding:7px 13px;border:1.5px solid var(--border);border-radius:20px;background:var(--bg);color:var(--muted);font-family:inherit;font-size:.78rem;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s,color .15s;white-space:nowrap;}
+.cal-type-pill:hover{border-color:var(--red);color:var(--text);}
+.cal-type-pill.sel{border-color:var(--red);background:var(--red-soft);color:var(--red);font-weight:600;}
 
 @media(max-width:768px){
   .cal-week-grid{grid-template-columns:repeat(2,1fr);}
@@ -2028,64 +2025,78 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 <!-- ── CALENDAR EVENT MODAL ── -->
 <div class="modal-bg" id="calEventModal">
-<div class="modal" style="max-width:420px;">
-  <div class="modal-header">
-    <div class="modal-title" id="calModalTitle">Add Event</div>
-    <button class="modal-close" onclick="closeModal('calEventModal')">×</button>
+<div class="modal" style="max-width:400px;padding:0;overflow:hidden;">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 16px;border-bottom:1px solid var(--border);">
+    <div>
+      <div id="calModalTitle" style="font-size:1rem;font-weight:700;color:var(--text);">Add Event</div>
+      <div id="calModalSub" style="font-size:.72rem;color:var(--muted);margin-top:2px;">Fill in the details below</div>
+    </div>
+    <button onclick="closeModal('calEventModal')" style="width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--muted);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">×</button>
   </div>
-  <div style="padding:0 20px 20px;">
-    <!-- Type picker -->
-    <div style="margin-bottom:14px;">
-      <div class="form-label" style="margin-bottom:8px;">Event Type</div>
-      <div class="cal-type-grid">
-        <button class="cal-type-btn sel" data-ct="reminder" onclick="calSelectType('reminder')">
-          <div class="cal-type-icon">🔔</div>
-          <div class="cal-type-label">Reminder</div>
-        </button>
-        <button class="cal-type-btn" data-ct="meeting" onclick="calSelectType('meeting')">
-          <div class="cal-type-icon">🤝</div>
-          <div class="cal-type-label">Meeting / Call</div>
-        </button>
-        <button class="cal-type-btn" data-ct="task" onclick="calSelectType('task')">
-          <div class="cal-type-icon">✅</div>
-          <div class="cal-type-label">Task / To-do</div>
-        </button>
-        <button class="cal-type-btn" data-ct="payment" onclick="calSelectType('payment')">
-          <div class="cal-type-icon">💰</div>
-          <div class="cal-type-label">Payment Expected</div>
-        </button>
+
+  <div style="padding:18px 20px 20px;display:grid;gap:14px;">
+
+    <!-- Type pills -->
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Event Type</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;" id="calTypePills">
+        <button class="cal-type-pill sel" data-ct="reminder" onclick="calSelectType('reminder')">🔔 Reminder</button>
+        <button class="cal-type-pill" data-ct="meeting" onclick="calSelectType('meeting')">🤝 Meeting / Call</button>
+        <button class="cal-type-pill" data-ct="task" onclick="calSelectType('task')">✅ Task</button>
+        <button class="cal-type-pill" data-ct="payment" onclick="calSelectType('payment')">💳 Payment Expected</button>
       </div>
     </div>
-    <div style="display:grid;gap:10px;">
+
+    <!-- Title -->
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Title <span style="color:var(--red)">*</span></div>
+      <input id="cal-title" type="text" placeholder="e.g. Follow up with Raj…"
+        style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s;"
+        onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='var(--border)'"/>
+    </div>
+
+    <!-- Date + Time -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
       <div>
-        <div class="form-label">Title *</div>
-        <input id="cal-title" type="text" class="form-inp" placeholder="Event title…" style="width:100%;"/>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div>
-          <div class="form-label">Date *</div>
-          <input id="cal-date" type="date" class="form-inp" style="width:100%;"/>
-        </div>
-        <div>
-          <div class="form-label">Time (optional)</div>
-          <input id="cal-time" type="time" class="form-inp" style="width:100%;"/>
-        </div>
-      </div>
-      <div>
-        <div class="form-label">Client (optional)</div>
-        <input id="cal-client" type="text" class="form-inp" placeholder="Client name…" style="width:100%;"/>
+        <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Date <span style="color:var(--red)">*</span></div>
+        <input id="cal-date" type="date"
+          style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;"/>
       </div>
       <div>
-        <div class="form-label">Note (optional)</div>
-        <textarea id="cal-note" class="form-inp" rows="2" placeholder="Any details…" style="width:100%;resize:vertical;"></textarea>
+        <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Time</div>
+        <input id="cal-time" type="time"
+          style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;"/>
       </div>
     </div>
+
+    <!-- Client -->
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Client</div>
+      <input id="cal-client" type="text" placeholder="Client name (optional)"
+        style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s;"
+        onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='var(--border)'"/>
+    </div>
+
+    <!-- Note -->
+    <div>
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Note</div>
+      <textarea id="cal-note" rows="2" placeholder="Any extra details…"
+        style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;resize:vertical;transition:border-color .15s;"
+        onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+    </div>
+
     <input type="hidden" id="cal-edit-id"/>
-    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px;">
-      <button class="btn btn-ghost btn-sm" id="calDeleteBtn" style="display:none;color:var(--err);border-color:var(--err);" onclick="deleteCalEvent()">Delete</button>
-      <button class="btn btn-ghost btn-sm" onclick="closeModal('calEventModal')">Cancel</button>
-      <button class="btn btn-red btn-sm" onclick="saveCalEvent()">Save Event</button>
+
+    <!-- Footer actions -->
+    <div style="display:flex;gap:8px;align-items:center;padding-top:2px;">
+      <button id="calDeleteBtn" style="display:none;flex:0 0 auto;padding:9px 14px;border:1px solid var(--err);border-radius:var(--r2);background:none;color:var(--err);font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;" onclick="deleteCalEvent()">Delete</button>
+      <div style="flex:1;"></div>
+      <button onclick="closeModal('calEventModal')" style="padding:9px 18px;border:1px solid var(--border);border-radius:var(--r2);background:none;color:var(--muted);font-family:inherit;font-size:.84rem;cursor:pointer;">Cancel</button>
+      <button onclick="saveCalEvent()" style="padding:9px 20px;border:none;border-radius:var(--r2);background:var(--red);color:#fff;font-family:inherit;font-size:.84rem;font-weight:600;cursor:pointer;transition:opacity .15s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">Save Event</button>
     </div>
+
   </div>
 </div>
 </div>
@@ -4798,7 +4809,7 @@ function _calRenderAgenda(){
 // ── Event modal ──────────────────────────────────
 function calSelectType(t){
   _calSelType=t;
-  document.querySelectorAll('.cal-type-btn').forEach(b=>b.classList.toggle('sel',b.dataset.ct===t));
+  document.querySelectorAll('.cal-type-pill').forEach(b=>b.classList.toggle('sel',b.dataset.ct===t));
 }
 
 function openCalModal(dateStr){
