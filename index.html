@@ -1186,7 +1186,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 /* ── AI CHAT WIDGET ── */
 .sb-chat-bubble{
-  position:fixed;bottom:90px;right:22px;z-index:1200;
+  position:fixed;bottom:28px;right:28px;z-index:1200;
   width:52px;height:52px;border-radius:50%;
   background:var(--red);color:#fff;border:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
@@ -1203,8 +1203,8 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .sb-chat-bubble.has-key .sb-chat-dot{display:block;}
 
 .sb-chat-panel{
-  position:fixed;bottom:155px;right:18px;z-index:1200;
-  width:360px;max-width:calc(100vw - 36px);
+  position:fixed;bottom:92px;right:24px;z-index:1200;
+  width:360px;max-width:calc(100vw - 48px);
   border-radius:20px;background:var(--s1);
   border:1px solid var(--border);
   box-shadow:0 16px 48px rgba(0,0,0,.16),0 4px 12px rgba(0,0,0,.08);
@@ -1273,7 +1273,20 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .sb-chat-suggestions{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px 0;}
 .sb-sug{padding:5px 11px;border:1px solid var(--border);border-radius:20px;font-size:.74rem;cursor:pointer;color:var(--muted);background:var(--bg);transition:border-color .12s,color .12s;white-space:nowrap;}
 .sb-sug:hover{border-color:var(--red);color:var(--red);}
-@media(max-width:500px){.sb-chat-panel{width:calc(100vw - 24px);right:12px;}.sb-chat-bubble{bottom:80px;right:16px;}}
+@media(max-width:768px){
+  /* On mobile: bubble goes LEFT side so FAB stays right without clashing */
+  .sb-chat-bubble{
+    bottom:calc(76px + env(safe-area-inset-bottom));
+    left:16px;right:auto;
+  }
+  /* Panel opens above the bubble, anchored left, full-width minus margins */
+  .sb-chat-panel{
+    bottom:calc(140px + env(safe-area-inset-bottom));
+    left:12px;right:12px;
+    width:auto;max-width:none;
+    border-radius:16px;
+  }
+}
 </style>
 </head>
 <body>
@@ -5556,7 +5569,7 @@ window.testGeminiKey=async function(){
   const el=document.getElementById('gemini-key-status');
   if(el){el.style.display='block';el.style.color='var(--muted)';el.textContent='Testing key…';}
   try{
-    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,{
+    const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({contents:[{parts:[{text:'Say "OK" only.'}]}]})
     });
@@ -5775,7 +5788,7 @@ IMPORTANT RULES:
   // Add system as first user turn (Gemini 1.5 flash supports system instruction differently)
   const convHistory=_sbHistory.slice(-10); // last 5 pairs max
 
-  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`,{
+  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
