@@ -1186,14 +1186,14 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 /* ── AI CHAT WIDGET ── */
 .sb-chat-bubble{
-  position:fixed;bottom:28px;right:28px;z-index:1200;
+  position:fixed;bottom:24px;right:24px;z-index:1200;
   width:52px;height:52px;border-radius:50%;
   background:var(--red);color:#fff;border:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 16px rgba(0,0,0,.18);
+  box-shadow:0 4px 20px rgba(0,0,0,.22);
   transition:transform .15s,box-shadow .15s;
 }
-.sb-chat-bubble:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(0,0,0,.22);}
+.sb-chat-bubble:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(0,0,0,.28);}
 .sb-chat-bubble svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .sb-chat-bubble .sb-chat-dot{
   position:absolute;top:4px;right:4px;width:10px;height:10px;
@@ -1202,14 +1202,18 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 }
 .sb-chat-bubble.has-key .sb-chat-dot{display:block;}
 
+/* Panel: fixed to bottom-right, opens upward, max-height respects viewport */
 .sb-chat-panel{
-  position:fixed;bottom:92px;right:24px;z-index:1200;
-  width:360px;max-width:calc(100vw - 48px);
+  position:fixed;
+  bottom:88px;right:24px;
+  z-index:1200;
+  width:340px;
+  max-height:calc(100vh - 120px);
   border-radius:20px;background:var(--s1);
   border:1px solid var(--border);
-  box-shadow:0 16px 48px rgba(0,0,0,.16),0 4px 12px rgba(0,0,0,.08);
+  box-shadow:0 20px 60px rgba(0,0,0,.18),0 4px 16px rgba(0,0,0,.1);
   display:flex;flex-direction:column;overflow:hidden;
-  transform:translateY(16px) scale(.96);opacity:0;pointer-events:none;
+  transform:translateY(12px) scale(.97);opacity:0;pointer-events:none;
   transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .18s;
 }
 .sb-chat-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
@@ -1217,6 +1221,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .sb-chat-header{
   display:flex;align-items:center;gap:10px;padding:14px 16px;
   border-bottom:1px solid var(--border);background:var(--red);color:#fff;
+  flex-shrink:0;
 }
 .sb-chat-header-icon{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
 .sb-chat-header-title{font-size:.88rem;font-weight:700;flex:1;}
@@ -1227,7 +1232,7 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .sb-chat-msgs{
   flex:1;overflow-y:auto;padding:14px 12px;
   display:flex;flex-direction:column;gap:10px;
-  min-height:220px;max-height:340px;
+  min-height:160px;
 }
 .sb-msg{display:flex;gap:8px;align-items:flex-start;}
 .sb-msg.user{flex-direction:row-reverse;}
@@ -1274,16 +1279,17 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .sb-sug{padding:5px 11px;border:1px solid var(--border);border-radius:20px;font-size:.74rem;cursor:pointer;color:var(--muted);background:var(--bg);transition:border-color .12s,color .12s;white-space:nowrap;}
 .sb-sug:hover{border-color:var(--red);color:var(--red);}
 @media(max-width:768px){
-  /* On mobile: bubble goes LEFT side so FAB stays right without clashing */
+  /* Bubble: left side above bottom nav — FAB stays right, no clash */
   .sb-chat-bubble{
-    bottom:calc(76px + env(safe-area-inset-bottom));
+    bottom:calc(74px + env(safe-area-inset-bottom));
     left:16px;right:auto;
   }
-  /* Panel opens above the bubble, anchored left, full-width minus margins */
+  /* Panel: full-width above bubble, limited height so it fits on screen */
   .sb-chat-panel{
-    bottom:calc(140px + env(safe-area-inset-bottom));
-    left:12px;right:12px;
-    width:auto;max-width:none;
+    bottom:calc(138px + env(safe-area-inset-bottom));
+    left:10px;right:10px;
+    width:auto;
+    max-height:calc(100vh - 200px - env(safe-area-inset-bottom));
     border-radius:16px;
   }
 }
@@ -5574,13 +5580,15 @@ window.testGeminiKey=async function(){
       body:JSON.stringify({contents:[{parts:[{text:'Say "OK" only.'}]}]})
     });
     const j=await r.json();
-    if(j.candidates&&j.candidates[0]){
+    if(r.status===429){
+      if(el){el.style.color='var(--orange)';el.textContent='⏳ Key valid but quota limit hit — wait a moment and retry.';}
+    } else if(j.candidates&&j.candidates[0]){
       if(el){el.style.color='var(--green)';el.textContent='✓ Key is valid and working!';}
     } else {
-      if(el){el.style.color='var(--err)';el.textContent='✗ Invalid key — check and try again.';}
+      if(el){el.style.color='var(--err)';el.textContent='✗ Invalid key or no response — check and try again.';}
     }
   }catch(e){
-    if(el){el.style.color='var(--err)';el.textContent='✗ Network error: '+e.message;}
+    if(el){el.style.color='var(--err)';el.textContent='✗ Network error: '+e.message.slice(0,80);}
   }
 };
 
@@ -5800,7 +5808,18 @@ IMPORTANT RULES:
 
   if(!r.ok){
     const err=await r.json().catch(()=>({}));
-    throw new Error((err.error&&err.error.message)||`HTTP ${r.status}`);
+    const raw=(err.error&&err.error.message)||`HTTP ${r.status}`;
+    // Friendly messages for common Gemini errors
+    if(r.status===429||raw.toLowerCase().includes('quota')||raw.toLowerCase().includes('rate')){
+      throw new Error('⏳ Gemini free tier limit hit (15 req/min). Wait a few seconds and try again.');
+    }
+    if(r.status===400&&raw.toLowerCase().includes('api key')){
+      throw new Error('🔑 Invalid API key — please re-check it in Settings → About.');
+    }
+    if(r.status===403){
+      throw new Error('🚫 API key doesn\'t have access to this model. Try re-generating your key at aistudio.google.com.');
+    }
+    throw new Error(raw.slice(0,120));
   }
   const data=await r.json();
   const raw=data?.candidates?.[0]?.content?.parts?.[0]?.text||'{"reply":"Sorry, no response.","actions":[]}';
