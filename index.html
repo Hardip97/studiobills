@@ -2179,8 +2179,32 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
         <div class="st-clabel">Contact Details</div>
         <div class="st-field"><div class="st-flabel">Email</div><input class="st-input" id="s-email" placeholder="e.g. john@studio.com"></div>
         <div class="st-field"><div class="st-flabel">Phone</div><input class="st-input" id="s-phone" placeholder="e.g. +91 98765 43210"></div>
-        <div class="st-field"><div class="st-flabel">WhatsApp Number <span style="font-weight:300;text-transform:none;">(with country code)</span></div><input class="st-input" id="s-whatsapp" placeholder="e.g. +919876543210"></div>
         <div class="st-field"><div class="st-flabel">Address</div><textarea class="st-input" id="s-address" rows="3" placeholder="Your address"></textarea></div>
+      </div>
+      <div class="st-card">
+        <div class="st-clabel">WhatsApp Automation</div>
+        <div class="st-field"><div class="st-flabel">Linked WhatsApp Number</div><input class="st-input" id="s-whatsapp" placeholder="e.g. +91 98765 43210"></div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
+          <label style="display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--muted);line-height:1.5;">
+            <input type="checkbox" id="s-wa-enabled" style="margin-top:2px;accent-color:var(--green);">
+            <span>Enable WhatsApp automation for this account</span>
+          </label>
+          <label style="display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--muted);line-height:1.5;">
+            <input type="checkbox" id="s-wa-task-reminders" style="margin-top:2px;accent-color:var(--orange);">
+            <span>Send calendar task reminders on WhatsApp</span>
+          </label>
+          <label style="display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--muted);line-height:1.5;">
+            <input type="checkbox" id="s-wa-due-reminders" style="margin-top:2px;accent-color:var(--red);">
+            <span>Send invoice due reminders on WhatsApp</span>
+          </label>
+          <label style="display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--muted);line-height:1.5;">
+            <input type="checkbox" id="s-wa-daily-digest" style="margin-top:2px;accent-color:var(--green);">
+            <span>Send one daily digest for tomorrow's tasks</span>
+          </label>
+        </div>
+        <div style="margin-top:12px;padding:12px 13px;border-radius:10px;background:var(--bg);font-size:.75rem;color:var(--muted);line-height:1.55;font-weight:300;">
+          Message formats: <strong>Expense 500 Food</strong> or <strong>Income 12000 Retainer</strong>. Use your full WhatsApp number with country code.
+        </div>
       </div>
       <!-- Payment Info -->
       <div class="st-card st-full">
@@ -2807,6 +2831,7 @@ let supa=null,currentUser=null,authMode='signin';
 const DB='studiobills_v4';
 const DEFAULT_PROFILE={currency:'₹'};// Empty — only currency is universal default
 const OWNER_PROFILE={studioName:"Hardip's Freelance Space",ownerName:'Hardipsinh Zala',email:'zalahardip70@gmail.com',phone:'+91 88660 35771',address:'Rajkot, Gujarat, India',currency:'₹',role:'Visual Storyteller · VFX Artist',upi:'zalahardip70@okaxis',bankName:'Punjab National Bank',accountNo:'0400001500010175',ifsc:'PUNB0040000'};
+const DEFAULT_WHATSAPP_PREFS={enabled:false,taskReminders:true,dueReminders:true,dailyDigest:false};
 const DEFAULT_CATS={inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']};
 const FX_CURRENCIES={
   INR:{symbol:'₹',flag:'🇮🇳',name:'Indian Rupee'},
@@ -2829,6 +2854,8 @@ function applyMigrations(){
   if(!db.fxRates||!db.fxRates.rates)db.fxRates={date:"",rates:{...FX_FALLBACK}};
   db.invoiceCounter=db.invoiceCounter||0;
   db.profile=db.profile||{};
+  db.profile.whatsapp=(db.profile.whatsapp||'').trim();
+  db.profile.whatsappPrefs={...DEFAULT_WHATSAPP_PREFS,...(db.profile.whatsappPrefs||{})};
   if(!db.calendar)db.calendar=[];
   if(!db.plan)db.plan='free';
   if(db.planExpiry===undefined)db.planExpiry=null;
@@ -4949,10 +4976,14 @@ function renderSettings(){
   document.getElementById('s-owner').value=db.profile.ownerName||'';
   document.getElementById('s-email').value=db.profile.email||'';
   document.getElementById('s-phone').value=db.profile.phone||'';
-  if(document.getElementById('s-whatsapp')) document.getElementById('s-whatsapp').value=db.profile.whatsapp||'';
   document.getElementById('s-address').value=db.profile.address||'';
   document.getElementById('s-currency').value=db.profile.currency||'₹';
   document.getElementById('s-role').value=db.profile.role||'';
+  document.getElementById('s-whatsapp').value=db.profile.whatsapp||'';
+  document.getElementById('s-wa-enabled').checked=!!db.profile.whatsappPrefs?.enabled;
+  document.getElementById('s-wa-task-reminders').checked=db.profile.whatsappPrefs?.taskReminders!==false;
+  document.getElementById('s-wa-due-reminders').checked=db.profile.whatsappPrefs?.dueReminders!==false;
+  document.getElementById('s-wa-daily-digest').checked=!!db.profile.whatsappPrefs?.dailyDigest;
   document.getElementById('s-upi').value=db.profile.upi||'';
   document.getElementById('s-bank').value=db.profile.bankName||'';
   document.getElementById('s-account').value=db.profile.accountNo||'';
@@ -4967,14 +4998,22 @@ function renderSettings(){
   updatePlanStatus();
 }
 function saveProfile(){
+  const whatsappRaw=document.getElementById('s-whatsapp').value.trim();
+  const whatsappNormalized=whatsappRaw?whatsappRaw.replace(/[^\d+]/g,''):'';
   db.profile.studioName=document.getElementById('s-studio').value.trim();
   db.profile.ownerName=document.getElementById('s-owner').value.trim();
   db.profile.email=document.getElementById('s-email').value.trim();
   db.profile.phone=document.getElementById('s-phone').value.trim();
-  if(document.getElementById('s-whatsapp')) db.profile.whatsapp=document.getElementById('s-whatsapp').value.trim();
   db.profile.address=document.getElementById('s-address').value.trim();
   db.profile.currency=document.getElementById('s-currency').value.trim()||'₹';
   db.profile.role=document.getElementById('s-role').value.trim();
+  db.profile.whatsapp=whatsappNormalized;
+  db.profile.whatsappPrefs={
+    enabled:document.getElementById('s-wa-enabled').checked&&!!whatsappNormalized,
+    taskReminders:document.getElementById('s-wa-task-reminders').checked,
+    dueReminders:document.getElementById('s-wa-due-reminders').checked,
+    dailyDigest:document.getElementById('s-wa-daily-digest').checked
+  };
   db.profile.upi=document.getElementById('s-upi').value.trim();
   db.profile.bankName=document.getElementById('s-bank').value.trim();
   db.profile.accountNo=document.getElementById('s-account').value.trim();
