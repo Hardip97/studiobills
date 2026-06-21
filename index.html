@@ -2179,6 +2179,7 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
         <div class="st-clabel">Contact Details</div>
         <div class="st-field"><div class="st-flabel">Email</div><input class="st-input" id="s-email" placeholder="e.g. john@studio.com"></div>
         <div class="st-field"><div class="st-flabel">Phone</div><input class="st-input" id="s-phone" placeholder="e.g. +91 98765 43210"></div>
+        <div class="st-field"><div class="st-flabel">WhatsApp Number <span style="font-weight:300;text-transform:none;">(with country code)</span></div><input class="st-input" id="s-whatsapp" placeholder="e.g. +919876543210"></div>
         <div class="st-field"><div class="st-flabel">Address</div><textarea class="st-input" id="s-address" rows="3" placeholder="Your address"></textarea></div>
       </div>
       <!-- Payment Info -->
@@ -4948,6 +4949,7 @@ function renderSettings(){
   document.getElementById('s-owner').value=db.profile.ownerName||'';
   document.getElementById('s-email').value=db.profile.email||'';
   document.getElementById('s-phone').value=db.profile.phone||'';
+  if(document.getElementById('s-whatsapp')) document.getElementById('s-whatsapp').value=db.profile.whatsapp||'';
   document.getElementById('s-address').value=db.profile.address||'';
   document.getElementById('s-currency').value=db.profile.currency||'₹';
   document.getElementById('s-role').value=db.profile.role||'';
@@ -4969,6 +4971,7 @@ function saveProfile(){
   db.profile.ownerName=document.getElementById('s-owner').value.trim();
   db.profile.email=document.getElementById('s-email').value.trim();
   db.profile.phone=document.getElementById('s-phone').value.trim();
+  if(document.getElementById('s-whatsapp')) db.profile.whatsapp=document.getElementById('s-whatsapp').value.trim();
   db.profile.address=document.getElementById('s-address').value.trim();
   db.profile.currency=document.getElementById('s-currency').value.trim()||'₹';
   db.profile.role=document.getElementById('s-role').value.trim();
