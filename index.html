@@ -1123,6 +1123,103 @@ body.tint-cards [class*="t-"] .qr-btn,body.tint-cards [class*="t-"] .btn-dark,
 body.tint-cards .ref-client .rc-btn,body.tint-cards .ref-card-menu .ref-logout{
   color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
 body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text-fill-color:#000000!important}
+
+/* ══ SETTINGS v2: hero + menu rail + section body ══ */
+.settings-hero .sh-name{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;color:#000;line-height:1.15}
+.settings-hero .sh-sub{font-size:.84rem;font-weight:650;color:rgba(0,0,0,.66);margin-top:4px}
+.settings-shell{display:grid;grid-template-columns:322px minmax(0,1fr);gap:16px;align-items:start}
+.settings-rail{background:#FF5733;border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:8px;position:sticky;top:16px}
+.stabs-rail{display:flex!important;flex-direction:column!important;gap:2px!important;background:transparent!important;border:0!important;padding:0!important}
+.stabs-rail .stab{
+  width:100%!important;height:52px!important;border:0!important;border-radius:16px!important;background:transparent!important;
+  color:#000!important;font-size:.9rem!important;font-weight:650!important;justify-content:flex-start!important;gap:12px!important;
+  padding:0 14px!important;border-bottom:1px solid rgba(0,0,0,.16)!important;
+}
+.stabs-rail .stab:last-child{border-bottom:0!important}
+.stabs-rail .stab svg{width:18px!important;height:18px!important;stroke:#000!important}
+.stabs-rail .stab:hover{background:rgba(0,0,0,.08)!important}
+.stabs-rail .stab.active{background:#000!important;color:#FFFFFF!important;font-weight:750!important;border-radius:16px!important}
+.stabs-rail .stab.active svg{stroke:#FFFFFF!important}
+.stabs-rail .stab.active *{color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+.stabs-rail .stab.active svg *{stroke:#FFFFFF!important}
+.stabs-rail .stab::after{content:'';margin-left:auto}
+.rail-note{padding:10px 6px 2px;font-size:.72rem;font-weight:600;color:rgba(0,0,0,.6);line-height:1.5}
+.settings-body{min-width:0}
+.settings-body .st-card{border-radius:24px!important}
+.settings-body .st-g2{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+@media(max-width:1100px){
+  .settings-shell{grid-template-columns:minmax(0,1fr)}
+  .settings-rail{position:static}
+  .stabs-rail{flex-direction:row!important;flex-wrap:wrap!important}
+  .stabs-rail .stab{width:auto!important;border-bottom:0!important}
+}
+
+/* ══ SETTINGS LAYOUT OPTIONS (sv1–sv4) ══ */
+/* sv1 · single page: no nav at all, every section stacked and visible */
+#tab-settings.sv1 .settings-hero,#tab-settings.sv1 .settings-rail{display:none!important}
+#tab-settings.sv1 .settings-shell{grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+#tab-settings.sv1 .settings-body{display:block!important}
+#tab-settings.sv1 .settings-body [id^="stab-"]{display:block!important}
+#tab-settings.sv1 .settings-body .st-card{margin-bottom:14px!important}
+#tab-settings.sv1 .st-savebar{position:sticky;bottom:12px;background:#000;border-radius:999px;padding:8px 12px;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+
+/* sv2 · section tabs as horizontal pills above a single column */
+#tab-settings.sv2 .settings-hero{display:none!important}
+#tab-settings.sv2 .settings-shell{grid-template-columns:minmax(0,1fr)!important}
+#tab-settings.sv2 .settings-rail{background:transparent!important;padding:0!important;position:static!important}
+#tab-settings.sv2 .stabs-rail{flex-direction:row!important;flex-wrap:wrap!important;gap:8px!important;margin-bottom:18px}
+#tab-settings.sv2 .stabs-rail .stab{width:auto!important;height:40px!important;border:1px solid rgba(255,255,255,.4)!important;
+  border-radius:999px!important;background:transparent!important;color:#fff!important;font-size:.8rem!important;padding:0 16px!important}
+#tab-settings.sv2 .stabs-rail .stab.active{background:#E8E230!important;border-color:#E8E230!important;color:#000!important}
+#tab-settings.sv2 .stabs-rail .stab.active *{color:#000!important;-webkit-text-fill-color:#000!important}
+#tab-settings.sv2 .stabs-rail .stab.active svg{stroke:#000!important}
+#tab-settings.sv2 .rail-note{display:none!important}
+
+/* sv3 · plain text rail (no card, no icons), body on the right */
+#tab-settings.sv3 .settings-hero{display:none!important}
+#tab-settings.sv3 .settings-rail{background:transparent!important;padding:0!important;gap:2px!important}
+#tab-settings.sv3 .stabs-rail .stab{border-bottom:0!important;border-radius:12px!important;height:46px!important;
+  color:#9A9A9A!important;font-weight:600!important;font-size:.88rem!important;padding:0 12px!important}
+#tab-settings.sv3 .stabs-rail .stab svg{display:none!important}
+#tab-settings.sv3 .stabs-rail .stab:hover{background:#141414!important;color:#fff!important}
+#tab-settings.sv3 .stabs-rail .stab.active{background:#161616!important;color:#FFFFFF!important;box-shadow:inset 3px 0 0 #E8E230!important}
+#tab-settings.sv3 .rail-note{color:#7E869A!important}
+
+/* sv4 · coloured rail card (current) — untouched */
+
+/* ══ SETTINGS v3 (reference order) ══ */
+.settings-panels{margin-bottom:16px}
+#tab-settings .ref-menu li.on{background:rgba(0,0,0,.14);border-radius:12px;padding-left:10px;padding-right:10px}
+.st-legal-row{cursor:pointer}
+.st-legal-row:hover{background:rgba(255,255,255,.03)!important}
+.ref-chev{font-size:1.1rem;color:#7E869A;padding-right:6px}
+.ref-count{font-size:.8rem;font-weight:650;color:#8A8A8A}
+.ref-split-wide .sh-name,.sh-name{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;color:#000;line-height:1.15}
+.sh-sub{font-size:.84rem;font-weight:650;color:rgba(0,0,0,.66);margin-top:4px}
+#tab-settings .ref-card .fg{margin-bottom:10px}
+#tab-settings .ref-card .fg:last-child{margin-bottom:0}
+#tab-settings .ref-card label{color:rgba(0,0,0,.72)!important}
+#tab-settings .ref-card .st-input,#tab-settings .ref-card input,#tab-settings .ref-card select{
+  background:#000!important;border:0!important;color:#fff!important;border-radius:14px!important;min-height:46px}
+#tab-settings .ref-card input::placeholder{color:rgba(255,255,255,.55)!important}
+#tab-settings .ref-card .theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+#tab-settings .ref-card .theme-swatch{background:rgba(0,0,0,.14)!important;border-color:rgba(0,0,0,.3)!important;padding:10px!important}
+#tab-settings .ref-card .theme-swatch.active{background:#000!important;border-color:#000!important}
+#tab-settings .ref-card .theme-swatch.active .sw-name,#tab-settings .ref-card .theme-swatch.active .sw-desc{color:#fff!important}
+#tab-settings .ref-card .theme-swatch .sw-name{color:#000!important}
+#tab-settings .ref-card .theme-swatch .sw-desc{color:rgba(0,0,0,.66)!important}
+#tab-settings .st-bkbtns{display:flex;flex-direction:column;gap:10px}
+#tab-settings .st-bkbtn{display:flex;align-items:center;gap:12px;background:rgba(0,0,0,.12)!important;border:0!important;border-radius:16px!important;padding:12px!important;text-align:left;cursor:pointer}
+#tab-settings .st-bkbtn:hover{background:rgba(0,0,0,.2)!important}
+#tab-settings .st-bkbtn.bk-primary{background:#000!important;color:#fff!important}
+#tab-settings .st-bkbtn.bk-primary .st-bktitle,#tab-settings .st-bkbtn.bk-primary .st-bksub{color:#fff!important}
+#tab-settings .st-bkicon{width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.16);display:grid;place-items:center;font-size:1rem;flex:none}
+#tab-settings .st-bkbtn.bk-primary .st-bkicon{background:rgba(255,255,255,.16)}
+#tab-settings .st-bktitle{display:block;font-size:.86rem;font-weight:750}
+#tab-settings .st-bksub{display:block;font-size:.74rem;font-weight:600;opacity:.75;margin-top:2px}
+#tab-settings .cat-pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+#tab-settings .cat-pill{background:rgba(0,0,0,.14)!important;border:0!important;border-radius:999px!important;color:#000!important;padding:5px 11px!important}
+@media(max-width:900px){.settings-panels .st-g2{grid-template-columns:minmax(0,1fr)!important}}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -1562,188 +1659,182 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
 
 <!-- ══════════════════════ SETTINGS ══════════════════════ -->
 <div class="tab" id="tab-settings">
-  <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize StudioBills</p></div></div>
-  <!-- PILL TABS -->
-  <div class="stabs">
-    <button class="stab active" data-st="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profile</button>
-    
-    <button class="stab" data-st="categories"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>Categories</button>
-    <button class="stab" data-st="backup"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Backup</button>
-    <button class="stab" data-st="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 8v.5"/></svg>About</button>
-  </div>
+  <header class="ref-head">
+    <div class="ref-head-left">
+      <div class="ref-eyebrow">Settings</div>
+      <button class="ref-edit" onclick="showTab('overview')">Dashboard</button>
+    </div>
+    <div class="ref-head-pills">
+      <button class="t-pill" onclick="showTab('income')">Invoices</button>
+      <button class="t-pill" onclick="showTab('clients')">Clients</button>
+    </div>
+  </header>
 
-  <!-- ── PROFILE ── -->
-  <div id="stab-profile">
-    <div class="st-grid st-g2">
-      <!-- Appearance / themes -->
-      <div class="st-card st-full">
-        <div class="st-clabel">Appearance</div>
-        <p style="color:var(--muted);font-size:.8rem;margin:-6px 0 16px;">Pick a theme. It applies across the whole app instantly and is remembered on this device.</p>
-        <div class="theme-grid" id="themeCardGrid"></div>
-      </div>
-      <!-- Studio Identity -->
-      <div class="st-card t-sage">
-        <div class="st-clabel">Studio Identity</div>
-        <div class="st-field"><div class="st-flabel">Studio Name</div><input class="st-input" id="s-studio" placeholder="e.g. Bright Studio Co."></div>
-        <div class="st-field"><div class="st-flabel">Your Name</div><input class="st-input" id="s-owner" placeholder="e.g. John Doe"></div>
-        <div class="st-field"><div class="st-flabel">Role / Title</div><input class="st-input" id="s-role" placeholder="e.g. AI Filmmaker · VFX Artist"></div>
-        <div class="st-field"><div class="st-flabel">Currency</div>
-          <select class="st-input" id="s-currency">
-            <option value="₹">₹ INR – Indian Rupee</option>
-            <option value="$">$ USD – US Dollar</option>
-            <option value="£">£ GBP – British Pound</option>
-            <option value="€">€ EUR – Euro</option>
-            <option value="د.إ">د.إ AED – UAE Dirham</option>
-          </select>
+  <!-- ① HERO -->
+  <section class="ref-big t-sage settings-hero">
+    <div class="ref-big-top">
+      <span class="t-pill">Your studio</span>
+      <span class="ref-toggle"><span class="ref-toggle-lab" id="shTheme">Canvas</span></span>
+    </div>
+    <div class="ref-big-grid">
+      <div class="ref-split-wide">
+        <div class="sh-name" id="shStudio">StudioBills</div>
+        <div class="sh-sub" id="shRole">Add your role and contact details</div>
+        <div class="ref-split" style="margin-top:16px">
+          <div class="ref-split-track"><i id="shBar"></i><u id="shBarRest"></u></div>
+          <div class="ref-split-labels"><span id="shBarLab">&mdash;</span><span id="shBarRestLab">of your details filled in</span></div>
         </div>
       </div>
-      <!-- Contact Details -->
-      <div class="st-card t-lav">
-        <div class="st-clabel">Contact Details</div>
-        <div class="st-field"><div class="st-flabel">Email</div><input class="st-input" id="s-email" placeholder="e.g. john@studio.com"></div>
-        <div class="st-field"><div class="st-flabel">Phone</div><input class="st-input" id="s-phone" placeholder="e.g. +91 98765 43210"></div>
-        <div class="st-field"><div class="st-flabel">Address</div><textarea class="st-input" id="s-address" rows="3" placeholder="Your address"></textarea></div>
-      </div>
-      <div class="st-card t-grey st-wide">
-        <div class="st-clabel">Payment Information</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
-          <div class="st-field"><div class="st-flabel">UPI / GPay / PhonePe</div><input class="st-input" id="s-upi" placeholder="yourname@okicici"></div>
-          <div class="st-field"><div class="st-flabel">Bank Name</div><input class="st-input" id="s-bank" placeholder="e.g. HDFC Bank"></div>
-          <div class="st-field"><div class="st-flabel">Account Number</div><input class="st-input" id="s-account" placeholder="1234567890123456"></div>
-          <div class="st-field"><div class="st-flabel">IFSC Code</div><input class="st-input" id="s-ifsc" placeholder="HDFC0001234"></div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
-          <div class="st-field"><div class="st-flabel">SWIFT / BIC Code <span style="font-weight:300;text-transform:none;">(international)</span></div><input class="st-input" id="s-swift" placeholder="PUNBINBBGDB"></div>
-          <div class="st-field"><div class="st-flabel">PayPal / Wise Email</div><input class="st-input" id="s-paypal" placeholder="yourname@paypal.com"></div>
-        </div>
-      </div>
-      <!-- Tax Info -->
-      <div class="st-card t-olive">
-        <div class="st-clabel">Tax Information</div>
-        <div class="st-field"><div class="st-flabel">GSTIN <span style="font-weight:300;text-transform:none;">(if registered)</span></div><input class="st-input" id="s-gstin" placeholder="22AAAAA0000A1Z5"></div>
-        <div class="st-field"><div class="st-flabel">PAN Number</div><input class="st-input" id="s-pan" placeholder="AAAAA0000A"></div>
-      </div>
-      <div class="st-savebar">
-        <button class="btn btn-dark" onclick="saveProfile()">Save profile</button>
+      <div class="ref-figure">
+        <div class="ref-pct" id="shPct">&mdash;</div>
+        <div class="ref-cap">profile complete &mdash; these details print on every bill</div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div id="stab-appearance" style="display:none;"></div>
+  <!-- ② THREE CARDS -->
+  <section class="ref-row">
 
-  <!-- ── CATEGORIES ── -->
-  <div id="stab-categories" style="display:none;">
-    <div class="st-grid st-g2">
-      <div class="st-card">
-        <div class="st-clabel">Income Categories</div>
-        <div class="cat-pills" id="incCatPills"></div>
-        <div style="display:flex;gap:8px;margin-top:4px;">
-          <input id="newIncCat" placeholder="New income category…" class="st-input" style="flex:1;">
-          <button class="btn btn-dark btn-sm" onclick="addCat('inc')">Add</button>
-        </div>
+    <article class="ref-card t-olive">
+      <div class="ref-card-top"><span class="t-pill">Appearance</span></div>
+      <p class="ref-note">Switch the whole app between the five themes.</p>
+      <div class="theme-grid" id="themeCardGrid"></div>
+    </article>
+
+    <article class="ref-card t-lav">
+      <div class="ref-card-top"><span class="t-pill">Studio</span></div>
+      <p class="ref-note">Who you are &mdash; the masthead of every bill.</p>
+      <div class="fg"><label>Studio name</label><input class="st-input" id="s-studio" placeholder="e.g. Bright Studio Co."></div>
+      <div class="fg"><label>Your name</label><input class="st-input" id="s-owner" placeholder="e.g. Hardipsinh Zala"></div>
+      <div class="fg"><label>Role / title</label><input class="st-input" id="s-role" placeholder="e.g. AI Filmmaker &middot; VFX Artist"></div>
+      <div class="fg"><label>Currency</label><select class="st-input" id="s-currency">
+        <option value="&#8377;">&#8377; INR</option><option value="$">$ USD</option>
+        <option value="&pound;">&pound; GBP</option><option value="&euro;">&euro; EUR</option><option value="AED">AED</option>
+      </select></div>
+    </article>
+
+    <article class="ref-card t-orange ref-card-menu">
+      <div class="ref-card-top">
+        <span class="t-pill">Menu</span>
+        <svg viewBox="0 0 24 24" class="ref-gear"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.18V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.6 15H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09A1.65 1.65 0 0 0 21 10h.09a2 2 0 0 1 0 4H21a1.65 1.65 0 0 0-1.6 1z"/></svg>
       </div>
-      <div class="st-card">
-        <div class="st-clabel">Expense Categories</div>
-        <div class="cat-pills" id="expCatPills"></div>
-        <div style="display:flex;gap:8px;margin-top:4px;">
-          <input id="newExpCat" placeholder="New expense category…" class="st-input" style="flex:1;">
-          <button class="btn btn-dark btn-sm" onclick="addCat('exp')">Add</button>
+      <ul class="ref-menu">
+        <li onclick="setSettingsSection('contact')"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>Contact details</li>
+        <li onclick="setSettingsSection('payment')"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Payment information</li>
+        <li onclick="setSettingsSection('tax')"><svg viewBox="0 0 24 24"><path d="M9 9h.01M15 15h.01M5 19L19 5"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>Tax information</li>
+        <li onclick="setSettingsSection('categories')"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Categories</li>
+        <li onclick="setSettingsSection('backup')"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4M4 20h16"/></svg>Backup &amp; data</li>
+        <li onclick="setSettingsSection('about')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 8v.5"/></svg>About</li>
+      </ul>
+      <button class="ref-logout" onclick="saveProfile()">Save profile</button>
+      <button class="ref-round ref-round-edge" onclick="showTab('overview')" aria-label="Dashboard">&#8250;</button>
+    </article>
+  </section>
+
+  <!-- ③ SELECTED SECTION -->
+  <section class="settings-panels">
+
+    <div id="stab-contact" style="display:none;">
+      <div class="st-grid st-g2">
+        <div class="st-card t-sage">
+          <div class="st-clabel">Contact details</div>
+          <div class="st-field"><div class="st-flabel">Email</div><input class="st-input" id="s-email" placeholder="you@studio.com"></div>
+          <div class="st-field"><div class="st-flabel">Phone</div><input class="st-input" id="s-phone" placeholder="+91 90000 00000"></div>
+          <div class="st-field"><div class="st-flabel">Address</div><textarea class="st-input" id="s-address" rows="2" placeholder="City, State, Country"></textarea></div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ── BACKUP ── -->
-  <div id="stab-backup" style="display:none;">
-    <div class="st-grid st-g2">
-      <div class="st-card">
-        <div class="st-clabel">Backup &amp; Restore</div>
-        <button class="st-bkbtn bk-primary" onclick="exportBackup()">
-          <div class="st-bkicon"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div>
-          <div><div class="st-bktitle">Export Backup (JSON)</div><div class="st-bksub">Download all your data as a local file</div></div>
-        </button>
-        <label class="st-bkbtn" style="cursor:pointer;">
-          <div class="st-bkicon"><svg viewBox="0 0 24 24"><path d="M12 21V8M8 12l4-4 4 4"/><path d="M4 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/></svg></div>
-          <div><div class="st-bktitle">Import Backup (JSON)</div><div class="st-bksub">Restore from a previous backup file</div></div>
-          <input type="file" accept=".json" onchange="importBackup(event)" style="display:none;">
-        </label>
-        <p style="font-size:.71rem;color:var(--muted);line-height:1.6;margin-top:4px;">Data syncs via Supabase. Export a local backup before clearing site data.</p>
-      </div>
-      <div class="st-card" style="border:1px solid rgba(255,0,53,.2);">
-        <div class="st-clabel" style="color:var(--red);">Danger Zone</div>
-        <div style="font-size:.79rem;color:var(--muted);line-height:1.6;margin-bottom:16px;">Permanently deletes your data. These actions cannot be undone.</div>
-        <button class="btn btn-ghost btn-sm" style="color:var(--red);border-color:rgba(255,0,53,.3);width:100%;margin-bottom:8px;" onclick="clearAll()">🗑 Clear All Data</button>
-        <button class="btn" onclick="deleteAccount()" style="background:transparent;border:1px solid var(--red);color:var(--red);font-size:.8rem;font-weight:600;width:100%;padding:9px;">🗑 Delete My Account</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── ABOUT ── -->
-  <div id="stab-about" style="display:none;">
-    <div style="max-width:560px;display:flex;flex-direction:column;gap:16px;">
-      <!-- App card -->
-      <div class="st-card" style="display:flex;align-items:center;gap:14px;">
-        <div class="logo-icon" style="width:50px;height:50px;border-radius:13px;font-size:.95rem;flex-shrink:0;">SB</div>
-        <div>
-          <div style="font-size:1rem;font-weight:700;">StudioBills</div>
-          <div style="font-size:.73rem;color:var(--muted);margin-bottom:4px;">Version 1.0</div>
-          <div style="font-size:.75rem;color:var(--muted);line-height:1.6;font-weight:300;">Billing tracker for creative studios. Powered by Supabase.</div>
+    <div id="stab-payment" style="display:none;">
+      <div class="st-grid st-g2">
+        <div class="st-card t-grey st-wide">
+          <div class="st-clabel">Payment information</div>
+          <div class="st-grid st-g2">
+            <div class="st-field"><div class="st-flabel">UPI / GPay / PhonePe</div><input class="st-input" id="s-upi" placeholder="name@okaxis"></div>
+            <div class="st-field"><div class="st-flabel">Bank name</div><input class="st-input" id="s-bank" placeholder="Punjab National Bank"></div>
+            <div class="st-field"><div class="st-flabel">Account number</div><input class="st-input" id="s-account" placeholder="0000000000000000"></div>
+            <div class="st-field"><div class="st-flabel">IFSC</div><input class="st-input" id="s-ifsc" placeholder="XXXX0000000"></div>
+            <div class="st-field"><div class="st-flabel">SWIFT / BIC</div><input class="st-input" id="s-swift" placeholder="optional"></div>
+            <div class="st-field"><div class="st-flabel">PayPal / Wise</div><input class="st-input" id="s-paypal" placeholder="optional"></div>
+          </div>
         </div>
       </div>
-      <!-- AI Assistant -->
-      <!-- Plan + Legal -->
-      <div class="st-card" id="planStatusCard">
-        <div class="st-clabel">Your Plan</div>
-        <div style="height:1px;background:var(--border);margin:16px 0;"></div>
-        <div class="st-clabel">Legal</div>
-        <a href="/privacy-policy.html" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);font-size:.82rem;color:var(--text);text-decoration:none;margin-bottom:8px;transition:border .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
-          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Privacy Policy</span><span style="font-size:.7rem;color:var(--muted);">↗</span>
-        </a>
-        <a href="/terms-of-service.html" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);font-size:.82rem;color:var(--text);text-decoration:none;transition:border .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
-          <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Terms of Service</span><span style="font-size:.7rem;color:var(--muted);">↗</span>
-        </a>
+    </div>
+
+    <div id="stab-tax" style="display:none;">
+      <div class="st-grid st-g2">
+        <div class="st-card t-olive">
+          <div class="st-clabel">Tax information</div>
+          <div class="st-field"><div class="st-flabel">GSTIN</div><input class="st-input" id="s-gstin" placeholder="22AAAAA0000A1Z5"></div>
+          <div class="st-field"><div class="st-flabel">PAN</div><input class="st-input" id="s-pan" placeholder="AAAAA0000A"></div>
+        </div>
       </div>
-    </div><!-- end max-width wrapper -->
-  </div>
+    </div>
+
+    <div id="stab-categories" style="display:none;">
+      <div class="st-grid st-g2">
+        <div class="st-card t-yellow">
+          <div class="st-clabel">Income categories</div>
+          <div class="cat-pills" id="incCatPills"></div>
+          <div class="st-field" style="display:flex;gap:8px;"><input class="st-input" id="newIncCat" placeholder="Add a category"><button class="btn btn-sm" onclick="addCat('inc')">Add</button></div>
+        </div>
+        <div class="st-card t-yellow">
+          <div class="st-clabel">Expense categories</div>
+          <div class="cat-pills" id="expCatPills"></div>
+          <div class="st-field" style="display:flex;gap:8px;"><input class="st-input" id="newExpCat" placeholder="Add a category"><button class="btn btn-sm" onclick="addCat('exp')">Add</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="stab-backup" style="display:none;">
+      <div class="st-grid st-g2">
+        <div class="st-card t-lav st-wide">
+          <div class="st-clabel">Backup &amp; data</div>
+          <div class="st-bkbtns">
+            <button class="st-bkbtn bk-primary" onclick="exportBackup()"><span class="st-bkicon">&#8681;</span><span><span class="st-bktitle">Download backup</span><span class="st-bksub">Everything as one JSON file</span></span></button>
+            <button class="st-bkbtn" onclick="document.getElementById('restoreFile').click()"><span class="st-bkicon">&#8679;</span><span><span class="st-bktitle">Restore from backup</span><span class="st-bksub">Replace current data with a file</span></span></button>
+            <button class="st-bkbtn" onclick="clearAll()"><span class="st-bkicon">&#10005;</span><span><span class="st-bktitle">Erase all data</span><span class="st-bksub">Cannot be undone</span></span></button>
+            <input type="file" id="restoreFile" accept="application/json" style="display:none">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="stab-about" style="display:none;">
+      <div class="st-grid st-g2">
+        <div class="st-card t-grey st-wide" style="display:flex;align-items:center;gap:14px;">
+          <div class="logo-icon" style="width:50px;height:50px;border-radius:13px;font-size:.95rem;flex-shrink:0;">SB</div>
+          <div>
+            <div style="font-size:1rem;font-weight:750;">StudioBills</div>
+            <div style="font-size:.75rem;font-weight:600;color:rgba(0,0,0,.6);margin-top:3px;">Version 1.0 &middot; billing tracker for creative studios</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ DATA & LEGAL LIST -->
+  <section class="ref-wallet">
+    <div class="ref-wallet-head">
+      <span class="t-pill">Data &amp; legal</span>
+      <span class="ref-count" id="stLegalNote"></span>
+    </div>
+    <div class="ref-rows">
+      <div class="recent-row ref-row st-legal-row" onclick="window.open('/privacy-policy.html','_blank')">
+        <div class="recent-info"><div class="recent-name">Privacy policy</div><div class="recent-detail">How your data is handled</div></div>
+        <div class="ref-chev">&#8250;</div>
+      </div>
+      <div class="recent-row ref-row st-legal-row" onclick="window.open('/terms-of-service.html','_blank')">
+        <div class="recent-info"><div class="recent-name">Terms of service</div><div class="recent-detail">The rules of using StudioBills</div></div>
+        <div class="ref-chev">&#8250;</div>
+      </div>
+      <div class="recent-row ref-row st-legal-row" onclick="setSettingsSection('backup')">
+        <div class="recent-info"><div class="recent-name">Your data stays on this device</div><div class="recent-detail">Download a backup any time</div></div>
+        <div class="ref-chev">&#8250;</div>
+      </div>
+    </div>
+  </section>
 </div>
-
-</div><!-- .content -->
-
-<!-- MOBILE BOTTOM NAV -->
-<!-- ── FAB QUICK-ADD ── -->
-<div class="fab-menu" id="fabMenu">
-  <div class="fab-menu-item" onclick="closeFab();openModal('addIncomeModal')">
-    <span class="fab-menu-label">Add Income</span>
-    <button class="fab-menu-btn inc"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg></button>
-  </div>
-  <div class="fab-menu-item" onclick="closeFab();openModal('addExpenseModal')">
-    <span class="fab-menu-label">Add Expense</span>
-    <button class="fab-menu-btn exp"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
-  </div>
-</div>
-<button class="mob-fab" id="mobFab" onclick="toggleFab()">
-  <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-</button>
-
-<!-- ── NATIVE BOTTOM NAV ── -->
-<nav class="bot-nav" id="botNav">
-  <button class="bot-nav-item active" data-tab="overview" id="bn-overview">
-    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    <span>Dashboard</span>
-  </button>
-  <button class="bot-nav-item" data-tab="income" id="bn-income">
-    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
-    <span>Income</span>
-  </button>
-  <button class="bot-nav-item" data-tab="expenses" id="bn-expenses">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg>
-    <span>Expenses</span>
-  </button>
-  <button class="bot-nav-item" id="bn-more" onclick="openMobMore()">
-    <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg>
-    <span>More</span>
-  </button>
-</nav>
 
 <!-- ════════════════════ ADD CLIENT MODAL ════════════════════ -->
 <div class="modal-bg" id="addClientModal">
@@ -3931,7 +4022,38 @@ function setAccent(colour,el){}
 
 
 
-function renderSettings(){
+
+// Settings hero: studio identity + how complete the billing details are.
+
+// Settings sections: the menu card switches which panel is shown.
+function setSettingsSection(name){
+  document.querySelectorAll('#tab-settings .settings-panels > div').forEach(d=>{d.style.display='none';});
+  const el=document.getElementById('stab-'+name);
+  if(el)el.style.display='block';
+  document.querySelectorAll('#tab-settings .ref-menu li').forEach(li=>{
+    const on=li.getAttribute('onclick')&&li.getAttribute('onclick').indexOf("'"+name+"'")>-1;
+    li.classList.toggle('on',!!on);
+  });
+  if(typeof fillSettingsHero==='function')fillSettingsHero();
+  if(typeof applyTintText==='function')applyTintText();
+}
+
+function fillSettingsHero(){
+  const el=document.getElementById('shPct'); if(!el) return;
+  const p=db.profile||{};
+  const fields=['studioName','ownerName','role','email','phone','address','upi','bankName','accountNo','ifsc','pan'];
+  const filled=fields.filter(k=>String(p[k]||'').trim()!=='').length;
+  const pct=Math.round(filled/fields.length*100);
+  el.textContent=pct+'%';
+  const b1=document.getElementById('shBar'); if(b1) b1.style.width=pct+'%';
+  const b2=document.getElementById('shBarRest'); if(b2) b2.style.width=Math.max(0,100-pct)+'%';
+  const l1=document.getElementById('shBarLab'); if(l1) l1.textContent=filled+' of '+fields.length+' fields';
+  const n=document.getElementById('shStudio'); if(n) n.textContent=p.studioName||'Your studio name';
+  const r=document.getElementById('shRole'); if(r) r.textContent=p.role||'Add your role and contact details';
+  const th=document.getElementById('shTheme');
+  if(th) th.textContent=(typeof THEMES!=='undefined'&&THEMES[db.profile.theme]?THEMES[db.profile.theme].label:'Canvas');
+}
+function renderSettings(){setTimeout(function(){if(typeof setSettingsSection==='function'&&!document.querySelector('#tab-settings .settings-panels > div[style*="block"]'))setSettingsSection('contact');if(typeof fillSettingsHero==='function')fillSettingsHero();},0);setTimeout(fillSettingsHero,0);
   document.getElementById('s-studio').value=db.profile.studioName||'';
   document.getElementById('s-owner').value=db.profile.ownerName||'';
   document.getElementById('s-email').value=db.profile.email||'';
@@ -4849,6 +4971,12 @@ function duplicateInvoice(id) {
   db.income.unshift(copy); db.invoiceCounter=(db.invoiceCounter||0)+1;
   save();renderIncome();toast('Duplicated as '+copy.invNo);
 }
+
+// Settings hero refresh on section change
+document.addEventListener('click',function(e){
+  const st=e.target.closest&&e.target.closest('#tab-settings .stab');
+  if(st)setTimeout(function(){if(typeof fillSettingsHero==='function')fillSettingsHero();},30);
+});
 
 // Keep the Spend summary and card text correct after every expenses render
 (function(){
