@@ -453,6 +453,12 @@ body{background:var(--bg)!important;color:var(--text)!important;font-family:Outf
 .sidebar-search input,.search-inp{background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;color:var(--text)!important;height:40px!important}
 .sidebar-search input::placeholder,.search-inp::placeholder{color:var(--muted2)!important}
 .sidebar-nav{display:flex;flex-direction:column;gap:3px;padding:8px 12px!important}
+.sidebar-quick{display:flex;gap:8px;padding:10px 14px 4px}
+.sq-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:38px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font:inherit;font-size:.76rem;font-weight:650;cursor:pointer}
+.sq-btn span{font-size:.9rem;line-height:1;opacity:.85}
+.sq-btn:hover{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.65)}
+body:not(.tint-cards) .sq-btn{border-color:var(--line);color:var(--text)}
 .sn,.sidebar .sn{height:42px!important;border-radius:var(--r-sm)!important;background:transparent!important;border:0!important;color:var(--muted)!important;font-weight:550!important;padding:0 12px!important;gap:11px}
 .sn .sn-ico{display:grid;place-items:center;width:18px}
 .sn:hover,.sidebar .sn:hover{background:var(--surface)!important;color:var(--text)!important}
@@ -497,8 +503,8 @@ body{background:var(--bg)!important;color:var(--text)!important;font-family:Outf
 .pm-mnav button:hover{color:var(--accent)!important}
 
 /* ───────── chart card ───────── */
-.pm-mid-grid{grid-template-columns:minmax(0,1fr)!important;gap:18px!important}
-.pm-bottom-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin-top:6px!important}
+.pm-mid-grid{display:grid!important;grid-template-columns:minmax(0,7fr) minmax(0,5fr)!important;gap:16px!important;align-items:start}
+.pm-bottom-grid{display:grid!important;grid-template-columns:minmax(0,7fr) minmax(0,5fr)!important;gap:16px!important;margin-top:16px!important}
 .pm-chart-header,.pm-tcard-header{display:flex;align-items:center;gap:12px;padding:18px 22px!important;border-bottom:1px solid var(--line)!important}
 .pm-chart-title,.pm-tcard-title{font-size:.95rem!important;font-weight:650!important;letter-spacing:-.02em!important;color:var(--text)!important}
 .pm-chart-body{padding:16px 22px 12px!important}
@@ -553,8 +559,8 @@ label,.fg label,.st-flabel,.tax-label{color:var(--muted)!important;font-size:.72
 .itab.active svg,.stab.active svg{stroke:var(--accent-ink)!important}
 .itab.active *,.stab.active *,.ss-btn.on *,.fx-btn.sel *{color:var(--accent-ink)!important;-webkit-text-fill-color:var(--accent-ink)!important}
 body .itab.active,body .stab.active,body .ss-btn.on,body .fx-btn.sel{color:var(--accent-ink)!important;-webkit-text-fill-color:var(--accent-ink)!important}
-#incSortSwitch{padding:3px!important;background:var(--sunken)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;gap:2px!important}
-#incSortSwitch .ss-btn{border:0!important;min-width:56px;justify-content:center}
+#incSortSwitch,#expSortSwitch{padding:0!important;background:transparent!important;border:0!important;border-radius:999px!important;gap:6px!important;align-items:center}
+#incSortSwitch .ss-btn,#expSortSwitch .ss-btn{min-width:66px;justify-content:center;height:36px}
 .stab svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 /* ───────── badges / tags ───────── */
@@ -567,10 +573,11 @@ body .itab.active,body .stab.active,body .ss-btn.on,body .fx-btn.sel{color:var(-
 .sdot{display:none!important}
 
 /* ───────── ledger card lists (Income + Expenses share these) ───────── */
-.led-list{display:flex;flex-direction:column;gap:10px}
+.led-list{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))!important;gap:14px!important;align-items:start}
 .led-card{padding:16px 18px!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;background:var(--surface)!important;transition:border-color .16s var(--ease),background .16s}
 .led-card.is-overdue{border-color:color-mix(in srgb,var(--bad) 36%,transparent)!important}
-.led-row{display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:18px;align-items:baseline}
+.led-row{display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:14px;align-items:baseline;width:100%}
+.led-row-2{width:100%}
 .led-row-2{margin-top:9px;align-items:center}
 .led-title{font-size:.95rem;font-weight:640;letter-spacing:-.015em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .led-amount{font-size:1.05rem;font-weight:680;letter-spacing:-.02em;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -659,6 +666,8 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
 .stabs{margin-bottom:22px!important}
 .st-grid{gap:16px!important}
 .st-g2{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.st-wide{grid-column:1/-1!important}
+.st-full{grid-column:1/-1!important}
 .st-card{padding:22px!important}
 .st-savebar{display:flex;justify-content:flex-end;margin-top:6px;padding-bottom:24px}
 .theme-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))!important;gap:12px!important}
@@ -668,7 +677,8 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
 .theme-swatch .sw-dots{display:flex;gap:6px}
 .theme-swatch .sw-dot{width:18px;height:18px;border-radius:6px;border:1px solid rgba(255,255,255,.14)}
 .theme-swatch .sw-name{font-size:.82rem!important;font-weight:650!important;color:var(--text)!important}
-.theme-swatch .sw-desc{font-size:.72rem!important;color:var(--muted2)!important}
+.theme-swatch .sw-desc{font-size:.72rem!important;color:rgba(255,255,255,.66)!important}
+.theme-swatch .sw-name{color:#FFFFFF!important}
 .theme-swatch .sw-check{margin-left:auto;font-size:.72rem;color:var(--accent)}
 @media(max-width:900px){.st-g2{grid-template-columns:minmax(0,1fr)!important}}
 
@@ -763,7 +773,7 @@ body.tint-cards label,body.tint-cards .st-flabel{color:#9A9A9A!important}
 body.tint-cards .st-card label,body.tint-cards .t-sage label{color:rgba(0,0,0,.62)!important}
 
 /* ledger lists: reference "wallet" treatment — rows on black, no boxes */
-body.tint-cards .led-list{gap:0!important}
+body.tint-cards .led-list{gap:14px!important}
 body.tint-cards .led-card{background:transparent!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.12)!important;
   border-radius:0!important;padding:18px 4px!important}
 body.tint-cards .led-card:last-child{border-bottom:0!important}
@@ -864,7 +874,8 @@ body.tint-cards .t-olive .badge *,body.tint-cards .t-orange .badge *{color:#FFFF
 
 /* ledger cards adopt the reference language: bold fill, black text, outline pills */
 body.tint-cards .led-card{background:#161616!important;border:0!important;border-radius:22px!important;
-  padding:20px 22px!important;margin-bottom:12px!important;border-bottom:0!important}
+  padding:20px 22px!important;margin-bottom:0!important;border-bottom:0!important;min-height:132px;
+  display:flex!important;flex-direction:column!important;justify-content:space-between!important}
 body.tint-cards .led-card.t-sage{background:#D1DDCF!important}
 body.tint-cards .led-card.t-lav{background:#9B92B3!important}
 body.tint-cards .led-card.t-yellow{background:#E8E230!important}
@@ -892,9 +903,193 @@ body.tint-cards .led-card.t-olive .led-title,body.tint-cards .led-card.t-orange 
 body.tint-cards .led-card.t-olive .led-amount,body.tint-cards .led-card.t-orange .led-amount{color:#000!important}
 body.tint-cards .led-card[class*="t-"] select.row-more option{background:#000;color:#fff}
 body.tint-cards .led-active-filters{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ── reference bento layout ── */
+.bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px;margin-bottom:16px}
+.bento-hero{grid-column:1/-1;border-radius:26px;padding:26px 28px;display:flex;flex-direction:column;gap:20px}
+.hero-top{display:flex;align-items:center;gap:12px}
+.hero-studio{font-size:.86rem;font-weight:650;color:rgba(0,0,0,.7)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:26px;align-items:end}
+.hero-bars{display:flex;flex-direction:column;gap:12px;max-width:520px}
+.hbar{display:grid;grid-template-columns:96px 1fr max-content;gap:12px;align-items:center}
+.hbar-lab{font-size:.78rem;font-weight:650;color:rgba(0,0,0,.72)}
+.hbar-track{height:10px;border-radius:99px;background:rgba(0,0,0,.14);overflow:hidden;display:block}
+.hbar-track i{display:block;height:100%;border-radius:99px;background:#000000}
+.hbar b{font-size:.82rem;font-weight:750;color:#000;font-variant-numeric:tabular-nums}
+.hero-figure{text-align:right}
+.hero-pct{font-size:clamp(2.6rem,5vw,3.6rem);font-weight:800;letter-spacing:-.055em;line-height:1;color:#000}
+.hero-cap{font-size:.78rem;font-weight:600;color:rgba(0,0,0,.66);margin-top:6px}
+.hero-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;border-top:1px solid rgba(0,0,0,.16);padding-top:18px}
+.hero-net-label{font-size:.78rem;font-weight:650;color:rgba(0,0,0,.7);text-transform:none}
+.hero-net{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.05em;color:#000;font-variant-numeric:tabular-nums}
+.pm-kpi-row{grid-column:1/-1}
+.pm-bottom-grid{grid-column:1/-1}
+.bento-side{min-height:236px!important}
+.tile-bars{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.tile-bar{display:grid;grid-template-columns:74px 1fr;gap:12px;align-items:center}
+.tile-bar span:first-child{white-space:nowrap}
+.tile-bar span:first-child{font-size:.74rem;font-weight:650;color:rgba(0,0,0,.7)}
+.tile-bar .hbar-track{height:8px}
+@media(max-width:900px){.pm-mid-grid{grid-template-columns:minmax(0,1fr)!important}.pm-bottom-grid{grid-template-columns:minmax(0,1fr)!important}
+  .bento{grid-template-columns:minmax(0,1fr)}
+  .hero-grid{grid-template-columns:minmax(0,1fr);gap:16px}
+  .hero-figure{text-align:left}
+  .hbar{grid-template-columns:84px 1fr max-content}
+}
+/* pagination dots (reference) */
+#incPagination button,#expPagination button{width:9px!important;height:9px!important;padding:0!important;border:0!important;
+  border-radius:50%!important;background:rgba(255,255,255,.26)!important;color:transparent!important;min-width:9px!important;font-size:0!important;overflow:hidden}
+#incPagination button.active,#expPagination button.active,#incPagination button[class*="act"],#expPagination button[class*="act"]{
+  background:#fff!important;width:24px!important;border-radius:99px!important}
+#incPagination,#expPagination{gap:7px!important;padding:20px 0 6px!important}
+
+/* ────────── dashboard layout options (A–D) ────────── */
+/* A = bento (hero on top, 7/5 splits) — the current default */
+
+/* B · tiles first: no hero, 2x2 hero-size tiles, full-width chart */
+#tab-overview.layout-b .bento{display:none!important}
+#tab-overview.layout-b .pm-kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin-bottom:16px!important}
+#tab-overview.layout-b .pm-kpi{min-height:210px!important;padding:26px!important;justify-content:space-between!important}
+#tab-overview.layout-b .pm-kpi-value{font-size:clamp(2.6rem,4.6vw,3.7rem)!important}
+#tab-overview.layout-b .pm-kpi-icon{width:44px!important;height:44px!important;top:24px!important;right:24px!important}
+#tab-overview.layout-b .pm-mid-grid{grid-template-columns:minmax(0,1fr)!important}
+#tab-overview.layout-b .bento-side{display:none!important}
+#tab-overview.layout-b .pm-bottom-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+
+/* C · spotlight: one giant number, thin stat strip under it */
+#tab-overview.layout-c .hero-bars,#tab-overview.layout-c .hero-pct,#tab-overview.layout-c .hero-cap{display:none!important}
+#tab-overview.layout-c .bento-hero{padding:34px 32px 30px!important;gap:0!important}
+#tab-overview.layout-c .hero-net{font-size:clamp(3.2rem,6.6vw,5.2rem)!important;display:block}
+#tab-overview.layout-c .hero-net-label{display:block;margin-bottom:10px;font-size:.86rem!important}
+#tab-overview.layout-c .hero-foot{border-top:0!important;padding-top:0!important;display:block}
+#tab-overview.layout-c .pm-kpi-row{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important}
+#tab-overview.layout-c .pm-kpi{min-height:112px!important;padding:16px 18px!important}
+#tab-overview.layout-c .pm-kpi-value{font-size:1.2rem!important;font-weight:750!important;margin-top:8px!important}
+#tab-overview.layout-c .pm-kpi-icon{display:none!important}
+#tab-overview.layout-c .pm-mid-grid{grid-template-columns:minmax(0,1fr)!important}
+#tab-overview.layout-c .bento-side{display:none!important}
+#tab-overview.layout-c .pm-bottom-grid{grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+
+/* D · rail: coloured tiles stacked down the left, chart + lists on the right */
+#tab-overview.layout-d .bento{display:none!important}
+#tab-overview.layout-d .bento-grid{display:grid!important;grid-template-columns:330px minmax(0,1fr)!important;gap:16px!important;align-items:start}
+#tab-overview.layout-d .pm-kpi-row{grid-column:1!important;grid-row:1 / span 2!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important;margin:0!important}
+#tab-overview.layout-d .pm-kpi{min-height:126px!important;padding:18px 20px!important}
+#tab-overview.layout-d .pm-kpi-value{font-size:1.7rem!important}
+#tab-overview.layout-d .pm-kpi-icon{top:16px!important;right:16px!important;width:30px!important;height:30px!important}
+#tab-overview.layout-d .pm-mid-grid{grid-column:2!important;grid-template-columns:minmax(0,1fr)!important;margin-bottom:16px!important}
+#tab-overview.layout-d .bento-side{min-height:auto!important}
+#tab-overview.layout-d .pm-bottom-grid{grid-column:2!important;grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
+@media(max-width:1100px){
+  #tab-overview.layout-d .bento-grid{grid-template-columns:minmax(0,1fr)!important}
+  #tab-overview.layout-b .pm-kpi-row{grid-template-columns:minmax(0,1fr)!important}
+}
+
+/* ══ REFERENCE DASHBOARD ══ */
+.ref-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.ref-head-left{display:flex;flex-direction:column;gap:6px}
+.ref-eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.ref-edit{background:none;border:0;color:#8A8A8A;font:inherit;font-size:.76rem;font-weight:600;cursor:pointer;padding:0;width:max-content}
+.ref-edit:hover{color:#fff}
+.ref-head-pills{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ref-head-pills .t-pill{color:#fff}
+.ref-big{border-radius:26px;padding:24px 28px;display:flex;flex-direction:column;gap:22px;margin-bottom:16px}
+.ref-big-top{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.ref-toggle{display:inline-flex;align-items:center;gap:10px}
+.ref-toggle-lab{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,0,0,.75)}
+.ref-big-grid{display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:28px;align-items:end}
+.ref-bars{display:flex;flex-direction:column;gap:13px;max-width:540px}
+.ref-figure{text-align:right}
+.ref-pct{font-size:clamp(2.8rem,5.4vw,4rem);font-weight:800;letter-spacing:-.06em;line-height:1;color:#000}
+.ref-cap{font-size:.78rem;font-weight:600;color:rgba(0,0,0,.66);margin-top:8px;max-width:200px}
+.ref-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:16px;align-items:stretch}
+.ref-card{border-radius:26px;padding:22px;display:flex;flex-direction:column;gap:14px;position:relative;min-height:330px}
+.ref-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ref-note{font-size:.78rem;font-weight:600;color:rgba(0,0,0,.66);margin:0;max-width:34ch}
+.ref-chart{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px;align-items:stretch;position:relative;flex:1}
+.ref-chart-rail{display:grid;place-items:center;width:18px}
+.ref-chart-rail span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:.7rem;font-weight:700;letter-spacing:.1em;color:rgba(0,0,0,.55)}
+.ref-peak{position:absolute;top:0;right:0;background:#000;color:#fff;border-radius:999px;padding:4px 10px;font-size:.68rem;font-weight:700;white-space:nowrap}
+.ref-range{justify-content:flex-start;gap:6px!important;padding:0!important}
+.ref-range .rbtn{color:#000!important;border-color:rgba(0,0,0,.45)!important;height:30px;padding:0 11px!important;font-size:.72rem!important}
+.ref-range .rbtn.active{background:#000!important;color:#fff!important;border-color:#000!important}
+.ref-stat{font-size:clamp(2.2rem,4vw,3rem);font-weight:800;letter-spacing:-.055em;line-height:1;color:#000}
+.ref-stat-cap{font-size:.78rem;font-weight:600;color:rgba(0,0,0,.66);max-width:30ch}
+.ref-split{margin-top:auto;display:flex;flex-direction:column;gap:10px}
+.ref-split-track{display:flex;height:16px;border-radius:99px;overflow:hidden;background:rgba(0,0,0,.14)}
+.ref-split-track i{background:#000;display:block;height:100%}
+.ref-split-track u{background:rgba(0,0,0,.4);display:block;height:100%}
+.ref-split-labels{display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;color:rgba(0,0,0,.72)}
+.ref-month{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid rgba(0,0,0,.5);border-radius:999px;padding:6px 10px}
+.ref-month span{font-size:.78rem;font-weight:700;color:#000}
+.ref-month button{background:none;border:0;color:#000;font-size:1rem;line-height:1;cursor:pointer;padding:0 6px}
+.ref-gear{width:16px;height:16px;fill:none;stroke:#000;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ref-menu{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.ref-menu li{display:flex;align-items:center;gap:12px;padding:9px 0;font-size:.84rem;font-weight:600;color:#000;cursor:pointer;border-bottom:1px solid rgba(0,0,0,.14)}
+.ref-menu li:last-child{border-bottom:0}
+.ref-menu li:hover{opacity:.72}
+.ref-menu li svg{width:17px;height:17px;fill:none;stroke:#000;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ref-logout{margin-top:auto;height:48px;border:0;border-radius:999px;background:#000;color:#fff;font:inherit;font-size:.86rem;font-weight:700;cursor:pointer}
+.ref-logout:hover{opacity:.88}
+.ref-round{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;
+  font:inherit;font-size:1.05rem;line-height:1;cursor:pointer;display:grid;place-items:center}
+.ref-round:hover{background:rgba(255,255,255,.12)}
+.ref-card .ref-round{border-color:rgba(0,0,0,.5);color:#000}
+.ref-card .ref-round:hover{background:rgba(0,0,0,.1)}
+.ref-round-edge{position:absolute;right:-14px;bottom:96px;background:#fff;color:#000;border-color:#fff}
+.ref-wallet{margin-bottom:16px}
+.ref-wallet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.ref-wallet-head .t-pill{color:#fff}
+.ref-rows{display:flex;flex-direction:column}
+.ref-rows .recent-row{grid-template-columns:minmax(0,1fr) max-content minmax(0,auto);align-items:center;gap:18px;
+  padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.12);background:transparent;border-radius:0;margin:0}
+.ref-rows .recent-row:last-child{border-bottom:0}
+.ref-rows .recent-name{font-size:.95rem;font-weight:650;color:#fff}
+.ref-rows .recent-detail{font-size:.76rem;color:#8A8A8A;margin-top:4px}
+.ref-rows .recent-amount{font-size:.95rem;font-weight:700;color:#fff}
+.ref-dots{display:flex;justify-content:center;gap:8px;padding:16px 0 4px}
+.ref-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.24);display:block}
+.ref-dots i.on{background:#fff}
+@media(max-width:1200px){.ref-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media(max-width:900px){
+  .ref-row{grid-template-columns:minmax(0,1fr)}
+  .ref-big-grid{grid-template-columns:minmax(0,1fr);gap:18px}
+  .ref-figure{text-align:left}
+  .ref-card{min-height:0}
+}
+
+/* ══ INCOME in the reference language ══ */
+.filter-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.filter-row .search-wrap{flex:1 1 260px;max-width:340px}
+.filter-row .itabs{display:flex;gap:6px;flex-wrap:wrap}
+.ref-count{font-size:.8rem;font-weight:650;color:#8A8A8A}
+.ref-rows .ref-row{grid-template-columns:minmax(0,1fr) max-content max-content max-content;gap:18px;align-items:center;
+  padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.12);background:transparent;border-radius:0;margin:0}
+.ref-rows .ref-row:last-child{border-bottom:0}
+.ref-rows .ref-row:hover{background:rgba(255,255,255,.03)}
+.ref-rows .ref-row.is-overdue .recent-name{color:#FF8B6E}
+.ref-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.4);border-radius:999px;
+  padding:5px 12px;font-size:.72rem;font-weight:650;color:#fff;white-space:nowrap}
+.ref-chip .dotmark{width:6px;height:6px;border-radius:50%;background:currentColor}
+.ref-chip.ok{color:#7FE0A8}
+.ref-chip.warn{color:#E8E230}
+.ref-chip.bad{color:#FF8B6E}
+.ref-chip.info{color:#C6BFF0}
+.ref-chip.mut{color:#9A9A9A}
+.ref-rows .recent-amount{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+.ref-due{font-size:.72rem;font-weight:600;color:#8A8A8A}
+.ref-actions{display:flex;align-items:center;gap:6px;opacity:.75;transition:opacity .16s}
+.ref-row:hover .ref-actions{opacity:1}
+#incPagination{display:flex!important;justify-content:center;gap:8px!important}
+.ref-split-wide{display:flex;flex-direction:column;gap:18px;max-width:560px}
+.ref-mini-stats{display:flex;gap:34px;flex-wrap:wrap}
+.ref-mini-lab{display:block;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,0,0,.6);margin-bottom:5px}
+.ref-mini-stats b{font-size:1.15rem;font-weight:800;letter-spacing:-.03em;color:#000;font-variant-numeric:tabular-nums}
+body.tint-cards .ref-chip{border-color:rgba(255,255,255,.4)}
+@media(max-width:900px){.ref-rows .ref-row{grid-template-columns:minmax(0,1fr) max-content;gap:12px}.ref-actions{grid-column:1/-1;justify-content:flex-end}}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
-  body.tint-cards .led-card{padding:16px 2px!important}
+  body.tint-cards .led-card{padding:18px!important}
 }
 
 </style>
@@ -947,6 +1142,11 @@ body.tint-cards .led-active-filters{display:flex;gap:8px;flex-wrap:wrap}
   </div>
 
   <!-- Navigation -->
+  <div class="sidebar-quick">
+    <button class="sq-btn" onclick="openModal('addIncomeModal')"><span>+</span> Invoice</button>
+    <button class="sq-btn" onclick="openModal('addExpModal')"><span>+</span> Expense</button>
+  </div>
+
   <nav class="sidebar-nav" id="sidebarNav">
     <button class="sn active" data-tab="overview" onclick="showTab('overview')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Dashboard</button>
     <button class="sn" data-tab="income" onclick="showTab('income')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span> Income</button>
@@ -954,14 +1154,6 @@ body.tint-cards .led-active-filters{display:flex;gap:8px;flex-wrap:wrap}
     <button class="sn" data-tab="clients" onclick="showTab('clients')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Clients</button>
     <button class="sn" data-tab="settings" onclick="showTab('settings')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</button>
   </nav>
-
-  <div class="sidebar-divider"></div>
-
-  <!-- Quick Actions -->
-  <div class="sidebar-actions">
-    <button class="btn btn-dark" style="width:100%;justify-content:center;" onclick="openModal('addIncomeModal')">+ New Invoice</button>
-    <button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;" onclick="openModal('addExpModal')">+ Add Expense</button>
-  </div>
 
   <!-- Footer: user info + sign out -->
   <div class="sidebar-footer">
@@ -1021,142 +1213,173 @@ body.tint-cards .led-active-filters{display:flex;gap:8px;flex-wrap:wrap}
     <span id="sc-clients">0</span>
     <span id="sc-overdue2">₹0</span>
     <span id="sc-overdue2-sub"></span>
+    <span id="heroNet">₹0</span>
+    <span id="heroSub">This month</span>
+    <span id="mnavHidden"></span>
+    <span id="ns-billed">₹0</span>
+    <span id="ns-recv">₹0</span>
+    <span id="ns-exp">₹0</span>
+    <span id="sc-income-sub">0 invoices</span>
+    <span id="sc-exp-sub">0 entries</span>
+    <span id="bcStudioName">StudioBills</span>
     <span id="sc-outstanding">₹0</span>
     <span id="sc-outstanding-sub"></span>
   </div>
   <!-- ONBOARDING CARDS (injected by JS) -->
   <div id="onboardingCards" style="padding:10px 24px 0;"></div>
 
-  <!-- ══ PREMIUM DASHBOARD LAYOUT ══ -->
-  <div class="bento-grid">
+  <!-- ══ REFERENCE LAYOUT: header · big card · 3 cards · list ══ -->
 
-    <!-- ① KPI ROW — 4 cards -->
-    <div class="pm-kpi-row">
+  <header class="ref-head">
+    <div class="ref-head-left">
+      <div class="ref-eyebrow">Your billing</div>
+      <button class="ref-edit" onclick="showTab('settings')">Edit</button>
+    </div>
+    <div class="ref-head-pills">
+      <button class="t-pill" onclick="showTab('income')">Invoices</button>
+      <button class="t-pill" onclick="showTab('clients')">Clients</button>
+      <button class="t-pill" onclick="showTab('settings')">&#8377; INR</button>
+    </div>
+  </header>
 
-      <!-- Net Balance — featured purple -->
-      <div class="pm-kpi pm-featured t-sage">
-        <div style="color:rgba(255,255,255,.5);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px;">Net Balance</div>
-        <div class="bc-studio-name" id="bcStudioName" style="color:rgba(255,255,255,.75);font-size:.78rem;font-weight:600;letter-spacing:-.01em;margin-bottom:10px;text-transform:none;">StudioBills</div>
-        <div class="pm-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <div class="pm-kpi-value" id="heroNet">₹0</div>
-        <div class="pm-kpi-meta">
-          <span class="pm-kpi-sub" id="heroSub">This month</span>
-        </div>
-        <div class="pm-mnav">
-          <button onclick="shiftMonth(-1)">&#8249;</button>
-          <span id="mnavLabel">—</span>
-          <button onclick="shiftMonth(1)">&#8250;</button>
-        </div>
-      </div>
-
-      <!-- Billed -->
-      <div class="pm-kpi t-lav">
-        <div class="pm-kpi-label">Total Billed</div>
-        <div class="pm-kpi-icon pki-purple">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="10" y2="17"/></svg>
-        </div>
-        <div class="pm-kpi-value" id="ns-billed">₹0</div>
-        <div class="pm-kpi-meta">
-          <span class="pm-kpi-sub" id="sc-income-sub">0 invoices</span>
-        </div>
-      </div>
-
-      <!-- Received -->
-      <div class="pm-kpi t-olive">
-        <div class="pm-kpi-label">Received</div>
-        <div class="pm-kpi-icon pki-green">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div class="pm-kpi-value" id="ns-recv" style="color:var(--green);">₹0</div>
-        <div class="pm-kpi-meta">
-          <span class="pm-kpi-sub">Collected</span>
-        </div>
-      </div>
-
-      <!-- Expenses -->
-      <div class="pm-kpi t-orange">
-        <div class="pm-kpi-label">Expenses</div>
-        <div class="pm-kpi-icon pki-amber">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg>
-        </div>
-        <div class="pm-kpi-value" id="ns-exp" style="color:var(--amber);">₹0</div>
-        <div class="pm-kpi-meta">
-          <span class="pm-kpi-sub" id="sc-exp-sub">0 entries</span>
-        </div>
+  <!-- ① BIG CARD -->
+  <section class="ref-big t-sage">
+    <div class="ref-big-top">
+      <span class="t-pill">Your billing</span>
+      <span class="ref-toggle">
+        <span class="ref-toggle-lab">Billed</span>
+        <label class="toggle-wrap"><input type="checkbox" id="dashBilled" onchange="fillDashboard()"><span class="toggle-slider"></span></label>
+      </span>
+    </div>
+    <div class="ref-big-grid">
+      <div class="ref-bars" id="dashBars"></div>
+      <div class="ref-figure">
+        <div class="ref-pct" id="dashPct">&mdash;</div>
+        <div class="ref-cap" id="dashCap">collected this month</div>
       </div>
     </div>
+  </section>
 
-    <!-- ② MID GRID: chart + side panel -->
-    <div class="pm-mid-grid">
+  <!-- ② THREE CARDS -->
+  <section class="ref-row">
 
-      <!-- Chart card -->
-      <div class="pm-chart-card t-grey">
-        <div class="pm-chart-header">
-          <div>
-            <div class="pm-chart-title">Income vs Expenses</div>
-          </div>
-          <div class="pm-chart-legend">
-            <div class="leg active" id="legIncome"><span class="leg-dot" style="background:var(--purple)" id="legExpDot2"></span>Income</div>
-            <div class="leg" id="legExp"><span class="leg-dot" style="background:#CBD5E1" id="legExpDot"></span>Expenses</div>
-          </div>
-          <div style="display:flex;gap:2px;margin-left:8px;">
-            <button class="rbtn active" id="gs-line" onclick="setChartStyle('line')" title="Area">Area</button>
-            <button class="rbtn" id="gs-bars" onclick="setChartStyle('bars')" title="Bars">Bars</button>
-          </div>
+    <article class="ref-card t-olive">
+      <div class="ref-card-top"><span class="t-pill">Trend</span></div>
+      <p class="ref-note">Invoiced work over the last six months.</p>
+      <div class="ref-chart">
+        <div class="ref-chart-rail"><span id="dashYear">2026</span></div>
+        <div class="chart-canvas-wrap" id="chartCanvasWrap" style="height:170px;">
+          <canvas id="mainChart"></canvas>
+          <div class="ann-bub red" id="annPeak" style="display:none;">&#9650;</div>
+          <div class="ann-bub black" id="annLow" style="display:none;">&#9889;</div>
         </div>
-        <div class="pm-chart-body">
-          <div class="chart-canvas-wrap" id="chartCanvasWrap" style="height:220px;">
-            <canvas id="mainChart"></canvas>
-            <div class="ann-bub red" id="annPeak" style="display:none;">▲</div>
-            <div class="ann-bub black" id="annLow" style="display:none;">⚡</div>
-          </div>
-          <div class="range-row" style="padding:4px 0 2px;">
-            <button class="rbtn" data-range="3M">3M</button>
-            <button class="rbtn active" data-range="6M">6M</button>
-            <button class="rbtn" data-range="1Y">1Y</button>
-            <button class="rbtn" data-range="ALL">ALL</button>
-          </div>
-          <div class="chart-xlabels" id="chartXLabels"></div>
+        <div class="ref-peak" id="dashPeak"></div>
+      </div>
+      <div class="range-row ref-range">
+        <button class="rbtn" data-range="3M">3M</button>
+        <button class="rbtn active" data-range="6M">6M</button>
+        <button class="rbtn" data-range="1Y">1Y</button>
+        <button class="rbtn" data-range="ALL">ALL</button>
+      </div>
+      <div class="chart-xlabels" id="chartXLabels"></div>
+    </article>
+
+    <article class="ref-card t-lav">
+      <div class="ref-card-top"><span class="t-pill">Collection</span></div>
+      <div class="ref-stat" id="dashCollect">&mdash;</div>
+      <div class="ref-stat-cap">collected of what you billed this month</div>
+      <div class="ref-split">
+        <div class="ref-split-track"><i id="dashSplitGot"></i><u id="dashSplitDue"></u></div>
+        <div class="ref-split-labels">
+          <span id="dashSplitGotLab">&mdash;</span>
+          <span id="dashSplitDueLab">&mdash;</span>
         </div>
       </div>
+      <div class="ref-month">
+        <button type="button" onclick="shiftMonth(-1)" aria-label="Previous month">&#8249;</button>
+        <span id="mnavLabel">&mdash;</span>
+        <button type="button" onclick="shiftMonth(1)" aria-label="Next month">&#8250;</button>
+      </div>
+    </article>
 
+    <article class="ref-card t-orange ref-card-menu">
+      <div class="ref-card-top">
+        <span class="t-pill">Shortcuts</span>
+        <svg viewBox="0 0 24 24" class="ref-gear"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.18V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.6 15H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09A1.65 1.65 0 0 0 21 10h.09a2 2 0 0 1 0 4H21a1.65 1.65 0 0 0-1.6 1z"/></svg>
+      </div>
+      <ul class="ref-menu">
+        <li onclick="openModal('addIncomeModal')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New invoice</li>
+        <li onclick="openModal('addExpModal')"><svg viewBox="0 0 24 24"><path d="M12 5v14"/></svg>New expense</li>
+        <li onclick="openAddClientModal()"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4"/><path d="M3 20c0-3.2 2.7-5.5 6-5.5s6 2.3 6 5.5"/></svg>Add client</li>
+        <li onclick="showTab('income')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>All invoices</li>
+        <li onclick="exportBackup()"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4M4 20h16"/></svg>Back up data</li>
+        <li onclick="showTab('settings')"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Settings</li>
+      </ul>
+      <button class="ref-logout" onclick="signOut()">Log out</button>
+      <button class="ref-round ref-round-edge" onclick="showTab('settings')" aria-label="Settings">&#8250;</button>
+    </article>
+  </section>
 
+  <!-- ③ LIST SECTION -->
+  <section class="ref-wallet">
+    <div class="ref-wallet-head">
+      <span class="t-pill">Recent invoices</span>
+      <button class="ref-round" onclick="openModal('addIncomeModal')" aria-label="New invoice">+</button>
     </div>
+    <div id="recentIncList" class="ref-rows"></div>
+    <div class="ref-dots" id="refDots"></div>
+  </section>
 
-    <!-- ③ BOTTOM GRID: Recent Income + Recent Expenses -->
-    <div class="pm-bottom-grid">
-
-      <div class="pm-table-card">
-        <div class="pm-tcard-header">
-          <div class="pm-tcard-title">Recent Income</div>
-          <button class="pm-tcard-link" onclick="showTab('income')">View all →</button>
-        </div>
-        <div id="recentIncList" style="padding:0 18px;"></div>
-      </div>
-
-      <div class="pm-table-card">
-        <div class="pm-tcard-header">
-          <div class="pm-tcard-title">Recent Expenses</div>
-          <button class="pm-tcard-link" onclick="showTab('expenses')">View all →</button>
-        </div>
-        <div id="recentExpList" style="padding:0 18px;"></div>
-      </div>
-
+  <section class="ref-wallet">
+    <div class="ref-wallet-head">
+      <span class="t-pill">Recent expenses</span>
+      <button class="ref-round" onclick="openModal('addExpModal')" aria-label="New expense">+</button>
     </div>
+    <div id="recentExpList" class="ref-rows"></div>
+  </section>
 
-  </div><!-- /.bento-grid -->
 </div>
 
 <!-- ══════════════════════ INCOME ══════════════════════ -->
 <div class="tab" id="tab-income">
-  <div class="ph">
-    <div><h1><strong>Income</strong></h1><p>Invoices &amp; payments</p></div>
-    <div class="ph-actions">
-      <div class="search-wrap"><input class="search-inp" id="incSearch" placeholder="Search client…" oninput="renderIncome()"></div>
-      <button class="btn btn-dark btn-sm" onclick="openModal('addIncomeModal')">+ New Invoice</button>
+  <header class="ref-head">
+    <div class="ref-head-left">
+      <div class="ref-eyebrow">Invoices</div>
+      <button class="ref-edit" onclick="showTab('clients')">Clients</button>
     </div>
-  </div>
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+    <div class="ref-head-pills">
+      <button class="t-pill" onclick="showTab('expenses')">Expenses</button>
+      <button class="btn btn-dark btn-sm" onclick="openModal('addIncomeModal')">+ New invoice</button>
+    </div>
+  </header>
+
+  <!-- Billing summary — same card language as the dashboard -->
+  <section class="ref-big t-sage">
+    <div class="ref-big-top">
+      <span class="t-pill">Billing</span>
+      <span class="ref-toggle"><span class="ref-toggle-lab" id="incScopeLab">All time</span></span>
+    </div>
+    <div class="ref-big-grid">
+      <div class="ref-split-wide">
+        <div class="ref-split" style="margin-top:0">
+          <div class="ref-split-track"><i id="incSplitGot"></i><u id="incSplitDue"></u></div>
+          <div class="ref-split-labels"><span id="incSplitGotLab">&mdash;</span><span id="incSplitDueLab">&mdash;</span></div>
+        </div>
+        <div class="ref-mini-stats">
+          <div><span class="ref-mini-lab">Billed</span><b id="incTotalBilled">&mdash;</b></div>
+          <div><span class="ref-mini-lab">Received</span><b id="incTotalGot">&mdash;</b></div>
+          <div><span class="ref-mini-lab">Overdue</span><b id="incTotalOverdue">&mdash;</b></div>
+        </div>
+      </div>
+      <div class="ref-figure">
+        <div class="ref-pct" id="incPct">&mdash;</div>
+        <div class="ref-cap">collected of everything billed</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-row">
+    <div class="search-wrap"><input class="search-inp" id="incSearch" placeholder="Search client or invoice&hellip;" oninput="renderIncome()"></div>
     <div class="itabs" id="incTabs">
       <button class="itab active" data-f="all">All</button>
       <button class="itab" data-f="received">Received</button>
@@ -1168,12 +1391,16 @@ body.tint-cards .led-active-filters{display:flex;gap:8px;flex-wrap:wrap}
       <button class="ss-btn on" type="button" onclick="setIncSort('no')">No.</button>
       <button class="ss-btn" type="button" onclick="setIncSort('date')">Date</button>
     </div>
-    
   </div>
-  <div class="led-list" id="incTbody"></div>
-  <div id="incPagination" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:18px 0;"></div>
-</div>
 
+  <section class="ref-wallet">
+    <div class="ref-wallet-head">
+      <span class="t-pill">All invoices</span>
+      <span class="ref-count" id="incCount"></span>
+    </div>
+    <div id="incTbody" class="ref-rows"></div>
+    <div id="incPagination" class="ref-dots"></div>
+  </section>
 <!-- ══════════════════════ EXPENSES ══════════════════════ -->
 <div class="tab" id="tab-expenses">
   <div class="ph">
@@ -1252,7 +1479,7 @@ body.tint-cards .led-active-filters{display:flex;gap:8px;flex-wrap:wrap}
         <div class="st-field"><div class="st-flabel">Phone</div><input class="st-input" id="s-phone" placeholder="e.g. +91 98765 43210"></div>
         <div class="st-field"><div class="st-flabel">Address</div><textarea class="st-input" id="s-address" rows="3" placeholder="Your address"></textarea></div>
       </div>
-      <div class="st-card t-grey">
+      <div class="st-card t-grey st-wide">
         <div class="st-clabel">Payment Information</div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
           <div class="st-field"><div class="st-flabel">UPI / GPay / PhonePe</div><input class="st-input" id="s-upi" placeholder="yourname@okicici"></div>
@@ -2259,7 +2486,7 @@ function drawMainChart(){
     const ctx=canvas.getContext('2d');
     if(mainChart){mainChart.destroy();mainChart=null;}
     mainChart=new Chart(ctx,{type:'bar',data:{labels:lbls,datasets:[
-      {label:'Income',data:incData,backgroundColor:h2r(window._TC.inc,(window._TC&&window._TC.solidBars)?1:0.72),borderRadius:6,barPercentage:0.55,categoryPercentage:0.8,order:1},
+      {label:'Income',data:incData,backgroundColor:h2r(window._TC.inc,(window._TC&&window._TC.solidBars)?1:0.72),borderRadius:9,barPercentage:(window._TC&&window._TC.solidBars)?0.92:0.85,categoryPercentage:(window._TC&&window._TC.solidBars)?0.86:0.8,barPercentage:0.55,categoryPercentage:0.8,order:1},
       {label:'Expenses',data:expData,backgroundColor:h2r(window._TC.exp,0.65),borderRadius:5,barPercentage:0.55,categoryPercentage:0.8,order:2}
     ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{backgroundColor:'#0A0A0A',titleColor:'#fff',bodyColor:'rgba(255,255,255,.75)',padding:10,cornerRadius:10,callbacks:{label:c=>` ${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
@@ -2469,6 +2696,23 @@ function sBadge(i){
 let incFilter='all';
 let incSort='no';   // 'no' = invoice number (sequence), 'date' = newest date;
 function setIncSort(mode){incSort=mode;incPage=0;renderIncome();}
+function fillIncomeSummary(){
+  const el=document.getElementById('incPct'); if(!el) return;
+  const rows=(db.income||[]).filter(function(i){return !i.isCreditNote;});
+  const billed=rows.reduce(function(s2,i){return s2+(+i.amount||0);},0);
+  const got=rows.reduce(function(s2,i){return s2+rcv(i);},0);
+  const overdue=rows.filter(function(i){return typeof isOverdue==='function'&&isOverdue(i);}).reduce(function(s2,i){return s2+((+i.amount||0)-rcv(i));},0);
+  const pct=billed>0?Math.round(got/billed*100):0;
+  const g=document.getElementById('incSplitGot'); if(g) g.style.width=pct+'%';
+  const d=document.getElementById('incSplitDue'); if(d) d.style.width=Math.max(0,100-pct)+'%';
+  const gl=document.getElementById('incSplitGotLab'); if(gl) gl.textContent=fmt(got)+' collected';
+  const dl=document.getElementById('incSplitDueLab'); if(dl) dl.textContent=fmt(billed-got)+' outstanding';
+  const tb=document.getElementById('incTotalBilled'); if(tb) tb.textContent=fmt(billed);
+  const tg=document.getElementById('incTotalGot'); if(tg) tg.textContent=fmt(got);
+  const to=document.getElementById('incTotalOverdue'); if(to) to.textContent=fmt(overdue);
+  el.textContent=pct+'%';
+  const cnt=document.getElementById('incCount'); if(cnt) cnt.textContent=rows.length+' invoice'+(rows.length===1?'':'s');
+}
 function renderIncome(){
   const q=(document.getElementById('incSearch')?.value||'').toLowerCase();
   let rows=[...db.income];
@@ -2497,35 +2741,29 @@ function renderIncome(){
       :(i.status==='received'?['Received','ok']
       :(i.status==='partial'?['Partially paid','info']
       :(i.isCreditNote?['Credit note','mut']:['Pending','warn'])));
-    // reference language: every card carries a bold fill, tinted by what the invoice is
-    const tint=overdue?'t-orange':(i.status==='received'?'t-sage':(i.status==='partial'?'t-lav':(i.isCreditNote?'t-grey':'t-yellow')));
-    return `<article class="led-card ${tint}${overdue?' is-overdue':''}">
-      <div class="led-row">
-        <div class="led-title" title="${esc(i.client)}">${esc(i.client)}</div>
-        <div class="led-amount">${amount}</div>
+    return `<div class="recent-row ref-row${overdue?' is-overdue':''}">
+      <div class="recent-info">
+        <div class="recent-name">${esc(i.client)}</div>
+        <div class="recent-detail">${esc(i.invNo||'—')} · ${i.due?'due '+fmtD(i.due):'on receipt'}${i.cat?' · '+esc(i.cat):''}</div>
       </div>
-      <div class="led-row led-row-2">
-        <div class="led-meta">
-          <span class="led-no">${esc(i.invNo||'—')}</span>
-          <span>${i.due?'due '+fmtD(i.due):'on receipt'}</span>
-          <span class="led-status ${st[1]}"><span class="dotmark"></span>${st[0]}</span>
-          ${(!overdue&&i.status==='partial'&&left>0)?`<span>${fmt(left)} left</span>`:''}
-        </div>
-        <div class="led-actions">
-          <button type="button" class="row-action" onclick="curInvId='${i.id}';genInvoice()">View</button>
-          <button type="button" class="row-action" onclick="editInc('${i.id}')">Edit</button>
-          <select class="row-more" aria-label="More actions" onchange="incomeRowAction(this,'${i.id}')">
-            <option value="">⋯</option>
-            ${i.status!=='received'?'<option value="payment">Record payment</option>':''}
-            <option value="duplicate">Duplicate</option><option value="delete">Delete</option>
-          </select>
-        </div>
+      <div class="ref-chip ${st[1]}"><span class="dotmark"></span>${st[0]}</div>
+      <div class="recent-amount">${amount}${(!overdue&&i.status!=='received'&&left>0)?`<span class="ref-due">${fmt(left)} due</span>`:''}</div>
+      <div class="ref-actions">
+        <button type="button" class="row-action" onclick="curInvId='${i.id}';genInvoice()">View</button>
+        <button type="button" class="row-action" onclick="editInc('${i.id}')">Edit</button>
+        <select class="row-more" aria-label="More actions" onchange="incomeRowAction(this,'${i.id}')">
+          <option value="">⋯</option>
+          ${i.status!=='received'?'<option value="payment">Record payment</option>':''}
+          <option value="duplicate">Duplicate</option><option value="delete">Delete</option>
+        </select>
       </div>
-    </article>`;
+    </div>`;
   }).join('');
   renderPagination('incPagination',incPage,total,setIncPage);
   const sw=document.getElementById('incSortSwitch');
   if(sw)sw.querySelectorAll('.ss-btn').forEach(b=>b.classList.toggle('on',b.textContent.trim()===(incSort==='no'?'No.':'Date')));
+  fillIncomeSummary();
+  if(typeof applyTintText==='function')applyTintText();
 }
 function incomeRowAction(select,id){
   const action=select.value;
@@ -3369,6 +3607,54 @@ function applyTintText(){
   });
 }
 
+// Hero card figures — collected vs billed for the week, month and year (reference style).
+function fillDashboard(){
+  const bars=document.getElementById('dashBars');
+  if(!bars) return;
+  const showBilled=!!(document.getElementById('dashBilled')&&document.getElementById('dashBilled').checked);
+  const now=new Date();
+  const startOfWeek=(function(){var d=new Date(now);var wd=(d.getDay()+6)%7;d.setDate(d.getDate()-wd);return d.toISOString().slice(0,10);})();
+  const mStart=now.toISOString().slice(0,7)+'-01';
+  const yStart=now.getFullYear()+'-01-01';
+  const rows=(db.income||[]).filter(function(i){return !i.isCreditNote;});
+  const sum=function(a,k){return a.reduce(function(s,i){return s+(+i[k]||0);},0);};
+  const calc=function(from){var a=rows.filter(function(i){return (i.date||'')>=from;});
+    var billed=sum(a,'amount');var got=a.reduce(function(s,i){return s+rcv(i);},0);
+    return {billed:billed,got:got,pct:billed>0?Math.round(got/billed*100):0};};
+  var w=calc(startOfWeek),m=calc(mStart),y=calc(yStart);
+  var list=[['This week',w],['This month',m],['This year',y]];
+  var maxv=Math.max(w.billed,m.billed,y.billed,1);
+  bars.innerHTML=list.map(function(p){
+    var pct=p[1].pct;
+    var width=showBilled?Math.round(p[1].billed/maxv*100):Math.min(100,pct);
+    var right=showBilled?fmt(p[1].billed):pct+'%';
+    return '<div class="hbar"><span class="hbar-lab">'+p[0]+'</span>'+
+      '<span class="hbar-track"><i style="width:'+Math.max(width,2)+'%"></i></span>'+
+      '<b>'+right+'</b></div>';}).join('');
+  var pctEl=document.getElementById('dashPct'); if(pctEl) pctEl.textContent=m.pct+'%';
+  var cap=document.getElementById('dashCap'); if(cap) cap.textContent=showBilled?('billed this month '+fmt(m.billed)):(fmt(m.got)+' of '+fmt(m.billed)+' collected');
+  // collection card
+  var outstanding=rows.reduce(function(s2,i){return s2+(i.status!=='received'?((+i.amount||0)-rcv(i)):0);},0);
+  var totalBilled=sum(rows,'amount');
+  var got=rows.reduce(function(s2,i){return s2+rcv(i);},0);
+  var splitGot=totalBilled>0?Math.round(got/totalBilled*100):0;
+  var cEl=document.getElementById('dashCollect'); if(cEl) cEl.textContent=splitGot+'%';
+  var gEl=document.getElementById('dashSplitGot'); if(gEl) gEl.style.width=splitGot+'%';
+  var dEl=document.getElementById('dashSplitDue'); if(dEl) dEl.style.width=Math.max(0,100-splitGot)+'%';
+  var gl=document.getElementById('dashSplitGotLab'); if(gl) gl.textContent=fmt(got)+' collected';
+  var dl=document.getElementById('dashSplitDueLab'); if(dl) dl.textContent=fmt(outstanding)+' outstanding';
+  // trend card extras
+  var yr=document.getElementById('dashYear'); if(yr) yr.textContent=String(now.getFullYear());
+  var months={};rows.forEach(function(i){var k=(i.date||'').slice(0,7);if(k)months[k]=(months[k]||0)+(+i.amount||0);});
+  var keys=Object.keys(months).sort().slice(-6);var peak=0;keys.forEach(function(k){if(months[k]>peak)peak=months[k];});
+  var pk=document.getElementById('dashPeak'); if(pk) pk.textContent=peak?('peak '+fmt(peak)):'no data';
+  // dots under the list
+  var dots=document.getElementById('refDots');
+  if(dots){var n=Math.min(5,Math.max(0,(db.income||[]).length));dots.innerHTML='';
+    for(var i2=0;i2<n;i2++){var d=document.createElement('i');if(i2===0)d.className='on';dots.appendChild(d);}}
+}
+function fillHeroCard(){fillDashboard();}
+
 function applyTheme(){
   if(!db._glassMigrated){db._glassMigrated=true;db.profile.darkMode=false;save();}
   const tn=THEMES[db.profile.theme]?db.profile.theme:'canvas';
@@ -3458,7 +3744,7 @@ function renderSettings(){
   renderCatPills();
 }
 function saveProfile(){
-  const whatsappRaw=document.getElementById('s-whatsapp').value.trim();
+  const whatsappRaw='';   // WhatsApp automation removed in the minimal pass
   const whatsappNormalized=whatsappRaw?whatsappRaw.replace(/[^\d+]/g,''):'';
   db.profile.studioName=document.getElementById('s-studio').value.trim();
   db.profile.ownerName=document.getElementById('s-owner').value.trim();
@@ -4395,7 +4681,7 @@ document.addEventListener('click',e=>{if(!e.target.closest('.sidebar-search')){c
 // Keep coloured-card text correct after every dashboard render
 (function(){
   const _ro=renderOverview;
-  renderOverview=function(){_ro();applyTintText();};
+  renderOverview=function(){_ro();fillHeroCard();applyTintText();};
 })();
 
 // Patch renderOverview to update outstanding stat cards
