@@ -1655,6 +1655,56 @@ textarea{line-height:1.55!important}
   .chart-xlabels span{flex:1 1 0;min-width:0;text-align:center;font-size:.58rem!important;overflow:hidden;white-space:nowrap}
   .chart-xlabels span:nth-child(even){display:none!important}
 }
+/* ══ dashboard on the same scale as every other tab ══ */
+/* only the earning figure stays large — and it uses the app's standard big-figure size */
+.dash-earn-big{font-size:clamp(2.4rem,4.6vw,4rem)!important;line-height:1.02}
+.dash-earn-grid{gap:30px!important}
+.dash-earn-sub{font-size:.86rem!important;font-weight:700!important;margin-top:10px!important}
+.dash-earn-stat{min-height:38px!important;padding:9px 13px!important;border-radius:14px!important}
+.dash-earn-lab{font-size:.64rem!important}
+.dash-earn-stat b{font-size:.86rem!important}
+.dash-earn-foot{font-size:.71rem!important}
+.dash-earn-right{gap:8px!important}
+/* month cards: value and sub-lines on the app's text scale */
+.db-kpi{font-size:1.15rem!important;font-weight:800!important;letter-spacing:-.02em!important;line-height:1.15}
+.db-kpi-sub{font-size:.76rem!important;font-weight:650!important}
+.db-kpi-cap{font-size:.64rem!important}
+.db-kpis .ref-card{padding:22px 24px!important;gap:5px!important}
+/* chart card: same height band as the analytics chart card */
+.db-chart-card .chart-canvas-wrap{height:215px!important}
+.db-chart-card .ref-note{font-size:.78rem!important}
+.db-legend{margin-top:10px!important}
+.db-legend .db-leg{font-size:.74rem!important}
+/* hero: bring it into the same height band as the other tabs' summary cards */
+.dash-earn-stat{min-height:36px!important;padding:8px 13px!important}
+.dash-earn-right{gap:7px!important}
+.dash-earn-foot{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px!important}
+.ref-big.dash-earn .ref-big-top{margin-bottom:10px!important}
+.ref-big.dash-earn{padding-top:22px!important;padding-bottom:22px!important}
+/* hero footer becomes a full-width line under the two columns */
+.dash-earn-foot{padding:12px 0 0!important;margin:0!important;font-size:.72rem!important;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:rgba(0,0,0,.66)!important}
+.dash-earn-stat{min-height:34px!important;padding:7px 13px!important}
+.dash-earn-right{gap:6px!important}
+/* hero: two stat rows + a full-width footer line -> same height band as other tabs */
+.dash-earn-stat{min-height:32px!important;padding:6px 12px!important}
+.dash-earn-right{gap:6px!important}
+.ref-big.dash-earn{padding-top:20px!important;padding-bottom:20px!important}
+.ref-big.dash-earn .ref-big-top{margin-bottom:8px!important}
+.dash-earn-sub{margin-top:8px!important}
+.dash-earn-foot{padding:10px 0 0!important}
+/* hero: final trim to the app's card band */
+.dash-earn-stat{min-height:30px!important;padding:5px 12px!important}
+.ref-big.dash-earn{padding-top:18px!important;padding-bottom:18px!important}
+.dash-earn-sub{margin-top:6px!important}
+.dash-earn-foot{padding:8px 0 0!important}
+/* dashboard: same card padding as every other tab */
+.db-kpis .ref-card,.ref-big.dash-earn,.db-chart-card{padding:24px 26px!important}
+.ref-big.dash-earn .ref-big-top{margin-bottom:6px!important}
+.dash-earn-sub{margin-top:6px!important;font-size:.82rem!important}
+.dash-earn-stat{min-height:30px!important;padding:5px 12px!important}
+.dash-earn-right{gap:6px!important}
+.dash-earn-foot{padding:6px 0 0!important}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -1814,10 +1864,9 @@ textarea{line-height:1.55!important}
       <div class="dash-earn-right">
         <div class="dash-earn-stat"><span class="dash-earn-lab">Still to collect</span><b id="dashEarnDue">&mdash;</b></div>
         <div class="dash-earn-stat"><span class="dash-earn-lab">Change vs last month</span><b id="dashEarnDelta">&mdash;</b></div>
-        <div class="dash-earn-stat"><span class="dash-earn-lab">Top client</span><b id="dashEarnTop">&mdash;</b></div>
-        <div class="dash-earn-foot" id="dashEarnFoot">&mdash;</div>
       </div>
     </div>
+    <div class="dash-earn-foot" id="dashEarnFoot">&mdash;</div>
     <div class="ref-bars" id="dashBars" style="display:none"></div>
     <div class="ref-mini-stats" id="dashMini" style="display:none"></div>
     <div class="ref-figure" style="display:none"><div class="ref-pct" id="dashPct"></div><div class="ref-cap" id="dashCap"></div></div>
@@ -4578,14 +4627,15 @@ function fillDashboard(){
   }
   var byClient={}; mRowsNow.forEach(function(i){var c=i.client||'—'; byClient[c]=(byClient[c]||0)+(+i.amount||0);});
   var topN='—',topV=0; Object.keys(byClient).forEach(function(c){if(byClient[c]>topV){topV=byClient[c];topN=c;}});
-  setT('dashEarnTop',topV?topN+' '+fmt(topV):'no invoices');
+  var topClientTxt=topV?(topN+' '+fmt(topV)):'no invoices';
   var footEl=document.getElementById('dashEarnFoot');
   if(footEl){
     var pend=mRowsNow.filter(function(i){return i.status!=='received';}).length;
     var late=(typeof isOverdue==='function')?mRowsNow.filter(isOverdue).length:0;
     var hours=new Date().getHours();
     var left=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+1,0).getDate()-((viewMonth.getMonth()===new Date().getMonth()&&viewMonth.getFullYear()===new Date().getFullYear())?new Date().getDate():0);
-    footEl.textContent=mRowsNow.length+' invoice'+(mRowsNow.length===1?'':'s')+' this month \u00b7 '+pend+' unpaid'+(late?(' \u00b7 '+late+' overdue'):'')+(left>0?(' \u00b7 '+left+' day'+(left===1?'':'s')+' left'):'');
+    var topTxt=typeof topClientTxt!=='undefined'?topClientTxt:'';
+    footEl.textContent='Top client '+(topTxt||'\u2014')+' \u00b7 '+mRowsNow.length+' invoice'+(mRowsNow.length===1?'':'s')+' \u00b7 '+pend+' unpaid'+(late?(' \u00b7 '+late+' overdue'):'')+(left>0?(' \u00b7 '+left+'d left'):'');
   }
   // ── three month cards ──
 
