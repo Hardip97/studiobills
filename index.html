@@ -421,6 +421,181 @@ function saveQuickIncome(){
 }.card *,.st-card *{--shadow:none;}/* no gradient hero cards */.kpi-featured,.kpi-card.hero,.ov-hero,[class*="gradient"]{
   background:var(--white)!important;color:var(--text)!important;
 }.kpi-featured *,[class*="gradient"] *{color:inherit!important;}/* buttons: uniform geometry, no glow */.btn{border-radius:var(--r2)!important;box-shadow:none!important;font-weight:500!important;}.btn-dark{background:var(--black)!important;border-color:var(--black)!important;color:#fff!important;}.btn-red{background:var(--white)!important;border:1px solid var(--border)!important;color:var(--text)!important;}.btn-red:hover{border-color:var(--muted2)!important;}/* inputs */input,select,textarea{border-radius:var(--r2)!important;border-color:var(--border)!important;box-shadow:none!important;}input:focus,select:focus,textarea:focus{border-color:var(--black)!important;box-shadow:0 0 0 3px rgba(17,24,39,.06)!important;}/* pills/tabs: one shape */.itab,.stab,.fx-btn,.inv-type-btn,.ss-btn,.bot-nav-item{border-radius:999px!important;}.itab.active,.stab.active{background:var(--black)!important;color:#fff!important;border-color:var(--black)!important;}.fx-btn.sel,.inv-type-btn.sel{background:var(--black)!important;color:#fff!important;border-color:var(--black)!important;}/* tables */table th{font-weight:600!important;letter-spacing:.04em!important;color:var(--muted2)!important;border-bottom:1px solid var(--border)!important;}table td{border-bottom:1px solid var(--border2)!important;}table tr:hover td{background:#FCFCFB!important;}.ibtn{border-radius:8px!important;}/* status badges stay muted, colour only carries meaning */.badge{border-radius:999px!important;font-weight:600!important;letter-spacing:.01em!important;}/* sidebar/header rhythm */.sidebar{background:var(--white)!important;border-right:1px solid var(--border)!important;}.sn{border-radius:0!important;border-left:2px solid transparent!important;}.sn.active{background:transparent!important;color:var(--black)!important;border-left-color:var(--black)!important;font-weight:600!important;}.ph h1{font-weight:650!important;letter-spacing:-.02em!important;}.ph p{color:var(--muted)!important;font-size:.8rem!important;}/* empty states sit centred and quiet */.empty{padding:48px 20px!important;}.empty-icon{opacity:.35!important;font-size:1.8rem!important;}/* modal: single surface, no nested panels */.modal{border-radius:14px!important;border:1px solid var(--border)!important;box-shadow:var(--shadow-lg)!important;}.modal h2{font-weight:650!important;letter-spacing:-.01em!important;}/* invoice form: calm sections */#ai-tab-options,#ai-payment-inline,#ai-tpl-grid{border-top:1px solid var(--border)!important;}.tpl-card{border-radius:var(--r2)!important;box-shadow:none!important;}.tpl-card.sel{border-color:var(--black)!important;}.tax-row{border-radius:var(--r2)!important;}.st-savebar{display:flex;justify-content:flex-end;margin-top:4px;}
+/* StudioBills / UI refresh: one calm charcoal system across the product. */
+body,body.theme-ocean,body.theme-ash,body.theme-arctic,body.theme-emerald{
+  --bg:#111318!important;--white:#1c2028!important;--s1:#1c2028!important;--s2:#111318!important;
+  --text:#f2f3f6!important;--ink:#f2f3f6!important;--muted:#aeb5c2!important;--muted2:#929cab!important;
+  --border:#343944!important;--border2:#292e37!important;--black:#f2f3f6!important;
+  --red:#bbc7ff!important;--red2:#d1d9ff!important;--red-soft:rgba(187,199,255,.12)!important;
+  --purple:#bbc7ff!important;--purple-soft:rgba(187,199,255,.12)!important;--purple-soft2:rgba(187,199,255,.16)!important;
+  --green:#87d0af!important;--green-soft:rgba(135,208,175,.12)!important;
+  --orange:#edc884!important;--orange-soft:rgba(237,200,132,.12)!important;
+  --teal:#bbc7ff!important;--teal-soft:rgba(187,199,255,.1)!important;
+  --r:14px!important;--r2:10px!important;
+  color:var(--text)!important;background:var(--bg)!important;
+}
+body{font-family:Outfit,system-ui,sans-serif;letter-spacing:.005em;}
+.sidebar,body.theme-ash .sidebar,body.theme-ocean .sidebar,body.theme-emerald .sidebar,body.theme-arctic .sidebar{
+  background:#171a20!important;border-right:1px solid var(--border)!important;box-shadow:none!important;
+}
+.sidebar-logo{padding-bottom:24px!important;}.logo-icon,.mob-header-icon{background:#bbc7ff!important;color:#171a20!important;box-shadow:none!important;}
+.logo-name,.mob-header-logo{color:var(--text)!important;}.logo-name em{color:#bbc7ff!important;}
+.sidebar-nav{gap:4px!important;}.sn,.sidebar .sn{min-height:43px;border-radius:9px!important;color:var(--muted)!important;background:transparent!important;border-left:0!important;font-weight:500!important;}
+.sn:hover,.sidebar .sn:hover{background:#252a33!important;color:var(--text)!important;}
+.sn.active,.sidebar .sn.active{background:#2a3040!important;color:#e5e9ff!important;border-left:0!important;font-weight:650!important;}
+.sn .sn-ico{color:inherit!important;}.sidebar-divider{background:var(--border)!important;}
+.sidebar-search input,.search-inp{background:#22262f!important;color:var(--text)!important;border:1px solid var(--border)!important;box-shadow:none!important;}
+.sidebar-user{background:transparent!important;border:1px solid var(--border)!important;color:var(--text)!important;}
+.content{background:var(--bg)!important;min-height:100dvh;}
+.tab.active{color:var(--text)!important;}.ph{align-items:center!important;margin-bottom:25px!important;gap:14px!important;}
+.ph h1{color:var(--text)!important;font-size:1.6rem!important;letter-spacing:-.035em!important;line-height:1.16!important;font-weight:650!important;}
+.ph h1 strong{font-weight:650!important;}.ph p{color:var(--muted)!important;font-size:.83rem!important;margin-top:5px!important;}
+.ph-actions{align-items:center!important;gap:10px!important;}.dash-head{margin-bottom:22px!important;}
+.card,.st-card,.client-card,.pm-chart-card,.pm-table-card,.pm-kpi,.modal,.auth-card,.pm-tcard,.chart-card{
+  background:#1c2028!important;border:1px solid var(--border)!important;border-radius:14px!important;box-shadow:none!important;color:var(--text)!important;
+}
+.card:hover,.client-card:hover{border-color:#49505f!important;}
+.pm-featured,.pm-kpi.pm-featured{background:#262c37!important;border-color:#4c576d!important;color:var(--text)!important;}
+.pm-featured [style*="255,255,255"],.pm-featured .bc-studio-name{color:var(--muted)!important;}
+.pm-kpi-value,.pm-kpi-label,.pm-kpi-sub,.pm-tcard-title,.pm-chart-title{color:var(--text)!important;}
+.pm-kpi-label,.pm-kpi-sub{color:var(--muted)!important;}.pm-kpi-value{font-size:clamp(1.4rem,2vw,1.9rem)!important;letter-spacing:-.025em!important;}
+.pm-kpi-icon{background:rgba(187,199,255,.09)!important;color:#bbc7ff!important;box-shadow:none!important;}
+.pm-mnav{background:#313746!important;border:1px solid #495060!important;border-radius:9px!important;color:var(--text)!important;}
+.pm-mnav button{color:var(--text)!important;}.pm-mid-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:18px!important;}
+.pm-chart-card{min-width:0!important;}.pm-chart-header,.pm-tcard-header{border-bottom:1px solid var(--border2)!important;}
+.pm-chart-legend,.pm-chart-header{color:var(--text)!important;}.leg,.rbtn{color:var(--muted)!important;}
+.rbtn.active{background:#363e51!important;color:#f2f3f6!important;border-color:#596683!important;}
+.pm-tcard-link{color:#bbc7ff!important;}.pm-bottom-grid{gap:18px!important;}.pm-table-card{overflow:hidden;}
+.btn,.btn-sm,.row-action,.row-more{font-family:inherit!important;white-space:nowrap;box-shadow:none!important;transition:background .16s,border-color .16s,transform .16s;}
+.btn:active,.row-action:active{transform:translateY(1px);}
+.btn-dark,.btn-red,.auth-btn{background:#bbc7ff!important;border:1px solid #bbc7ff!important;color:#171b28!important;font-weight:650!important;border-radius:10px!important;}
+.btn-dark:hover,.btn-red:hover,.auth-btn:hover{background:#d2d9ff!important;color:#171b28!important;border-color:#d2d9ff!important;}
+.btn-ghost,.ibtn,.li-add-btn{background:#252a33!important;border:1px solid var(--border)!important;color:var(--text)!important;border-radius:10px!important;}
+.btn-ghost:hover,.ibtn:hover,.li-add-btn:hover{background:#303746!important;border-color:#7884a0!important;color:var(--text)!important;}
+input,textarea,select,.st-input,.tax-select,.tax-input-sm,.auth-inp{
+  background:#252932!important;border:1px solid #424854!important;color:#f2f3f6!important;border-radius:10px!important;
+  min-height:38px;outline:none!important;
+}
+input::placeholder,textarea::placeholder{color:#a0a9b9!important;opacity:1!important;}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,summary:focus-visible{
+  outline:2px solid #bbc7ff!important;outline-offset:2px!important;border-color:#9baaf2!important;
+}
+label,.fg label,.st-flabel{color:#c9d0dc!important;font-weight:550!important;letter-spacing:.025em!important;}
+.itabs,.stabs{gap:5px!important;background:transparent!important;border:0!important;}
+.itab,.stab,.ss-btn,.fx-btn,.li-chooser button,.li-chip{
+  background:transparent!important;border:1px solid transparent!important;border-radius:9px!important;color:#bfc7d6!important;font-weight:550!important;
+}
+.itab:hover,.stab:hover,.ss-btn:hover,.fx-btn:hover,.li-chip:hover{background:#303642!important;color:#f5f6fb!important;}
+.itab.active,.stab.active,.ss-btn.on,.fx-btn.sel,.inv-type-btn.sel{
+  background:#bbc7ff!important;border-color:#bbc7ff!important;color:#181d29!important;font-weight:750!important;
+}
+.itab.active *, .stab.active *, .ss-btn.on *, .fx-btn.sel *{color:#181d29!important;}
+/* Avoid theme-specific WebKit text-fill rules masking active labels. */
+body .itab.active,body .stab.active,body .ss-btn.on,body .fx-btn.sel{
+  color:#111624!important;-webkit-text-fill-color:#111624!important;
+}
+#incSortSwitch{padding:3px!important;background:#252a33!important;border:1px solid var(--border)!important;border-radius:10px!important;gap:2px;}
+#incSortSwitch .ss-btn{min-width:54px;border:0!important;padding:7px 12px!important;}
+#incSortSwitch .ss-btn+.ss-btn{border-left:0!important;}
+.tbl-wrap{overflow-x:auto!important;}.tbl-wrap table{width:100%;}
+table th{color:#b1b9c7!important;letter-spacing:.085em!important;font-size:.7rem!important;font-weight:600!important;border-bottom:1px solid var(--border)!important;}
+table td{color:var(--text)!important;border-bottom:1px solid var(--border2)!important;vertical-align:middle!important;}
+table tr:hover td{background:#252a33!important;}
+tbody tr.row-overdue{background:rgba(222,120,132,.055)!important;}
+#tab-income .card{background:#1c2028!important;}#tab-income .tbl-wrap table{table-layout:fixed;}
+#tab-income th:nth-child(1),#tab-income td:nth-child(1){width:9%;padding-left:20px!important;}
+#tab-income th:nth-child(2),#tab-income td:nth-child(2){width:33%;}
+#tab-income th:nth-child(3),#tab-income td:nth-child(3){width:14%;}
+#tab-income th:nth-child(4),#tab-income td:nth-child(4){width:15%;}
+#tab-income th:nth-child(5),#tab-income td:nth-child(5){width:12%;}
+#tab-income th:nth-child(6),#tab-income td:nth-child(6){width:17%;padding-right:18px!important;}
+#incTbody td{padding-top:15px!important;padding-bottom:15px!important;}
+.income-client{font-weight:600!important;font-size:.88rem!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.income-summary{color:#aeb5c2!important;font-size:.74rem!important;margin-top:4px;max-width:32ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.income-actions{display:flex;align-items:center;justify-content:flex-end;gap:5px;white-space:nowrap;}
+.row-action,.row-more{background:#2a2f3a!important;color:#e8ebf4!important;border:1px solid #434b5b!important;border-radius:8px!important;font-size:.7rem!important;font-weight:600!important;min-height:30px!important;padding:4px 9px!important;cursor:pointer;}
+.row-action:hover,.row-more:hover{background:#373f4f!important;border-color:#7783a0!important;}
+.row-more{max-width:68px;padding:3px 4px!important;}
+.row-more option{background:#252932;color:#f2f3f6;}
+.badge{font-weight:650!important;color:var(--text)!important;border:1px solid transparent!important;padding:4px 9px!important;}
+.b-rec{background:rgba(135,208,175,.14)!important;color:#b3ebd0!important;}
+.b-part{background:rgba(187,199,255,.12)!important;color:#d4ddff!important;}
+.b-pend{background:rgba(237,200,132,.12)!important;color:#ffe0a6!important;}
+.b-over{background:rgba(234,142,142,.13)!important;color:#ffd0d0!important;}
+.b-draft{background:#2d323d!important;color:#d8dce6!important;}
+.sdot{display:none!important;}
+.modal-bg{background:rgba(4,6,10,.72)!important;backdrop-filter:blur(5px);}
+.modal{background:#1c2028!important;border:1px solid #444a56!important;border-radius:16px!important;box-shadow:0 24px 72px rgba(0,0,0,.36)!important;}
+.modal h2{font-size:1.35rem!important;color:var(--text)!important;}
+#addIncomeModal .modal,#editIncomeModal .modal{max-width:min(1080px,calc(100vw - 36px))!important;}
+#ai-tab-invoice>.form-grid,#ei-tab-invoice>.form-grid{grid-template-columns:minmax(150px,1fr) minmax(190px,1.3fr) minmax(140px,1fr) minmax(140px,1fr)!important;gap:14px!important;margin-bottom:22px!important;}
+.li-wrap{overflow:visible!important;}.li-tbl{width:100%!important;table-layout:fixed!important;border-collapse:collapse;}
+.li-tbl th{padding:10px 9px!important;}.li-tbl td{padding:12px 9px!important;vertical-align:middle!important;}
+.li-tbl td:first-child,.li-tbl th:first-child{padding-left:0!important;}
+.li-tbl td:last-child,.li-tbl th:last-child{padding-right:0!important;}
+.li-tbl td input{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box;}
+.li-tbl td:nth-child(4){text-align:right!important;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.li-tbl td:nth-child(5){text-align:center!important;}
+.li-name-cell{gap:6px!important;min-width:0;}.li-pair{gap:7px!important;}.li-pair input{min-width:0!important;}
+.li-chip{align-self:flex-start;background:#343946!important;border-color:#4a5262!important;padding:4px 10px!important;font-size:.69rem!important;}
+.li-chip-menu{background:#292e39!important;border-color:#596171!important;box-shadow:0 14px 32px rgba(0,0,0,.32)!important;}
+.li-chip-menu .li-opt{color:var(--text)!important;}.li-chip-menu .li-opt:hover{background:#3b4250!important;}
+.li-chip-menu .li-opt.on{background:#bbc7ff!important;color:#171b28!important;}
+.li-chooser{background:#242934!important;border:1px solid #444c5b!important;border-radius:11px!important;padding:12px!important;}
+.li-chooser-lab{color:#d6dbe7!important;}.li-chooser button{background:#323846!important;border-color:#4b5364!important;color:#eef0f6!important;}
+.li-chooser button:hover{background:#bbc7ff!important;color:#171b28!important;}
+#ai-payment-inline,#ei-payment-inline,#ai-tab-options,#ei-tab-options{border-color:var(--border)!important;}
+.tpl-card{background:#242a34!important;border:1px solid #464d5b!important;border-radius:10px!important;overflow:hidden;}
+.tpl-card.sel{border:2px solid #bbc7ff!important;}.tpl-card .tpl-name{color:#f0f2f6!important;}
+.tax-row{border-color:var(--border)!important;background:#20242c!important;gap:16px!important;}
+.tax-row-ctrl{margin-left:auto;}.tax-label{min-width:70px;color:var(--text)!important;}
+.st-card,.client-card,.card{background:#1c2028!important;}
+.st-savebar{margin-top:16px!important;padding-bottom:20px;}
+/* Keep the invoice editor's totals and actions visible while the form scrolls. */
+#addIncomeModal .modal,#editIncomeModal .modal{
+  height:min(92dvh,940px)!important;max-height:92dvh!important;min-height:0!important;
+  display:flex!important;flex-direction:column!important;overflow:hidden!important;
+}
+#addIncomeModal .inv-tab-body,#editIncomeModal .inv-tab-body{
+  min-height:0!important;flex:1 1 auto!important;overflow-y:auto!important;overflow-x:hidden!important;
+  scrollbar-color:#545c6c #1c2028;padding-right:5px;
+}
+#addIncomeModal .modal-foot,#editIncomeModal .modal-foot{
+  flex:none;background:#1c2028!important;border-top:1px solid var(--border)!important;
+  padding:13px 0 2px!important;margin-top:8px!important;
+}
+#addIncomeModal .inv-total-box,#editIncomeModal .inv-total-box{flex:none;max-height:135px;overflow-y:auto;}
+#ai-tab-invoice .li-tbl th:nth-child(3),#ei-tab-invoice .li-tbl th:nth-child(3){text-align:right!important;padding-right:10px!important;}
+#ai-tab-invoice .li-tbl th:nth-child(4),#ei-tab-invoice .li-tbl th:nth-child(4){text-align:right!important;padding-right:12px!important;}
+#ai-tab-invoice .li-tbl td:nth-child(3) input,#ei-tab-invoice .li-tbl td:nth-child(3) input{text-align:right!important;}
+#ai-tab-invoice .li-tbl td:nth-child(4),#ei-tab-invoice .li-tbl td:nth-child(4){font-size:.89rem!important;font-weight:700!important;padding-right:12px!important;}
+.tpl-preview{display:none!important;}.tpl-grid{display:flex!important;gap:8px!important;flex-wrap:wrap!important;}
+.tpl-card{min-width:100px!important;width:auto!important;min-height:40px!important;display:grid!important;place-items:center!important;padding:8px 14px!important;}
+.tpl-card.sel{border-width:1px!important;background:#363d50!important;}.tpl-card .tpl-name{padding:0!important;color:#f0f2f6!important;}
+.recent-row{display:grid;grid-template-columns:minmax(0,1fr) max-content;align-items:start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border2);min-width:0;}
+.recent-row:last-child{border-bottom:0;}.recent-info{min-width:0;overflow:hidden;}
+.recent-name,.recent-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.recent-name{font-size:.84rem;font-weight:600;color:var(--text);}
+.recent-detail{font-size:.73rem;color:var(--muted);margin-top:3px;}
+.recent-amount{min-width:max-content;white-space:nowrap;font-size:.82rem;font-weight:650;text-align:right;color:var(--text);}
+#tab-overview .pm-bottom-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+#tab-overview .pm-table-card{min-width:0!important;}
+@media(max-width:650px){
+ #tab-overview .pm-bottom-grid{grid-template-columns:minmax(0,1fr)!important;}
+ .pm-tcard-header{padding:14px!important;}.pm-table-card #recentIncList,.pm-table-card #recentExpList{padding:0 14px!important;}
+ .recent-amount{max-width:38%;}.pm-chart-header{flex-wrap:wrap;gap:8px;}
+ #addIncomeModal .modal,#editIncomeModal .modal{max-width:calc(100vw - 18px)!important;height:94dvh!important;max-height:94dvh!important;padding:16px!important;}
+}
+@media(max-width:900px){#ai-tab-invoice>.form-grid,#ei-tab-invoice>.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}.li-wrap{overflow-x:auto!important;} .li-tbl{min-width:700px;}}
+@media(max-width:650px){
+ .ph{align-items:flex-start!important;}.ph-actions{width:100%;}
+ #ai-tab-invoice>.form-grid,#ei-tab-invoice>.form-grid{grid-template-columns:1fr!important;}
+ #tab-income .tbl-wrap table{min-width:820px;}.pm-mid-grid{grid-template-columns:1fr!important;}
+ .pm-kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+ .bot-nav{background:#171a20!important;border-top:1px solid var(--border)!important;}
+ .bot-nav-item{color:var(--muted)!important;}.bot-nav-item.active{color:#bbc7ff!important;background:transparent!important;}
+ .content{padding-bottom:84px!important;}
+}
 </style>
 </head>
 <body>
@@ -472,7 +647,7 @@ function saveQuickIncome(){
 
   <!-- Navigation -->
   <nav class="sidebar-nav" id="sidebarNav">
-    <button class="sn active" data-tab="overview" onclick="showTab('overview')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Overview</button>
+    <button class="sn active" data-tab="overview" onclick="showTab('overview')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Dashboard</button>
     <button class="sn" data-tab="income" onclick="showTab('income')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span> Income</button>
     <button class="sn" data-tab="expenses" onclick="showTab('expenses')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg></span> Expenses</button>
     <button class="sn" data-tab="clients" onclick="showTab('clients')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Clients</button>
@@ -532,6 +707,7 @@ function saveQuickIncome(){
 
 <!-- ══════════════════════ OVERVIEW ══════════════════════ -->
 <div class="tab active" id="tab-overview">
+  <div class="ph dash-head"><div><h1><strong>Dashboard</strong></h1><p>Your money at a glance</p></div></div>
   <!-- Hidden compat elements for JS that targets old IDs -->
   <div style="display:none">
     <p id="ovSubtitle"></p>
@@ -643,42 +819,7 @@ function saveQuickIncome(){
         </div>
       </div>
 
-      <!-- Side panel -->
-      <div class="pm-side-panel">
 
-        <!-- Quick actions -->
-        <div class="pm-actions-row">
-          <button class="pm-act-btn" onclick="openQuickIncome()">
-            <div class="pm-act-icon" style="background:var(--purple-soft);">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
-            </div>
-            <div class="pm-act-label">Quick Entry</div>
-          </button>
-          <button class="pm-act-btn" onclick="openModal('addExpModal')">
-            <div class="pm-act-icon" style="background:var(--amber-soft);">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg>
-            </div>
-            <div class="pm-act-label">Expense</div>
-          </button>
-          <button class="pm-act-btn" onclick="openModal('addIncomeModal')">
-            <div class="pm-act-icon" style="background:var(--green-soft);">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            </div>
-            <div class="pm-act-label">Invoice</div>
-          </button>
-        </div>
-
-        <!-- Outstanding quick card -->
-        <div class="pm-kpi" style="flex:1;">
-          <div class="pm-kpi-label">Outstanding</div>
-          <div class="pm-kpi-icon pki-teal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div class="pm-kpi-value" id="sc-outstanding-sub" style="color:var(--teal);font-size:1.4rem;">₹0</div>
-          <div class="pm-kpi-meta"><span class="pm-kpi-sub">Awaiting payment</span></div>
-        </div>
-
-      </div>
     </div>
 
     <!-- ③ BOTTOM GRID: Recent Income + Recent Expenses -->
@@ -933,7 +1074,7 @@ function saveQuickIncome(){
 <nav class="bot-nav" id="botNav">
   <button class="bot-nav-item active" data-tab="overview" id="bn-overview">
     <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    <span>Home</span>
+    <span>Dashboard</span>
   </button>
   <button class="bot-nav-item" data-tab="income" id="bn-income">
     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
@@ -994,11 +1135,11 @@ function saveQuickIncome(){
     <button class="li-add-btn" onclick="addInvItem('ai')">+ Add Line Item</button>
     <div class="li-chooser" id="ai-line-chooser">
       <span class="li-chooser-lab">Add this line as</span>
-      <button type="button" onclick="addInvItemTyped('ai','general')">📋 General</button>
-      <button type="button" onclick="addInvItemTyped('ai','video')">🎬 Video Editing</button>
-      <button type="button" onclick="addInvItemTyped('ai','product')">📦 Product / Retail</button>
-      <button type="button" onclick="addInvItemTyped('ai','consulting')">💼 Consulting</button>
-      <button type="button" onclick="addInvItemTyped('ai','photo')">📷 Photography</button>
+      <button type="button" onclick="addInvItemTyped('ai','general')">General</button>
+      <button type="button" onclick="addInvItemTyped('ai','video')">Video Editing</button>
+      <button type="button" onclick="addInvItemTyped('ai','product')">Product / Retail</button>
+      <button type="button" onclick="addInvItemTyped('ai','consulting')">Consulting</button>
+      <button type="button" onclick="addInvItemTyped('ai','photo')">Photography</button>
       <button type="button" class="li-chooser-x" onclick="closeLineChooser('ai')">✕</button>
     </div>
   </div>
@@ -1009,11 +1150,11 @@ function saveQuickIncome(){
       <div class="fg"><label>Category</label><select id="ai-cat"><option value="">— select —</option></select></div>
       <div class="fg"><label>Status</label><select id="ai-status"><option value="pending">Pending</option><option value="partial">Partial</option><option value="received">Received</option></select></div>
       <div class="fg"><label>Currency</label><div style="display:flex;gap:5px;flex-wrap:wrap;" id="ai-currency-bar">
-        <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ai','INR')">🇮🇳 INR</button>
-        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ai','USD')">🇺🇸 USD</button>
-        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ai','GBP')">🇬🇧 GBP</button>
-        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ai','EUR')">🇪🇺 EUR</button>
-        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ai','AED')">🇦🇪 AED</button>
+        <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ai','INR')">INR</button>
+        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ai','USD')">USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ai','GBP')">GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ai','EUR')">EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ai','AED')">AED</button>
       </div>
       <div id="ai-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:3px;min-height:14px;"></div></div>
     </div>
@@ -1171,11 +1312,11 @@ function saveQuickIncome(){
     <button class="li-add-btn" onclick="addInvItem('ei')">+ Add Line Item</button>
     <div class="li-chooser" id="ei-line-chooser">
       <span class="li-chooser-lab">Add this line as</span>
-      <button type="button" onclick="addInvItemTyped('ei','general')">📋 General</button>
-      <button type="button" onclick="addInvItemTyped('ei','video')">🎬 Video Editing</button>
-      <button type="button" onclick="addInvItemTyped('ei','product')">📦 Product / Retail</button>
-      <button type="button" onclick="addInvItemTyped('ei','consulting')">💼 Consulting</button>
-      <button type="button" onclick="addInvItemTyped('ei','photo')">📷 Photography</button>
+      <button type="button" onclick="addInvItemTyped('ei','general')">General</button>
+      <button type="button" onclick="addInvItemTyped('ei','video')">Video Editing</button>
+      <button type="button" onclick="addInvItemTyped('ei','product')">Product / Retail</button>
+      <button type="button" onclick="addInvItemTyped('ei','consulting')">Consulting</button>
+      <button type="button" onclick="addInvItemTyped('ei','photo')">Photography</button>
       <button type="button" class="li-chooser-x" onclick="closeLineChooser('ei')">✕</button>
     </div>
   </div>
@@ -1756,17 +1897,17 @@ function renderOverview(){
   // recent income
   const ri=[...db.income].sort((a,b)=>b.date>a.date?1:-1).slice(0,5);
   document.getElementById('recentIncList').innerHTML=ri.length?ri.map(i=>`
-    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border2);">
-      <div><div style="font-size:.82rem;font-weight:500;">${esc(i.client)}</div><div style="font-size:.71rem;color:var(--muted);font-weight:300;">${esc(invDesc(i)||'—')}</div></div>
-      <div style="text-align:right;"><div style="font-size:.84rem;font-weight:600;">${fmt(i.amount)}</div>${sBadge(i)}</div>
+    <div class="recent-row">
+      <div class="recent-info"><div class="recent-name">${esc(i.client)}</div><div class="recent-detail">${esc(invListSummary(i)||'Invoice')}</div></div>
+      <div class="recent-amount"><div>${fmt(i.amount)}</div>${sBadge(i)}</div>
     </div>`).join(''):'<div class="empty"><div class="empty-icon">💸</div><p>No income yet</p></div>';
 
   // recent expenses
   const re=[...db.expenses].sort((a,b)=>b.date>a.date?1:-1).slice(0,5);
   document.getElementById('recentExpList').innerHTML=re.length?re.map(e=>`
-    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border2);">
-      <div><div style="font-size:.82rem;font-weight:500;">${esc(e.title)}</div><div style="font-size:.71rem;color:var(--muted);font-weight:300;">${esc(e.cat||'—')}</div></div>
-      <div style="font-size:.84rem;font-weight:600;color:var(--red);">${fmt(e.amount)}</div>
+    <div class="recent-row">
+      <div class="recent-info"><div class="recent-name">${esc(e.title)}</div><div class="recent-detail">${esc(e.cat||'Expense')}</div></div>
+      <div class="recent-amount">${fmt(e.amount)}</div>
     </div>`).join(''):'<div class="empty"><div class="empty-icon">🧾</div><p>No expenses yet</p></div>';
 
   drawMainChart();
@@ -2013,6 +2154,7 @@ function setChartStyle(s){
 
 // ─── STATUS BADGE ───
 function sBadge(i){
+  if(!i.isCreditNote&&i.status!=='draft'&&isOverdue(i))return'<span class="badge b-over">Overdue</span>';
   if(i.status==='received')return'<span class="badge b-rec"><span class="sdot" style="background:var(--green)"></span>Received</span>';
   if(i.status==='partial')return'<span class="badge b-part"><span class="sdot" style="background:#3b82f6"></span>Partial</span>';
   if(i.status==='draft')return'<span class="badge b-draft"><span class="sdot" style="background:#A07800"></span>Draft</span>';
@@ -2041,10 +2183,10 @@ function renderIncome(){
   if(incPage>=pages)incPage=0;
   const paginated=rows.slice(incPage*PAGE_SIZE,(incPage+1)*PAGE_SIZE);
   const tb=document.getElementById('incTbody');
-  if(!paginated.length){tb.innerHTML=`<tr><td colspan="10"><div class="empty"><div class="empty-icon">💸</div><p>No entries</p></div></td></tr>`;renderPagination('incPagination',incPage,total,setIncPage);return;}
+  if(!paginated.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><p>No invoices match this view.</p></div></td></tr>`;renderPagination('incPagination',incPage,total,setIncPage);return;}
   tb.innerHTML=paginated.map(i=>`<tr class="${isOverdue(i)?'row-overdue':''}">
     <td><span style="font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.01em;">${i.invNo||'—'}</span></td>
-    <td><div style="font-weight:500;">${esc(i.client)}</div><div style="font-size:.7rem;color:var(--muted2);font-weight:300;">${esc(invDesc(i)||'')}</div></td>
+    <td><div class="income-client">${esc(i.client)}</div><div class="income-summary" title="${esc(invDesc(i)||'')}">${esc(invListSummary(i))}</div></td>
     <td style="font-weight:600;">${(()=>{
       const isFx=i.currency&&i.currency!=='INR'&&i.foreignAmount;
       const sym=FX_CURRENCIES[i.currency]?.symbol||'₹';
@@ -2055,17 +2197,26 @@ function renderIncome(){
     })()}</td>
     <td>${i.due?`<span${isOverdue(i)?' style="color:var(--red);font-weight:600;"':''}>${fmtD(i.due)}</span>${isOverdue(i)?`<div style="font-size:.65rem;color:var(--red);">${Math.floor((new Date()-new Date(i.due))/(864e5))}d overdue</div>`:''}` :'<span style="color:var(--muted2);">—</span>'}</td>
     <td>${sBadge(i)}</td>
-    <td><div style="display:flex;gap:3px;flex-wrap:nowrap;">
-      <button class="ibtn" title="Quick receive" data-qr="${i.id}" onclick="quickReceive('${i.id}',this)">✓</button>
-      <button class="ibtn" title="Duplicate" onclick="duplicateInvoice('${i.id}')">⧉</button>
-      <button class="ibtn" title="Edit" onclick="editInc('${i.id}')">✏️</button>
-      <button class="ibtn" title="Invoice PDF" onclick="curInvId='${i.id}';genInvoice()">📄</button>
-      <button class="ibtn" title="Delete" style="color:var(--red)" onclick="delInc('${i.id}')">✕</button>
+    <td><div class="income-actions">
+      <button type="button" class="row-action" onclick="curInvId='${i.id}';genInvoice()">View</button>
+      <button type="button" class="row-action" onclick="editInc('${i.id}')">Edit</button>
+      <select class="row-more" aria-label="More actions for ${esc(i.invNo||'invoice')}" onchange="incomeRowAction(this,'${i.id}')">
+        <option value="">More</option>
+        ${i.status!=='received'?'<option value="payment">Record payment</option>':''}
+        <option value="duplicate">Duplicate</option><option value="delete">Delete</option>
+      </select>
     </div></td>
   </tr>`).join('');
   renderPagination('incPagination',incPage,total,setIncPage);
   const sw=document.getElementById('incSortSwitch');
   if(sw)sw.querySelectorAll('.ss-btn').forEach(b=>b.classList.toggle('on',b.textContent.trim()===(incSort==='no'?'No.':'Date')));
+}
+function incomeRowAction(select,id){
+  const action=select.value;
+  select.value='';
+  if(action==='payment')quickReceive(id,select);
+  else if(action==='duplicate')duplicateInvoice(id);
+  else if(action==='delete')delInc(id);
 }
 function saveIncome(){
   const f=readInvForm('ai');
@@ -2441,39 +2592,50 @@ function invDesc(i){
   }
   return i.cat||'';
 }
+// Keep the ledger concise without changing the full invoice or search data.
+function invListSummary(i){
+  const source=invDesc(i)||'';
+  const parts=source.split(/,\s*(?=\d{1,2}\s|[A-Z])/).map(s=>s.trim()).filter(Boolean);
+  if(!parts.length)return '';
+  const first=parts[0].replace(/^\d{1,2}\s+/,'').trim();
+  const words=first.split(/\s+/).filter(Boolean);
+  const count=Math.max(parts.length,Array.isArray(i.lineItems)?i.lineItems.length:0);
+  const short=words.slice(0,3).join(' ')+(words.length>3&&count<2?'…':'');
+  return short+(count>1?` +${count-1} more`:'');
+}
 
 let invFormItems={ai:[],ei:[]};
 let invFormTpl={ai:'classic',ei:'classic'};
 let invFormType={ai:'general',ei:'general'};
 
 const INV_TYPE_DEFS={
-  general:   {label:'General',         icon:'📋',
+  general:   {label:'General',         icon:'',
     cols:[{k:'name',h:'Description',w:'38%',t:'text',ph:'Service / deliverable'},
           {k:'qty', h:'Qty',          w:'9%', t:'number',cls:'r',ph:'1'},
           {k:'unit',h:'Unit',         w:'13%',t:'text',  ph:'hrs / pcs…'},
           {k:'rate',h:'Rate (₹)',     w:'16%',t:'number',cls:'r',ph:'0'},
           {k:'_amt',h:'Amount',       w:'14%'},
           {k:'_del',h:'',             w:'5%'}]},
-  video:     {label:'Video Editing',   icon:'🎬',
+  video:     {label:'Video Editing',   icon:'',
     cols:[{k:'name',     h:'Project Name',w:'30%',t:'text',  ph:'e.g. Reels Editing'},
           {k:'dimension',h:'Dimension',  w:'15%',t:'text',  ph:'1920×1080'},
           {k:'duration', h:'Duration',   w:'12%',t:'text',  ph:'30s'},
           {k:'rate',     h:'Rate (₹)',   w:'18%',t:'number',cls:'r',ph:'0'},
           {k:'_amt',     h:'Amount',     w:'14%'},
           {k:'_del',     h:'',           w:'5%'}]},
-  product:   {label:'Product / Retail',icon:'📦',
+  product:   {label:'Product / Retail',icon:'',
     cols:[{k:'name',h:'Product Name',  w:'42%',t:'text',  ph:'Product name'},
           {k:'qty', h:'Qty',           w:'10%',t:'number',cls:'r',ph:'1'},
           {k:'rate',h:'Rate (₹)',      w:'18%',t:'number',cls:'r',ph:'0'},
           {k:'_amt',h:'Amount',        w:'18%'},
           {k:'_del',h:'',              w:'5%'}]},
-  consulting:{label:'Consulting',      icon:'💼',
+  consulting:{label:'Consulting',      icon:'',
     cols:[{k:'name', h:'Service',      w:'44%',t:'text',  ph:'e.g. Brand Strategy'},
           {k:'qty',  h:'Hours',        w:'10%',t:'number',cls:'r',ph:'1'},
           {k:'rate', h:'Rate / hr (₹)',w:'16%',t:'number',cls:'r',ph:'0'},
           {k:'_amt', h:'Amount',       w:'14%'},
           {k:'_del', h:'',             w:'5%'}]},
-  photo:     {label:'Photography',     icon:'📷',
+  photo:     {label:'Photography',     icon:'',
     cols:[{k:'name',h:'Package / Shoot',w:'42%',t:'text',  ph:'e.g. Wedding Coverage'},
           {k:'qty', h:'Qty',           w:'10%',t:'number',cls:'r',ph:'1'},
           {k:'rate',h:'Rate (₹)',      w:'18%',t:'number',cls:'r',ph:'0'},
@@ -2948,6 +3110,7 @@ function fmtN(n,cur){return`${cur||'₹'}${(+n||0).toLocaleString('en-IN',{maxim
 
 function invTableHead(invType){
   const t=invType||'general';
+  if(t==='mixed')return'<tr><th>Description</th><th class="r">Qty</th><th>Details</th><th class="r">Rate</th><th class="r">Amount</th></tr>';
   if(t==='video')return'<tr><th>Description</th><th class="r">Dimension</th><th class="r">Duration</th><th class="r">Rate</th><th class="r">Amount</th></tr>';
   if(t==='product'||t==='photo')return'<tr><th>Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr>';
   if(t==='consulting')return'<tr><th>Description</th><th class="r">Hours</th><th class="r">Rate / hr</th><th class="r">Amount</th></tr>';
@@ -2956,15 +3119,21 @@ function invTableHead(invType){
 
 function invTotalsFromSaved(inv){
   // Rebuild totals from saved data or recalculate from legacy
-  if(inv._totals)return inv._totals;
   const subtotal=+inv.amount||0;
+  if(inv._totals){
+    const items=Array.isArray(inv._totals.items)?inv._totals.items:
+      (Array.isArray(inv.lineItems)&&inv.lineItems.length?inv.lineItems:
+      (Array.isArray(inv.items)&&inv.items.length?inv.items:
+      [{name:inv.desc||inv.cat||'Services',qty:1,rate:subtotal}]));
+    return {...inv._totals,items};
+  }
   const legacyUnit=[inv.size,inv.duration].filter(Boolean).join(' · ');
   return{items:[{name:inv.desc||inv.cat||'Services',desc:'',unit:legacyUnit,qty:1,rate:subtotal}],subtotal,discount:0,taxable:subtotal,cgst:0,sgst:0,igst:0,gross:subtotal,tds:0,net:subtotal,gstOn:false,tdsOn:false,discOn:false};
 }
 
 function buildItemsRows(items,cur,invType,style){
-  const type=invType||'general';
   return items.filter(i=>(+i.qty||1)*(+i.rate||0)>0||i.name).map(i=>{
+    const type=i.type||i.invType||(invType==='mixed'?'general':invType)||'general';
     const qty=+i.qty||1;
     const amt=qty*(+i.rate||0);
     // Build subtitle from relevant extra fields
@@ -2985,6 +3154,10 @@ function buildItemsRows(items,cur,invType,style){
     const subHtml=sub?`<div class="td-sub">${esc(sub)}</div>`:'';
     if(style==='classic'){
       return`<div class="table-row"><div><div class="td-name">${name}</div>${subHtml}</div><div class="td r">${fmtN(amt,cur)}</div></div>`;
+    }
+    if(invType==='mixed'){
+      const details=type==='video'?[i.dimension,i.duration].filter(Boolean).join(' · '):(i.unit||'');
+      return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r">${qty>1?qty:''}</td><td class="td">${esc(details)}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
     }
     // Table style — columns vary by type
     if(type==='video'){
@@ -3085,7 +3258,9 @@ function buildInvoiceHTML(inv){
   const _yyyy=_invDateObj.getFullYear();
   const title=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}_${_dd}${_mon}${_yyyy}`;
   const invType=inv.invType||'general';
-  const itemRows=buildItemsRows(t.items,cur,invType,'table');
+  const itemTypes=new Set(t.items.map(i=>i.type||i.invType||invType));
+  const tableType=itemTypes.size>1?'mixed':invType;
+  const itemRows=buildItemsRows(t.items,cur,tableType,'table');
   const totalsHTML=buildTotalsHTML(t,cur,tpl);
 
   // ── CLASSIC TEMPLATE ──
@@ -3255,7 +3430,7 @@ table.items td.r{text-align:right;}
     <div class="top-right"><div class="inv-label">Invoice</div><div class="inv-number">${num}</div><div class="inv-meta">Date: ${fmtLong(inv.date)}<br>Due: ${inv.due?fmtLong(inv.due):'On receipt'}</div>${creditBadge}${draftBadge}</div>
   </div>
   <div class="bill-section"><div class="bill-label">Billed to</div><div class="bill-name">${clientInfo}</div></div>
-  <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
+  <table class="items"><thead>${invTableHead(tableType)}</thead><tbody>${itemRows}</tbody></table>
   ${totalsHTML}
   ${hsnInfo}
 
@@ -3319,7 +3494,7 @@ table.items td.r{text-align:right;}
     </div>
   </div>
   <div class="body-pad">
-    <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
+    <table class="items"><thead>${invTableHead(tableType)}</thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
   
@@ -3381,7 +3556,7 @@ table.items td.r{text-align:right;}
       <div class="header-right"><div class="inv-word">Invoice</div><div class="inv-num">${num}</div><div class="inv-dates">Date: ${fmtLong(inv.date)}<br>Due: ${inv.due?fmtLong(inv.due):'On receipt'}</div>${creditBadge}${draftBadge}</div>
     </div>
     <div class="bill-box"><div class="bill-label">Billed to</div><div class="bill-name">${clientInfo}</div></div>
-    <table class="items"><thead>${invTableHead(invType)}</thead><tbody>${itemRows}</tbody></table>
+    <table class="items"><thead>${invTableHead(tableType)}</thead><tbody>${itemRows}</tbody></table>
     ${totalsHTML}
     ${hsnInfo}
   
