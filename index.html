@@ -567,34 +567,35 @@ body .itab.active,body .stab.active,body .ss-btn.on,body .fx-btn.sel{color:var(-
 .sdot{display:none!important}
 
 /* ───────── ledger card lists (Income + Expenses share these) ───────── */
-.led-list{display:flex;flex-direction:column;gap:12px}
-.led-card{
-  display:grid!important;grid-template-columns:minmax(0,1fr) max-content;gap:20px;align-items:center;
-  padding:18px 20px!important;border:1px solid var(--line)!important;border-radius:var(--r)!important;
-  background:var(--surface)!important;transition:border-color .16s var(--ease),background .16s;
-}
-.led-card.is-overdue{border-color:color-mix(in srgb,var(--bad) 34%,transparent)!important;background:color-mix(in srgb,var(--bad) 5%,var(--surface))!important}
-.led-top{display:flex;align-items:center;gap:9px;margin-bottom:7px;flex-wrap:wrap}
-.led-no{font-size:.72rem!important;font-weight:700!important;letter-spacing:.06em!important;color:var(--muted2)!important;text-transform:uppercase}
-.led-title{font-size:.95rem!important;font-weight:640!important;letter-spacing:-.015em!important;color:var(--text)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.led-sub{font-size:.78rem!important;color:var(--muted)!important;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60ch}
-.led-meta{display:flex;align-items:center;gap:8px;margin-top:9px;flex-wrap:wrap;font-size:.74rem!important;color:var(--muted2)!important}
-.led-meta .led-dot{opacity:.5}
-.qr-panel{position:static!important;display:flex!important;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;padding:10px 12px;background:var(--surface-2)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important}
+.led-list{display:flex;flex-direction:column;gap:10px}
+.led-card{padding:16px 18px!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;background:var(--surface)!important;transition:border-color .16s var(--ease),background .16s}
+.led-card.is-overdue{border-color:color-mix(in srgb,var(--bad) 36%,transparent)!important}
+.led-row{display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:18px;align-items:baseline}
+.led-row-2{margin-top:9px;align-items:center}
+.led-title{font-size:.95rem;font-weight:640;letter-spacing:-.015em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.led-amount{font-size:1.05rem;font-weight:680;letter-spacing:-.02em;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap}
+.led-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.76rem;color:var(--muted2);min-width:0}
+.led-meta .led-no{color:var(--muted);font-weight:600;letter-spacing:.02em}
+.led-status{display:inline-flex;align-items:center;gap:6px;font-weight:600;white-space:nowrap}
+.led-status .dotmark{width:6px;height:6px;border-radius:50%;background:currentColor}
+.led-status.ok{color:var(--ok)}.led-status.warn{color:var(--warn)}.led-status.bad{color:var(--bad)}
+.led-status.info{color:var(--info)}.led-status.mut{color:var(--muted2)}
+.led-link{color:var(--accent);text-decoration:none;font-weight:600}
+.led-actions{display:flex;align-items:center;gap:6px;opacity:.72;transition:opacity .16s}
+.led-card:hover .led-actions{opacity:1}
+.row-action,.row-more{height:32px!important;padding:0 12px!important;font-size:.75rem!important;background:var(--surface-2)!important;border:1px solid var(--line)!important;color:var(--text)!important;border-radius:var(--r-xs)!important;cursor:pointer;font-weight:600!important}
+.row-action:hover,.row-more:hover{border-color:rgba(255,255,255,.2)!important;background:#2C3037!important}
+.row-more{max-width:52px;padding:0 4px 0 8px!important;font-size:.9rem!important;line-height:1}
+.row-more option{background:var(--surface);color:var(--text)}
+.qr-panel{position:static!important;display:flex!important;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;padding:10px 12px;background:var(--s2,var(--bg))!important;border:1px solid var(--line)!important;border-radius:var(--r-xs)!important;grid-column:1/-1}
 .qr-panel .qr-full,.qr-panel .qr-save{background:var(--accent)!important;color:var(--accent-ink)!important;border:0!important;border-radius:var(--r-xs)!important;font-weight:700!important;padding:7px 12px!important;cursor:pointer}
 .qr-panel .qr-sep{font-size:.72rem;color:var(--muted2)}
 .qr-panel .qr-inp{width:110px!important}
 .qr-panel .qr-close{background:none!important;border:0!important;color:var(--muted)!important;cursor:pointer}
-.led-meta .led-tag{background:var(--surface-2)!important;border:1px solid var(--line)!important;border-radius:var(--r-pill)!important;padding:2px 9px!important;font-size:.68rem!important;color:var(--muted)!important}
-.led-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:180px;min-height:94px;justify-content:space-between}
-.led-amount{font-size:1.18rem!important;font-weight:680!important;letter-spacing:-.02em!important;color:var(--text)!important;font-variant-numeric:tabular-nums;white-space:nowrap}
-.led-card.is-expense .led-amount{color:var(--text)!important}
-.led-due{font-size:.72rem!important;color:var(--muted2)!important;font-variant-numeric:tabular-nums}
-.led-actions{display:flex;align-items:center;gap:6px;margin-top:2px}
-.row-action,.row-more{height:34px!important;padding:0 12px!important;font-size:.76rem!important;background:var(--surface-2)!important;border:1px solid var(--line)!important;color:var(--text)!important;border-radius:var(--r-xs)!important;cursor:pointer}
-.row-action:hover,.row-more:hover{border-color:rgba(255,255,255,.2)!important;background:#2C3037!important}
-.row-more{max-width:74px;padding-right:6px!important}
-.row-more option{background:var(--surface);color:var(--text)}
+@media(max-width:620px){
+  .led-row-2{grid-template-columns:minmax(0,1fr);gap:10px}
+  .led-actions{opacity:1}
+}
 @media(max-width:760px){
   .led-card{grid-template-columns:minmax(0,1fr)!important;gap:14px}
   .led-side{align-items:flex-start!important;min-width:0}
@@ -2281,21 +2282,28 @@ function renderIncome(){
     const sym=FX_CURRENCIES[i.currency]?.symbol||'₹';
     const amount=isFx?`${sym}${(+i.foreignAmount||0).toLocaleString('en-IN')}`:fmt(i.amount);
     const left=(+i.amount||0)-rcv(i);
-    return `<article class="led-card${isOverdue(i)?' is-overdue':''}">
-      <div class="led-main">
-        <div class="led-top"><span class="led-no">${esc(i.invNo||'—')}</span>${sBadge(i)}</div>
-        <div class="led-title">${esc(i.client)}</div>
-        <div class="led-sub" title="${esc(invDesc(i)||'')}">${esc(invListSummary(i)||'Invoice')}</div>
-        <div class="led-meta"><span>${fmtD(i.date)}</span><span class="led-dot">·</span><span>${i.due?'Due '+fmtD(i.due):'On receipt'}</span>${i.cat?`<span class="led-tag">${esc(i.cat)}</span>`:''}</div>
-      </div>
-      <div class="led-side">
+    const overdue=isOverdue(i);
+    const st=overdue?['Overdue','bad']
+      :(i.status==='received'?['Received','ok']
+      :(i.status==='partial'?['Partially paid','info']
+      :(i.isCreditNote?['Credit note','mut']:['Pending','warn'])));
+    return `<article class="led-card${overdue?' is-overdue':''}">
+      <div class="led-row">
+        <div class="led-title" title="${esc(i.client)}">${esc(i.client)}</div>
         <div class="led-amount">${amount}</div>
-        ${i.status!=='received'&&left>0?`<div class="led-due">${fmt(left)} due</div>`:''}
+      </div>
+      <div class="led-row led-row-2">
+        <div class="led-meta">
+          <span class="led-no">${esc(i.invNo||'—')}</span>
+          <span>${i.due?'due '+fmtD(i.due):'on receipt'}</span>
+          <span class="led-status ${st[1]}"><span class="dotmark"></span>${st[0]}</span>
+          ${(!overdue&&i.status==='partial'&&left>0)?`<span>${fmt(left)} left</span>`:''}
+        </div>
         <div class="led-actions">
           <button type="button" class="row-action" onclick="curInvId='${i.id}';genInvoice()">View</button>
           <button type="button" class="row-action" onclick="editInc('${i.id}')">Edit</button>
           <select class="row-more" aria-label="More actions" onchange="incomeRowAction(this,'${i.id}')">
-            <option value="">More</option>
+            <option value="">⋯</option>
             ${i.status!=='received'?'<option value="payment">Record payment</option>':''}
             <option value="duplicate">Duplicate</option><option value="delete">Delete</option>
           </select>
@@ -2416,168 +2424,25 @@ function renderExpenses(){
   const tb=document.getElementById('expTbody');
   if(!rows.length){tb.innerHTML='<div class="empty">No expenses match this view.</div>';return;}
   tb.innerHTML=rows.map(e=>`<article class="led-card is-expense">
-      <div class="led-main">
-        <div class="led-top"><span class="led-no">${esc(e.cat||'Expense')}</span>${e.recurring?'<span class="badge b-recur">Monthly</span>':''}</div>
-        <div class="led-title">${esc(e.title)}</div>
-        <div class="led-sub">${esc(e.notes||'No notes')}</div>
-        <div class="led-meta"><span>${fmtD(e.date)}</span>${e.receipt?`<span class="led-tag"><a href="${e.receipt}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Receipt</a></span>`:''}</div>
-      </div>
-      <div class="led-side">
+      <div class="led-row">
+        <div class="led-title" title="${esc(e.title)}">${esc(e.title)}</div>
         <div class="led-amount">${fmt(e.amount)}</div>
+      </div>
+      <div class="led-row led-row-2">
+        <div class="led-meta">
+          ${e.cat?`<span class="led-no">${esc(e.cat)}</span>`:''}
+          <span>${fmtD(e.date)}</span>
+          ${e.recurring?'<span class="led-status info"><span class="dotmark"></span>Monthly</span>':''}
+          ${e.receipt?`<a class="led-link" href="${e.receipt}" target="_blank" rel="noopener">Receipt</a>`:''}
+        </div>
         <div class="led-actions">
           <button type="button" class="row-action" onclick="editExp('${e.id}')">Edit</button>
           <select class="row-more" aria-label="More actions" onchange="expenseRowAction(this,'${e.id}')">
-            <option value="">More</option><option value="delete">Delete</option>
+            <option value="">⋯</option><option value="delete">Delete</option>
           </select>
         </div>
       </div>
     </article>`).join('');
-}
-function saveExpense(){
-  const title=document.getElementById('ae-title').value.trim();
-  const amount=+document.getElementById('ae-amount').value||0;
-  if(!title||!amount){toast('Title and amount required','err');return;}
-  const fileEl=document.getElementById('ae-receipt');
-  const saveAndAdd=(receipt)=>{
-    db.expenses.push({id:uid(),title,amount,cat:document.getElementById('ae-cat').value||'',
-      date:document.getElementById('ae-date').value||today(),
-      notes:document.getElementById('ae-notes').value.trim(),
-      recurring:document.getElementById('ae-tog').classList.contains('on'),
-      receipt:receipt||''});
-    save();closeModal('addExpModal');resetAddExp();toast('Expense saved ✓');renderOverview();renderExpenses();
-  };
-  if(fileEl&&fileEl.files[0]){
-    const reader=new FileReader();
-    reader.onload=e=>saveAndAdd(e.target.result);
-    reader.readAsDataURL(fileEl.files[0]);
-  }else{saveAndAdd('');}
-}
-function editExp(id){
-  const e=db.expenses.find(x=>x.id===id);if(!e)return;
-  document.getElementById('ee-title').value=e.title||'';
-  document.getElementById('ee-amount').value=e.amount||'';
-  document.getElementById('ee-cat').value=e.cat||'';
-  document.getElementById('ee-date').value=e.date||'';
-  document.getElementById('ee-notes').value=e.notes||'';
-  const tog=document.getElementById('ee-tog');
-  e.recurring?tog.classList.add('on'):tog.classList.remove('on');
-  document.getElementById('ee-id').value=id;
-  const prevEl=document.getElementById('ee-receipt-preview');
-  if(prevEl)prevEl.innerHTML=e.receipt?`<img src="${e.receipt.startsWith('data:image')?e.receipt:''}" style="${e.receipt.startsWith('data:image')?'max-height:60px;border-radius:4px;':'display:none'}"><span style="font-size:.75rem;color:var(--muted)">${e.receipt?'Receipt attached':''}${e.receipt&&e.receipt.startsWith('data:application/pdf')?'📄 PDF attached':''}</span>`:'';
-  fillCatSelects();openModal('editExpModal');
-}
-function updateExpense(){
-  const id=document.getElementById('ee-id').value;
-  const idx=db.expenses.findIndex(x=>x.id===id);if(idx<0)return;
-  const title=document.getElementById('ee-title').value.trim();
-  const amount=+document.getElementById('ee-amount').value||0;
-  if(!title||!amount){toast('Title and amount required','err');return;}
-  const e=db.expenses[idx];
-  const doUpdate=(receipt)=>{
-    e.title=title;e.amount=amount;e.cat=document.getElementById('ee-cat').value||'';
-    e.date=document.getElementById('ee-date').value||today();
-    e.notes=document.getElementById('ee-notes').value.trim();
-    e.recurring=document.getElementById('ee-tog').classList.contains('on');
-    if(receipt!==null)e.receipt=receipt;
-    save();closeModal('editExpModal');toast('Updated ✓');renderOverview();renderExpenses();
-  };
-  const fileEl=document.getElementById('ee-receipt');
-  if(fileEl&&fileEl.files[0]){
-    const reader=new FileReader();
-    reader.onload=ev=>doUpdate(ev.target.result);
-    reader.readAsDataURL(fileEl.files[0]);
-  }else{doUpdate(null);}
-}
-function delExp(id){if(!confirm('Delete expense?'))return;db.expenses=db.expenses.filter(x=>x.id!==id);save();toast('Deleted');renderOverview();renderExpenses();}
-function resetAddExp(){['ae-title','ae-amount','ae-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('ae-date').value=today();document.getElementById('ae-tog').classList.remove('on');const ri=document.getElementById('ae-receipt');if(ri)ri.value='';const rp=document.getElementById('ae-receipt-preview');if(rp)rp.innerHTML='';}
-
-// ─── REPORTS ───
-
-
-
-// ─── RECURRING INVOICE CHECK ───
-function checkRecurringInvoices(){
-  const curMon=today().slice(0,7);// YYYY-MM
-  let generated=0;
-  const recurringBase=db.income.filter(i=>i.recurring&&!i.isDraft);
-  // Group by a stable key (client+desc+amount) — find latest per group
-  const groups={};
-  recurringBase.forEach(i=>{
-    const key=`${i.client||''}|${invDesc(i)||''}`;
-    if(!groups[key]||i.date>groups[key].date)groups[key]=i;
-  });
-  Object.values(groups).forEach(base=>{
-    const baseMonth=base.date?.slice(0,7);
-    if(!baseMonth||baseMonth>=curMon)return;// already current month or future
-    // Check if we already have a copy this month
-    const alreadyExists=db.income.some(i=>i.recurringParent===base.id&&i.date?.slice(0,7)===curMon);
-    if(alreadyExists)return;
-    // Create draft copy for current month
-    const newDate=curMon+'-'+base.date.slice(8);
-    const daysUntilDue=base.due&&base.date?Math.round((new Date(base.due)-new Date(base.date))/(864e5)):0;
-    const newDue=daysUntilDue>0?(()=>{const d=new Date(newDate);d.setDate(d.getDate()+daysUntilDue);return d.toISOString().slice(0,10);})():base.due;
-    const copy={...base,id:uid(),date:newDate,due:newDue||'',status:'pending',received:0,isDraft:true,recurringParent:base.id,invNo:''};
-    // Assign invoice number
-    copy.invNo=nextAvailableInvNo();
-    syncInvCounter();
-    db.income.push(copy);
-    generated++;
-  });
-  if(generated>0){save();toast(`${generated} recurring invoice${generated>1?'s':''} drafted for ${curMon.replace('-','/')} ✓`);}
-}
-
-function checkRecurringExpenses(){
-  const curMon=today().slice(0,7);
-  let generated=0;
-  const recurringBase=db.expenses.filter(e=>e.recurring);
-  // Group by title+cat — find latest per group
-  const groups={};
-  recurringBase.forEach(e=>{
-    const key=`${e.title||''}|${e.cat||''}`;
-    if(!groups[key]||e.date>groups[key].date)groups[key]=e;
-  });
-  Object.values(groups).forEach(base=>{
-    const baseMonth=base.date?.slice(0,7);
-    if(!baseMonth||baseMonth>=curMon)return;// already current month or future
-    // Check if a copy already exists this month
-    const alreadyExists=db.expenses.some(e=>e.recurringParent===base.id&&e.date?.slice(0,7)===curMon);
-    if(alreadyExists)return;
-    const newDate=curMon+'-'+base.date.slice(8);
-    const copy={...base,id:uid(),date:newDate,recurringParent:base.id};
-    db.expenses.push(copy);
-    generated++;
-  });
-  if(generated>0){save();toast(`${generated} recurring expense${generated>1?'s':''} added for ${curMon.replace('-','/')} ✓`);}
-}
-
-// ─── CLIENTS ───
-function renderClients(){
-  const q=(document.getElementById('clientSearch')?.value||'').toLowerCase();
-  const names=[...new Set(db.income.map(i=>i.client).filter(Boolean))].filter(n=>!q||n.toLowerCase().includes(q)).sort();
-  const grid=document.getElementById('clientGrid');
-  if(!names.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-icon">👥</div><p>No clients yet</p></div>';return;}
-  grid.innerHTML=names.map(name=>{
-    const invs=db.income.filter(i=>i.client===name);
-    function rcvC(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
-    const billed=invs.reduce((s,i)=>s+(+i.amount||0),0);
-    const received=invs.reduce((s,i)=>s+rcvC(i),0);
-    const pending=billed-received;
-    const last=invs.sort((a,b)=>b.date>a.date?1:-1)[0];
-    const init=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const cp=(db.clients||{})[name]||{};
-    const cpTags=(cp.gstin?'<span class="cp-tag">GST</span>':'')+(cp.email?`<span class="cp-tag">${esc(cp.email)}</span>`:'');
-    return`<div class="client-card" onclick="openClientModal('${esc(name).replace(/'/g,"\\'")}')">
-      <div class="c-av">${init}</div>
-      <div class="c-name">${esc(name)}</div>
-      <div class="c-meta">${invs.length} invoice${invs.length!==1?'s':''} · ${last?fmtD(last.date):'—'}</div>
-      ${cpTags?`<div style="margin-top:4px;">${cpTags}</div>`:''}
-      <div class="c-stats">
-        <div class="c-stat"><div class="cs-l">Billed</div><div class="cs-v">${fmt(billed)}</div></div>
-        <div class="c-stat"><div class="cs-l">Received</div><div class="cs-v" style="color:var(--green)">${fmt(received)}</div></div>
-        <div class="c-stat"><div class="cs-l">Pending</div><div class="cs-v" style="color:${pending>0?'var(--orange)':'var(--muted2)'}">${fmt(pending)}</div></div>
-      </div>
-    </div>`;
-  }).join('');
 }
 function openClientModal(name){
   curClient=name;
@@ -3053,6 +2918,147 @@ function resetInvForm(pfx){
 }
 
 // ─── THEME SYSTEM ───
+function checkRecurringInvoices(){
+  const curMon=today().slice(0,7);// YYYY-MM
+  let generated=0;
+  const recurringBase=db.income.filter(i=>i.recurring&&!i.isDraft);
+  // Group by a stable key (client+desc+amount) — find latest per group
+  const groups={};
+  recurringBase.forEach(i=>{
+    const key=`${i.client||''}|${invDesc(i)||''}`;
+    if(!groups[key]||i.date>groups[key].date)groups[key]=i;
+  });
+  Object.values(groups).forEach(base=>{
+    const baseMonth=base.date?.slice(0,7);
+    if(!baseMonth||baseMonth>=curMon)return;// already current month or future
+    // Check if we already have a copy this month
+    const alreadyExists=db.income.some(i=>i.recurringParent===base.id&&i.date?.slice(0,7)===curMon);
+    if(alreadyExists)return;
+    // Create draft copy for current month
+    const newDate=curMon+'-'+base.date.slice(8);
+    const daysUntilDue=base.due&&base.date?Math.round((new Date(base.due)-new Date(base.date))/(864e5)):0;
+    const newDue=daysUntilDue>0?(()=>{const d=new Date(newDate);d.setDate(d.getDate()+daysUntilDue);return d.toISOString().slice(0,10);})():base.due;
+    const copy={...base,id:uid(),date:newDate,due:newDue||'',status:'pending',received:0,isDraft:true,recurringParent:base.id,invNo:''};
+    // Assign invoice number
+    db.invoiceCounter=(db.invoiceCounter||0)+1;
+    copy.invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');
+    db.income.push(copy);
+    generated++;
+  });
+  if(generated>0){save();toast(`${generated} recurring invoice${generated>1?'s':''} drafted for ${curMon.replace('-','/')} ✓`);}
+}
+function checkRecurringExpenses(){
+  const curMon=today().slice(0,7);
+  let generated=0;
+  const recurringBase=db.expenses.filter(e=>e.recurring);
+  // Group by title+cat — find latest per group
+  const groups={};
+  recurringBase.forEach(e=>{
+    const key=`${e.title||''}|${e.cat||''}`;
+    if(!groups[key]||e.date>groups[key].date)groups[key]=e;
+  });
+  Object.values(groups).forEach(base=>{
+    const baseMonth=base.date?.slice(0,7);
+    if(!baseMonth||baseMonth>=curMon)return;// already current month or future
+    // Check if a copy already exists this month
+    const alreadyExists=db.expenses.some(e=>e.recurringParent===base.id&&e.date?.slice(0,7)===curMon);
+    if(alreadyExists)return;
+    const newDate=curMon+'-'+base.date.slice(8);
+    const copy={...base,id:uid(),date:newDate,recurringParent:base.id};
+    db.expenses.push(copy);
+    generated++;
+  });
+  if(generated>0){save();toast(`${generated} recurring expense${generated>1?'s':''} added for ${curMon.replace('-','/')} ✓`);}
+}
+
+function delExp(id){if(!confirm('Delete expense?'))return;db.expenses=db.expenses.filter(x=>x.id!==id);save();toast('Deleted');renderOverview();renderExpenses();}
+function editExp(id){
+  const e=db.expenses.find(x=>x.id===id);if(!e)return;
+  document.getElementById('ee-title').value=e.title||'';
+  document.getElementById('ee-amount').value=e.amount||'';
+  document.getElementById('ee-cat').value=e.cat||'';
+  document.getElementById('ee-date').value=e.date||'';
+  document.getElementById('ee-notes').value=e.notes||'';
+  const tog=document.getElementById('ee-tog');
+  e.recurring?tog.classList.add('on'):tog.classList.remove('on');
+  document.getElementById('ee-id').value=id;
+  const prevEl=document.getElementById('ee-receipt-preview');
+  if(prevEl)prevEl.innerHTML=e.receipt?`<img src="${e.receipt.startsWith('data:image')?e.receipt:''}" style="${e.receipt.startsWith('data:image')?'max-height:60px;border-radius:4px;':'display:none'}"><span style="font-size:.75rem;color:var(--muted)">${e.receipt?'Receipt attached':''}${e.receipt&&e.receipt.startsWith('data:application/pdf')?'📄 PDF attached':''}</span>`:'';
+  fillCatSelects();openModal('editExpModal');
+}
+function renderClients(){
+  const q=(document.getElementById('clientSearch')?.value||'').toLowerCase();
+  const names=[...new Set(db.income.map(i=>i.client).filter(Boolean))].filter(n=>!q||n.toLowerCase().includes(q)).sort();
+  const grid=document.getElementById('clientGrid');
+  if(!names.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-icon">👥</div><p>No clients yet</p></div>';return;}
+  grid.innerHTML=names.map(name=>{
+    const invs=db.income.filter(i=>i.client===name);
+    function rcvC(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
+    const billed=invs.reduce((s,i)=>s+(+i.amount||0),0);
+    const received=invs.reduce((s,i)=>s+rcvC(i),0);
+    const pending=billed-received;
+    const last=invs.sort((a,b)=>b.date>a.date?1:-1)[0];
+    const init=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const cp=(db.clients||{})[name]||{};
+    const cpTags=(cp.gstin?'<span class="cp-tag">GST</span>':'')+(cp.email?`<span class="cp-tag">${esc(cp.email)}</span>`:'');
+    return`<div class="client-card" onclick="openClientModal('${esc(name).replace(/'/g,"\\'")}')">
+      <div class="c-av">${init}</div>
+      <div class="c-name">${esc(name)}</div>
+      <div class="c-meta">${invs.length} invoice${invs.length!==1?'s':''} · ${last?fmtD(last.date):'—'}</div>
+      ${cpTags?`<div style="margin-top:4px;">${cpTags}</div>`:''}
+      <div class="c-stats">
+        <div class="c-stat"><div class="cs-l">Billed</div><div class="cs-v">${fmt(billed)}</div></div>
+        <div class="c-stat"><div class="cs-l">Received</div><div class="cs-v" style="color:var(--green)">${fmt(received)}</div></div>
+        <div class="c-stat"><div class="cs-l">Pending</div><div class="cs-v" style="color:${pending>0?'var(--orange)':'var(--muted2)'}">${fmt(pending)}</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function saveExpense(){
+  const title=document.getElementById('ae-title').value.trim();
+  const amount=+document.getElementById('ae-amount').value||0;
+  if(!title||!amount){toast('Title and amount required','err');return;}
+  const fileEl=document.getElementById('ae-receipt');
+  const saveAndAdd=(receipt)=>{
+    db.expenses.push({id:uid(),title,amount,cat:document.getElementById('ae-cat').value||'',
+      date:document.getElementById('ae-date').value||today(),
+      notes:document.getElementById('ae-notes').value.trim(),
+      recurring:document.getElementById('ae-tog').classList.contains('on'),
+      receipt:receipt||''});
+    save();closeModal('addExpModal');resetAddExp();toast('Expense saved ✓');renderOverview();renderExpenses();
+  };
+  if(fileEl&&fileEl.files[0]){
+    const reader=new FileReader();
+    reader.onload=e=>saveAndAdd(e.target.result);
+    reader.readAsDataURL(fileEl.files[0]);
+  }else{saveAndAdd('');}
+}
+function updateExpense(){
+  const id=document.getElementById('ee-id').value;
+  const idx=db.expenses.findIndex(x=>x.id===id);if(idx<0)return;
+  const title=document.getElementById('ee-title').value.trim();
+  const amount=+document.getElementById('ee-amount').value||0;
+  if(!title||!amount){toast('Title and amount required','err');return;}
+  const e=db.expenses[idx];
+  const doUpdate=(receipt)=>{
+    e.title=title;e.amount=amount;e.cat=document.getElementById('ee-cat').value||'';
+    e.date=document.getElementById('ee-date').value||today();
+    e.notes=document.getElementById('ee-notes').value.trim();
+    e.recurring=document.getElementById('ee-tog').classList.contains('on');
+    if(receipt!==null)e.receipt=receipt;
+    save();closeModal('editExpModal');toast('Updated ✓');renderOverview();renderExpenses();
+  };
+  const fileEl=document.getElementById('ee-receipt');
+  if(fileEl&&fileEl.files[0]){
+    const reader=new FileReader();
+    reader.onload=ev=>doUpdate(ev.target.result);
+    reader.readAsDataURL(fileEl.files[0]);
+  }else{doUpdate(null);}
+}
+
+function resetAddExp(){['ae-title','ae-amount','ae-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('ae-date').value=today();document.getElementById('ae-tog').classList.remove('on');const ri=document.getElementById('ae-receipt');if(ri)ri.value='';const rp=document.getElementById('ae-receipt-preview');if(rp)rp.innerHTML='';}
+
 // ─── THEME SYSTEM (v2) ───
 // Tokens are written onto <body> as inline custom properties, so they beat any
 // stylesheet rule and the whole product re-skins instantly, no reload.
