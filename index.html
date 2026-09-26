@@ -687,6 +687,185 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
 .qr-btn{background:var(--accent)!important;color:var(--accent-ink)!important;border-radius:var(--r-xs)!important;border:0!important;font-weight:700!important;cursor:pointer}
 .qr-inp{width:96px!important}
 @media(max-width:760px){.pm-kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.pm-bottom-grid{grid-template-columns:minmax(0,1fr)!important}}
+/* ══════════════════════════════════════════════════════════════
+   CANVAS THEME — reference match
+   True black canvas · borderless bold-fill cards · black text on cards
+   · black-outline pills · 24-30px radii · black chart bars.
+   Scoped to body.tint-cards so other themes are untouched.
+   ══════════════════════════════════════════════════════════════ */
+body.tint-cards{--bg:#000000;--s2:#000000;--sunken:#000000;--white:#161616;--s1:#161616;
+  --surface:#161616;--surface-2:#1E1E1E;--text:#FFFFFF;--ink:#FFFFFF;--muted:#9A9A9A;--muted2:#666666;
+  --line:rgba(255,255,255,.14);--line-2:rgba(255,255,255,.08);--border:rgba(255,255,255,.14);--border2:rgba(255,255,255,.08);
+  --ink-on-tint:#000000;--r:26px;--r-sm:22px;--r-xs:16px;--r-lg:30px}
+body.tint-cards .content,body.tint-cards{background:#000!important}
+body.tint-cards .sidebar,body.tint-cards #appSidebar{background:#000000!important;border-right:1px solid rgba(255,255,255,.10)!important}
+body.tint-cards .sidebar-search input{background:#141414!important}
+body.tint-cards .sidebar-user{background:#141414!important;border:0!important}
+body.tint-cards .sn.active{background:#1A1A1A!important;color:#fff!important;box-shadow:none!important}
+body.tint-cards .sn:hover{background:#141414!important}
+
+/* cards: no borders, big radius, generous padding */
+body.tint-cards .card,body.tint-cards .st-card,body.tint-cards .pm-kpi,body.tint-cards .pm-chart-card,
+body.tint-cards .pm-table-card,body.tint-cards .pm-tcard,body.tint-cards .client-card,body.tint-cards .chart-card{
+  border:0!important;border-radius:26px!important;background:#161616!important;color:#fff!important;padding:22px!important;
+}
+body.tint-cards .pm-kpi{border-radius:26px!important}
+/* bold fill variants — black text inside, always */
+body.tint-cards .t-sage{background:#D1DDCF!important;color:#000!important}
+body.tint-cards .t-lav{background:#9B92B3!important;color:#000!important}
+body.tint-cards .t-yellow{background:#E8E230!important;color:#000!important}
+body.tint-cards .t-olive{background:#8B8B00!important;color:#000!important}
+body.tint-cards .t-orange{background:#FF5733!important;color:#000!important}
+body.tint-cards .t-grey{background:#D9D9D9!important;color:#000!important}
+body.tint-cards .t-sage *,body.tint-cards .t-lav *,body.tint-cards .t-yellow *,
+body.tint-cards .t-olive *,body.tint-cards .t-orange *,body.tint-cards .t-grey *{color:inherit!important}
+body.tint-cards .t-sage .pm-kpi-label,body.tint-cards .t-lav .pm-kpi-label,body.tint-cards .t-yellow .pm-kpi-label,
+body.tint-cards .t-olive .pm-kpi-label,body.tint-cards .t-orange .pm-kpi-label,body.tint-cards .t-grey .pm-kpi-label,
+body.tint-cards .t-sage .pm-kpi-sub,body.tint-cards .t-lav .pm-kpi-sub,body.tint-cards .t-yellow .pm-kpi-sub,
+body.tint-cards .t-olive .pm-kpi-sub,body.tint-cards .t-orange .pm-kpi-sub,body.tint-cards .t-grey .pm-kpi-sub{
+  color:rgba(0,0,0,.62)!important;font-weight:650!important}
+body.tint-cards .t-sage .pm-kpi-icon,body.tint-cards .t-lav .pm-kpi-icon,body.tint-cards .t-yellow .pm-kpi-icon,
+body.tint-cards .t-olive .pm-kpi-icon,body.tint-cards .t-orange .pm-kpi-icon,body.tint-cards .t-grey .pm-kpi-icon{
+  background:rgba(0,0,0,.10)!important;color:#000!important;border-radius:50%!important}
+body.tint-cards .t-sage .pm-mnav,body.tint-cards .t-lav .pm-mnav,body.tint-cards .t-yellow .pm-mnav,
+body.tint-cards .t-olive .pm-mnav,body.tint-cards .t-orange .pm-mnav,body.tint-cards .t-grey .pm-mnav{
+  background:transparent!important;border:1px solid rgba(0,0,0,.55)!important;color:#000!important}
+body.tint-cards .t-sage .pm-mnav span,body.tint-cards .t-grey .pm-mnav span,body.tint-cards .t-yellow .pm-mnav span{color:#000!important}
+body.tint-cards .t-sage .pm-mnav button,body.tint-cards .t-grey .pm-mnav button{color:#000!important}
+body.tint-cards .pm-chart-title,body.tint-cards .pm-tcard-title{color:inherit!important}
+
+/* pill labels: transparent with a current-colour outline (black on light cards, white on dark) */
+.t-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid currentColor;border-radius:999px;
+  padding:7px 15px;font-size:.78rem;font-weight:600;line-height:1;background:transparent;color:inherit;white-space:nowrap}
+body.tint-cards .card .t-pill,body.tint-cards .pm-kpi .t-pill,body.tint-cards .st-card .t-pill{opacity:.95}
+body.tint-cards .card-head h2,body.tint-cards .pm-tcard-title,body.tint-cards .pm-chart-title{font-size:.98rem!important;font-weight:680!important}
+
+/* buttons: yellow primary, white-outline pills for secondary */
+body.tint-cards .btn{border:1px solid rgba(255,255,255,.5)!important;background:transparent!important;color:#fff!important;
+  border-radius:999px!important;height:40px;padding:0 18px!important;font-weight:600!important}
+body.tint-cards .btn:hover{background:rgba(255,255,255,.10)!important}
+body.tint-cards .btn-dark,body.tint-cards .btn-red{background:#E8E230!important;border-color:#E8E230!important;color:#000!important;font-weight:700!important}
+body.tint-cards .btn-dark:hover,body.tint-cards .btn-red:hover{background:#F2EC55!important;border-color:#F2EC55!important}
+body.tint-cards .btn-sm{height:34px!important;padding:0 14px!important;font-size:.78rem!important}
+body.tint-cards .itab,body.tint-cards .stab,body.tint-cards .ss-btn,body.tint-cards .rbtn,body.tint-cards .leg{
+  border:1px solid rgba(255,255,255,.45)!important;background:transparent!important;color:#fff!important;border-radius:999px!important;height:36px;padding:0 16px!important}
+body.tint-cards .itab.active,body.tint-cards .stab.active,body.tint-cards .ss-btn.on,body.tint-cards .rbtn.active{
+  background:#E8E230!important;border-color:#E8E230!important;color:#000!important}
+body.tint-cards .itab.active *,body.tint-cards .stab.active *,body.tint-cards .ss-btn.on *{color:#000!important;-webkit-text-fill-color:#000!important}
+body.tint-cards #incSortSwitch,body.tint-cards #expSortSwitch{background:transparent!important;border:0!important;padding:0!important;gap:6px!important}
+
+/* inputs: soft dark wells, big radius */
+body.tint-cards input,body.tint-cards textarea,body.tint-cards select,body.tint-cards .st-input,body.tint-cards .search-inp{
+  background:#141414!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:16px!important;color:#fff!important;min-height:44px}
+body.tint-cards input::placeholder,body.tint-cards textarea::placeholder{color:#7A7A7A!important}
+body.tint-cards input:focus,body.tint-cards select:focus,body.tint-cards textarea:focus{border-color:#E8E230!important;box-shadow:0 0 0 3px rgba(232,226,48,.18)!important}
+body.tint-cards label,body.tint-cards .st-flabel{color:#9A9A9A!important}
+body.tint-cards .st-card label,body.tint-cards .t-sage label{color:rgba(0,0,0,.62)!important}
+
+/* ledger lists: reference "wallet" treatment — rows on black, no boxes */
+body.tint-cards .led-list{gap:0!important}
+body.tint-cards .led-card{background:transparent!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.12)!important;
+  border-radius:0!important;padding:18px 4px!important}
+body.tint-cards .led-card:last-child{border-bottom:0!important}
+body.tint-cards .led-card:hover{background:rgba(255,255,255,.03)!important}
+body.tint-cards .led-title{color:#fff!important;font-size:1.02rem!important;font-weight:650!important}
+body.tint-cards .led-amount{color:#fff!important;font-size:1.15rem!important;font-weight:700!important}
+body.tint-cards .led-meta{color:#8A8A8A!important;font-size:.78rem!important}
+body.tint-cards .led-no{color:#B5B5B5!important}
+body.tint-cards .led-status{color:#fff!important}
+body.tint-cards .led-status .dotmark{background:currentColor}
+body.tint-cards .row-action,body.tint-cards .row-more{background:transparent!important;border:1px solid rgba(255,255,255,.45)!important;
+  color:#fff!important;border-radius:999px!important;height:32px!important}
+body.tint-cards .row-action:hover,body.tint-cards .row-more:hover{background:rgba(255,255,255,.10)!important}
+body.tint-cards .row-more option{background:#161616;color:#fff}
+
+/* recent lists inside dark cards: white text, hairline rows */
+body.tint-cards .recent-row{background:transparent!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.10)!important;border-radius:0!important;padding:14px 0!important}
+body.tint-cards .recent-name{color:#fff!important}
+body.tint-cards .recent-detail{color:#8A8A8A!important}
+body.tint-cards .recent-amount,body.tint-cards .recent-amount *{color:#fff!important}
+body.tint-cards #recentIncList,body.tint-cards #recentExpList{padding:6px 22px 18px!important}
+
+/* status chips as outline pills */
+body.tint-cards .badge{background:transparent!important;border:1px solid currentColor!important;color:inherit!important;font-weight:600!important}
+body.tint-cards .card .badge,body.tint-cards .led-card .badge{color:#9A9A9A!important}
+body.tint-cards .b-rec{color:#7FE0A8!important}
+body.tint-cards .b-pend{color:#E8E230!important}
+body.tint-cards .b-over{color:#FF7A5C!important}
+body.tint-cards .b-part{color:#B9B2D6!important}
+
+/* typography scale: bolder headings, muted secondary */
+body.tint-cards .ph h1{font-weight:700!important;letter-spacing:-.035em!important;font-size:1.7rem!important}
+body.tint-cards .ph p{color:#8A8A8A!important}
+body.tint-cards .pm-kpi-value{font-weight:700!important;letter-spacing:-.04em!important}
+
+/* header pills row */
+.t-pill-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+/* modals: dark surface with generous radius */
+body.tint-cards .modal{background:#111111!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:30px!important}
+body.tint-cards .modal h2{color:#fff!important}
+body.tint-cards .tax-row{background:#0B0B0B!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:18px!important}
+body.tint-cards .tpl-card{background:#141414!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:16px!important}
+body.tint-cards .tpl-card.sel{border-color:#E8E230!important;background:#1C1C10!important}
+body.tint-cards .li-tbl th{border-bottom:1px solid rgba(255,255,255,.18)!important;color:#9A9A9A!important}
+body.tint-cards .li-tbl td{border-bottom:1px solid rgba(255,255,255,.08)!important}
+body.tint-cards .t-pill,body.tint-cards .inv-tab{color:#fff!important}
+
+/* charts: bars/lines in black on light cards, muted grey for the second series */
+body.tint-cards .pm-chart-card{background:#D9D9D9!important;color:#000!important}
+body.tint-cards .pm-chart-card .pm-chart-title{color:#000!important}
+body.tint-cards .pm-chart-card .rbtn,body.tint-cards .pm-chart-card .leg{color:#000!important;border-color:rgba(0,0,0,.45)!important}
+body.tint-cards .pm-chart-card .rbtn.active{background:#000!important;color:#fff!important;border-color:#000!important}
+body.tint-cards .pm-chart-card .chart-xlabels,body.tint-cards .pm-chart-card .chart-xlabels *{color:rgba(0,0,0,.6)!important}
+
+/* ── reference fidelity refinements ── */
+body.tint-cards .pm-kpi{padding:24px!important;min-height:172px!important;justify-content:space-between!important}
+body.tint-cards .pm-kpi-value{font-size:clamp(2.3rem,3.6vw,3.15rem)!important;font-weight:800!important;letter-spacing:-.055em!important;line-height:1}
+body.tint-cards .pm-kpi-label{font-size:.76rem!important;text-transform:none!important;letter-spacing:.01em!important;font-weight:650!important}
+body.tint-cards .pm-kpi-sub,body.tint-cards .pm-kpi-sub *{font-size:.82rem!important;font-weight:750!important}
+body.tint-cards [class*="t-"] .pm-kpi-icon{background:#000!important;color:#fff!important;border-radius:50%!important;width:38px!important;height:38px!important;top:22px!important;right:22px!important}
+body.tint-cards [class*="t-"] input,body.tint-cards [class*="t-"] textarea,body.tint-cards [class*="t-"] select,body.tint-cards [class*="t-"] .st-input{
+  background:#000!important;border:0!important;color:#fff!important;border-radius:16px!important;min-height:46px}
+body.tint-cards [class*="t-"] input::placeholder,body.tint-cards [class*="t-"] textarea::placeholder{color:rgba(255,255,255,.72)!important;font-weight:500!important}
+body.tint-cards [class*="t-"] label,body.tint-cards [class*="t-"] .st-flabel{color:#000!important;font-weight:700!important;opacity:.9!important;text-transform:none!important;letter-spacing:.01em!important;font-size:.78rem!important}
+body.tint-cards [class*="t-"] .st-clabel{color:#000!important;font-weight:750!important;opacity:1!important;text-transform:none!important;letter-spacing:.01em!important;font-size:.9rem!important}
+body.tint-cards [class*="t-"] .t-pill{border:1.5px solid #000!important;color:#000!important;font-weight:650!important;padding:8px 16px!important}
+body.tint-cards [class*="t-"] .badge,body.tint-cards [class*="t-"] .cp-tag,body.tint-cards [class*="t-"] .ns-badge,
+body.tint-cards [class*="t-"] .t-pill,body.tint-cards [class*="t-"] .led-tag,body.tint-cards [class*="t-"] .chip{
+  background:rgba(0,0,0,.13)!important;border:1.5px solid rgba(0,0,0,.7)!important;color:#000!important;
+  font-weight:650!important;border-radius:999px!important}
+body.tint-cards [class*="t-"] .cp-tag *,body.tint-cards [class*="t-"] .badge *{color:#000!important}
+body.tint-cards [class*="t-"] .cp-tag{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+body.tint-cards .led-card .badge,body.tint-cards .card .badge{background:transparent!important;border:1.5px solid rgba(255,255,255,.5)!important;color:#fff!important}
+body.tint-cards [class*="t-"] .badge{background:#000!important;border:1px solid #000!important;color:#fff!important}
+body.tint-cards .itab.active,body.tint-cards .stab.active,body.tint-cards .ss-btn.on,body.tint-cards .rbtn.active,
+body.tint-cards .inv-tab.active{background:#fff!important;border-color:#fff!important;color:#000!important}
+body.tint-cards .itab.active *,body.tint-cards .stab.active *,body.tint-cards .ss-btn.on *{color:#000!important;-webkit-text-fill-color:#000!important}
+body.tint-cards .pm-chart-card{background:#D9D9D9!important}
+body.tint-cards .pm-chart-body{padding:18px 22px 14px!important}
+body.tint-cards .led-title{font-size:1.05rem!important}
+body.tint-cards .led-summary,body.tint-cards .led-sub{color:#8A8A8A!important}
+body.tint-cards .pm-table-card .recent-name{font-weight:650!important}
+
+/* hard guarantees: black text on every tint, white text on solid-black chips */
+body.tint-cards [class*="t-"] .pm-kpi-value,body.tint-cards [class*="t-"] .pm-kpi-label,
+body.tint-cards [class*="t-"] .st-clabel,body.tint-cards [class*="t-"] label,
+body.tint-cards [class*="t-"] .cs-v,body.tint-cards [class*="t-"] .c-name,body.tint-cards [class*="t-"] .c-meta,
+body.tint-cards [class*="t-"] .st-flabel{color:#000!important}
+body.tint-cards [class*="t-"] .pm-kpi-sub,body.tint-cards [class*="t-"] .pm-kpi-meta,body.tint-cards [class*="t-"] .cs-l{color:rgba(0,0,0,.68)!important}
+body.tint-cards .t-olive .cp-tag,body.tint-cards .t-orange .cp-tag,
+body.tint-cards .t-olive .badge,body.tint-cards .t-orange .badge,
+body.tint-cards .t-olive .t-pill,body.tint-cards .t-orange .t-pill,
+body.tint-cards .t-olive .chip,body.tint-cards .t-orange .chip{
+  background:#000!important;border-color:#000!important;color:#FFFFFF!important}
+body.tint-cards .t-olive .cp-tag *,body.tint-cards .t-orange .cp-tag *,
+body.tint-cards .t-olive .badge *,body.tint-cards .t-orange .badge *{color:#FFFFFF!important}
+@media(max-width:760px){
+  body.tint-cards .pm-kpi{padding:18px!important}
+  body.tint-cards .led-card{padding:16px 2px!important}
+}
+
 </style>
 </head>
 <body>
@@ -824,7 +1003,7 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
     <div class="pm-kpi-row">
 
       <!-- Net Balance — featured purple -->
-      <div class="pm-kpi pm-featured">
+      <div class="pm-kpi pm-featured t-sage">
         <div style="color:rgba(255,255,255,.5);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px;">Net Balance</div>
         <div class="bc-studio-name" id="bcStudioName" style="color:rgba(255,255,255,.75);font-size:.78rem;font-weight:600;letter-spacing:-.01em;margin-bottom:10px;text-transform:none;">StudioBills</div>
         <div class="pm-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
@@ -840,7 +1019,7 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
       </div>
 
       <!-- Billed -->
-      <div class="pm-kpi">
+      <div class="pm-kpi t-lav">
         <div class="pm-kpi-label">Total Billed</div>
         <div class="pm-kpi-icon pki-purple">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="10" y2="17"/></svg>
@@ -852,7 +1031,7 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
       </div>
 
       <!-- Received -->
-      <div class="pm-kpi">
+      <div class="pm-kpi t-olive">
         <div class="pm-kpi-label">Received</div>
         <div class="pm-kpi-icon pki-green">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -864,7 +1043,7 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
       </div>
 
       <!-- Expenses -->
-      <div class="pm-kpi">
+      <div class="pm-kpi t-orange">
         <div class="pm-kpi-label">Expenses</div>
         <div class="pm-kpi-icon pki-amber">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg>
@@ -880,7 +1059,7 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
     <div class="pm-mid-grid">
 
       <!-- Chart card -->
-      <div class="pm-chart-card">
+      <div class="pm-chart-card t-grey">
         <div class="pm-chart-header">
           <div>
             <div class="pm-chart-title">Income vs Expenses</div>
@@ -1020,7 +1199,7 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
         <div class="theme-grid" id="themeCardGrid"></div>
       </div>
       <!-- Studio Identity -->
-      <div class="st-card">
+      <div class="st-card t-sage">
         <div class="st-clabel">Studio Identity</div>
         <div class="st-field"><div class="st-flabel">Studio Name</div><input class="st-input" id="s-studio" placeholder="e.g. Bright Studio Co."></div>
         <div class="st-field"><div class="st-flabel">Your Name</div><input class="st-input" id="s-owner" placeholder="e.g. John Doe"></div>
@@ -1036,13 +1215,13 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
         </div>
       </div>
       <!-- Contact Details -->
-      <div class="st-card">
+      <div class="st-card t-lav">
         <div class="st-clabel">Contact Details</div>
         <div class="st-field"><div class="st-flabel">Email</div><input class="st-input" id="s-email" placeholder="e.g. john@studio.com"></div>
         <div class="st-field"><div class="st-flabel">Phone</div><input class="st-input" id="s-phone" placeholder="e.g. +91 98765 43210"></div>
         <div class="st-field"><div class="st-flabel">Address</div><textarea class="st-input" id="s-address" rows="3" placeholder="Your address"></textarea></div>
       </div>
-      <div class="st-card">
+      <div class="st-card t-grey">
         <div class="st-clabel">Payment Information</div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
           <div class="st-field"><div class="st-flabel">UPI / GPay / PhonePe</div><input class="st-input" id="s-upi" placeholder="yourname@okicici"></div>
@@ -1056,7 +1235,7 @@ tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!imp
         </div>
       </div>
       <!-- Tax Info -->
-      <div class="st-card">
+      <div class="st-card t-olive">
         <div class="st-clabel">Tax Information</div>
         <div class="st-field"><div class="st-flabel">GSTIN <span style="font-weight:300;text-transform:none;">(if registered)</span></div><input class="st-input" id="s-gstin" placeholder="22AAAAA0000A1Z5"></div>
         <div class="st-field"><div class="st-flabel">PAN Number</div><input class="st-input" id="s-pan" placeholder="AAAAA0000A"></div>
@@ -2049,7 +2228,7 @@ function drawMainChart(){
     const ctx=canvas.getContext('2d');
     if(mainChart){mainChart.destroy();mainChart=null;}
     mainChart=new Chart(ctx,{type:'bar',data:{labels:lbls,datasets:[
-      {label:'Income',data:incData,backgroundColor:h2r(window._TC.inc,0.72),borderRadius:5,barPercentage:0.55,categoryPercentage:0.8,order:1},
+      {label:'Income',data:incData,backgroundColor:h2r(window._TC.inc,(window._TC&&window._TC.solidBars)?1:0.72),borderRadius:6,barPercentage:0.55,categoryPercentage:0.8,order:1},
       {label:'Expenses',data:expData,backgroundColor:h2r(window._TC.exp,0.65),borderRadius:5,barPercentage:0.55,categoryPercentage:0.8,order:2}
     ]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:false},tooltip:{backgroundColor:'#0A0A0A',titleColor:'#fff',bodyColor:'rgba(255,255,255,.75)',padding:10,cornerRadius:10,callbacks:{label:c=>` ${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
@@ -2075,7 +2254,7 @@ function drawMainChart(){
       type:'line',
       data:{labels:lbls,datasets:[
         {label:'Income',data:incData,
-          borderColor:window._TC.inc,backgroundColor:incGrad,
+          borderColor:window._TC.inc,borderWidth:(window._TC&&window._TC.solidBars)?3:2.5,backgroundColor:incGrad,
           fill:true,tension:0.45,
           pointRadius:5,pointBackgroundColor:window._TC.inc,
           pointBorderColor:_ptBorder,pointBorderWidth:2.5,
@@ -2237,7 +2416,7 @@ function drawMainChart(){
   });
 }
 
-let chartStyle='line';
+let chartStyle='bars';   // reference style: thick black bars by default
 function setChartStyle(s){
   chartStyle=s;
   ['bars','line'].forEach(id=>{document.getElementById('gs-'+id)?.classList.toggle('active',id===s);});
@@ -2986,12 +3165,13 @@ function editExp(id){
   if(prevEl)prevEl.innerHTML=e.receipt?`<img src="${e.receipt.startsWith('data:image')?e.receipt:''}" style="${e.receipt.startsWith('data:image')?'max-height:60px;border-radius:4px;':'display:none'}"><span style="font-size:.75rem;color:var(--muted)">${e.receipt?'Receipt attached':''}${e.receipt&&e.receipt.startsWith('data:application/pdf')?'📄 PDF attached':''}</span>`:'';
   fillCatSelects();openModal('editExpModal');
 }
-function renderClients(){
+function renderClients(){setTimeout(applyTintText,0);
   const q=(document.getElementById('clientSearch')?.value||'').toLowerCase();
   const names=[...new Set(db.income.map(i=>i.client).filter(Boolean))].filter(n=>!q||n.toLowerCase().includes(q)).sort();
   const grid=document.getElementById('clientGrid');
   if(!names.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="empty-icon">👥</div><p>No clients yet</p></div>';return;}
-  grid.innerHTML=names.map(name=>{
+  const TINTS=["t-sage","t-lav","t-grey","t-olive","t-orange","t-yellow"];
+  grid.innerHTML=names.map((name,ci)=>{
     const invs=db.income.filter(i=>i.client===name);
     function rcvC(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
     const billed=invs.reduce((s,i)=>s+(+i.amount||0),0);
@@ -3001,7 +3181,7 @@ function renderClients(){
     const init=name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
     const cp=(db.clients||{})[name]||{};
     const cpTags=(cp.gstin?'<span class="cp-tag">GST</span>':'')+(cp.email?`<span class="cp-tag">${esc(cp.email)}</span>`:'');
-    return`<div class="client-card" onclick="openClientModal('${esc(name).replace(/'/g,"\\'")}')">
+    return`<div class="client-card ${TINTS[ci%TINTS.length]}" onclick="openClientModal('${esc(name).replace(/'/g,"\\'")}')">
       <div class="c-av">${init}</div>
       <div class="c-name">${esc(name)}</div>
       <div class="c-meta">${invs.length} invoice${invs.length!==1?'s':''} · ${last?fmtD(last.date):'—'}</div>
@@ -3063,6 +3243,17 @@ function resetAddExp(){['ae-title','ae-amount','ae-notes'].forEach(id=>{const el
 // Tokens are written onto <body> as inline custom properties, so they beat any
 // stylesheet rule and the whole product re-skins instantly, no reload.
 const THEMES={
+  canvas:{name:'canvas',label:'Canvas',desc:'Black · bold colour cards',dark:true,tint:true,
+    bg:'#000000',inc:'#000000',exp:'#4D4D4D',solidBars:true,
+    cats:['#000000','#1F1F1F','#3D3D3D','#5A5A5A','#787878','#969696','#B3B3B3','#D1D1D1'],
+    expCats:['#4D4D4D','#2E2E2E','#6B6B6B','#8A8A8A','#3D3D3D','#A1A1A1','#5A5A5A','#C4C4C4'],
+    tokens:{'--bg':'#000000','--s2':'#000000','--white':'#161616','--s1':'#161616','--surface':'#161616','--surface-2':'#1E1E1E','--sunken':'#000000',
+      '--text':'#FFFFFF','--ink':'#FFFFFF','--muted':'#9A9A9A','--muted2':'#666666','--border':'rgba(255,255,255,.14)','--border2':'rgba(255,255,255,.08)',
+      '--line':'rgba(255,255,255,.14)','--line-2':'rgba(255,255,255,.08)','--black':'#E8E230',
+      '--accent':'#E8E230','--accent-ink':'#000000','--red':'#E8E230','--red2':'#F2EC55','--red-soft':'rgba(232,226,48,.14)',
+      '--purple':'#E8E230','--purple-soft':'rgba(232,226,48,.14)','--purple-soft2':'rgba(232,226,48,.22)',
+      '--green':'#7FE0A8','--green-soft':'rgba(127,224,168,.14)','--orange':'#FF5733','--orange-soft':'rgba(255,87,51,.16)',
+      '--teal':'#B9B2D6','--teal-soft':'rgba(185,178,214,.14)','--shadow':'none','--shadow-sm':'none','--shadow-lg':'0 40px 90px rgba(0,0,0,.6)'}},
   midnight:{name:'midnight',label:'Midnight',desc:'Near-black · lime accent',dark:true,
     bg:'#0F1113',inc:'#D1FE17',exp:'#7E869A',
     cats:['#D1FE17','#9CE6F3','#FFC66B','#C084FC','#4ADE80','#60A5FA','#F472B6','#7E869A'],
@@ -3111,15 +3302,38 @@ const THEMES={
 window._TC=THEMES.midnight;
 function h2r(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;}
 
+
+// Coloured cards must carry black text; dark cards white. Inline + important is the only
+// thing that reliably beats the per-card styles shipped with the app.
+function applyTintText(){
+  const on=document.body.classList.contains('tint-cards');
+  document.querySelectorAll('.pm-kpi,.st-card,.client-card,.card').forEach(card=>{
+    const tinted=on&&Array.from(card.classList).some(c=>c.indexOf('t-')===0);
+    if(!tinted)return;
+    card.querySelectorAll('.pm-kpi-value,.pm-kpi-label,.pm-kpi-sub,.pm-kpi-meta,.st-clabel,.st-flabel,label,.c-name,.cs-v,.cs-l,.c-meta').forEach(el=>{
+      const muted=/kpi-sub|kpi-meta|cs-l|c-meta/.test(el.className);
+      el.style.setProperty('color',muted?'rgba(0,0,0,.68)':'#000000','important');
+    });
+    card.querySelectorAll('.cp-tag,.badge,.chip,.t-pill').forEach(el=>{
+      const strong=card.classList.contains('t-olive')||card.classList.contains('t-orange');
+      el.style.setProperty('background',strong?'#000000':'rgba(0,0,0,.13)','important');
+      el.style.setProperty('color',strong?'#ffffff':'#000000','important');
+      el.style.setProperty('border-color',strong?'#000000':'rgba(0,0,0,.7)','important');
+    });
+  });
+}
+
 function applyTheme(){
   if(!db._glassMigrated){db._glassMigrated=true;db.profile.darkMode=false;save();}
-  const tn=THEMES[db.profile.theme]?db.profile.theme:'midnight';
+  const tn=THEMES[db.profile.theme]?db.profile.theme:'canvas';
   const T=THEMES[tn];
   window._TC=T;
   Array.from(document.body.classList).forEach(c=>{if(c==='dark'||c.indexOf('theme-')===0)document.body.classList.remove(c);});
   document.body.classList.add('theme-'+tn);
   document.body.classList.toggle('theme-dark',!!T.dark);
   document.body.classList.toggle('theme-light',!T.dark);
+  document.body.classList.toggle('tint-cards',!!T.tint);
+  if(typeof renderOverview==='function'&&document.getElementById('mainChart')){try{renderOverview()}catch(e){}}
   document.body.setAttribute('data-theme',tn);
   const S=document.body.style;
   Object.keys(T.tokens).forEach(k=>S.setProperty(k,T.tokens[k]));
@@ -3132,6 +3346,7 @@ function applyTheme(){
     drawMainChart();
   }
   renderThemeCards();
+  applyTintText();
 }
 function setTheme(name){
   if(!THEMES[name])return;
@@ -3142,7 +3357,7 @@ function setTheme(name){
 }
 function renderThemeCards(){
   const grid=document.getElementById('themeCardGrid');if(!grid)return;
-  const cur=db.profile.theme||'midnight';
+  const cur=db.profile.theme||'canvas';
   grid.innerHTML=Object.values(THEMES).map(T=>
     '<button type="button" class="theme-swatch'+(T.name===cur?' active':'')+'" onclick="setTheme(\''+T.name+'\')">'+
       '<span class="sw-dots"><span class="sw-dot" style="background:'+T.bg+'"></span>'+
@@ -4130,6 +4345,12 @@ function globalSearchFn(q) {
   box.style.display='block';
 }
 document.addEventListener('click',e=>{if(!e.target.closest('.sidebar-search')){const b=document.getElementById('gsResults');if(b)b.style.display='none';}});
+
+// Keep coloured-card text correct after every dashboard render
+(function(){
+  const _ro=renderOverview;
+  renderOverview=function(){_ro();applyTintText();};
+})();
 
 // Patch renderOverview to update outstanding stat cards
 const _roOrig = renderOverview;
