@@ -15,7 +15,6 @@
 <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
 <meta name="description" content="Freelance billing &amp; invoicing app for creative professionals"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ── CAT DRAG-TO-REORDER ──────────────────────────────────────────────────────
 let _catDragIdx=null,_catDragT=null;
@@ -63,14 +62,7 @@ function saveQuickIncome(){
   const client=(document.getElementById('qi-client')?.value||'').trim()||'Misc';
   const cat=(document.getElementById('qi-cat')?.value||'').trim();
   const desc=(document.getElementById('qi-desc')?.value||'').trim();
-  const isRcv=document.getElementById('qi-received')?.checked;
-  // 2-client limit for free plan
-  if(!isPro()){
-    const existingClients=new Set(db.income.map(i=>i.client).filter(Boolean));
-    if(!existingClients.has(client)&&existingClients.size>=2){
-      showUpgradeModal('a 3rd client (Free plan allows 2)');return;
-    }
-  }
+  const isRcv=document.getElementById('qi-received')?.checked;  
   const entry={
     id:uid(),invNo:'',client,desc,cat,date,due:'',
     items:[{desc:desc||'Income',qty:1,rate:amt,amount:amt}],
@@ -115,76 +107,7 @@ function saveQuickIncome(){
   --err:#FF4545;--err-soft:rgba(255,69,69,.08);
   --amber:#F59E0B;--amber-soft:rgba(245,158,11,.1);
 }
-/* ── DARK MODE ── */
-body.dark{
-  --bg:#0C0C10;--white:#141419;--text:#F0F0F5;--muted:#A0A0B0;--muted2:#505060;
-  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.05);--black:#F0F0F5;
-  --red-soft:rgba(255,34,85,.14);
-  --green-soft:rgba(0,192,122,.12);--orange-soft:rgba(255,107,53,.1);
-  --glass-bg:rgba(20,20,25,0.88);
-  --glass-border:rgba(255,255,255,0.08);
-  --glass-shadow:0 2px 20px rgba(0,0,0,0.4),0 8px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.06);
-}
-body.dark .sidebar{background:#111827;border-right-color:rgba(255,255,255,0.08);}
-body.dark .sn{color:rgba(255,255,255,.45);}
-body.dark .sn:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,.85);}
-body.dark .sn.active{background:rgba(99,91,255,.2);color:#A5B4FC;border-left-color:#635BFF;}
-body.dark .sidebar-search input{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:#E8E8E8;}
-body.dark .sidebar-user{background:rgba(255,255,255,0.05);}
-body.dark .sidebar-user-email{color:rgba(255,255,255,.4);}
-body.dark .sidebar-divider{background:rgba(255,255,255,0.08);}
-body.dark .btn-dark{background:#635BFF;color:#fff;}
-body.dark .btn-ghost{border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,.6);}
-body.dark .itab.active{background:#635BFF;color:#fff;}
-body.dark .rbtn.active{background:#635BFF;color:#fff;}
-body.dark .scrubber-handle{background:#E8E8E8;}
-body.dark .modal-bg{background:rgba(0,0,0,.7);}
-body.dark .modal{background:rgba(25,25,27,0.96);border-color:rgba(255,255,255,0.1);}
-body.dark input,body.dark select,body.dark textarea{background:rgba(255,255,255,0.05);color:#E8E8E8;border-color:rgba(255,255,255,0.1);}
-body.dark .toast{background:#2C2C2E;color:#E8E8E8;}
-body.dark tbody tr:hover td{background:rgba(255,255,255,0.03);}
-body.dark .auth-card{background:rgba(25,25,27,0.9);}
-body.dark .auth-box{background:#1A1A1A;}
 /* ── DARK MODE — REPORTS BENTO ── */
-body.dark .rb-net-hero{box-shadow:none;}
-body.dark .rb-glow-g,body.dark .rb-glow-b,body.dark .rb-glow-r{box-shadow:none;}
-body.dark .rb-mg-tile{background:#0f111a !important;}
-body.dark .rb-mg-lbl{color:#475569;}
-body.dark .rb-mg-val.white{color:#f0f0f5;}
-body.dark .rbk-tag.d{color:#64748b;}
-body.dark .rbk-sub.d{color:#94a3b8;}
-body.dark .rb-ch-lbl{color:#64748b;}
-body.dark .rb-leg-name{color:#e2e8f0;}
-body.dark .rb-leg-pct{color:#475569;}
-body.dark .rb-gst-q{background:#0f111a !important;}
-body.dark .rb-gst-q-lbl{color:#475569;}
-body.dark .rb-gst-q-val{color:#38bdf8;}
-body.dark #rpt-net-best{color:#94a3b8 !important;}
-body.dark #rpt-net-avg{color:#e2e8f0 !important;}
-body.dark .rpt-bento-body .rpt-im-tile{background:#111118;}
-body.dark .rpt-bento-body .rpt-im-val{color:#f0f0f5;}
-body.dark .rpt-bento-body .rpt-q-tile{background:#111118;border-color:rgba(255,255,255,.07);}
-body.dark .rpt-bento-body .rpt-q-tile.featured{background:#1a1a2e;border-color:rgba(99,91,255,.3);}
-body.dark .rpt-bento-body .rpt-q-lbl{color:#475569;}
-body.dark .rpt-bento-body .rpt-tl-item{border-bottom-color:rgba(255,255,255,.06);}
-body.dark .rpt-bento-body .rpt-tl-client{color:#f0f0f5;}
-body.dark .rpt-bento-body .rpt-tl-inv{color:#475569;}
-body.dark .rpt-bento-body .rpt-cat-name{color:#e2e8f0;}
-body.dark .rpt-bento-body .rpt-cat-sub{color:#475569;}
-body.dark .rpt-bento-body .card{background:#1C1C22;border-color:rgba(255,255,255,.07);}
-body.dark .rpt-bento-body .card-title{color:#f0f0f5;}
-body.dark .rpt-bento-body table th{background:#111118;color:#64748b;border-bottom-color:rgba(255,255,255,.07);}
-body.dark .rpt-bento-body table tbody tr{border-top-color:rgba(255,255,255,.04);}
-body.dark .rpt-bento-body table tbody tr:hover{background:rgba(255,255,255,.03);}
-body.dark .rpt-bento-body table td{color:#e2e8f0;}
-body.dark .rpt-bento-body .tbl-wrap{border-color:rgba(255,255,255,.07);}
-body.dark .rpt-bento-body .arc-card{background:#1C1C22;border-color:rgba(255,255,255,.07);}
-body.dark .rpt-bento-body .arc-card:hover{background:#222230;}
-body.dark .rpt-bento-body .arc-card h3{color:#f0f0f5;}
-body.dark .rpt-bento-body .arc-row span:first-child{color:#475569;}
-body.dark .rpt-bento-body .rpt-section-div-line{background:rgba(255,255,255,.07);}
-body.dark .rpt-bento-body .rpt-section-div-lbl{color:#475569;}
-body.dark .rpt-bento-body .lock-banner{background:#1C1C22 !important;border-color:rgba(255,255,255,.07) !important;}
 /* ── THEMES ── */
 /* Ocean Pro — default light (no class needed, but included for JS targeting) */
 body.theme-ocean{
@@ -359,7 +282,6 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
 .ns-badge.up{background:var(--lime);color:#000;}
 .ns-badge.dn{background:var(--red);color:#fff;}
 .ns-badge.neu{background:var(--orange-soft);color:var(--orange);}
-body.dark .ns-badge.up{background:rgba(0,200,83,.18);color:#4ADE80;}
 /* hero net */
 .hero-net-num{font-size:3.8rem;font-weight:200;letter-spacing:-.06em;line-height:1;}
 .hero-net-sub{font-size:.78rem;color:var(--muted);margin-top:4px;font-weight:300;}
@@ -558,10 +480,6 @@ body.dark .ns-badge.up{background:rgba(0,200,83,.18);color:#4ADE80;}
 .chd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .card-title{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--muted2);}
 /* Dark overrides for premium */
-body.dark .pm-kpi,body.dark .pm-chart-card,body.dark .pm-table-card,body.dark .pm-act-btn,body.dark .bento-card,body.dark .bc-surface,body.dark .act-strip{background:#1C1F2E;border-color:rgba(255,255,255,.07);color:#F0F0F5;}
-body.dark .pm-kpi-value,body.dark .pm-tcard-title,body.dark .pm-chart-title{color:#F0F0F5;}
-body.dark .pm-kpi-label,body.dark .pm-kpi-sub,body.dark .pm-chart-legend{color:#6B7280;}
-body.dark .bc-dark,body.dark .pm-kpi.pm-featured{background:linear-gradient(135deg,#4F46E5,#3730A3);}
 
 /* BUTTONS — Premium */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r2);border:none;
@@ -723,7 +641,6 @@ tbody tr.row-overdue{background:var(--red-soft);}
 .st-field:last-child{margin-bottom:0;}
 .st-flabel{font-size:.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
 .st-input{width:100%;padding:9px 13px;border:1.5px solid var(--border);border-radius:9px;background:rgba(0,0,0,0.02);font-family:inherit;font-size:.86rem;color:var(--text);outline:none;transition:border .15s;}
-body.dark .st-input{background:rgba(255,255,255,0.04);}
 .st-input:focus{border-color:var(--coral);}
 .st-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
 .st-row:last-child{border-bottom:none;padding-bottom:0;}
@@ -733,7 +650,6 @@ body.dark .st-input{background:rgba(255,255,255,0.04);}
 .st-bkbtn:hover{border-color:var(--text);}
 .st-bkbtn.bk-primary{background:var(--text);border-color:var(--text);color:var(--bg);}
 .st-bkicon{width:34px;height:34px;border-radius:9px;background:rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-body.dark .st-bkicon{background:rgba(255,255,255,0.08);}
 .st-bkbtn.bk-primary .st-bkicon{background:rgba(255,255,255,0.14);}
 .st-bkicon svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
 .st-bktitle{font-size:.84rem;font-weight:600;}
@@ -767,6 +683,29 @@ body.dark .st-bkicon{background:rgba(255,255,255,0.08);}
 .qr-sep{font-size:.7rem;color:var(--muted2);white-space:nowrap;}
 .qr-inp{width:96px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:.75rem;background:var(--bg);color:var(--text);}
 .qr-inp:focus{border-color:var(--red);outline:none;}
+
+.sort-switch{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--white);}
+.sort-switch .ss-btn{border:0;background:none;font-family:inherit;font-size:.72rem;font-weight:600;color:var(--muted);padding:6px 12px;cursor:pointer;letter-spacing:.02em;}
+.sort-switch .ss-btn+.ss-btn{border-left:1px solid var(--border);}
+.sort-switch .ss-btn.on{background:var(--black);color:#fff;}
+.sort-switch .ss-btn:hover:not(.on){color:var(--text);}
+
+.li-name-cell{position:relative;display:flex;flex-direction:column;gap:4px;}
+.li-chip{align-self:flex-start;border:1px solid var(--border);background:var(--bg);border-radius:20px;font-family:inherit;font-size:.66rem;font-weight:600;color:var(--muted);padding:2px 9px;cursor:pointer;white-space:nowrap;}
+.li-chip:hover{color:var(--text);border-color:var(--muted2);}
+.li-chip-menu{display:none;position:absolute;top:24px;left:0;z-index:40;background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.14);padding:6px;min-width:170px;}
+.li-name-cell.open .li-chip-menu{display:block;}
+.li-chip-menu .li-opt{display:block;width:100%;text-align:left;border:0;background:none;font-family:inherit;font-size:.75rem;color:var(--text);padding:7px 9px;border-radius:7px;cursor:pointer;white-space:nowrap;}
+.li-chip-menu .li-opt:hover{background:var(--bg);}
+.li-chip-menu .li-opt.on{background:var(--red-soft);color:var(--red);font-weight:600;}
+.li-pair{display:flex;gap:6px;align-items:center;}
+.li-pair input{flex:1;min-width:0;}
+.li-chooser{display:none;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);}
+.li-chooser.open{display:flex;}
+.li-chooser-lab{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted2);margin-right:2px;}
+.li-chooser button{border:1px solid var(--border);background:var(--white);font-family:inherit;font-size:.75rem;color:var(--text);padding:6px 11px;border-radius:8px;cursor:pointer;white-space:nowrap;}
+.li-chooser button:hover{border-color:var(--red);color:var(--red);}
+.li-chooser .li-chooser-x{margin-left:auto;color:var(--muted2);border-color:transparent;background:none;}
 
 /* ── INVOICE FORM TABS ── */
 .inv-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto;}
@@ -825,8 +764,6 @@ body.dark .st-bkicon{background:rgba(255,255,255,0.08);}
 /* ── DRAFT BADGE ── */
 .badge.b-draft{background:#F5F0E0;color:#A07800;}
 .badge.b-credit{background:#FFF0F0;color:var(--red);}
-body.dark .badge.b-draft{background:#2A2200;color:#FFD966;}
-body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 
 /* ── PARTIAL PAYMENT ENTRY ── */
 .pp-row{display:flex;gap:6px;align-items:center;padding:5px 0;border-bottom:1px solid var(--border2);font-size:.78rem;}
@@ -1169,9 +1106,6 @@ body.dark .badge.b-credit{background:#2A0A0A;color:#FF6680;}
 .rpt-inv-id{font-size:.68rem;color:var(--muted);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:130px;}
 .rpt-inv-amt{font-size:.85rem;font-weight:700;color:var(--err);text-align:right;}
 .rpt-inv-total{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2);}
-body.dark .rpt-trend-stat{background:var(--s1);}
-body.dark .rpt-ts-val{color:var(--text);}
-body.dark .rpt-inv-av{background:var(--purple-soft2);}
 /* GST quarter tiles generated by JS */
 .rpt-bento-body .rpt-q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
 .rpt-bento-body .rpt-q-tile{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;}
@@ -1403,79 +1337,70 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
     border-radius:16px;
   }
 }
+
+/* ══════════════════════════════════════════════════
+   MINIMAL OVERRIDE — one radius, one border weight, one shadow, no gradients
+   ══════════════════════════════════════════════════ */
+:root{
+  --r:10px;--r2:8px;
+  --shadow-sm:0 1px 2px rgba(17,24,39,.04);
+  --shadow:0 1px 2px rgba(17,24,39,.04),0 4px 14px rgba(17,24,39,.05);
+  --shadow-lg:0 8px 28px rgba(17,24,39,.08);
+  --border:#E7E5E1;--border2:#F1EFEC;
+  --bg:#FAFAF9;--muted:#6B7280;--muted2:#9CA3AF;
+}
+body{background:var(--bg);}
+/* flatter cards, one hairline, no stacked shadows */
+.card,.st-card,.client-card,.kpi-card,.chart-card,.stat-card{
+  border:1px solid var(--border)!important;border-radius:var(--r)!important;
+  box-shadow:none!important;background:var(--white)!important;
+}
+.card *,.st-card *{--shadow:none;}
+/* no gradient hero cards */
+.kpi-featured,.kpi-card.hero,.ov-hero,[class*="gradient"]{
+  background:var(--white)!important;color:var(--text)!important;
+}
+.kpi-featured *,[class*="gradient"] *{color:inherit!important;}
+/* buttons: uniform geometry, no glow */
+.btn{border-radius:var(--r2)!important;box-shadow:none!important;font-weight:500!important;}
+.btn-dark{background:var(--black)!important;border-color:var(--black)!important;color:#fff!important;}
+.btn-red{background:var(--white)!important;border:1px solid var(--border)!important;color:var(--text)!important;}
+.btn-red:hover{border-color:var(--muted2)!important;}
+/* inputs */
+input,select,textarea{border-radius:var(--r2)!important;border-color:var(--border)!important;box-shadow:none!important;}
+input:focus,select:focus,textarea:focus{border-color:var(--black)!important;box-shadow:0 0 0 3px rgba(17,24,39,.06)!important;}
+/* pills/tabs: one shape */
+.itab,.stab,.fx-btn,.inv-type-btn,.ss-btn,.bot-nav-item{border-radius:999px!important;}
+.itab.active,.stab.active{background:var(--black)!important;color:#fff!important;border-color:var(--black)!important;}
+.fx-btn.sel,.inv-type-btn.sel{background:var(--black)!important;color:#fff!important;border-color:var(--black)!important;}
+/* tables */
+table th{font-weight:600!important;letter-spacing:.04em!important;color:var(--muted2)!important;border-bottom:1px solid var(--border)!important;}
+table td{border-bottom:1px solid var(--border2)!important;}
+table tr:hover td{background:#FCFCFB!important;}
+.ibtn{border-radius:8px!important;}
+/* status badges stay muted, colour only carries meaning */
+.badge{border-radius:999px!important;font-weight:600!important;letter-spacing:.01em!important;}
+/* sidebar/header rhythm */
+.sidebar{background:var(--white)!important;border-right:1px solid var(--border)!important;}
+.sn{border-radius:0!important;border-left:2px solid transparent!important;}
+.sn.active{background:transparent!important;color:var(--black)!important;border-left-color:var(--black)!important;font-weight:600!important;}
+.ph h1{font-weight:650!important;letter-spacing:-.02em!important;}
+.ph p{color:var(--muted)!important;font-size:.8rem!important;}
+/* empty states sit centred and quiet */
+.empty{padding:48px 20px!important;}
+.empty-icon{opacity:.35!important;font-size:1.8rem!important;}
+/* modal: single surface, no nested panels */
+.modal{border-radius:14px!important;border:1px solid var(--border)!important;box-shadow:var(--shadow-lg)!important;}
+.modal h2{font-weight:650!important;letter-spacing:-.01em!important;}
+/* invoice form: calm sections */
+#ai-tab-options,#ai-payment-inline,#ai-tpl-grid{border-top:1px solid var(--border)!important;}
+.tpl-card{border-radius:var(--r2)!important;box-shadow:none!important;}
+.tpl-card.sel{border-color:var(--black)!important;}
+.tax-row{border-radius:var(--r2)!important;}
+
 </style>
 </head>
 <body>
-
-<!-- ══ ONBOARDING WELCOME SCREEN ══ -->
-<div id="welcomeOverlay" style="display:none;position:fixed;inset:0;z-index:9998;
-  background:linear-gradient(160deg,#635BFF 0%,#4F46E5 100%);
-  flex-direction:column;align-items:center;justify-content:center;padding:32px;">
-  <div style="width:72px;height:72px;background:rgba(255,255,255,.15);border-radius:20px;
-    display:flex;align-items:center;justify-content:center;margin-bottom:24px;
-    font-size:2rem;font-weight:800;color:#fff;letter-spacing:-.05em;">SB</div>
-  <h1 style="color:#fff;font-size:2rem;font-weight:800;letter-spacing:-.04em;
-    text-align:center;margin:0 0 10px;">Welcome to<br>StudioBills</h1>
-  <p style="color:rgba(255,255,255,.8);font-size:1rem;text-align:center;
-    font-weight:300;max-width:280px;margin:0 0 40px;line-height:1.5;">
-    Your freelance billing app — invoices, income &amp; expenses in one place.</p>
-  <button onclick="startOnboarding()" style="background:#fff;color:var(--red);
-    border:none;border-radius:14px;padding:16px 40px;font-size:1rem;
-    font-weight:700;cursor:pointer;width:100%;max-width:320px;
-    box-shadow:0 4px 20px rgba(0,0,0,.15);">Get Started →</button>
-  <button onclick="skipOnboarding()" style="background:none;border:none;
-    color:rgba(255,255,255,.65);font-size:.85rem;margin-top:16px;cursor:pointer;
-    font-family:inherit;">Skip for now</button>
-</div>
-
-<!-- ══ PROFILE NUDGE CARD ══ -->
-<div id="profileNudge" style="display:none;background:var(--white);border-radius:0;
-  border-left:3px solid var(--red);padding:14px 16px;margin-bottom:8px;
-  border-bottom:1px solid var(--border);">
-  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div style="width:36px;height:36px;background:rgba(255,0,53,.08);border-radius:10px;
-        display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF0035"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/></svg></div>
-      <div>
-        <div style="font-size:.85rem;font-weight:600;color:#1C1C1E;">Complete your profile</div>
-        <div style="font-size:.73rem;color:#8E8E93;margin-top:1px;">Add your studio name &amp; payment info</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:8px;flex-shrink:0;">
-      <button onclick="showTab('settings');closeProfileNudge()" style="background:var(--red);
-        color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:.78rem;
-        font-weight:600;cursor:pointer;font-family:inherit;">Set up</button>
-      <button onclick="closeProfileNudge()" style="background:#F2F2F7;color:#8E8E93;
-        border:none;border-radius:8px;padding:7px 10px;font-size:.78rem;
-        cursor:pointer;font-family:inherit;">✕</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ PRO EXPLAINER CARD ══ -->
-<div id="proExplainerCard" style="display:none;background:linear-gradient(135deg,#1C1C1E,#2C2C2E);
-  border-radius:0;padding:16px;margin-bottom:8px;border-bottom:1px solid #E0E0E5;">
-  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-    <div>
-      <div style="color:#fff;font-size:.85rem;font-weight:700;margin-bottom:3px;">
-        ⚡ Unlock Pro Features</div>
-      <div style="color:rgba(255,255,255,.6);font-size:.73rem;font-weight:300;">
-        Multi-currency · GST reports · Unlimited clients</div>
-    </div>
-    <div style="display:flex;gap:8px;flex-shrink:0;">
-      <button onclick="showUpgradeModal('Pro')" style="background:var(--red);color:#fff;
-        border:none;border-radius:8px;padding:7px 14px;font-size:.78rem;font-weight:700;
-        cursor:pointer;font-family:inherit;white-space:nowrap;">₹999/yr</button>
-      <button onclick="closeProCard()" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.5);
-        border:none;border-radius:8px;padding:7px 10px;font-size:.78rem;
-        cursor:pointer;font-family:inherit;">✕</button>
-    </div>
-  </div>
-</div>
 
 <!-- AUTH OVERLAY -->
 <div id="authOverlay">
@@ -1527,10 +1452,7 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
     <button class="sn active" data-tab="overview" onclick="showTab('overview')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Overview</button>
     <button class="sn" data-tab="income" onclick="showTab('income')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span> Income</button>
     <button class="sn" data-tab="expenses" onclick="showTab('expenses')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg></span> Expenses</button>
-    <button class="sn" data-tab="reports" onclick="showTab('reports')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> Reports</button>
     <button class="sn" data-tab="clients" onclick="showTab('clients')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Clients</button>
-    <button class="sn" data-tab="history" onclick="showTab('history')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> History</button>
-    <button class="sn" data-tab="calendar" onclick="showTab('calendar')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Calendar</button>
     <button class="sn" data-tab="settings" onclick="showTab('settings')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</button>
   </nav>
 
@@ -1570,19 +1492,9 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
   <div class="more-drawer" id="moreDrawer">
     <div class="more-drawer-handle"></div>
     <div class="more-drawer-title">More</div>
-    <div class="more-drawer-item" id="mdi-reports" onclick="moreNavTo('reports')">
-      <div class="mdi-icon-wrap"><svg class="mdi-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-      <span class="mdi-label">Reports</span>
-      <svg class="mdi-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-    </div>
     <div class="more-drawer-item" id="mdi-clients" onclick="moreNavTo('clients')">
       <div class="mdi-icon-wrap"><svg class="mdi-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
       <span class="mdi-label">Clients</span>
-      <svg class="mdi-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-    </div>
-    <div class="more-drawer-item" id="mdi-history" onclick="moreNavTo('history')">
-      <div class="mdi-icon-wrap"><svg class="mdi-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-      <span class="mdi-label">History</span>
       <svg class="mdi-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
     <div class="more-drawer-item" id="mdi-settings" onclick="moreNavTo('settings')">
@@ -1776,9 +1688,6 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
     <div><h1><strong>Income</strong></h1><p>Invoices &amp; payments</p></div>
     <div class="ph-actions">
       <div class="search-wrap"><input class="search-inp" id="incSearch" placeholder="Search client…" oninput="renderIncome()"></div>
-      <select id="incClientFilter" style="padding:7px 12px;border:1px solid var(--border);border-radius:var(--r2);background:var(--white);font-family:inherit;font-size:.8rem;" onchange="renderIncome()"><option value="">All Clients</option></select>
-      <button class="btn btn-ghost btn-sm" onclick="exportIncXLSX()">⬇ Excel</button>
-      <button class="btn btn-ghost btn-sm" onclick="openQuickIncome()" style="border-color:var(--green);color:var(--green);">+ Quick Income</button>
       <button class="btn btn-dark btn-sm" onclick="openModal('addIncomeModal')">+ New Invoice</button>
     </div>
   </div>
@@ -1790,15 +1699,15 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
       <button class="itab" data-f="partial">Partial</button>
       <button class="itab" data-f="overdue">Overdue</button>
     </div>
-    <div id="bulkBar" style="display:none;align-items:center;gap:8px;">
-      <span id="bulkCount" style="font-size:.78rem;color:var(--muted);">0 selected</span>
-      <button class="btn btn-ghost btn-sm" onclick="bulkMarkReceived()" style="color:var(--green);border-color:rgba(0,200,83,.3);">✓ Mark Received</button>
-      <button class="btn btn-ghost btn-sm" onclick="clearBulkSel()">Cancel</button>
+    <div class="sort-switch" id="incSortSwitch" title="Sort order">
+      <button class="ss-btn on" type="button" onclick="setIncSort('no')">No.</button>
+      <button class="ss-btn" type="button" onclick="setIncSort('date')">Date</button>
     </div>
+    
   </div>
   <div class="card" style="padding:0;overflow:hidden;">
     <div class="tbl-wrap"><table>
-      <thead><tr><th style="width:36px;"><input type="checkbox" id="selectAllInc" onchange="toggleSelectAll(this)" style="cursor:pointer;"></th><th>#</th><th>Client</th><th>Description</th><th>Amount</th><th>Received</th><th>Due Date</th><th>Status</th><th>Category</th><th></th></tr></thead>
+      <thead><tr><th>#</th><th>Client</th><th>Amount</th><th>Due</th><th>Status</th><th></th></tr></thead>
       <tbody id="incTbody"></tbody>
     </table></div>
     <div id="incPagination" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-top:1px solid var(--border2);"></div>
@@ -1811,7 +1720,6 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
     <div><h1><strong>Expenses</strong></h1><p>Business costs</p></div>
     <div class="ph-actions">
       <div class="search-wrap"><input class="search-inp" id="expSearch" placeholder="Search…" oninput="renderExpenses()"></div>
-      <button class="btn btn-ghost btn-sm" onclick="exportExpXLSX()">⬇ Excel</button>
       <button class="btn btn-red btn-sm" onclick="openModal('addExpModal')">+ Add Expense</button>
     </div>
   </div>
@@ -1827,181 +1735,6 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
   </div>
 </div>
 
-<!-- ══════════════════════ REPORTS ══════════════════════ -->
-<div class="tab" id="tab-reports">
-  <div class="ph">
-    <div><h1><strong>Reports</strong></h1><p>Your year at a glance</p></div>
-    <div class="ph-actions">
-      <select id="reportYearSel" style="padding:7px 12px;border:1px solid var(--border);border-radius:var(--r2);background:var(--white);font-family:inherit;font-size:.8rem;" onchange="renderReports()"></select>
-      <button class="btn btn-dark btn-sm" onclick="exportReportXLSX()">⬇ Excel Report</button>
-    </div>
-  </div>
-
-  <!-- Hidden legacy elements needed by other functions -->
-  <canvas id="catChart" style="display:none;"></canvas>
-  <canvas id="expCatChart" style="display:none;"></canvas>
-  <div id="expCatBreakdown" style="display:none;"></div>
-  <div id="reportStatCards" style="display:none;"></div>
-
-  <div class="rpt-bento-body">
-
-    <!-- Hidden text/badge elements set by JS but not shown in bento -->
-    <span id="rpt-inc-year-badge" style="display:none;"></span>
-    <span id="rpt-inc-desc" style="display:none;"></span>
-    <span id="rpt-exp-desc" style="display:none;"></span>
-    <span id="rpt-net-desc" style="display:none;"></span>
-    <span id="rpt-net-badge" style="display:none;"></span>
-    <span id="rpt-inc-badge" style="display:none;"></span>
-    <span id="rpt-inc-best" style="display:none;"></span>
-    <span id="rpt-exp-badge" style="display:none;"></span>
-    <span id="rpt-exp-peak" style="display:none;"></span>
-    <span id="rpt-exp-margin" style="display:none;"></span>
-
-    <div class="rpt-bento">
-
-      <!-- ── Row 1: Net Profit Hero (6) + 2×2 Mini Stats (6) ── -->
-
-      <!-- Net Profit hero card — FIRST -->
-      <div class="rb rc6 rb-net-hero">
-        <div class="rbk-tag d">Net Profit</div>
-        <div class="rbk-big" id="rpt-net-total" style="color:#059669;">—</div>
-        <div class="rbk-sub d">After all expenses</div>
-        <div class="rb-meta">
-          <div class="rb-meta-row" style="border-top:1px solid var(--border);padding-top:10px;margin-top:6px;">
-            <span class="lbl" style="color:var(--muted);">Margin</span>
-            <span class="val" id="rpt-net-margin2" style="color:#0284c7;">—</span>
-          </div>
-          <div class="rb-meta-row">
-            <span class="lbl" style="color:var(--muted);">Best month</span>
-            <span class="val" id="rpt-net-best" style="color:var(--text);font-size:.72rem;">—</span>
-          </div>
-          <div class="rb-meta-row">
-            <span class="lbl" style="color:var(--muted);">Avg / month</span>
-            <span class="val" id="rpt-net-avg" style="color:var(--text);">—</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 2×2 Mini stats grid -->
-      <div class="rb rc6 rb-dark" style="padding:14px;">
-        <div class="rb-mini-grid">
-          <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Total Billed</div>
-            <div class="rb-mg-val neu" id="rpt-inc-billed">—</div>
-            <div class="rb-mg-sub neu"><span id="rpt-inc-count">—</span> invoices</div>
-          </div>
-          <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Received</div>
-            <div class="rb-mg-val green" id="rpt-inc-received">—</div>
-            <div class="rb-mg-sub up"><span id="rpt-collection-rate">—</span> collected</div>
-          </div>
-          <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Expenses</div>
-            <div class="rb-mg-val" style="color:#d97706;" id="rpt-exp-total">—</div>
-            <div class="rb-mg-sub neu">Avg <span id="rpt-exp-avg">—</span>/mo</div>
-          </div>
-          <div class="rb-mg-tile">
-            <div class="rb-mg-lbl">Avg / Month</div>
-            <div class="rb-mg-val neu" id="rpt-inc-avg">—</div>
-            <div class="rb-mg-sub neu">Monthly income</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Row 2: Income Trend (6) + Expense Donut (6) ── -->
-      <div class="rb rc6 rb-dark">
-        <div class="rb-ch"><span class="rb-ch-lbl">Income Trend</span><span class="rb-ch-pill rb-cp-inc">Monthly</span></div>
-        <div class="rpt-trend-stats">
-          <div class="rpt-trend-stat"><div class="rpt-ts-val" id="rptTrendTotal" style="color:var(--red);">—</div><div class="rpt-ts-lbl">Total billed</div></div>
-          <div class="rpt-trend-stat"><div class="rpt-ts-val" id="rptTrendAvg">—</div><div class="rpt-ts-lbl">Avg / month</div></div>
-          <div class="rpt-trend-stat"><div class="rpt-ts-val" id="rptTrendPeak" style="color:var(--green);">—</div><div class="rpt-ts-lbl">Peak month</div></div>
-        </div>
-        <div style="height:130px;"><canvas id="reportChart"></canvas></div>
-        <div id="rptIncCats" style="margin-top:10px;border-top:1px solid var(--border2);padding-top:8px;"></div>
-      </div>
-
-      <div class="rb rc6 rb-dark">
-        <div class="rb-ch"><span class="rb-ch-lbl">Expense Breakdown</span><span class="rb-ch-pill rb-cp-exp">By Category</span></div>
-        <div style="height:190px;"><canvas id="rptExpDonut"></canvas></div>
-        <div id="rptExpLegend" style="display:none;"></div>
-      </div>
-
-      <!-- ── Row 3: Net Profit (5) + GST (4) + Outstanding (3) ── -->
-      <div class="rb rc5 rb-glow-g">
-        <div class="rb-ch"><span class="rb-ch-lbl">Net Profit</span><span class="rb-ch-pill rb-cp-net">Income vs Expenses</span></div>
-        <div class="rpt-net-big" id="rptNetBig">—</div>
-        <div style="font-size:.68rem;color:var(--muted);margin-bottom:12px;" id="rptNetBigSub">After all expenses</div>
-        <div class="rpt-inline-metrics" id="rptNetMetrics"></div>
-        <div style="height:120px;"><canvas id="rptNetChart"></canvas></div>
-      </div>
-
-      <div class="rb rc4 rb-glow-b">
-        <div class="rb-ch"><span class="rb-ch-lbl">GST Collected</span><span class="rb-ch-pill rb-cp-gst">18%</span></div>
-        <div style="font-size:1.5rem;font-weight:900;letter-spacing:-.04em;color:#0284c7;" id="rpt-gst-total">—</div>
-        <div style="height:90px;margin:10px 0 0;"><canvas id="rptGstChart"></canvas></div>
-        <div class="rpt-q-grid" id="rptGstQuarters"></div>
-      </div>
-
-      <div class="rb rc3 rb-glow-r">
-        <div class="rb-ch"><span class="rb-ch-lbl">Outstanding</span><span class="rb-ch-pill rb-cp-out" id="rpt-out-total">₹0</span></div>
-        <div style="font-size:.68rem;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:4px;" id="rpt-out-desc">—</div>
-        <div id="rptOutTimeline"></div>
-      </div>
-
-    </div><!-- /rpt-bento -->
-
-    <!-- Hidden canvas for expense trend (JS creates chart here) -->
-    <canvas id="rptExpTrend" style="display:none;width:1px;height:1px;position:absolute;"></canvas>
-
-    <!-- ── GST Detail Table ── -->
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">GST Details</div><div class="rpt-section-div-line"></div></div>
-    <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
-      <div style="padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;">
-        <div class="card-title">GST Detail Table</div>
-        <button class="btn btn-dark btn-sm" onclick="exportGSTXLSX()" style="font-size:.68rem;padding:4px 10px;">⬇ Excel</button>
-      </div>
-      <div class="tbl-wrap"><table>
-        <thead><tr><th>Month</th><th>Taxable</th><th>CGST</th><th>SGST</th><th>IGST</th><th>TDS</th><th>Net GST</th></tr></thead>
-        <tbody id="gstTbody"></tbody>
-      </table></div>
-      <div id="gstTotal" style="padding:10px 18px;font-size:.78rem;font-weight:600;border-top:1px solid var(--border);display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);"></div>
-    </div>
-
-    <!-- ── All Outstanding ── -->
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">All Outstanding Invoices</div><div class="rpt-section-div-line"></div></div>
-    <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
-      <div id="outstandingDues" style="padding:0 0 8px;"></div>
-    </div>
-
-    <!-- ── Monthly Breakdown ── -->
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">Monthly Breakdown</div><div class="rpt-section-div-line"></div></div>
-    <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;">
-      <div class="tbl-wrap"><table>
-        <thead><tr><th>Month</th><th>Income</th><th>Received</th><th>Expenses</th><th>Net</th><th>Invoices</th></tr></thead>
-        <tbody id="reportTbody"></tbody>
-      </table></div>
-    </div>
-
-    <!-- ── Year-over-Year / MoM ── -->
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">Comparison</div><div class="rpt-section-div-line"></div></div>
-    <div class="card" style="margin-bottom:16px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-        <div class="card-title" id="yoyCardTitle">Year-over-Year</div>
-        <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;">
-          <button id="yoy-tab-yoy" onclick="switchCompareMode('yoy')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:var(--purple);color:#fff;font-family:inherit;">YoY</button>
-          <button id="yoy-tab-mom" onclick="switchCompareMode('mom')" style="padding:5px 14px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--muted);font-family:inherit;">MoM</button>
-        </div>
-      </div>
-      <div id="yoySection" style="overflow-x:auto;"></div>
-    </div>
-
-    <!-- ── Archive ── -->
-    <div class="rpt-section-div"><div class="rpt-section-div-line"></div><div class="rpt-section-div-lbl">Archive</div><div class="rpt-section-div-line"></div></div>
-    <div class="arc-grid" id="arcGrid" style="margin-bottom:20px;"></div>
-
-  </div><!-- /rpt-bento-body -->
-</div>
-
 <!-- ══════════════════════ CLIENTS ══════════════════════ -->
 <div class="tab" id="tab-clients">
   <div class="ph">
@@ -2014,142 +1747,13 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
   <div class="client-grid" id="clientGrid"></div>
 </div>
 
-<!-- ══════════════════════ HISTORY ══════════════════════ -->
-<div class="tab" id="tab-history">
-  <div class="ph">
-    <div><h1><strong>History</strong></h1><p>All transactions</p></div>
-    <div class="ph-actions" style="flex-wrap:wrap;gap:8px;">
-      <div class="search-wrap"><input class="search-inp" id="histSearch" placeholder="Search…" oninput="renderHistory()"></div>
-      <input type="date" id="histFrom" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--r2);background:var(--white);font-family:inherit;font-size:.78rem;" onchange="renderHistory()" title="From date">
-      <input type="date" id="histTo" style="padding:7px 10px;border:1px solid var(--border);border-radius:var(--r2);background:var(--white);font-family:inherit;font-size:.78rem;" onchange="renderHistory()" title="To date">
-      <select id="histYear" style="padding:7px 12px;border:1px solid var(--border);border-radius:var(--r2);background:var(--white);font-family:inherit;font-size:.8rem;" onchange="renderHistory()"></select>
-    </div>
-  </div>
-  <div class="card" style="padding:0;overflow:hidden;">
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Date</th><th>Type</th><th>Title</th><th>Category</th><th>Amount</th><th>Status</th></tr></thead>
-      <tbody id="histTbody"></tbody>
-    </table></div>
-    <div id="histPagination" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-top:1px solid var(--border2);"></div>
-  </div>
-</div>
-
-<!-- ══════════════════════ CALENDAR ══════════════════════ -->
-<div class="tab" id="tab-calendar">
-
-  <!-- Toolbar -->
-  <div class="ph" style="flex-direction:column;align-items:flex-start;gap:14px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;flex-wrap:wrap;gap:10px;">
-      <div><h1><strong>Calendar</strong></h1><p id="calSubtitle" style="color:var(--muted);font-size:.82rem;margin-top:2px;">Events, deadlines &amp; reminders</p></div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <!-- View switcher -->
-        <div class="cal-view-tabs" id="calViewTabs">
-          <button class="cal-vtab active" data-cv="month" onclick="calSwitchView('month')">Month</button>
-          <button class="cal-vtab" data-cv="week" onclick="calSwitchView('week')">Week</button>
-          <button class="cal-vtab" data-cv="agenda" onclick="calSwitchView('agenda')">Agenda</button>
-        </div>
-        <button class="btn btn-ghost btn-sm" onclick="calGoToday()">Today</button>
-        <button class="btn btn-red btn-sm" onclick="openCalModal()">+ Add Event</button>
-      </div>
-    </div>
-    <!-- Month/week navigator -->
-    <div class="cal-nav-row" id="calNavRow">
-      <button class="cal-nav-btn" onclick="shiftCal(-1)">‹</button>
-      <span class="cal-nav-label" id="calNavLabel">—</span>
-      <button class="cal-nav-btn" onclick="shiftCal(1)">›</button>
-    </div>
-  </div>
-
-  <!-- Calendar body -->
-  <div id="calBody" style="margin-top:4px;"></div>
-
-</div>
-
-<!-- ── CALENDAR EVENT MODAL ── -->
-<div class="modal-bg" id="calEventModal">
-<div class="modal" style="max-width:400px;padding:0;overflow:hidden;">
-
-  <!-- Header -->
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 16px;border-bottom:1px solid var(--border);">
-    <div>
-      <div id="calModalTitle" style="font-size:1rem;font-weight:700;color:var(--text);">Add Event</div>
-      <div id="calModalSub" style="font-size:.72rem;color:var(--muted);margin-top:2px;">Fill in the details below</div>
-    </div>
-    <button onclick="closeModal('calEventModal')" style="width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--muted);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">×</button>
-  </div>
-
-  <div style="padding:18px 20px 20px;display:grid;gap:14px;">
-
-    <!-- Type pills -->
-    <div>
-      <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Event Type</div>
-      <div style="display:flex;flex-wrap:wrap;gap:7px;" id="calTypePills">
-        <button class="cal-type-pill sel" data-ct="reminder" onclick="calSelectType('reminder')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Reminder</button>
-        <button class="cal-type-pill" data-ct="meeting" onclick="calSelectType('meeting')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Meeting / Call</button>
-        <button class="cal-type-pill" data-ct="task" onclick="calSelectType('task')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Task</button>
-        <button class="cal-type-pill" data-ct="payment" onclick="calSelectType('payment')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Payment Expected</button>
-      </div>
-    </div>
-
-    <!-- Title -->
-    <div>
-      <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Title <span style="color:var(--red)">*</span></div>
-      <input id="cal-title" type="text" placeholder="e.g. Follow up with Raj…"
-        style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s;"
-        onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='var(--border)'"/>
-    </div>
-
-    <!-- Date + Time -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <div>
-        <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Date <span style="color:var(--red)">*</span></div>
-        <input id="cal-date" type="date"
-          style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;"/>
-      </div>
-      <div>
-        <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Time</div>
-        <input id="cal-time" type="time"
-          style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;"/>
-      </div>
-    </div>
-
-    <!-- Client -->
-    <div>
-      <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Client</div>
-      <input id="cal-client" type="text" placeholder="Client name (optional)"
-        style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s;"
-        onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='var(--border)'"/>
-    </div>
-
-    <!-- Note -->
-    <div>
-      <div style="font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Note</div>
-      <textarea id="cal-note" rows="2" placeholder="Any extra details…"
-        style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;resize:vertical;transition:border-color .15s;"
-        onfocus="this.style.borderColor='var(--red)'" onblur="this.style.borderColor='var(--border)'"></textarea>
-    </div>
-
-    <input type="hidden" id="cal-edit-id"/>
-
-    <!-- Footer actions -->
-    <div style="display:flex;gap:8px;align-items:center;padding-top:2px;">
-      <button id="calDeleteBtn" style="display:none;flex:0 0 auto;padding:9px 14px;border:1px solid var(--err);border-radius:var(--r2);background:none;color:var(--err);font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;" onclick="deleteCalEvent()">Delete</button>
-      <div style="flex:1;"></div>
-      <button onclick="closeModal('calEventModal')" style="padding:9px 18px;border:1px solid var(--border);border-radius:var(--r2);background:none;color:var(--muted);font-family:inherit;font-size:.84rem;cursor:pointer;">Cancel</button>
-      <button onclick="saveCalEvent()" style="padding:9px 20px;border:none;border-radius:var(--r2);background:var(--red);color:#fff;font-family:inherit;font-size:.84rem;font-weight:600;cursor:pointer;transition:opacity .15s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">Save Event</button>
-    </div>
-
-  </div>
-</div>
-</div>
-
 <!-- ══════════════════════ SETTINGS ══════════════════════ -->
 <div class="tab" id="tab-settings">
   <div class="ph"><div><h1><strong>Settings</strong></h1><p>Customize StudioBills</p></div></div>
   <!-- PILL TABS -->
   <div class="stabs">
     <button class="stab active" data-st="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profile</button>
-    <button class="stab" data-st="appearance"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>Appearance</button>
+    
     <button class="stab" data-st="categories"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>Categories</button>
     <button class="stab" data-st="backup"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Backup</button>
     <button class="stab" data-st="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 8v.5"/></svg>About</button>
@@ -2182,32 +1786,6 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
         <div class="st-field"><div class="st-flabel">Address</div><textarea class="st-input" id="s-address" rows="3" placeholder="Your address"></textarea></div>
       </div>
       <div class="st-card">
-        <div class="st-clabel">WhatsApp Automation</div>
-        <div class="st-field"><div class="st-flabel">Linked WhatsApp Number</div><input class="st-input" id="s-whatsapp" placeholder="e.g. +91 98765 43210"></div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
-          <label style="display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--muted);line-height:1.5;">
-            <input type="checkbox" id="s-wa-enabled" style="margin-top:2px;accent-color:var(--green);">
-            <span>Enable WhatsApp automation for this account</span>
-          </label>
-          <label style="display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--muted);line-height:1.5;">
-            <input type="checkbox" id="s-wa-task-reminders" style="margin-top:2px;accent-color:var(--orange);">
-            <span>Send calendar task reminders on WhatsApp</span>
-          </label>
-          <label style="display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--muted);line-height:1.5;">
-            <input type="checkbox" id="s-wa-due-reminders" style="margin-top:2px;accent-color:var(--red);">
-            <span>Send invoice due reminders on WhatsApp</span>
-          </label>
-          <label style="display:flex;gap:10px;align-items:flex-start;font-size:.8rem;color:var(--muted);line-height:1.5;">
-            <input type="checkbox" id="s-wa-daily-digest" style="margin-top:2px;accent-color:var(--green);">
-            <span>Send one daily digest for tomorrow's tasks</span>
-          </label>
-        </div>
-        <div style="margin-top:12px;padding:12px 13px;border-radius:10px;background:var(--bg);font-size:.75rem;color:var(--muted);line-height:1.55;font-weight:300;">
-          Message formats: <strong>Expense 500 Food</strong> or <strong>Income 12000 Retainer</strong>. Use your full WhatsApp number with country code.
-        </div>
-      </div>
-      <!-- Payment Info -->
-      <div class="st-card st-full">
         <div class="st-clabel">Payment Information</div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
           <div class="st-field"><div class="st-flabel">UPI / GPay / PhonePe</div><input class="st-input" id="s-upi" placeholder="yourname@okicici"></div>
@@ -2235,12 +1813,6 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
 
   <!-- ── APPEARANCE ── -->
   <div id="stab-appearance" style="display:none;">
-    <div class="st-card" style="max-width:720px;">
-      <div class="st-clabel">App Theme</div>
-      <p style="font-size:.76rem;color:var(--muted);margin-bottom:16px;line-height:1.6;">Choose a complete colour theme — changes charts, accents, and background across the whole app.</p>
-      <div class="theme-card-grid" id="themeCardGrid">
-        <!-- Populated by renderThemeCards() -->
-      </div>
     </div>
   </div>
 
@@ -2304,16 +1876,6 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
         </div>
       </div>
       <!-- AI Assistant -->
-      <div class="st-card">
-        <div class="st-clabel"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 11V4"/><circle cx="12" cy="3" r="1" fill="currentColor" stroke="none"/><circle cx="8.5" cy="16.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="16.5" r="1" fill="currentColor" stroke="none"/><line x1="8" y1="11" x2="8" y2="13"/><line x1="16" y1="11" x2="16" y2="13"/></svg>AI Assistant (Groq · Free)</div>
-        <div style="font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:12px;font-weight:300;">100% free AI powered by Llama 3.3 70B via Groq. Get your free key at <a href="https://console.groq.com/keys" target="_blank" style="color:var(--red);">console.groq.com/keys</a> — no credit card, 14,400 requests/day free.</div>
-        <div style="display:flex;gap:10px;align-items:center;">
-          <input id="s-gemini-key" type="password" placeholder="Paste your Groq API key here (gsk_…)" style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r2);font-family:inherit;font-size:.82rem;background:var(--bg);color:var(--text);" autocomplete="off"/>
-          <button class="btn btn-red btn-sm" onclick="saveGeminiKey()" style="white-space:nowrap;">Save Key</button>
-          <button class="btn btn-ghost btn-sm" onclick="testGeminiKey()" style="white-space:nowrap;">Test</button>
-        </div>
-        <div id="gemini-key-status" style="margin-top:8px;font-size:.75rem;color:var(--muted);display:none;"></div>
-      </div>
       <!-- Plan + Legal -->
       <div class="st-card" id="planStatusCard">
         <div class="st-clabel">Your Plan</div>
@@ -2322,7 +1884,6 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
           <span id="planBadgeEl" class="plan-badge free">Free</span>
         </div>
         <div id="planStatusMsg" style="font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:14px;">You're on the Free plan — 2 clients, watermarked PDF.</div>
-        <button id="planUpgradeBtn" class="btn btn-red btn-sm" onclick="showUpgradeModal('Pro features')" style="width:100%;">⚡ Upgrade to Pro</button>
         <div style="height:1px;background:var(--border);margin:16px 0;"></div>
         <div class="st-clabel">Legal</div>
         <a href="/privacy-policy.html" target="_blank" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r2);font-size:.82rem;color:var(--text);text-decoration:none;margin-bottom:8px;transition:border .15s;" onmouseover="this.style.borderColor='var(--red)'" onmouseout="this.style.borderColor='var(--border)'">
@@ -2374,43 +1935,6 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
   </button>
 </nav>
 
-<!-- ════════════════════ UPGRADE MODAL ════════════════════ -->
-<div class="modal-bg" id="upgradeModal">
-<div class="modal" style="max-width:400px;">
-  <div style="display:flex;justify-content:flex-end;margin-bottom:4px;">
-    <button class="ibtn" onclick="closeModal('upgradeModal')">✕</button>
-  </div>
-  <div class="upgrade-modal-inner">
-    <div class="upgrade-icon">⚡</div>
-    <div class="upgrade-title">Upgrade to Pro</div>
-    <div class="upgrade-sub">You've hit a Free plan limit. Unlock <strong id="upgradeFeatureName">this feature</strong> and everything else with Pro.</div>
-    <div class="upgrade-plans">
-      <div class="uplan" id="uplan-monthly" style="position:relative;" onclick="selectUpgradePlan('monthly')">
-        <div class="uplan-period">Monthly</div>
-        <div class="uplan-price">₹149<span>/mo</span></div>
-        <div class="uplan-save" style="color:var(--muted);font-weight:300;">Billed monthly</div>
-      </div>
-      <div class="uplan recommended" id="uplan-yearly" style="position:relative;" onclick="selectUpgradePlan('yearly')">
-        <div class="uplan-badge">BEST VALUE</div>
-        <div class="uplan-period">Yearly</div>
-        <div class="uplan-price">₹999<span>/yr</span></div>
-        <div class="uplan-save">Save 44% · ₹83/mo</div>
-      </div>
-    </div>
-    <div class="upgrade-features">
-      <div class="uf-row">Unlimited clients (Free = 2 max)</div>
-      <div class="uf-row">Clean PDF exports — no watermark</div>
-      <div class="uf-row">GST Summary reports & Excel export</div>
-      <div class="uf-row">Multi-currency invoicing (USD, GBP, EUR, AED)</div>
-      <div class="uf-row">WhatsApp invoice sharing</div>
-    </div>
-    <button class="upgrade-cta" id="upgradeCTABtn" onclick="proceedToPayment()">⚡ Get Pro — ₹999/year</button>
-    <div class="upgrade-dismiss" onclick="closeModal('upgradeModal')">Maybe later</div>
-  </div>
-</div>
-</div>
-
-
 <!-- ════════════════════ ADD CLIENT MODAL ════════════════════ -->
 <div class="modal-bg" id="addClientModal">
 <div class="modal" style="max-width:520px;">
@@ -2449,12 +1973,20 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
       <div class="fg"><label>Invoice Date</label><input id="ai-date" type="date"></div>
       <div class="fg"><label>Due Date</label><input id="ai-due" type="date"></div>
     </div>
-    <div class="inv-type-bar" id="ai-type-bar"></div>
-    <div class="li-wrap"><table class="li-tbl" id="ai-li-tbl">
+        <div class="li-wrap"><table class="li-tbl" id="ai-li-tbl">
       <thead id="ai-li-head"></thead>
       <tbody id="ai-li-body"></tbody>
     </table></div>
     <button class="li-add-btn" onclick="addInvItem('ai')">+ Add Line Item</button>
+    <div class="li-chooser" id="ai-line-chooser">
+      <span class="li-chooser-lab">Add this line as</span>
+      <button type="button" onclick="addInvItemTyped('ai','general')">📋 General</button>
+      <button type="button" onclick="addInvItemTyped('ai','video')">🎬 Video Editing</button>
+      <button type="button" onclick="addInvItemTyped('ai','product')">📦 Product / Retail</button>
+      <button type="button" onclick="addInvItemTyped('ai','consulting')">💼 Consulting</button>
+      <button type="button" onclick="addInvItemTyped('ai','photo')">📷 Photography</button>
+      <button type="button" class="li-chooser-x" onclick="closeLineChooser('ai')">✕</button>
+    </div>
   </div>
 
   <!-- PAYMENT SECTION (merged into invoice tab) -->
@@ -2464,10 +1996,10 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
       <div class="fg"><label>Status</label><select id="ai-status"><option value="pending">Pending</option><option value="partial">Partial</option><option value="received">Received</option></select></div>
       <div class="fg"><label>Currency</label><div style="display:flex;gap:5px;flex-wrap:wrap;" id="ai-currency-bar">
         <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ai','INR')">🇮🇳 INR</button>
-        <button class="fx-btn" data-code="USD" onclick="isPro()?onCurrencySelect('ai','USD'):showUpgradeModal('multi-currency invoicing')">🇺🇸 USD</button>
-        <button class="fx-btn" data-code="GBP" onclick="isPro()?onCurrencySelect('ai','GBP'):showUpgradeModal('multi-currency invoicing')">🇬🇧 GBP</button>
-        <button class="fx-btn" data-code="EUR" onclick="isPro()?onCurrencySelect('ai','EUR'):showUpgradeModal('multi-currency invoicing')">🇪🇺 EUR</button>
-        <button class="fx-btn" data-code="AED" onclick="isPro()?onCurrencySelect('ai','AED'):showUpgradeModal('multi-currency invoicing')">🇦🇪 AED</button>
+        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ai','USD')">🇺🇸 USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ai','GBP')">🇬🇧 GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ai','EUR')">🇪🇺 EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ai','AED')">🇦🇪 AED</button>
       </div>
       <div id="ai-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:3px;min-height:14px;"></div></div>
     </div>
@@ -2618,12 +2150,20 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
       <div class="fg"><label>Invoice Date</label><input id="ei-date" type="date"></div>
       <div class="fg"><label>Due Date</label><input id="ei-due" type="date"></div>
     </div>
-    <div class="inv-type-bar" id="ei-type-bar"></div>
-    <div class="li-wrap"><table class="li-tbl" id="ei-li-tbl">
+        <div class="li-wrap"><table class="li-tbl" id="ei-li-tbl">
       <thead id="ei-li-head"></thead>
       <tbody id="ei-li-body"></tbody>
     </table></div>
     <button class="li-add-btn" onclick="addInvItem('ei')">+ Add Line Item</button>
+    <div class="li-chooser" id="ei-line-chooser">
+      <span class="li-chooser-lab">Add this line as</span>
+      <button type="button" onclick="addInvItemTyped('ei','general')">📋 General</button>
+      <button type="button" onclick="addInvItemTyped('ei','video')">🎬 Video Editing</button>
+      <button type="button" onclick="addInvItemTyped('ei','product')">📦 Product / Retail</button>
+      <button type="button" onclick="addInvItemTyped('ei','consulting')">💼 Consulting</button>
+      <button type="button" onclick="addInvItemTyped('ei','photo')">📷 Photography</button>
+      <button type="button" class="li-chooser-x" onclick="closeLineChooser('ei')">✕</button>
+    </div>
   </div>
 
   <!-- TAB 2: PAYMENT — status, currency, notes -->
@@ -2636,10 +2176,10 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
       <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Currency</label>
       <div style="display:flex;gap:7px;flex-wrap:wrap;" id="ei-currency-bar">
         <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('ei','INR')">🇮🇳 INR</button>
-        <button class="fx-btn" data-code="USD" onclick="isPro()?onCurrencySelect('ei','USD'):showUpgradeModal('multi-currency invoicing')">🇺🇸 USD</button>
-        <button class="fx-btn" data-code="GBP" onclick="isPro()?onCurrencySelect('ei','GBP'):showUpgradeModal('multi-currency invoicing')">🇬🇧 GBP</button>
-        <button class="fx-btn" data-code="EUR" onclick="isPro()?onCurrencySelect('ei','EUR'):showUpgradeModal('multi-currency invoicing')">🇪🇺 EUR</button>
-        <button class="fx-btn" data-code="AED" onclick="isPro()?onCurrencySelect('ei','AED'):showUpgradeModal('multi-currency invoicing')">🇦🇪 AED</button>
+        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('ei','USD')">🇺🇸 USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('ei','GBP')">🇬🇧 GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('ei','EUR')">🇪🇺 EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('ei','AED')">🇦🇪 AED</button>
       </div>
       <div id="ei-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:5px;min-height:16px;"></div>
     </div>
@@ -2755,7 +2295,6 @@ body.dark .rpt-inv-av{background:var(--purple-soft2);}
     <div><h2 id="cm-name">Client</h2><div style="font-size:.76rem;color:var(--muted);" id="cm-meta"></div></div>
     <div style="display:flex;gap:6px;">
       <button class="btn btn-ghost btn-sm" onclick="genInvoice()">📄 Invoice PDF</button>
-      <button class="btn btn-ghost btn-sm" onclick="waReminder()">📲 WhatsApp</button>
       <button class="ibtn" onclick="closeModal('clientModal')">✕</button>
     </div>
   </div>
@@ -2853,9 +2392,15 @@ function applyMigrations(){
   db.cats=db.cats||{};db.cats.inc=db.cats.inc||[...DEFAULT_CATS.inc];db.cats.exp=db.cats.exp||[...DEFAULT_CATS.exp];
   if(!db.fxRates||!db.fxRates.rates)db.fxRates={date:"",rates:{...FX_FALLBACK}};
   db.invoiceCounter=db.invoiceCounter||0;
+  // heal old data: give a number to invoices that have none (oldest first) and put the
+  // hidden counter back in sync. Existing numbers are never touched.
+  try{
+    const used=new Set();let max=0;
+    (db.income||[]).forEach(i=>{const n=invNoNum(i);if(n){used.add(n);if(n>max)max=n;}});
+    (db.income||[]).slice().reverse().forEach(i=>{if(!invNoNum(i))i.invNo='INV-'+String(++max).padStart(3,'0');});
+    db.invoiceCounter=max;
+  }catch(e){}
   db.profile=db.profile||{};
-  db.profile.whatsapp=(db.profile.whatsapp||'').trim();
-  db.profile.whatsappPrefs={...DEFAULT_WHATSAPP_PREFS,...(db.profile.whatsappPrefs||{})};
   if(!db.calendar)db.calendar=[];
   if(!db.plan)db.plan='free';
   if(db.planExpiry===undefined)db.planExpiry=null;
@@ -3092,46 +2637,15 @@ function initAppUI(){
   applyTheme();
   // Restore last active tab from URL hash
   const hash=location.hash.replace('#','');
-  const validTabs=['overview','income','expenses','reports','clients','history','calendar','settings'];
+  const validTabs=['overview','income','expenses','clients','settings'];
   if(hash&&validTabs.includes(hash))showTab(hash);
   else renderOverview();
   // Auto-refresh plan when user returns to tab after payment
   document.addEventListener('visibilitychange',()=>{
-    if(document.visibilityState==='visible'&&currentUser)refreshPlanFromSupabase();
   });
 }
 
 // ─── PLAN REFRESH (called when tab regains focus) ───
-async function refreshPlanFromSupabase(){
-  if(!currentUser||!supa)return;
-  try{
-    const{data}=await supa.from('user_data').select('data').eq('user_id',currentUser.id).single();
-    if(!data?.data)return;
-    const remote=data.data;
-    const remoteTs=remote._ts||0;
-    const localTs=db._ts||0;
-    // SAFE: only sync plan field if remote is newer — never overwrite local income/expense data
-    if(remote.plan!==db.plan){
-      const wasFreePlan=!isPro();
-      db.plan=remote.plan; // only update plan, not the whole db
-      const key=DB+'_'+currentUser.id;
-      localStorage.setItem(key,JSON.stringify(db));
-      if(wasFreePlan&&isPro()){
-        toast('🎉 Pro plan activated! All features unlocked.');
-        updatePlanStatus();
-      }
-    }
-    // Only do a full sync if remote is strictly newer than local (e.g. edited on another device)
-    if(remoteTs>localTs){
-      const wasFreePlan=!isPro();
-      db=remote;
-      applyMigrations();
-      const key=DB+'_'+currentUser.id;
-      localStorage.setItem(key,JSON.stringify(db));
-      initAppUI();
-    }
-  }catch(e){}
-}
 
 // ─── INIT AUTH ───
 function initAuth(){
@@ -3147,59 +2661,23 @@ function initAuth(){
 }
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
 
-// ─── PLAN HELPERS ───
-// ⚙️ Replace these with your actual Razorpay Payment Links from razorpay.com dashboard
-const RAZORPAY_MONTHLY_LINK='https://rzp.io/rzp/AAGwlbH';
-const RAZORPAY_YEARLY_LINK ='https://rzp.io/rzp/eS5sZkN';
+// ─── PLAN HELPERS (paywall removed — every feature is available) ───
+function isPro(){return true;}
+function showUpgradeModal(){/* paywall removed */}
+function selectUpgradePlan(){/* paywall removed */}
+function refreshPlanFromSupabase(){/* paywall removed */}
+function updatePlanStatus(){}
+function checkOnboarding(){/* onboarding screens removed */}
 
-let selectedUpgradePlan='yearly'; // default selection
-
-function isPro(){
-  const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
-  if(isOwner)return true;
-  if(db.plan==='pro'){
-    if(!db.planExpiry)return true;
-    return new Date(db.planExpiry)>new Date();
-  }
-  return false;
-}
-function showUpgradeModal(feature){
-  document.getElementById('upgradeFeatureName').textContent=feature||'this feature';
-  selectUpgradePlan('yearly'); // always open with yearly pre-selected
-  openModal('upgradeModal');
-}
-function selectUpgradePlan(type){
-  selectedUpgradePlan=type;
-  // Update card highlight
-  document.getElementById('uplan-monthly').style.borderColor=type==='monthly'?'var(--red)':'var(--border)';
-  document.getElementById('uplan-yearly').style.borderColor=type==='yearly'?'var(--red)':'var(--border)';
-  // Update CTA button label
-  const cta=document.getElementById('upgradeCTABtn');
-  if(type==='monthly'){
-    cta.textContent='⚡ Get Pro — ₹149/month';
-  } else {
-    cta.textContent='⚡ Get Pro — ₹999/year';
-  }
-}
-function proceedToPayment(){
-  const link=selectedUpgradePlan==='monthly'?RAZORPAY_MONTHLY_LINK:RAZORPAY_YEARLY_LINK;
-  // Pre-fill email if available
-  const email=currentUser?.email||'';
-  const url=email?`${link}?prefill[email]=${encodeURIComponent(email)}`:link;
-  window.open(url,'_blank');
-  closeModal('upgradeModal');
-  toast('Redirecting to secure payment…');
-}
 function fmt(n){return((db.profile&&db.profile.currency)||'₹')+(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0});}
-// Global rcv — used by renderIncome and anywhere outside drawMainChart
-function rcv(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
 function fmtD(s){if(!s)return'—';return new Date(s).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+function rcv(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
 function today(){return new Date().toISOString().slice(0,10);}
 function mk(s){return s?s.slice(0,7):'';}
 function isOverdue(i){return i.status!=='received'&&i.due&&new Date(i.due)<new Date(today());}
 function esc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;}
 
-// ─── TABS ───
+
 function showTab(name){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+name)?.classList.add('active');
@@ -3217,11 +2695,8 @@ function showTab(name){
     document.querySelectorAll('#expTabs .itab').forEach(b=>b.classList.toggle('active',b.dataset.ef==='all'));
     renderExpenses();
   }
-  if(name==='reports')renderReports();
   if(name==='clients')renderClients();
-  if(name==='history')renderHistory();
   if(name==='settings')renderSettings();
-  if(name==='calendar')renderCalendar();
 }
 
 // ─── OVERVIEW ───
@@ -3534,19 +3009,19 @@ function sBadge(i){
 
 // ─── INCOME CRUD ───
 let incFilter='all';
+let incSort='no';   // 'no' = invoice number (sequence), 'date' = newest date;
+function setIncSort(mode){incSort=mode;incPage=0;renderIncome();}
 function renderIncome(){
   const q=(document.getElementById('incSearch')?.value||'').toLowerCase();
-  const clientF=(document.getElementById('incClientFilter')?.value||'');
   let rows=[...db.income];
   if(incFilter==='received')rows=rows.filter(i=>i.status==='received');
   else if(incFilter==='pending')rows=rows.filter(i=>i.status==='pending');
   else if(incFilter==='partial')rows=rows.filter(i=>i.status==='partial');
   else if(incFilter==='overdue')rows=rows.filter(i=>isOverdue(i));
-  if(q)rows=rows.filter(i=>(i.client+invDesc(i)+i.cat).toLowerCase().includes(q));
-  if(clientF)rows=rows.filter(i=>i.client===clientF);
-  rows.sort((a,b)=>b.date>a.date?1:-1);
+  if(q)rows=rows.filter(i=>((i.client||'')+invDesc(i)+(i.cat||'')+(i.invNo||'')).toLowerCase().includes(q));
+  if(incSort==='no')rows.sort((a,b)=>(invNoNum(b)-invNoNum(a))||(b.date>a.date?1:-1));
+  else rows.sort((a,b)=>b.date>a.date?1:-1);
   // fill client filter
-  fillIncClientFilter();
   // pagination
   const total=rows.length;
   const pages=Math.ceil(total/PAGE_SIZE)||1;
@@ -3555,20 +3030,18 @@ function renderIncome(){
   const tb=document.getElementById('incTbody');
   if(!paginated.length){tb.innerHTML=`<tr><td colspan="10"><div class="empty"><div class="empty-icon">💸</div><p>No entries</p></div></td></tr>`;renderPagination('incPagination',incPage,total,setIncPage);return;}
   tb.innerHTML=paginated.map(i=>`<tr class="${isOverdue(i)?'row-overdue':''}">
-    <td><input type="checkbox" class="inc-row-cb" data-id="${i.id}" ${bulkSelected.has(i.id)?'checked':''} onchange="toggleRowSel(this)" style="cursor:pointer;"></td>
     <td><span style="font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.01em;">${i.invNo||'—'}</span></td>
-    <td><div style="font-weight:500;">${esc(i.client)}</div></td>
-    <td style="color:var(--muted);font-weight:300;">${esc(invDesc(i)||'—')}</td>
+    <td><div style="font-weight:500;">${esc(i.client)}</div><div style="font-size:.7rem;color:var(--muted2);font-weight:300;">${esc(invDesc(i)||'')}</div></td>
     <td style="font-weight:600;">${(()=>{
       const isFx=i.currency&&i.currency!=='INR'&&i.foreignAmount;
       const sym=FX_CURRENCIES[i.currency]?.symbol||'₹';
-      const mainAmt=isFx?`${sym}${(+i.foreignAmount||0).toLocaleString('en-IN')}<div style="font-size:.7rem;color:var(--muted);font-weight:300;">₹${(+i.amount||0).toLocaleString('en-IN')}</div>`:fmt(i.amount);
-      return mainAmt;
+      const main=isFx?`${sym}${(+i.foreignAmount||0).toLocaleString('en-IN')}`:fmt(i.amount);
+      const left=(+i.amount||0)-rcv(i);
+      const sub=(i.status!=='received'&&left>0)?`<div style="font-size:.7rem;color:var(--muted);font-weight:300;">${fmt(left)} due</div>`:'';
+      return main+sub;
     })()}</td>
-    <td style="color:var(--green);font-weight:500;">${fmt(rcv(i))}</td>
     <td>${i.due?`<span${isOverdue(i)?' style="color:var(--red);font-weight:600;"':''}>${fmtD(i.due)}</span>${isOverdue(i)?`<div style="font-size:.65rem;color:var(--red);">${Math.floor((new Date()-new Date(i.due))/(864e5))}d overdue</div>`:''}` :'<span style="color:var(--muted2);">—</span>'}</td>
     <td>${sBadge(i)}</td>
-    <td>${i.cat?`<span class="badge b-cat">${esc(i.cat)}</span>`:'<span style="color:var(--muted2);">—</span>'}</td>
     <td><div style="display:flex;gap:3px;flex-wrap:nowrap;">
       <button class="ibtn" title="Quick receive" data-qr="${i.id}" onclick="quickReceive('${i.id}',this)">✓</button>
       <button class="ibtn" title="Duplicate" onclick="duplicateInvoice('${i.id}')">⧉</button>
@@ -3578,25 +3051,20 @@ function renderIncome(){
     </div></td>
   </tr>`).join('');
   renderPagination('incPagination',incPage,total,setIncPage);
+  const sw=document.getElementById('incSortSwitch');
+  if(sw)sw.querySelectorAll('.ss-btn').forEach(b=>b.classList.toggle('on',b.textContent.trim()===(incSort==='no'?'No.':'Date')));
 }
 function saveIncome(){
   const f=readInvForm('ai');
-  if(!f.client){toast('Client name required','err');return;}
-  // 2-client limit for free plan
-  if(!isPro()){
-    const existingClients=new Set(db.income.map(i=>i.client).filter(Boolean));
-    if(!existingClients.has(f.client)&&existingClients.size>=2){
-      showUpgradeModal('a 3rd client (Free plan allows 2)');return;
-    }
-  }
+  if(!f.client){toast('Client name required','err');return;}  
   const t=calcInvTotals('ai');
   if(t.subtotal<=0){toast('Add at least one line item with a rate','err');return;}
   // Use typed invoice number or auto-generate next
-  let invNo=f.invNo&&f.invNo.trim()?f.invNo.trim():'';
-  if(!invNo){
-    db.invoiceCounter=(db.invoiceCounter||0)+1;
-    invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');
-  }
+  let invNo=f.invNo&&f.invNo.trim()?f.invNo.trim():nextAvailableInvNo();
+  // guard: never let two invoices share a number
+  const taken=new Set((db.income||[]).map(i=>String(i.invNo||'').toUpperCase()));
+  if(taken.has(invNo.toUpperCase())){invNo=nextAvailableInvNo();toast('That number was already used — saved as '+invNo,'err');}
+  syncInvCounter();
   const fxRate=f.exchangeRate||1;
   const foreignAmt=Math.round(t.gross);
   const amountINR=Math.round(t.gross*fxRate);
@@ -3753,336 +3221,8 @@ function delExp(id){if(!confirm('Delete expense?'))return;db.expenses=db.expense
 function resetAddExp(){['ae-title','ae-amount','ae-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('ae-date').value=today();document.getElementById('ae-tog').classList.remove('on');const ri=document.getElementById('ae-receipt');if(ri)ri.value='';const rp=document.getElementById('ae-receipt-preview');if(rp)rp.innerHTML='';}
 
 // ─── REPORTS ───
-function renderReports(){
-  // Theme-aware chart colours
-  const _isDark=document.body.classList.contains('theme-ash')||document.body.classList.contains('theme-emerald');
-  const _gridCol=_isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.05)';
-  const _tickCol=_isDark?'#bbb':'#94a3b8';
-  const _tickColDark=_isDark?'#888':'#334155';
-  const _legendCol=_isDark?'#bbb':'#64748b';
-  // ── Year selector setup ──
-  const years=[...new Set([...db.income.map(i=>i.date?.slice(0,4)),...db.expenses.map(e=>e.date?.slice(0,4))].filter(Boolean))].sort((a,b)=>b-a);
-  if(!years.length)years.push(String(new Date().getFullYear()));
-  const sel=document.getElementById('reportYearSel');
-  const cur=sel.value||years[0];
-  sel.innerHTML=years.map(y=>`<option value="${y}"${y===cur?' selected':''}>${y}</option>`).join('');
-  const months=['01','02','03','04','05','06','07','08','09','10','11','12'];
-  const mLbls=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const iByM=months.map(m=>db.income.filter(i=>i.date?.startsWith(`${cur}-${m}`)));
-  const eByM=months.map(m=>db.expenses.filter(e=>e.date?.startsWith(`${cur}-${m}`)));
-  function rcvR(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
-  const tInc=iByM.reduce((s,a)=>s+a.reduce((ss,i)=>ss+(+i.amount||0),0),0);
-  const tRec=iByM.reduce((s,a)=>s+a.reduce((ss,i)=>ss+rcvR(i),0),0);
-  const tExp=eByM.reduce((s,a)=>s+a.reduce((ss,e)=>ss+(+e.amount||0),0),0);
-  const tNet=tRec-tExp;
-  const incData=iByM.map(a=>a.reduce((s,i)=>s+(+i.amount||0),0));
-  const recData=iByM.map(a=>a.reduce((s,i)=>s+rcvR(i),0));
-  const expData=eByM.map(a=>a.reduce((s,e)=>s+(+e.amount||0),0));
-  const netData=months.map((_,i)=>recData[i]-expData[i]);
-  const pal=window._TC.cats||['#635BFF','#1DB954','#F59E0B','#0EA5E9','#8B5CF6','#10B981','#EC4899','#6B7A99'];
-  const expPal=window._TC.expCats||['#F59E0B','#0EA5E9','#635BFF','#EC4899','#1DB954','#8B5CF6','#10B981','#6B7A99'];
 
-  // ── Chapter 1: Income ──
-  const activeMonths=incData.filter(v=>v>0).length||1;
-  const avgInc=tInc/activeMonths;
-  let bestIncIdx=0,bestIncVal=0;
-  incData.forEach((v,i)=>{if(v>bestIncVal){bestIncVal=v;bestIncIdx=i;}});
-  document.getElementById('rpt-inc-billed').textContent=fmt(tInc);
-  document.getElementById('rpt-inc-received').textContent=fmt(tRec);
-  document.getElementById('rpt-inc-avg').textContent=fmt(Math.round(avgInc));
-  document.getElementById('rpt-inc-best').textContent=bestIncVal>0?`${mLbls[bestIncIdx]} ${fmt(bestIncVal)}`:'—';
-  // Trend stat tiles
-  const _tEl=document.getElementById('rptTrendTotal');if(_tEl)_tEl.textContent=fmt(tInc);
-  const _aEl=document.getElementById('rptTrendAvg');if(_aEl)_aEl.textContent=fmt(Math.round(avgInc));
-  const _pEl=document.getElementById('rptTrendPeak');if(_pEl)_pEl.textContent=bestIncVal>0?mLbls[bestIncIdx]:'—';
-  const incCount=db.income.filter(i=>i.date?.startsWith(cur)).length;
-  document.getElementById('rpt-inc-count').textContent=incCount;
-  document.getElementById('rpt-inc-year-badge').textContent=cur;
-  // Mini tiles
-  const incCountTile=document.getElementById('rpt-inc-count-tile');
-  if(incCountTile)incCountTile.textContent=incCount;
-  const colRate=document.getElementById('rpt-collection-rate');
-  if(colRate)colRate.textContent=tInc>0?Math.round(tRec/tInc*100)+'%':'—';
-  // Net profit color based on positive/negative
-  const netEl=document.getElementById('rpt-net-total');
-  if(netEl)netEl.style.color=tNet>=0?'#059669':'#dc2626';
-  document.getElementById('rpt-inc-desc').textContent=`Across ${db.income.filter(i=>i.date?.startsWith(cur)).length} invoices in ${cur}. Track received vs billed to stay on top of cash flow.`;
-  document.getElementById('rpt-inc-badge').textContent=tRec>0?`${fmt(tRec)} received`:'No income yet';
-  // Income trend line chart
-  if(rptChart){rptChart.destroy();rptChart=null;}
-  const rCtx=document.getElementById('reportChart').getContext('2d');
-  const _rptIncC=window._TC.inc||'#0d9488';
-  rptChart=new Chart(rCtx,{type:'line',data:{labels:mLbls,datasets:[{label:'Income',data:incData,borderColor:_rptIncC,backgroundColor:h2r(_rptIncC,.08),fill:true,tension:.4,borderWidth:2,pointRadius:3,pointBackgroundColor:_rptIncC,pointBorderColor:'#fff',pointBorderWidth:2}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:_tickCol}},y:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:10},color:_tickCol}}}}});
-  // Income category pills
-  const catMap={};
-  db.income.filter(i=>i.date?.startsWith(cur)).forEach(i=>{const c=i.cat||'Other';catMap[c]=(catMap[c]||0)+(+i.amount||0);});
-  const cL=Object.keys(catMap).sort((a,b)=>catMap[b]-catMap[a]);
-  const cV=cL.map(c=>catMap[c]);
-  const cTotal=cV.reduce((s,v)=>s+v,0)||1;
-  document.getElementById('rptIncCats').innerHTML=cL.length?cL.map((c,i)=>{
-    const pct=Math.round(cV[i]/cTotal*100);
-    return`<div class="rpt-cat-item">
-      <div class="rpt-cat-dot" style="background:${pal[i%pal.length]};"></div>
-      <span class="rpt-cat-name" style="flex:1;font-size:.76rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(c)}</span>
-      <span style="font-size:.71rem;color:var(--muted);margin-right:2px;flex-shrink:0;">${fmt(cV[i])}</span>
-      <span class="rpt-cat-pct">${pct}%</span>
-      <div class="rpt-cat-track"><div class="rpt-cat-fill" style="width:${pct}%;background:${pal[i%pal.length]};"></div></div>
-    </div>`;
-  }).join(''):`<div class="empty" style="padding:12px 0;"><p style="color:var(--muted2);font-size:.8rem;">No income in ${cur}</p></div>`;
 
-  // ── Chapter 2: Expenses ──
-  const activeExpMonths=expData.filter(v=>v>0).length||1;
-  const avgExp=tExp/activeExpMonths;
-  let peakExpIdx=0,peakExpVal=0;
-  expData.forEach((v,i)=>{if(v>peakExpVal){peakExpVal=v;peakExpIdx=i;}});
-  const margin=tRec>0?Math.round((tNet/tRec)*100):0;
-  document.getElementById('rpt-exp-total').textContent=fmt(tExp);
-  document.getElementById('rpt-exp-avg').textContent=fmt(Math.round(avgExp));
-  document.getElementById('rpt-exp-peak').textContent=peakExpVal>0?`${mLbls[peakExpIdx]} ${fmt(peakExpVal)}`:'—';
-  document.getElementById('rpt-exp-margin').textContent=tRec>0?`${margin}%`:'—';
-  document.getElementById('rpt-exp-desc').textContent=tExp>0?`Expenses tracked for ${cur}. Keeping expenses below ${Math.round((1-(margin/100))*100)}% of income keeps your margin healthy.`:`No expenses recorded in ${cur}.`;
-  document.getElementById('rpt-exp-badge').textContent=tExp>0?`${fmt(tExp)} total`:'No expenses yet';
-  // Expense donut
-  const expCatMap={};
-  db.expenses.filter(e=>e.date?.startsWith(cur)).forEach(e=>{const c=e.cat||'Other';expCatMap[c]=(expCatMap[c]||0)+(+e.amount||0);});
-  const ecL=Object.keys(expCatMap).sort((a,b)=>expCatMap[b]-expCatMap[a]);
-  const ecV=ecL.map(c=>expCatMap[c]);
-  const ecTotal=ecV.reduce((s,v)=>s+v,0)||1;
-  if(rptExpDonutChart){rptExpDonutChart.destroy();rptExpDonutChart=null;}
-  const edCtx=document.getElementById('rptExpDonut').getContext('2d');
-  rptExpDonutChart=new Chart(edCtx,{type:'bar',data:{labels:ecL.length?ecL:['No data'],datasets:[{data:ecV.length?ecV:[1],backgroundColor:ecV.length?expPal.slice(0,ecL.length).map(c=>c+'cc'):['#e2e8f0'],borderRadius:6,borderSkipped:false,barThickness:16}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}}},scales:{x:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:9},color:_tickCol}},y:{grid:{display:false},ticks:{font:{size:10},color:_tickColDark}}}}});
-  document.getElementById('rptExpLegend').innerHTML=ecL.length?ecL.slice(0,5).map((c,i)=>{
-    const pct=Math.round(ecV[i]/ecTotal*100);
-    return`<div class="rb-leg-item"><div class="rb-leg-dot" style="background:${expPal[i%expPal.length]};"></div><div><div class="rb-leg-name">${esc(c)}</div><div class="rb-leg-pct">${fmt(ecV[i])} · ${pct}%</div></div></div>`;
-  }).join(''):`<div style="color:#475569;font-size:.8rem;">No expenses in ${cur}</div>`;
-  // Expense trend bar
-  if(rptExpTrendChart){rptExpTrendChart.destroy();rptExpTrendChart=null;}
-  const etCtx=document.getElementById('rptExpTrend').getContext('2d');
-  rptExpTrendChart=new Chart(etCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'Expenses',data:expData,backgroundColor:h2r(window._TC.exp||'#F59E0B',.7),borderRadius:5,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:_tickCol}},y:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:10},color:_tickCol}}}}});
-
-  // ── Chapter 3: Net Profit ──
-  let bestNetIdx=0,bestNetVal=-Infinity;
-  netData.forEach((v,i)=>{if(v>bestNetVal){bestNetVal=v;bestNetIdx=i;}});
-  const activeNetMonths=netData.filter(v=>v!==0).length||1;
-  const avgNet=tNet/activeNetMonths;
-  document.getElementById('rpt-net-total').textContent=fmt(tNet);
-  document.getElementById('rpt-net-total').style.color=tNet>=0?'#059669':'#dc2626';
-  document.getElementById('rpt-net-best').textContent=bestNetVal>-Infinity&&bestNetVal!==0?`${mLbls[bestNetIdx]} ${fmt(bestNetVal)}`:'—';
-  document.getElementById('rpt-net-avg').textContent=fmt(Math.round(avgNet));
-  document.getElementById('rpt-net-margin2').textContent=tRec>0?`${margin}% margin`:'—';
-  document.getElementById('rpt-net-desc').textContent=tNet>=0?`Profitable year in ${cur}. Net margin sits at ${margin}%.`:`Net loss of ${fmt(Math.abs(tNet))} in ${cur}. Review expenses to improve margins.`;
-  document.getElementById('rpt-net-badge').innerHTML=tNet>=0?`↑ ${fmt(tNet)} profit`:`↓ ${fmt(Math.abs(tNet))} loss`;
-  document.getElementById('rpt-net-badge').className=`rpt-stat-pill ${tNet>=0?'pill-net':'pill-exp'}`;
-  // Inline metrics (latest active month)
-  let latestIdx=11;
-  while(latestIdx>0&&incData[latestIdx]===0&&expData[latestIdx]===0)latestIdx--;
-  const lInc=incData[latestIdx],lExp=expData[latestIdx],lNet=netData[latestIdx];
-  const lMargin=lInc>0?Math.round((lNet/lInc)*100):0;
-  const _nbEl=document.getElementById('rptNetBig');const _nbSub=document.getElementById('rptNetBigSub');
-  if(_nbEl){_nbEl.textContent=fmt(lNet);_nbEl.style.color=lNet>=0?'var(--green)':'var(--err)';}
-  if(_nbSub)_nbSub.textContent=`${mLbls[latestIdx]} · after all expenses`;
-  document.getElementById('rptNetMetrics').innerHTML=`
-    <div class="rpt-im-tile"><div class="rpt-im-val" style="color:${window._TC.inc};">${fmt(lInc)}</div><div class="rpt-im-lbl">Income</div></div>
-    <div class="rpt-im-tile"><div class="rpt-im-val" style="color:${window._TC.exp};">${fmt(lExp)}</div><div class="rpt-im-lbl">Expenses</div></div>
-    <div class="rpt-im-tile"><div class="rpt-im-val" style="color:var(--muted);">${lInc>0?lMargin+'%':'—'}</div><div class="rpt-im-lbl">Margin</div></div>`;
-  // Net chart: grouped bar + net line
-  if(rptNetChartInst){rptNetChartInst.destroy();rptNetChartInst=null;}
-  const ncCtx=document.getElementById('rptNetChart').getContext('2d');
-  rptNetChartInst=new Chart(ncCtx,{data:{labels:mLbls,datasets:[
-    {type:'bar',label:'Income',data:incData,backgroundColor:h2r(window._TC.inc,.75),borderRadius:4,borderSkipped:false},
-    {type:'bar',label:'Expenses',data:expData,backgroundColor:h2r(window._TC.exp,.65),borderRadius:4,borderSkipped:false},
-    {type:'line',label:'Net',data:netData,borderColor:'#00C853',backgroundColor:'rgba(0,200,83,.08)',fill:false,tension:.4,borderWidth:2,pointRadius:2,pointBackgroundColor:'#00C853'}
-  ]},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:10},color:_legendCol,padding:8}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:_tickCol}},y:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:10},color:_tickCol}}}}});
-
-  // ── Chapter 4: GST ──
-  const gstTots={taxable:0,cgst:0,sgst:0,igst:0,tds:0};
-  const gstByM=months.map((_,idx)=>{let taxable=0,cgst=0,sgst=0,igst=0,tds=0;iByM[idx].forEach(i=>{const t=i._totals||{};if(t.gstOn){taxable+=t.taxable||0;cgst+=t.cgst||0;sgst+=t.sgst||0;igst+=t.igst||0;}if(t.tdsOn)tds+=t.tds||0;});gstTots.taxable+=taxable;gstTots.cgst+=cgst;gstTots.sgst+=sgst;gstTots.igst+=igst;gstTots.tds+=tds;return{taxable,cgst,sgst,igst,tds,net:cgst+sgst+igst};});
-  const totNetGst=gstTots.cgst+gstTots.sgst+gstTots.igst;
-  document.getElementById('rpt-gst-total').textContent=fmt(totNetGst);
-  // GST quarterly breakdown
-  const q=[0,1,2,3].map(q=>{const ms=[q*3,q*3+1,q*3+2];return ms.reduce((s,mi)=>s+(gstByM[mi]?.net||0),0);});
-  const qLabels=['Q1','Q2','Q3','Q4'];
-  document.getElementById('rptGstQuarters').innerHTML=q.map((v,i)=>`<div class="rpt-q-tile${i===3?' featured':''}"><div class="rpt-q-lbl">${qLabels[i]}</div><div class="rpt-q-val">${fmt(v)||'—'}</div></div>`).join('')+`<div class="rpt-q-tile featured"><div class="rpt-q-lbl">Total</div><div class="rpt-q-val">${fmt(totNetGst)}</div></div>`;
-  // GST bar chart
-  if(rptGstChartInst){rptGstChartInst.destroy();rptGstChartInst=null;}
-  const gcCtx=document.getElementById('rptGstChart').getContext('2d');
-  rptGstChartInst=new Chart(gcCtx,{type:'bar',data:{labels:mLbls,datasets:[{label:'GST',data:gstByM.map(g=>g.net),backgroundColor:'rgba(2,132,199,.55)',borderRadius:5,borderSkipped:false}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:_tickCol}},y:{grid:{color:_gridCol},ticks:{callback:v=>fmt(v),font:{size:9},color:_tickCol}}}}});
-  // GST detail table
-  if(!isPro()){
-    document.getElementById('gstTbody').innerHTML=`<tr><td colspan="7" style="padding:0;"></td></tr>`;
-    document.getElementById('gstTotal').innerHTML=`<div class="lock-banner" onclick="showUpgradeModal('GST Summary reports')" style="margin:0 12px 12px;"><div class="lock-banner-icon">🔒</div><div class="lock-banner-text"><div class="lock-banner-title">GST Summary — Pro Feature</div><div class="lock-banner-sub">Upgrade to view monthly GST breakdown</div></div><div class="lock-banner-cta">Upgrade ↗</div></div>`;
-  } else {
-    document.getElementById('gstTbody').innerHTML=gstByM.map((g,idx)=>{
-      if(!g.taxable&&!g.tds)return`<tr style="color:var(--muted2)"><td>${mLbls[idx]} ${cur}</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>`;
-      return`<tr><td>${mLbls[idx]} ${cur}</td><td>${fmt(g.taxable)}</td><td style="color:#FF6B00">${g.cgst?fmt(g.cgst):'—'}</td><td style="color:#FF6B00">${g.sgst?fmt(g.sgst):'—'}</td><td style="color:#3b82f6">${g.igst?fmt(g.igst):'—'}</td><td style="color:var(--orange)">${g.tds?fmt(g.tds):'—'}</td><td style="font-weight:600">${fmt(g.net)}</td></tr>`;
-    }).join('');
-    document.getElementById('gstTotal').innerHTML=totNetGst||gstTots.tds
-      ?`<span>Taxable: <strong>${fmt(gstTots.taxable)}</strong></span><span>CGST: <strong style="color:#FF6B00">${fmt(gstTots.cgst)}</strong></span><span>SGST: <strong style="color:#FF6B00">${fmt(gstTots.sgst)}</strong></span><span>IGST: <strong style="color:#3b82f6">${fmt(gstTots.igst)}</strong></span><span>TDS: <strong style="color:var(--orange)">${fmt(gstTots.tds)}</strong></span><span>Net GST: <strong>${fmt(totNetGst)}</strong></span>`
-      :`<span style="color:var(--muted2)">No GST transactions in ${cur}</span>`;
-  }
-
-  // ── Outstanding Dues ──
-  function rcvOD(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
-  const pendingInvs=db.income.filter(i=>i.status==='pending'||i.status==='partial').sort((a,b)=>(a.due||a.date)>(b.due||b.date)?1:-1);
-  const todayMs=new Date(today()).getTime();
-  const outTotal=pendingInvs.reduce((s,i)=>s+((+i.amount||0)-rcvOD(i)),0);
-  document.getElementById('rpt-out-total').textContent=outTotal>0?fmt(outTotal):'₹0';
-  document.getElementById('rpt-out-desc').textContent=pendingInvs.length?`${pendingInvs.length} invoice${pendingInvs.length>1?'s':''} pending — follow up to keep cash flow healthy.`:'All invoices paid! Great work.';
-  // Outstanding timeline (top 4 in stat block)
-  const _invItems=pendingInvs.slice(0,4).map(i=>{
-    const bal=(+i.amount||0)-rcvOD(i);
-    const dueMs=i.due?new Date(i.due).getTime():null;
-    const days=dueMs?Math.floor((todayMs-dueMs)/(864e5)):null;
-    const cls=days===null?'age-nodue':days>30?'age-late':days>0?'age-warn':'age-ok';
-    const ageLabel=days===null?'No due date':days>0?`${days}d overdue`:days===0?'Due today':`${Math.abs(days)}d left`;
-    const initials=(i.client||'?').trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    return`<div class="rpt-inv-item">
-      <div class="rpt-inv-av">${initials}</div>
-      <div style="flex:1;min-width:0;">
-        <div class="rpt-inv-client">${esc(i.client||'—')}</div>
-        <div class="rpt-inv-id">${esc(i.invNo||'')}${i.desc?' · '+esc(i.desc.slice(0,18)):''}</div>
-      </div>
-      <div style="flex-shrink:0;text-align:right;">
-        <div class="rpt-inv-amt">${fmt(bal)}</div>
-        <span class="rpt-tl-age ${cls}" style="display:inline-block;margin-top:3px;">${ageLabel}</span>
-      </div>
-    </div>`;
-  });
-  document.getElementById('rptOutTimeline').innerHTML=pendingInvs.length
-    ?_invItems.join('')+`<div class="rpt-inv-total"><span style="font-size:.68rem;color:var(--muted);">Total pending</span><span style="font-size:.85rem;font-weight:700;color:var(--err);">${fmt(outTotal)}</span></div>`
-    :'<div style="padding:12px 0;font-size:.78rem;color:var(--green);font-weight:600;text-align:center;">✓ All invoices paid!</div>';
-  // Full outstanding table
-  document.getElementById('outstandingDues').innerHTML=pendingInvs.length
-    ?`<div class="tbl-wrap"><table><thead><tr><th>Invoice #</th><th>Client</th><th>Amount</th><th>Received</th><th>Balance</th><th>Due Date</th><th>Aging</th><th></th></tr></thead><tbody>${pendingInvs.map(i=>{
-      const bal=(+i.amount||0)-rcvOD(i);
-      const dueMs2=i.due?new Date(i.due).getTime():null;
-      const days2=dueMs2?Math.floor((todayMs-dueMs2)/(864e5)):null;
-      const aging=days2===null?'—':days2>0?`<span style="color:var(--err);font-weight:600">+${days2}d overdue</span>`:days2===0?`<span style="color:var(--orange);font-weight:600">Due today</span>`:`<span style="color:var(--green)">${Math.abs(days2)}d left</span>`;
-      return`<tr><td style="font-weight:600">${esc(i.invNo||'—')}</td><td>${esc(i.client||'—')}</td><td>${fmt(+i.amount||0)}</td><td style="color:var(--green)">${fmt(rcvOD(i))}</td><td style="color:var(--err);font-weight:600">${fmt(bal)}</td><td>${i.due?fmtShort(i.due):'On receipt'}</td><td>${aging}</td><td><button class="btn btn-ghost btn-sm" onclick="sendReminder('${i.id}')">📲 Remind</button></td></tr>`;
-    }).join('')}</tbody></table></div>`
-    :`<div class="empty" style="padding:24px 20px"><div class="empty-icon">✅</div><p>All invoices paid!</p></div>`;
-
-  // ── Monthly breakdown table ──
-  document.getElementById('reportTbody').innerHTML=months.map((m,i)=>{
-    const inc2=iByM[i].reduce((s,x)=>s+(+x.amount||0),0);
-    const rec2=iByM[i].reduce((s,x)=>s+rcvR(x),0);
-    const exp2=eByM[i].reduce((s,x)=>s+(+x.amount||0),0);
-    const net2=rec2-exp2;
-    return`<tr><td>${mLbls[i]} ${cur}</td><td>${fmt(inc2)}</td><td style="color:var(--green)">${fmt(rec2)}</td><td style="color:var(--purple)">${fmt(exp2)}</td><td style="font-weight:600;color:${net2>=0?'var(--green)':'var(--err)'}">${fmt(net2)}</td><td>${iByM[i].length}</td></tr>`;
-  }).join('');
-
-  // ── Archive ──
-  const allYears=[...new Set([...db.income.map(i=>i.date?.slice(0,4)),...db.expenses.map(e=>e.date?.slice(0,4))].filter(Boolean))].sort((a,b)=>b-a);
-  document.getElementById('arcGrid').innerHTML=allYears.map(y=>{
-    const yi=db.income.filter(i=>i.date?.startsWith(y));
-    const ye=db.expenses.filter(e=>e.date?.startsWith(y));
-    const yInc=yi.reduce((s,i)=>s+(+i.amount||0),0),yRec=yi.reduce((s,i)=>s+rcvR(i),0),yExp=ye.reduce((s,e)=>s+(+e.amount||0),0);
-    return`<div class="arc-card" onclick="document.getElementById('reportYearSel').value='${y}';renderReports();">
-      <h3>${y}</h3>
-      <div class="arc-row"><span>Billed</span><span>${fmt(yInc)}</span></div>
-      <div class="arc-row"><span>Received</span><span style="color:var(--green)">${fmt(yRec)}</span></div>
-      <div class="arc-row"><span>Expenses</span><span style="color:var(--purple)">${fmt(yExp)}</span></div>
-      <div class="arc-row" style="font-weight:600;margin-top:5px;"><span>Net</span><span style="color:${yRec-yExp>=0?'var(--green)':'var(--err)'}">${fmt(yRec-yExp)}</span></div>
-    </div>`;
-  }).join('')||'<div class="empty"><div class="empty-icon">📊</div><p>No data yet</p></div>';
-
-  // ── Year-over-Year ──
-  const prevYear=String(+cur-1);
-  function yoyMetric(y){
-    const yi=db.income.filter(i=>i.date?.startsWith(y));
-    const ye=db.expenses.filter(e=>e.date?.startsWith(y));
-    function rcvY(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
-    const billed=yi.reduce((s,i)=>s+(+i.amount||0),0);
-    const received=yi.reduce((s,i)=>s+rcvY(i),0);
-    const expenses=ye.reduce((s,e)=>s+(+e.amount||0),0);
-    return{billed,received,expenses,net:received-expenses,count:yi.length};
-  }
-  function yChg(a,b){if(a===0&&b===0)return'<span style="color:var(--muted2)">—</span>';if(a===0)return b>0?'<span style="color:var(--green);font-weight:600">+100%</span>':b<0?'<span style="color:var(--err);font-weight:600">-100%</span>':'<span style="color:var(--muted2)">—</span>';const pct=((b-a)/Math.abs(a)*100).toFixed(1);const col=+pct>0?'var(--green)':+pct<0?'var(--err)':'var(--muted)';return`<span style="color:${col};font-weight:600">${+pct>0?'+':''}${pct}%</span>`;}
-  const py=yoyMetric(prevYear),cy=yoyMetric(cur);
-  document.getElementById('yoySection').innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:.82rem;">
-    <thead><tr>
-      <th style="text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;border-bottom:2px solid var(--border)">Metric</th>
-      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">${prevYear}</th>
-      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">${cur}</th>
-      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Change</th>
-    </tr></thead><tbody>
-    <tr><td style="padding:9px 12px;border-bottom:1px solid var(--border2)">Total Billed</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${fmt(py.billed)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);font-weight:700">${fmt(cy.billed)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${yChg(py.billed,cy.billed)}</td></tr>
-    <tr><td style="padding:9px 12px;border-bottom:1px solid var(--border2)">Total Received</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--green)">${fmt(py.received)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--green);font-weight:700">${fmt(cy.received)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${yChg(py.received,cy.received)}</td></tr>
-    <tr><td style="padding:9px 12px;border-bottom:1px solid var(--border2)">Total Expenses</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--purple)">${fmt(py.expenses)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--purple);font-weight:700">${fmt(cy.expenses)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${yChg(py.expenses,cy.expenses)}</td></tr>
-    <tr><td style="padding:9px 12px;border-bottom:1px solid var(--border2);font-weight:600">Net Profit</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:${py.net>=0?'var(--green)':'var(--err)'}">${fmt(py.net)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:${cy.net>=0?'var(--green)':'var(--err)'};font-weight:700">${fmt(cy.net)}</td><td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${yChg(py.net,cy.net)}</td></tr>
-    <tr><td style="padding:9px 12px;color:var(--muted)">Invoice Count</td><td style="text-align:right;padding:9px 12px;color:var(--muted)">${py.count}</td><td style="text-align:right;padding:9px 12px;font-weight:600">${cy.count}</td><td style="text-align:right;padding:9px 12px">${yChg(py.count,cy.count)}</td></tr>
-    </tbody></table>`;
-  // Restore compare mode tab style
-  const cMode=window._compareMode||'yoy';
-  const yBtn=document.getElementById('yoy-tab-yoy');
-  const mBtn=document.getElementById('yoy-tab-mom');
-  if(yBtn&&mBtn){
-    if(cMode==='yoy'){yBtn.style.background='var(--purple)';yBtn.style.color='#fff';mBtn.style.background='transparent';mBtn.style.color='var(--muted)';}
-    else{mBtn.style.background='var(--purple)';mBtn.style.color='#fff';yBtn.style.background='transparent';yBtn.style.color='var(--muted)';}
-  }
-  if(cMode==='mom')renderMoM();
-}
-
-function switchCompareMode(mode){
-  window._compareMode=mode;
-  const yBtn=document.getElementById('yoy-tab-yoy');
-  const mBtn=document.getElementById('yoy-tab-mom');
-  const title=document.getElementById('yoyCardTitle');
-  if(mode==='yoy'){
-    if(yBtn){yBtn.style.background='var(--red)';yBtn.style.color='#fff';}
-    if(mBtn){mBtn.style.background='transparent';mBtn.style.color='var(--muted)';}
-    if(title)title.textContent='Year-over-Year';
-    renderReports();
-  }else{
-    if(mBtn){mBtn.style.background='var(--red)';mBtn.style.color='#fff';}
-    if(yBtn){yBtn.style.background='transparent';yBtn.style.color='var(--muted)';}
-    if(title)title.textContent='Month-over-Month';
-    renderMoM();
-  }
-}
-
-function renderMoM(){
-  const cur=document.getElementById('reportYearSel').value||new Date().getFullYear();
-  const months=['01','02','03','04','05','06','07','08','09','10','11','12'];
-  const mLbls=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  function rcvM(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
-  function mData(mo){
-    const k=`${cur}-${mo}`;
-    const invs=db.income.filter(i=>i.date?.startsWith(k));
-    const exps=db.expenses.filter(e=>e.date?.startsWith(k));
-    const billed=invs.reduce((s,i)=>s+(+i.amount||0),0);
-    const received=invs.reduce((s,i)=>s+rcvM(i),0);
-    const expenses=exps.reduce((s,e)=>s+(+e.amount||0),0);
-    return{billed,received,expenses,net:received-expenses};
-  }
-  function mChg(a,b){if(a===0&&b===0)return'<span style="color:var(--muted2)">—</span>';if(a===0)return b>0?'<span style="color:var(--green);font-weight:600">+100%</span>':b<0?'<span style="color:var(--red);font-weight:600">-100%</span>':'<span style="color:var(--muted2)">—</span>';const pct=((b-a)/Math.abs(a)*100).toFixed(1);const col=+pct>0?'var(--green)':+pct<0?'var(--red)':'var(--muted)';return`<span style="color:${col};font-weight:600">${+pct>0?'+':''}${pct}%</span>`;}
-  // Build rows: each month vs previous month
-  const rows=months.map((m,i)=>{
-    const cur_d=mData(m);
-    const prev_d=i>0?mData(months[i-1]):{billed:0,received:0,expenses:0,net:0};
-    return{label:mLbls[i],cur:cur_d,prev:prev_d,hasPrev:i>0};
-  }).filter(r=>r.cur.billed>0||r.cur.received>0||r.cur.expenses>0);
-  const sect=document.getElementById('yoySection');
-  if(!rows.length){sect.innerHTML='<div class="empty" style="padding:24px 0"><div class="empty-icon">📅</div><p>No data for '+cur+'</p></div>';return;}
-  sect.innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:.82rem;">
-    <thead><tr>
-      <th style="text-align:left;padding:8px 12px;color:var(--muted);font-weight:600;border-bottom:2px solid var(--border)">Month</th>
-      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Billed</th>
-      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Received</th>
-      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Expenses</th>
-      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">Net</th>
-      <th style="text-align:right;padding:8px 12px;border-bottom:2px solid var(--border)">vs Prev Month</th>
-    </tr></thead><tbody>
-    ${rows.map(r=>`<tr>
-      <td style="padding:9px 12px;border-bottom:1px solid var(--border2);font-weight:600">${r.label}</td>
-      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${fmt(r.cur.billed)}</td>
-      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--green)">${fmt(r.cur.received)}</td>
-      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:var(--red)">${fmt(r.cur.expenses)}</td>
-      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2);color:${r.cur.net>=0?'var(--green)':'var(--red)'};font-weight:600">${fmt(r.cur.net)}</td>
-      <td style="text-align:right;padding:9px 12px;border-bottom:1px solid var(--border2)">${r.hasPrev?mChg(r.prev.received,r.cur.received):'<span style="color:var(--muted2)">—</span>'}</td>
-    </tr>`).join('')}
-    </tbody></table>`;
-}
 
 // ─── RECURRING INVOICE CHECK ───
 function checkRecurringInvoices(){
@@ -4107,8 +3247,8 @@ function checkRecurringInvoices(){
     const newDue=daysUntilDue>0?(()=>{const d=new Date(newDate);d.setDate(d.getDate()+daysUntilDue);return d.toISOString().slice(0,10);})():base.due;
     const copy={...base,id:uid(),date:newDate,due:newDue||'',status:'pending',received:0,isDraft:true,recurringParent:base.id,invNo:''};
     // Assign invoice number
-    db.invoiceCounter=(db.invoiceCounter||0)+1;
-    copy.invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');
+    copy.invNo=nextAvailableInvNo();
+    syncInvCounter();
     db.income.push(copy);
     generated++;
   });
@@ -4258,13 +3398,6 @@ function recordPayment(){
   save();document.getElementById('cm-pay-amt').value='';
   toast('Payment recorded ✓');openClientModal(curClient);renderOverview();renderIncome();
 }
-function waReminder(){
-  if(!curClient)return;
-  const invs=db.income.filter(i=>i.client===curClient&&i.status!=='received');
-  const total=invs.reduce((s,i)=>s+(+(i.amount||0)-(i.received||0)),0);
-  const msg=encodeURIComponent(`Hi ${curClient},\n\nThis is a reminder that ${fmt(total)} is pending for my services.\n\nPlease let me know if you have any questions.\n\nThank you,\n${db.profile.ownerName||db.profile.studioName||'Studio'}`);
-  window.open(`https://wa.me/?text=${msg}`,'_blank');
-}
 
 function sendReminder(id){
   const inv=db.income.find(i=>i.id===id);if(!inv)return;
@@ -4286,38 +3419,6 @@ ${db.profile.ownerName||db.profile.studioName||'Studio'}`);
 }
 
 // ─── HISTORY ───
-function renderHistory(){
-  const q=(document.getElementById('histSearch')?.value||'').toLowerCase();
-  const yr=(document.getElementById('histYear')?.value||'');
-  const fromD=(document.getElementById('histFrom')?.value||'');
-  const toD=(document.getElementById('histTo')?.value||'');
-  const allTx=[
-    ...(db.income||[]).map(i=>({date:i.date,type:'Income',title:(i.invNo?i.invNo+' – ':'')+i.client,cat:i.cat||'',amount:+i.amount||0,status:i.status})),
-    ...(db.expenses||[]).map(e=>({date:e.date,type:'Expense',title:e.title||'',cat:e.cat||'',amount:+e.amount||0,status:''}))
-  ].filter(t=>{
-    if(q&&!(t.title.toLowerCase().includes(q)||t.cat.toLowerCase().includes(q)))return false;
-    if(yr&&!t.date.startsWith(yr))return false;
-    if(fromD&&t.date<fromD)return false;
-    if(toD&&t.date>toD)return false;
-    return true;
-  }).sort((a,b)=>b.date>a.date?1:-1);
-  const total=allTx.length;
-  const pages=Math.ceil(total/PAGE_SIZE)||1;
-  if(histPage>=pages)histPage=0;
-  const paginated=allTx.slice(histPage*PAGE_SIZE,(histPage+1)*PAGE_SIZE);
-  const tb=document.getElementById('histTbody');
-  if(!tb)return;
-  if(!paginated.length){tb.innerHTML='<tr><td colspan="6"><div class="empty"><div class="empty-icon">📭</div><p>No transactions</p></div></td></tr>';renderPagination('histPagination',histPage,total,setHistPage);return;}
-  tb.innerHTML=paginated.map(t=>`<tr>
-    <td>${t.date}</td>
-    <td><span class="badge ${t.type==='Income'?'b-rec':'b-pend'}">${t.type}</span></td>
-    <td>${esc(t.title)}</td>
-    <td>${t.cat?`<span class="badge b-cat">${esc(t.cat)}</span>`:'—'}</td>
-    <td>${fmt(t.amount)}</td>
-    <td>${t.status?`<span class="badge b-${t.status==='received'?'rec':t.status==='partial'?'part':'pend'}">${t.status}</span>`:'—'}</td>
-  </tr>`).join('');
-  renderPagination('histPagination',histPage,total,setHistPage);
-}
 
 function invDesc(i){
   if(i.desc&&i.desc.trim())return i.desc.trim();
@@ -4392,13 +3493,9 @@ function renderInvTypeBar(pfx){
 }
 
 function selectInvType(type,pfx){
+  // category for the NEXT line — existing lines and what you typed are never touched
   invFormType[pfx]=type;
   renderInvTypeBar(pfx);
-  // reset items to blank for new type
-  invFormItems[pfx]=[{id:uid(),name:'',qty:1,rate:0,unit:'',dimension:'',duration:''}];
-  renderInvItems(pfx);
-  updateInvTotals(pfx);
-  renderInvItems(pfx);// update Rate column header
 }
 
 function selectTpl(tpl,pfx){
@@ -4407,9 +3504,27 @@ function selectTpl(tpl,pfx){
 }
 
 function addInvItem(pfx){
-  invFormItems[pfx].push({id:uid(),name:'',qty:1,rate:0,unit:'',dimension:'',duration:''});
-  renderInvItems(pfx);
-  updateInvTotals(pfx);
+  // "+ Add Line Item" asks which category this line is, then adds it with that category
+  const ch=document.getElementById(pfx+'-line-chooser');
+  if(ch&&!ch.classList.contains('open')){ch.classList.add('open');return;}
+  addInvItemTyped(pfx,invFormType[pfx]||'general');
+}
+function addInvItemTyped(pfx,type){
+  invFormItems[pfx].push({id:uid(),type:type||'general',name:'',qty:1,rate:0,unit:'',dimension:'',duration:''});
+  closeLineChooser(pfx);
+  renderInvItems(pfx);updateInvTotals(pfx);
+}
+function closeLineChooser(pfx){const ch=document.getElementById(pfx+'-line-chooser');if(ch)ch.classList.remove('open');}
+function setItemType(pfx,id,type){
+  const it=invFormItems[pfx].find(x=>x.id===id);if(!it)return;
+  it.type=type;
+  renderInvItems(pfx);updateInvTotals(pfx);
+}
+function toggleLineChip(btn){
+  const cell=btn.parentNode;
+  const wasOpen=cell.classList.contains('open');
+  document.querySelectorAll('.li-name-cell.open').forEach(c=>c.classList.remove('open'));
+  if(!wasOpen)cell.classList.add('open');
 }
 
 function removeInvItem(pfx,id){
@@ -4422,29 +3537,45 @@ function renderInvItems(pfx){
   const tbody=document.getElementById(pfx+'-li-body');
   const thead=document.getElementById(pfx+'-li-head');
   if(!tbody)return;
-  const type=invFormType[pfx]||'general';
-  const def=INV_TYPE_DEFS[type]||INV_TYPE_DEFS.general;
-  // Get current currency symbol for this invoice
   const fxCode=document.getElementById(pfx+'-currency-code')?.value||'INR';
   const fxSym=FX_CURRENCIES[fxCode]?.symbol||'₹';
-  // Replace ₹ placeholder in column headers with selected currency symbol
-  const cols=def.cols.map(c=>({...c,h:c.h.replace('(₹)',`(${fxSym})`)}));
   const fmtFx=n=>`${fxSym}${(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0})}`;
-  // Render header
   if(thead){
-    thead.innerHTML='<tr>'+cols.map(c=>`<th style="width:${c.w||'auto'}">${c.h}</th>`).join('')+'</tr>';
+    thead.innerHTML='<tr><th style="width:36%">Description</th><th style="width:28%">Details</th>'+
+      '<th style="width:15%;text-align:right">Rate ('+fxSym+')</th>'+
+      '<th style="width:15%;text-align:right">Amount</th><th style="width:6%"></th></tr>';
   }
-  // Render rows
   tbody.innerHTML=invFormItems[pfx].map(item=>{
+    const type=item.type||invFormType[pfx]||'general';
+    const def=INV_TYPE_DEFS[type]||INV_TYPE_DEFS.general;
     const amt=(+item.qty||1)*(+item.rate||0);
-    return '<tr>'+cols.map(c=>{
-      if(c.k==='_amt')return`<td style="text-align:right;font-size:.78rem;font-weight:600;padding-right:4px;">${fmtFx(amt)}</td>`;
-      if(c.k==='_del')return`<td><button class="li-row-del" onclick="removeInvItem('${pfx}','${item.id}')">✕</button></td>`;
-      const val=item[c.k]!==undefined?item[c.k]:(c.t==='number'?(c.k==='qty'?1:0):'');
-      const isNum=c.t==='number';
-      const needsTotal=c.k==='qty'||c.k==='rate';
-      return`<td><input${isNum?' class="r"':''} type="${c.t||'text'}" value="${esc(String(val))}" placeholder="${c.ph||''}" ${isNum?'min="0"':''} oninput="invFormItems['${pfx}'].find(x=>x.id==='${item.id}').${c.k}=${isNum?'+this.value||0':'this.value'};${needsTotal?`updateInvTotals('${pfx}')`:''}" ></td>`;
-    }).join('')+'</tr>';
+    const setk=k=>`invFormItems['${pfx}'].find(x=>x.id==='${item.id}').${k}`;
+    let details;
+    if(type==='video'){
+      details='<div class="li-pair">'+
+        `<input type="text" value="${esc(item.dimension||'')}" placeholder="1920×1080" oninput="${setk('dimension')}=this.value">`+
+        `<input type="text" value="${esc(item.duration||'')}" placeholder="30s" oninput="${setk('duration')}=this.value">`+
+        '</div>';
+    } else {
+      const ph=type==='consulting'?'hrs':(type==='product'?'pcs':'qty');
+      details='<div class="li-pair">'+
+        `<input class="r" type="number" min="0" value="${esc(String(item.qty==null?1:item.qty))}" placeholder="${ph}" oninput="${setk('qty')}=+this.value||0;updateInvTotals('${pfx}')">`+
+        `<input type="text" value="${esc(item.unit||'')}" placeholder="unit" oninput="${setk('unit')}=this.value">`+
+        '</div>';
+    }
+    const menu=Object.entries(INV_TYPE_DEFS).map(([k,v])=>
+      `<button type="button" class="li-opt${k===type?' on':''}" onclick="setItemType('${pfx}','${item.id}','${k}')">${v.icon} ${v.label}</button>`).join('');
+    return '<tr>'+
+      '<td><div class="li-name-cell">'+
+        `<button type="button" class="li-chip" onclick="toggleLineChip(this)">${def.icon} ${def.label} ▾</button>`+
+        `<div class="li-chip-menu">${menu}</div>`+
+        `<input type="text" value="${esc(item.name||'')}" placeholder="${def.cols[0].ph||'Description'}" oninput="${setk('name')}=this.value">`+
+      '</div></td>'+
+      `<td>${details}</td>`+
+      `<td><input class="r" type="number" min="0" value="${esc(String(item.rate==null?0:item.rate))}" placeholder="0" oninput="${setk('rate')}=+this.value||0;updateInvTotals('${pfx}')"></td>`+
+      `<td style="text-align:right;font-size:.78rem;font-weight:600;padding-right:4px;">${fmtFx(amt)}</td>`+
+      `<td><button class="li-row-del" onclick="removeInvItem('${pfx}','${item.id}')">✕</button></td>`+
+    '</tr>';
   }).join('');
 }
 
@@ -4599,6 +3730,8 @@ function populateInvForm(pfx,inv){
   updateInvTotals(pfx);
 }
 
+function invNoNum(i){const m=String((i&&i.invNo)||'').match(/(\d+)/);return m?parseInt(m[1],10):0;}
+function syncInvCounter(){let max=0;(db.income||[]).forEach(i=>{const n=invNoNum(i);if(n>max)max=n;});db.invoiceCounter=max;}
 function nextAvailableInvNo(){
   // Collect all used INV-XXX numbers from existing invoices
   const used=new Set();
@@ -4607,10 +3740,11 @@ function nextAvailableInvNo(){
     const m=(i.invNo||'').match(/^INV-(\d+)$/i);
     if(m)used.add(parseInt(m[1],10));
   });
-  // Find first gap starting from 1
-  let n=1;
-  while(used.has(n))n++;
-  return'INV-'+String(n).padStart(3,'0');
+  // Continue from the highest number in use. Never fill gaps — that is what made new
+  // invoices land below existing ones and look out of sequence.
+  let max=0;
+  used.forEach(v=>{if(v>max)max=v;});
+  return'INV-'+String(max+1).padStart(3,'0');
 }
 
 function resetInvForm(pfx){
@@ -4695,7 +3829,6 @@ function setTheme(name){
   save();
   renderThemeCards();
   // Redraw report charts if on reports tab
-  if(typeof renderReports==='function'&&document.getElementById('tab-reports')?.classList.contains('active'))renderReports();
 }
 function renderThemeCards(){
   const grid=document.getElementById('themeCardGrid');if(!grid)return;
@@ -4716,260 +3849,25 @@ function renderThemeCards(){
 function toggleDark(on){}
 function setAccent(colour,el){}
 
-function updatePlanStatus(){
-  const pro=isPro();
-  const badge=document.getElementById('planBadgeEl');
-  const msg=document.getElementById('planStatusMsg');
-  const btn=document.getElementById('planUpgradeBtn');
-  if(!badge)return;
-  if(pro){
-    badge.textContent='Pro ✓';badge.className='plan-badge pro';
-    const expiry=db.planExpiry?` · Renews ${new Date(db.planExpiry).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}`:'';
-    msg.textContent=`You have full access to all features.${expiry}`;
-    btn.style.display='none';
-  } else {
-    badge.textContent='Free';badge.className='plan-badge free';
-    const clientCount=[...new Set(db.income.map(i=>i.client).filter(Boolean))].length;
-    msg.textContent=`${clientCount}/2 clients used. Upgrade for unlimited clients, clean PDFs, GST reports, multi-currency & WhatsApp sharing.`;
-    btn.style.display='block';
-  }
-}
 // ══════════════════════════════════════════════════
 //  CALENDAR
 // ══════════════════════════════════════════════════
-let calView='month';
-let calDate=new Date();
-let _calSelType='reminder';
 
 // Merge auto invoice-due events + user-created events
-function calAllEvents(){
-  const evts=[];
-  // Auto: unpaid invoices that have a due date
-  (db.income||[]).filter(i=>i.due&&i.status!=='received').forEach(i=>{
-    const remaining=(+i.amount||0)-rcv(i);
-    evts.push({
-      id:'inv_'+i.id,
-      title:(i.client||'Invoice')+' due',
-      subtitle:fmt(remaining)+' pending',
-      date:i.due,
-      type:'invoice_due',
-      readonly:true
-    });
-  });
-  // User events
-  (db.calendar||[]).forEach(e=>evts.push(e));
-  return evts;
-}
 
-function calSwitchView(v){
-  calView=v;
-  document.querySelectorAll('.cal-vtab').forEach(b=>b.classList.toggle('active',b.dataset.cv===v));
-  // Hide nav for agenda
-  const nr=document.getElementById('calNavRow');
-  if(nr)nr.style.display=v==='agenda'?'none':'flex';
-  renderCalendar();
-}
 
-function calGoToday(){calDate=new Date();renderCalendar();}
-function shiftCal(d){
-  if(calView==='month')calDate=new Date(calDate.getFullYear(),calDate.getMonth()+d,1);
-  else calDate=new Date(calDate.getTime()+d*7*86400000);
-  renderCalendar();
-}
 
-function renderCalendar(){
-  const lbl=document.getElementById('calNavLabel');
-  if(calView==='month'){
-    if(lbl)lbl.textContent=calDate.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
-    _calRenderMonth();
-  } else if(calView==='week'){
-    const ws=_calWeekStart(calDate);
-    const we=new Date(ws);we.setDate(we.getDate()+6);
-    if(lbl)lbl.textContent=ws.toLocaleDateString('en-IN',{day:'numeric',month:'short'})+' – '+we.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
-    _calRenderWeek(ws);
-  } else {
-    _calRenderAgenda();
-  }
-}
 
-function _calWeekStart(d){
-  const dt=new Date(d);
-  const day=dt.getDay(); // 0=Sun
-  dt.setDate(dt.getDate()-(day===0?6:day-1)); // Monday start
-  return dt;
-}
 
-function _calRenderMonth(){
-  const body=document.getElementById('calBody');if(!body)return;
-  const y=calDate.getFullYear(),m=calDate.getMonth();
-  const firstDay=new Date(y,m,1);
-  const lastDay=new Date(y,m+1,0);
-  const todayStr=today();
-  const evts=calAllEvents();
-  const startDow=firstDay.getDay(); // 0=Sun
-  const totalCells=Math.ceil((startDow+lastDay.getDate())/7)*7;
-  const DOWS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  let h=`<div class="cal-month-grid">`;
-  DOWS.forEach(d=>{h+=`<div class="cal-dow-hdr">${d}</div>`;});
-  for(let i=0;i<totalCells;i++){
-    const cd=new Date(y,m,1-startDow+i);
-    const ds=cd.toISOString().slice(0,10);
-    const isToday=ds===todayStr;
-    const other=cd.getMonth()!==m;
-    const de=evts.filter(e=>e.date===ds);
-    h+=`<div class="cal-cell${other?' other-month':''}${isToday?' cal-today':''}" onclick="openCalModal('${ds}')">`;
-    h+=`<div class="cal-date-num">${cd.getDate()}</div>`;
-    de.slice(0,3).forEach(e=>{
-      const click=e.readonly?`showTab('income')`:`editCalEvent('${e.id}')`;
-      h+=`<div class="cal-chip ${e.type}" onclick="event.stopPropagation();${click}" title="${esc(e.title)}">${esc(e.title)}</div>`;
-    });
-    if(de.length>3)h+=`<div class="cal-chip more">+${de.length-3} more</div>`;
-    h+=`</div>`;
-  }
-  h+=`</div>`;
-  body.innerHTML=h;
-}
 
-function _calRenderWeek(ws){
-  const body=document.getElementById('calBody');if(!body)return;
-  const todayStr=today();
-  const evts=calAllEvents();
-  const DOWS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  let h=`<div class="cal-week-grid">`;
-  for(let i=0;i<7;i++){
-    const d=new Date(ws);d.setDate(d.getDate()+i);
-    const ds=d.toISOString().slice(0,10);
-    const isToday=ds===todayStr;
-    const de=evts.filter(e=>e.date===ds);
-    h+=`<div class="cal-week-col${isToday?' cal-today':''}" onclick="openCalModal('${ds}')">`;
-    h+=`<div class="cal-week-dow">${DOWS[i]}</div>`;
-    h+=`<div class="cal-week-num">${d.getDate()}</div>`;
-    de.forEach(e=>{
-      const click=e.readonly?`showTab('income')`:`editCalEvent('${e.id}')`;
-      h+=`<div class="cal-chip ${e.type}${e.done?' done':''}" onclick="event.stopPropagation();${click}">${esc(e.title)}</div>`;
-    });
-    h+=`</div>`;
-  }
-  h+=`</div>`;
-  body.innerHTML=h;
-}
 
-function _calRenderAgenda(){
-  const body=document.getElementById('calBody');if(!body)return;
-  const todayStr=today();
-  // Show past 7 days + next 90 days
-  const from=new Date();from.setDate(from.getDate()-7);
-  const fromStr=from.toISOString().slice(0,10);
-  const evts=calAllEvents().filter(e=>e.date>=fromStr).sort((a,b)=>a.date.localeCompare(b.date));
-  if(!evts.length){
-    body.innerHTML=`<div class="cal-empty"><div class="cal-empty-icon">📅</div><div class="cal-empty-title">No upcoming events</div><div class="cal-empty-sub">Click "+ Add Event" or set due dates on invoices to see them here</div></div>`;
-    return;
-  }
-  const groups={};
-  evts.forEach(e=>{if(!groups[e.date])groups[e.date]=[];groups[e.date].push(e);});
-  const LABELS={invoice_due:'📄 Invoice Due',reminder:'🔔 Reminder',meeting:'🤝 Meeting',task:'✅ Task',payment:'💰 Payment Expected'};
-  let h=`<div class="cal-agenda-wrap">`;
-  Object.entries(groups).slice(0,40).forEach(([ds,de])=>{
-    const d=new Date(ds+'T00:00:00');
-    const isToday=ds===todayStr;
-    const isPast=ds<todayStr;
-    const lbl=isToday?'Today 📍':d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-    h+=`<div class="cal-agenda-group"${isPast?` style="opacity:.65"`:''}><div class="cal-agenda-date-hdr">${lbl}</div>`;
-    de.forEach(e=>{
-      const click=e.readonly?`showTab('income')`:`editCalEvent('${e.id}')`;
-      h+=`<div class="cal-agenda-row" onclick="${click}">`;
-      h+=`<div class="cal-evt-dot ${e.type}"></div>`;
-      h+=`<div style="flex:1;min-width:0;"><div class="cal-agenda-title">${esc(e.title)}</div>`;
-      if(e.subtitle||e.client||e.time)h+=`<div class="cal-agenda-sub">${esc(e.subtitle||e.client||e.time||'')}</div>`;
-      if(e.note)h+=`<div class="cal-agenda-sub" style="opacity:.7">${esc(e.note)}</div>`;
-      h+=`</div><span class="cal-agenda-badge ${e.type}">${LABELS[e.type]||e.type}</span>`;
-      if(e.type==='task')h+=`<button style="border:none;background:none;cursor:pointer;font-size:1rem;padding:0 0 0 6px;" onclick="event.stopPropagation();calToggleTask('${e.id}')" title="Mark done">${e.done?'↩':'✓'}</button>`;
-      h+=`</div>`;
-    });
-    h+=`</div>`;
-  });
-  h+=`</div>`;
-  body.innerHTML=h;
-}
 
 // ── Event modal ──────────────────────────────────
-function calSelectType(t){
-  _calSelType=t;
-  document.querySelectorAll('.cal-type-pill').forEach(b=>b.classList.toggle('sel',b.dataset.ct===t));
-}
 
-function openCalModal(dateStr){
-  _calSelType='reminder';
-  document.querySelectorAll('.cal-type-btn').forEach(b=>b.classList.toggle('sel',b.dataset.ct==='reminder'));
-  document.getElementById('cal-title').value='';
-  document.getElementById('cal-date').value=dateStr||today();
-  document.getElementById('cal-time').value='';
-  document.getElementById('cal-client').value='';
-  document.getElementById('cal-note').value='';
-  document.getElementById('cal-edit-id').value='';
-  document.getElementById('calModalTitle').textContent='Add Event';
-  document.getElementById('calDeleteBtn').style.display='none';
-  openModal('calEventModal');
-  setTimeout(()=>document.getElementById('cal-title')?.focus(),100);
-}
 
-function editCalEvent(id){
-  const e=(db.calendar||[]).find(x=>x.id===id);
-  if(!e)return;
-  calSelectType(e.type||'reminder');
-  document.getElementById('cal-title').value=e.title||'';
-  document.getElementById('cal-date').value=e.date||today();
-  document.getElementById('cal-time').value=e.time||'';
-  document.getElementById('cal-client').value=e.client||'';
-  document.getElementById('cal-note').value=e.note||'';
-  document.getElementById('cal-edit-id').value=e.id;
-  document.getElementById('calModalTitle').textContent='Edit Event';
-  document.getElementById('calDeleteBtn').style.display='block';
-  openModal('calEventModal');
-}
 
-function saveCalEvent(){
-  const title=document.getElementById('cal-title').value.trim();
-  const date=document.getElementById('cal-date').value;
-  if(!title){toast('Enter an event title','err');document.getElementById('cal-title').focus();return;}
-  if(!date){toast('Pick a date','err');return;}
-  const editId=document.getElementById('cal-edit-id').value;
-  const evt={
-    id:editId||uid(),
-    title,date,
-    type:_calSelType,
-    time:document.getElementById('cal-time').value,
-    client:document.getElementById('cal-client').value.trim(),
-    note:document.getElementById('cal-note').value.trim(),
-    done:false
-  };
-  if(editId){
-    const idx=(db.calendar||[]).findIndex(e=>e.id===editId);
-    if(idx>=0){const old=db.calendar[idx];evt.done=old.done||false;db.calendar[idx]=evt;}
-  } else {
-    if(!db.calendar)db.calendar=[];
-    db.calendar.push(evt);
-  }
-  save();closeModal('calEventModal');renderCalendar();
-  toast(editId?'Event updated ✓':'Event added ✓');
-}
 
-function deleteCalEvent(){
-  const id=document.getElementById('cal-edit-id').value;
-  if(!id)return;
-  if(!confirm('Delete this event?'))return;
-  db.calendar=(db.calendar||[]).filter(e=>e.id!==id);
-  save();closeModal('calEventModal');renderCalendar();
-  toast('Event deleted');
-}
 
-function calToggleTask(id){
-  const e=(db.calendar||[]).find(x=>x.id===id);
-  if(!e)return;
-  e.done=!e.done;
-  save();renderCalendar();
-  toast(e.done?'Task marked done ✓':'Task reopened');
-}
 
 function renderSettings(){
   document.getElementById('s-studio').value=db.profile.studioName||'';
@@ -4979,11 +3877,6 @@ function renderSettings(){
   document.getElementById('s-address').value=db.profile.address||'';
   document.getElementById('s-currency').value=db.profile.currency||'₹';
   document.getElementById('s-role').value=db.profile.role||'';
-  document.getElementById('s-whatsapp').value=db.profile.whatsapp||'';
-  document.getElementById('s-wa-enabled').checked=!!db.profile.whatsappPrefs?.enabled;
-  document.getElementById('s-wa-task-reminders').checked=db.profile.whatsappPrefs?.taskReminders!==false;
-  document.getElementById('s-wa-due-reminders').checked=db.profile.whatsappPrefs?.dueReminders!==false;
-  document.getElementById('s-wa-daily-digest').checked=!!db.profile.whatsappPrefs?.dailyDigest;
   document.getElementById('s-upi').value=db.profile.upi||'';
   document.getElementById('s-bank').value=db.profile.bankName||'';
   document.getElementById('s-account').value=db.profile.accountNo||'';
@@ -4995,7 +3888,6 @@ function renderSettings(){
   // Sync Appearance panel
   renderThemeCards();
   renderCatPills();
-  updatePlanStatus();
 }
 function saveProfile(){
   const whatsappRaw=document.getElementById('s-whatsapp').value.trim();
@@ -5007,13 +3899,6 @@ function saveProfile(){
   db.profile.address=document.getElementById('s-address').value.trim();
   db.profile.currency=document.getElementById('s-currency').value.trim()||'₹';
   db.profile.role=document.getElementById('s-role').value.trim();
-  db.profile.whatsapp=whatsappNormalized;
-  db.profile.whatsappPrefs={
-    enabled:document.getElementById('s-wa-enabled').checked&&!!whatsappNormalized,
-    taskReminders:document.getElementById('s-wa-task-reminders').checked,
-    dueReminders:document.getElementById('s-wa-due-reminders').checked,
-    dailyDigest:document.getElementById('s-wa-daily-digest').checked
-  };
   db.profile.upi=document.getElementById('s-upi').value.trim();
   db.profile.bankName=document.getElementById('s-bank').value.trim();
   db.profile.accountNo=document.getElementById('s-account').value.trim();
@@ -5178,8 +4063,8 @@ function buildInvoiceHTML(inv){
   const qrHTML=(inv.showQr!==false&&qrUpi)?buildQR(qrUpi,p.ownerName||p.studioName,t.net||t.gross,num):'';
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
-  const watermarkHTML=!isPro()?`<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-size:64px;font-weight:900;color:rgba(0,0,0,0.06);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:.05em;user-select:none;">StudioBills Free</div>`:'';
-  const watermarkFooterHTML=!isPro()?`<div style="text-align:center;font-size:10px;color:#BBB;margin-top:18px;padding-top:10px;border-top:1px solid #EEE;">Created with StudioBills Free — <a href="https://studiobills.vercel.app" style="color:#FF0035;">Upgrade to Pro</a> to remove watermark</div>`:'';
+  const watermarkHTML='';
+  const watermarkFooterHTML='';
   const _invDateObj=inv.date?new Date(inv.date):new Date();
   const _months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const _dd=String(_invDateObj.getDate()).padStart(2,'0');
@@ -5555,7 +4440,6 @@ function fallbackPrint(html){
 }
 
 async function shareOnWhatsApp(){
-  if(!isPro()){showUpgradeModal('WhatsApp sharing');return;}
   if(!curInvId){toast('No invoice selected','err');return;}
   const inv=db.income.find(i=>i.id===curInvId);if(!inv)return;
   const num=inv.invNo||`INV-${inv.id.slice(-6).toUpperCase()}`;
@@ -5659,22 +4543,6 @@ ${db.profile.phone||''}`);
 }
 
 // ─── EXPORT / IMPORT ───
-function exportIncXLSX(){const rows=db.income.map(i=>({Client:i.client,Description:invDesc(i),Amount:+i.amount||0,Received:+i.received||0,Date:i.date,DueDate:i.due||'',Category:i.cat||'',Status:i.status,Notes:i.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Income');XLSX.writeFile(wb,'StudioBills_Income.xlsx');toast('Excel exported ✓');}
-function exportExpXLSX(){const rows=db.expenses.map(e=>({Title:e.title,Category:e.cat||'',Amount:+e.amount||0,Date:e.date,Recurring:e.recurring?'Yes':'No',Notes:e.notes||''}));const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Expenses');XLSX.writeFile(wb,'StudioBills_Expenses.xlsx');toast('Excel exported ✓');}
-function exportReportXLSX(){const y=document.getElementById('reportYearSel').value||new Date().getFullYear();const m=['01','02','03','04','05','06','07','08','09','10','11','12'];const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const rows=m.map((mo,i)=>{const k=`${y}-${mo}`;const inc=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);const rec=db.income.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.received||0),0);const exp=db.expenses.filter(x=>mk(x.date)===k).reduce((s,x)=>s+(+x.amount||0),0);return{Month:`${ml[i]} ${y}`,Billed:inc,Received:rec,Expenses:exp,Net:rec-exp};});const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`Report ${y}`);XLSX.writeFile(wb,`StudioBills_Report_${y}.xlsx`);toast('Report exported ✓');}
-function exportGSTXLSX(){
-  if(!isPro()){showUpgradeModal('GST Excel export');return;}
-  const y=document.getElementById('reportYearSel').value||new Date().getFullYear();
-  const m=['01','02','03','04','05','06','07','08','09','10','11','12'];
-  const ml=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const rows=m.map((mo,i)=>{
-    const invs=db.income.filter(x=>x.date?.startsWith(`${y}-${mo}`));
-    let taxable=0,cgst=0,sgst=0,igst=0,tds=0;
-    invs.forEach(inv=>{const t=inv._totals||{};if(t.gstOn){taxable+=t.taxable||0;cgst+=t.cgst||0;sgst+=t.sgst||0;igst+=t.igst||0;}if(t.tdsOn)tds+=t.tds||0;});
-    return{Month:`${ml[i]} ${y}`,Taxable:taxable,CGST:cgst,SGST:sgst,IGST:igst,TDS:tds,'Net GST':cgst+sgst+igst};
-  });
-  const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,`GST ${y}`);XLSX.writeFile(wb,`StudioBills_GST_${y}.xlsx`);toast('GST Excel exported ✓');
-}
 function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`StudioBills_Backup_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Backup exported ✓');}
 function importBackup(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{
   let d=JSON.parse(ev.target.result);
@@ -5738,6 +4606,8 @@ function openModal(id){
   fillCatSelects();fillClientSuggest();
   if(id==='addIncomeModal'){
     resetAddInc();
+    const _noEl=document.getElementById('ai-invno');
+    if(_noEl)_noEl.value=nextAvailableInvNo();
     // Reset currency to INR
     onCurrencySelect('ai','INR');
     // Reset tabs to details
@@ -5760,65 +4630,11 @@ document.querySelectorAll('.tn').forEach(b=>b.addEventListener('click',()=>{if(b
 // ── BOTTOM NAV ──
 
 // ─── ONBOARDING ────────────────────────────────────────────────────────────
-function checkOnboarding(){
-  if(!currentUser)return;
-  const isNewUser=!db._onboardingDone&&db.income.length===0&&db.expenses.length===0;
-  const noProfile=!db.profile?.studioName;
 
-  // Show welcome screen for brand new users
-  if(isNewUser&&!db._welcomeShown){
-    document.getElementById('welcomeOverlay').style.display='flex';
-    return;
-  }
 
-  // Show onboarding cards in overview
-  renderOnboardingCards();
-}
 
-function startOnboarding(){
-  document.getElementById('welcomeOverlay').style.display='none';
-  db._welcomeShown=true;
-  save();
-  renderOnboardingCards();
-  // Prompt to set up profile
-  setTimeout(()=>{ if(!db.profile?.studioName) document.getElementById('profileNudge').style.display='block'; },600);
-}
 
-function skipOnboarding(){
-  document.getElementById('welcomeOverlay').style.display='none';
-  db._welcomeShown=true;
-  db._onboardingDone=true;
-  save();
-}
 
-function renderOnboardingCards(){
-  const slot=document.getElementById('onboardingCards');
-  if(!slot)return;
-  const cards=[];
-
-  // Profile nudge — if no studio name set
-  if(!db.profile?.studioName&&!db._profileNudgeClosed){
-    cards.push(document.getElementById('profileNudge')?.outerHTML||'');
-    document.getElementById('profileNudge').style.display='block';
-  }
-
-  // Pro card — if on free plan and not closed
-  if(!isPro()&&!db._proCardClosed){
-    document.getElementById('proExplainerCard').style.display='block';
-  }
-}
-
-function closeProfileNudge(){
-  document.getElementById('profileNudge').style.display='none';
-  db._profileNudgeClosed=true;
-  save();
-}
-
-function closeProCard(){
-  document.getElementById('proExplainerCard').style.display='none';
-  db._proCardClosed=true;
-  save();
-}
 // ───────────────────────────────────────────────────────────────────────────
 
 document.querySelectorAll('#botNav .bot-nav-item[data-tab]').forEach(b=>{
@@ -5832,7 +4648,7 @@ function closeFab(){fabOpen=false;const m=document.getElementById('fabMenu');if(
 document.addEventListener('click',e=>{if(fabOpen&&!e.target.closest('#mobFab')&&!e.target.closest('#fabMenu'))closeFab();});
 
 // ── MORE DRAWER ──
-const MORE_TABS=['reports','clients','history','settings'];
+const MORE_TABS=['clients','settings'];
 function openMobMore(){document.getElementById('moreDrawerBg').classList.add('open');}
 function closeMobMore(e){if(e.target===document.getElementById('moreDrawerBg'))document.getElementById('moreDrawerBg').classList.remove('open');}
 function moreNavTo(tab){document.getElementById('moreDrawerBg').classList.remove('open');showTab(tab);}
@@ -5876,7 +4692,6 @@ const _sbOrigShowTab = showTab;
 showTab = function(tab) {
   _sbOrigShowTab(tab);
   document.querySelectorAll('.sn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  if(tab === 'income') setTimeout(fillIncClientFilter, 30);
 };
 
 // Keyboard shortcuts
@@ -5891,7 +4706,6 @@ document.addEventListener('keydown', function(e) {
 const PAGE_SIZE = 50;
 let incPage = 0, histPage = 0;
 function setIncPage(p){ incPage=p; renderIncome(); }
-function setHistPage(p){ histPage=p; renderHistory(); }
 function renderPagination(cid, page, total, fn) {
   const el = document.getElementById(cid); if(!el) return;
   const pages = Math.ceil(total/PAGE_SIZE);
@@ -5908,42 +4722,13 @@ function renderPagination(cid, page, total, fn) {
 }
 
 // Client filter
-function fillIncClientFilter() {
-  const sel = document.getElementById('incClientFilter'); if(!sel) return;
-  const clients = [...new Set((db.income||[]).map(i=>i.client).filter(Boolean))].sort();
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">All Clients</option>' + clients.map(c=>`<option value="${c}"${c===cur?' selected':''}>${c}</option>`).join('');
-}
+function fillIncClientFilter(){/* client filter removed in the minimal pass */}
 
 // Bulk select
-let bulkSelected = new Set();
-function toggleSelectAll(cb) {
-  document.querySelectorAll('.inc-row-cb').forEach(r=>{r.checked=cb.checked; if(cb.checked) bulkSelected.add(r.dataset.id); else bulkSelected.delete(r.dataset.id);});
-  updateBulkBar();
-}
-function toggleRowSel(cb) {
-  if(cb.checked) bulkSelected.add(cb.dataset.id); else bulkSelected.delete(cb.dataset.id);
-  updateBulkBar();
-}
-function updateBulkBar() {
-  const bar=document.getElementById('bulkBar'); const cnt=document.getElementById('bulkCount');
-  if(!bar)return;
-  if(bulkSelected.size>0){bar.style.display='flex';if(cnt)cnt.textContent=bulkSelected.size+' selected';}
-  else bar.style.display='none';
-}
-function clearBulkSel() {
-  bulkSelected.clear();
-  document.querySelectorAll('.inc-row-cb').forEach(r=>r.checked=false);
-  const cb=document.getElementById('selectAllInc'); if(cb) cb.checked=false;
-  updateBulkBar();
-}
-function bulkMarkReceived() {
-  if(!bulkSelected.size) return;
-  let changed=0;
-  db.income.forEach(i=>{if(bulkSelected.has(i.id)&&i.status!=='received'){i.status='received';i.received=+i.amount||0;changed++;}});
-  if(changed){save();renderIncome();renderOverview();toast(changed+' invoice(s) marked received ✓');}
-  clearBulkSel();
-}
+
+
+
+
 
 // Quick receive — inline panel (no confirm/prompt dialogs)
 function quickReceive(id,btn){
@@ -6047,410 +4832,6 @@ renderOverview = function(){
 };
 
 </script>
-<!-- ── AI CHAT WIDGET ── -->
-<button class="sb-chat-bubble" id="sbChatBubble" onclick="sbToggleChat()" title="AI Assistant">
-  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-  <span class="sb-chat-dot"></span>
-</button>
-
-<div class="sb-chat-panel" id="sbChatPanel">
-  <div class="sb-chat-header">
-    <div class="sb-chat-header-icon">✨</div>
-    <div style="flex:1;">
-      <div class="sb-chat-header-title">StudioBills AI</div>
-      <div class="sb-chat-header-sub">Powered by Groq · Llama 3.3 · Free</div>
-    </div>
-    <button class="sb-chat-close" onclick="sbToggleChat()" aria-label="Close chat">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
-
-  <div id="sbChatBody"><!-- filled by sbInitChat() --></div>
-
-  <div class="sb-chat-footer" id="sbChatFooter" style="display:none;">
-    <input class="sb-chat-input" id="sbChatInput" type="text" placeholder="Ask anything…" autocomplete="off"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sbSend();}"/>
-    <button class="sb-chat-send" onclick="sbSend()" title="Send">
-      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
-  </div>
-</div>
-
-<script>
-// ══════════════════════════════════════════════════
-//  STUDIOBILLS AI — Gemini chatbot
-// ══════════════════════════════════════════════════
-(function(){
-
-// ── Key helpers ──────────────────────────────────
-function gKey(){return(db.profile&&db.profile.geminiKey)||'';}
-window.saveGeminiKey=function(){
-  const v=document.getElementById('s-gemini-key')?.value?.trim();
-  if(!v){toast('Please enter your Groq API key','err');return;}
-  if(!v.startsWith('gsk_')){toast('Groq keys start with "gsk_" — check your key','err');return;}
-  db.profile.geminiKey=v;
-  save();
-  toast('Groq API key saved ✓');
-  document.getElementById('s-gemini-key').value='••••••••••••••••';
-  sbUpdateBubble();
-};
-window.testGeminiKey=async function(){
-  const rawVal=(document.getElementById('s-gemini-key')?.value||'').trim();
-  const activeKey=(/^[•\*]+$/.test(rawVal)||rawVal==='')?gKey():rawVal;
-  if(!activeKey){toast('Enter a key first','err');return;}
-  const el=document.getElementById('gemini-key-status');
-  if(el){el.style.display='block';el.style.color='var(--muted)';el.textContent='Testing key…';}
-  try{
-    const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+activeKey},
-      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'user',content:'Say OK'}],max_tokens:5})
-    });
-    const j=await r.json().catch(()=>({}));
-    if(r.ok&&j.choices&&j.choices[0]){
-      if(el){el.style.color='var(--green)';el.textContent='✓ Groq connected! Llama 3.3 70B ready.';}
-    } else if(r.status===401){
-      if(el){el.style.color='var(--err)';el.textContent='✗ Invalid key — copy it fresh from console.groq.com/keys';}
-    } else if(r.status===429){
-      if(el){el.style.color='var(--orange)';el.textContent='⚠ Rate limit hit — free tier allows 30 req/min. Wait a moment.';}
-    } else {
-      if(el){el.style.color='var(--err)';el.textContent='✗ '+(j.error&&j.error.message?j.error.message.slice(0,80):'Unexpected error');}
-    }
-  }catch(e){
-    if(el){el.style.color='var(--err)';el.textContent='✗ Network error — check your connection.';}
-  }
-};
-
-// Populate key field when Settings renders
-const _origRenderSettings=window.renderSettings;
-function _patchSettings(){
-  const el=document.getElementById('s-gemini-key');
-  if(el&&gKey())el.value='••••••••••••••••';
-}
-document.addEventListener('click',e=>{
-  if(e.target&&e.target.closest&&e.target.closest('[data-st="about"]'))
-    setTimeout(_patchSettings,50);
-});
-
-// ── Panel state ──────────────────────────────────
-let _sbOpen=false;
-let _sbHistory=[]; // {role:'user'|'model', parts:[{text}]}
-
-function sbUpdateBubble(){
-  const b=document.getElementById('sbChatBubble');
-  if(b)b.classList.toggle('has-key',!!gKey());
-}
-
-window.sbToggleChat=function(){
-  _sbOpen=!_sbOpen;
-  const panel=document.getElementById('sbChatPanel');
-  if(panel)panel.classList.toggle('open',_sbOpen);
-  if(_sbOpen){
-    sbInitChat();
-    setTimeout(()=>document.getElementById('sbChatInput')?.focus(),260);
-  }
-};
-
-// ── Init chat body ───────────────────────────────
-function sbInitChat(){
-  const body=document.getElementById('sbChatBody');
-  const footer=document.getElementById('sbChatFooter');
-  if(!body)return;
-
-  if(!gKey()){
-    body.innerHTML=`<div class="sb-chat-no-key">
-      <div style="font-size:1.8rem;margin-bottom:8px;">🔑</div>
-      <div style="font-weight:600;color:var(--text);margin-bottom:6px;">Connect your free Groq key</div>
-      <div>Go to <strong>Settings → About</strong> and paste your free API key from
-      <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>.<br/><br/>
-      100% free · No credit card · 14,400 req/day · Llama 3.3 70B</div>
-    </div>`;
-    if(footer)footer.style.display='none';
-    return;
-  }
-
-  if(footer)footer.style.display='flex';
-  if(_sbHistory.length===0){
-    body.innerHTML=`<div class="sb-chat-msgs" id="sbMsgs">
-      <div class="sb-msg ai">
-        <div class="sb-msg-avatar">AI</div>
-        <div class="sb-msg-bubble">Hey! I'm your StudioBills AI assistant. I can add invoices, log expenses, check your balance, and more — just ask in plain language 👋</div>
-      </div>
-    </div>
-    <div class="sb-chat-suggestions">
-      <div class="sb-sug" onclick="sbQuick('What is my balance this month?')">💰 My balance</div>
-      <div class="sb-sug" onclick="sbQuick('Add an expense of ₹200 for tea')">+ Add expense</div>
-      <div class="sb-sug" onclick="sbQuick('Create invoice for ₹15000 from Client Name for branding project')">📄 New invoice</div>
-      <div class="sb-sug" onclick="sbQuick('Which invoices are pending?')">📋 Pending dues</div>
-    </div>`;
-  }
-}
-
-window.sbQuick=function(text){
-  const inp=document.getElementById('sbChatInput');
-  if(inp)inp.value=text;
-  sbSend();
-};
-
-// ── Append message to UI ────────────────────────
-function sbAppendMsg(role,html){
-  const msgs=document.getElementById('sbMsgs');
-  if(!msgs)return;
-  const div=document.createElement('div');
-  div.className='sb-msg '+(role==='user'?'user':'ai');
-  const name=(db.profile&&db.profile.ownerName)?db.profile.ownerName.charAt(0).toUpperCase():'U';
-  const avatar=role==='user'?`<div class="sb-msg-avatar">${name}</div>`:'<div class="sb-msg-avatar">AI</div>';
-  if(role==='user'){
-    div.innerHTML=`${avatar}<div class="sb-msg-bubble">${sbEscHtml(html)}</div>`;
-  } else {
-    div.innerHTML=`${avatar}<div class="sb-msg-bubble">${html}</div>`;
-  }
-  msgs.appendChild(div);
-  msgs.scrollTop=msgs.scrollHeight;
-  return div;
-}
-
-function sbEscHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-function sbShowTyping(){
-  const msgs=document.getElementById('sbMsgs');
-  if(!msgs)return null;
-  const div=document.createElement('div');
-  div.className='sb-msg ai';div.id='sbTyping';
-  div.innerHTML='<div class="sb-msg-avatar">AI</div><div class="sb-msg-bubble"><div class="sb-chat-typing"><span></span><span></span><span></span></div></div>';
-  msgs.appendChild(div);
-  msgs.scrollTop=msgs.scrollHeight;
-  return div;
-}
-
-// ── Send ─────────────────────────────────────────
-window.sbSend=async function(){
-  const inp=document.getElementById('sbChatInput');
-  const text=(inp?.value||'').trim();
-  if(!text)return;
-  if(inp)inp.value='';
-
-  // Remove suggestions
-  document.querySelector('.sb-chat-suggestions')?.remove();
-
-  sbAppendMsg('user',text);
-  _sbHistory.push({role:'user',parts:[{text}]});
-
-  const typing=sbShowTyping();
-  const btn=document.getElementById('sbChatBubble');
-  if(inp)inp.disabled=true;
-
-  try{
-    const reply=await sbCallGemini(text);
-    typing?.remove();
-    sbHandleReply(reply);
-  }catch(e){
-    typing?.remove();
-    sbAppendMsg('ai','Sorry, I hit an error: '+sbEscHtml(e.message)+'. Please check your API key in Settings → About.');
-  } finally {
-    if(inp){inp.disabled=false;inp.focus();}
-  }
-};
-
-// ── Build context string ─────────────────────────
-function sbContext(){
-  const now=new Date();
-  const mo=now.getMonth();const yr=now.getFullYear();
-  const incThis=(db.income||[]).filter(i=>{ const d=new Date(i.date);return d.getMonth()===mo&&d.getFullYear()===yr;});
-  const expThis=(db.expenses||[]).filter(e=>{ const d=new Date(e.date);return d.getMonth()===mo&&d.getFullYear()===yr;});
-  const totalInc=incThis.reduce((s,i)=>s+(+i.amount||0),0);
-  const totalExp=expThis.reduce((s,e)=>s+(+e.amount||0),0);
-  const totalRecv=incThis.reduce((s,i)=>s+rcv(i),0);
-  const pending=(db.income||[]).filter(i=>i.status!=='received').slice(0,10).map(i=>`  - INV ${i.invNo||'?'} | ${i.client} | ₹${i.amount} | ${i.status} | due:${i.due||'—'}`).join('\n');
-  const clients=[...new Set((db.income||[]).map(i=>i.client).filter(Boolean))];
-  const incCats=(db.cats&&db.cats.inc)||['Design','Development','Photography','Consulting','Other'];
-  const expCats=(db.cats&&db.cats.exp)||['Software','Travel','Food','Equipment','Other'];
-  const mo_name=now.toLocaleString('en-IN',{month:'long',year:'numeric'});
-  return `Today: ${now.toISOString().slice(0,10)} (${mo_name})
-Studio: ${(db.profile&&db.profile.studioName)||'StudioBills'}
-Owner: ${(db.profile&&db.profile.ownerName)||'User'}
-Currency: ${(db.profile&&db.profile.currency)||'₹'}
-This month — Income: ₹${totalInc} | Received: ₹${totalRecv} | Expenses: ₹${totalExp} | Net: ₹${totalInc-totalExp}
-Clients: ${clients.slice(0,15).join(', ')||'none yet'}
-Income categories: ${incCats.join(', ')}
-Expense categories: ${expCats.join(', ')}
-Recent pending invoices:
-${pending||'  (none)'}`;
-}
-
-// ── Call Groq (Llama 3.3 70B — free) ────────────
-async function sbCallGemini(userText){
-  const key=gKey();
-  const sysPrompt=`You are StudioBills AI, a smart billing assistant built into a freelance studio billing app.
-
-APP CONTEXT:
-${sbContext()}
-
-YOUR CAPABILITIES:
-1. add_income — create an invoice / income entry
-2. add_expense — log an expense
-3. mark_received — mark an invoice as fully received
-4. query — answer questions from the data above (balance, pending dues, client totals)
-
-RESPONSE FORMAT — reply with ONLY valid JSON, no markdown fences:
-{"reply":"Your friendly message here","actions":[]}
-
-ACTION SCHEMAS:
-add_income: {"type":"add_income","client":"Name","desc":"Project desc","amount":5000,"date":"YYYY-MM-DD","cat":"Design","status":"pending"}
-  - status = "received" only if user says they already got paid
-  - Use today's date if not specified
-  - Choose the best matching income category from the list above
-
-add_expense: {"type":"add_expense","title":"Item name","amount":200,"date":"YYYY-MM-DD","cat":"Food"}
-  - Use today's date if not specified
-  - Choose the best matching expense category from the list above
-
-mark_received: {"type":"mark_received","invNo":"INV-001"}
-  - Only use invoice numbers that appear in the pending list above
-
-RULES:
-- For actions, include both the action AND a friendly confirmation in "reply"
-- Never invent client names or invoice numbers
-- Keep replies short and conversational
-- Reply in the same language the user writes in
-- Ask for clarification if the request is ambiguous`;
-
-  // Build OpenAI messages array from history
-  const messages=[{role:'system',content:sysPrompt}];
-  const hist=_sbHistory.slice(-10);
-  hist.forEach(h=>{
-    // _sbHistory stores Gemini format {role,parts:[{text}]} — convert to OpenAI format
-    const role=h.role==='model'?'assistant':h.role;
-    const content=(h.parts&&h.parts[0]&&h.parts[0].text)||'';
-    messages.push({role,content});
-  });
-
-  let r;
-  try{
-    r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages,temperature:0.3,max_tokens:500})
-    });
-  }catch(e){
-    throw new Error('Network error — check your internet connection.');
-  }
-
-  const data=await r.json().catch(()=>({}));
-  if(!r.ok){
-    const msg=(data.error&&data.error.message)||'';
-    if(r.status===401)throw new Error('🔑 Invalid Groq key — paste a fresh one from console.groq.com/keys in Settings → About.');
-    if(r.status===429)throw new Error('⏳ Rate limit hit (30 req/min on free tier) — wait a few seconds and try again.');
-    throw new Error(msg.slice(0,120)||`HTTP ${r.status}`);
-  }
-  return data?.choices?.[0]?.message?.content||'{"reply":"Sorry, I got no response.","actions":[]}';
-}
-
-// ── Handle reply & execute actions ──────────────
-function sbHandleReply(raw){
-  // Strip markdown code fences if model wraps output
-  let clean=raw.trim().replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/```$/,'').trim();
-  let parsed;
-  try{parsed=JSON.parse(clean);}
-  catch(e){
-    // Fallback: show raw text
-    sbAppendMsg('ai',sbEscHtml(raw));
-    _sbHistory.push({role:'model',parts:[{text:raw}]});
-    return;
-  }
-
-  _sbHistory.push({role:'model',parts:[{text:raw}]});
-
-  const actions=parsed.actions||[];
-  const execResults=[];
-  actions.forEach(act=>{
-    try{
-      const res=sbExecuteAction(act);
-      if(res)execResults.push(res);
-    }catch(ex){execResults.push('⚠ '+ex.message);}
-  });
-
-  let replyHtml=sbEscHtml(parsed.reply||'Done!');
-  if(execResults.length>0){
-    replyHtml+='<div style="margin-top:6px;font-size:.75rem;opacity:.7;">'+execResults.map(r=>'✓ '+sbEscHtml(r)).join('<br/>')+'</div>';
-  }
-  sbAppendMsg('ai',replyHtml);
-}
-
-// ── Execute an action ────────────────────────────
-function sbExecuteAction(act){
-  const todayStr=new Date().toISOString().slice(0,10);
-  if(act.type==='add_income'){
-    if(!isPro()){
-      const existingClients=new Set((db.income||[]).map(i=>i.client).filter(Boolean));
-      if(act.client&&!existingClients.has(act.client)&&existingClients.size>=2){
-        throw new Error('Free plan allows 2 clients. Upgrade to add more.');
-      }
-    }
-    const amt=Math.abs(parseFloat(act.amount)||0);
-    if(amt<=0)throw new Error('Invalid amount');
-    const entry={
-      id:uid(),
-      invNo:nextAvailableInvNo(),
-      client:act.client||'Client',
-      desc:act.desc||'Income',
-      cat:act.cat||'',
-      date:act.date||todayStr,
-      due:'',
-      items:[{desc:act.desc||'Income',qty:1,rate:amt,amount:amt}],
-      amount:amt,
-      received:act.status==='received'?amt:0,
-      status:act.status||'pending',
-      currency:'INR',exchangeRate:1,foreignAmount:amt,
-      _totals:{subtotal:amt,gross:amt,gst:0,tds:0,discount:0,net:amt}
-    };
-    db.income.unshift(entry);
-    save();
-    renderIncome();renderOverview();
-    return `Invoice ${entry.invNo} added — ₹${amt.toLocaleString('en-IN')} from ${entry.client}`;
-  }
-
-  if(act.type==='add_expense'){
-    const amt=Math.abs(parseFloat(act.amount)||0);
-    if(amt<=0)throw new Error('Invalid expense amount');
-    const entry={
-      id:uid(),
-      title:act.title||'Expense',
-      amount:amt,
-      cat:act.cat||'',
-      date:act.date||todayStr,
-      note:''
-    };
-    db.expenses.unshift(entry);
-    save();
-    renderExpenses();renderOverview();
-    return `Expense logged — ₹${amt.toLocaleString('en-IN')} for ${entry.title}`;
-  }
-
-  if(act.type==='mark_received'){
-    const inv=(db.income||[]).find(i=>i.invNo===act.invNo);
-    if(!inv)throw new Error('Invoice '+act.invNo+' not found');
-    inv.status='received';
-    inv.received=+inv.amount||0;
-    save();
-    renderIncome();renderOverview();
-    return `${act.invNo} marked as received`;
-  }
-
-  return null;
-}
-
-// ── Init on load ─────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>setTimeout(sbUpdateBubble,800));
-// Also update bubble whenever save() is called — patch save
-const _origSave=window.save;
-if(_origSave){
-  window.save=function(){_origSave.apply(this,arguments);sbUpdateBubble();};
-}
-
-})();
-</script>
-
 <script>
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
