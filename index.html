@@ -1528,6 +1528,108 @@ body.tint-cards #tab-analytics .ref-card .an-cmp i.ref-chip.mut{color:rgba(0,0,0
 body.tint-cards #tab-analytics .ref-due{color:rgba(0,0,0,.7)!important}
 .ref-peak{color:#fff!important;background:#000!important}
 body.tint-cards .ref-peak{color:#fff!important}
+
+/* ══ dashboard: three month cards + full-width chart card ══ */
+.db-kpis .ref-card{display:flex;flex-direction:column;gap:6px;min-height:0}
+.db-kpi{font-size:2rem;font-weight:850;letter-spacing:-.035em;line-height:1.05}
+.db-kpi-sub{font-size:.78rem;font-weight:650;opacity:.72}
+.db-kpi-cap{font-size:.68rem;font-weight:750;text-transform:uppercase;letter-spacing:.08em;opacity:.7}
+.db-chart-card .ref-big-top{align-items:center;gap:12px}
+.db-top-right{display:flex;align-items:center;gap:10px;margin-left:auto}
+.db-chart-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:0;align-items:start;margin-top:6px}
+.db-chart-main{min-width:0}
+.db-rail{display:flex;flex-direction:column;gap:10px}
+.db-rail-row{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:rgba(0,0,0,.10);border-radius:14px;padding:11px 13px}
+.db-rail-row b{font-size:.9rem;font-weight:800;font-variant-numeric:tabular-nums}
+.db-legend{display:flex;gap:16px;margin-top:12px}
+.db-leg{display:flex;align-items:center;gap:7px;font-size:.76rem;font-weight:750}
+.db-dot{width:16px;height:3px;border-radius:99px;display:inline-block}
+.db-dot.inc{background:#000}
+.db-dot.exp{background:#6E6E6E}
+.db-chart-card .ref-month{border-color:rgba(0,0,0,.28)!important}
+.db-chart-card .ref-month button{color:#000!important;background:transparent!important;border:0!important}
+/* tinted-card text stays black on the fills */
+body.tint-cards .db-chart-card .db-kpi,body.tint-cards .db-kpis .db-kpi,
+body.tint-cards .db-kpi-sub,body.tint-cards .db-kpi-cap,
+body.tint-cards .db-legend,body.tint-cards .db-leg{color:#000!important}
+body.tint-cards .db-rail-row{background:rgba(0,0,0,.12)!important}
+body.tint-cards .db-rail-row b,body.tint-cards .db-rail-row .ref-mini-lab{color:#000!important}
+@media(max-width:1100px){.db-chart-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* dashboard: quick actions as a full-width card with a three-column menu */
+#tab-overview .db-quick{grid-template-columns:minmax(0,1fr)!important}
+#tab-overview .ref-card-menu{grid-column:1/-1}
+#tab-overview .ref-card-menu .ref-menu{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px 22px}
+#tab-overview .ref-card-menu .ref-menu li{border-bottom:1px solid rgba(0,0,0,.12)}
+#tab-overview .ref-card-menu .ref-logout{width:100%;max-width:280px;margin-top:16px}
+@media(max-width:900px){#tab-overview .ref-card-menu .ref-menu{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){#tab-overview .ref-card-menu .ref-menu{grid-template-columns:minmax(0,1fr)}}
+
+/* ══ dashboard hero: one huge earning figure + useful side stats ══ */
+.dash-earn-grid{grid-template-columns:minmax(0,1fr) 330px!important;gap:28px!important;align-items:center}
+.dash-earn-big{font-size:clamp(3rem,6.4vw,5.4rem);font-weight:850;letter-spacing:-.045em;line-height:1;color:#000}
+.dash-earn-sub{font-size:.92rem;font-weight:700;color:rgba(0,0,0,.66);margin-top:12px}
+.dash-earn-month{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:rgba(0,0,0,.6)}
+.dash-earn-right{display:flex;flex-direction:column;gap:9px}
+.dash-earn-stat{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:rgba(0,0,0,.10);border-radius:14px;padding:10px 13px}
+.dash-earn-lab{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(0,0,0,.62)}
+.dash-earn-stat b{font-size:.92rem;font-weight:800;color:#000;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dash-earn-foot{font-size:.72rem;font-weight:700;color:rgba(0,0,0,.62);margin-top:2px;line-height:1.5}
+@media(max-width:900px){.dash-earn-grid{grid-template-columns:minmax(0,1fr)!important}}
+/* ══ alignment & spacing: one rhythm everywhere ══ */
+/* every top-level block on every page sits on the same 16px rhythm */
+.tab > section,.tab > header.ref-head,.tab > .filter-row,.tab > .settings-shell,.tab > .settings-panels{margin-bottom:16px!important}
+.tab > section:last-child{margin-bottom:0!important}
+/* one card padding for every card type */
+.ref-card,.ref-big{padding:24px 26px!important}
+.ref-wallet{padding:0!important}
+.st-card{padding:22px!important}
+/* list rows inside a wallet keep their own side padding, aligned to the cards */
+.ref-wallet-head{padding:0 0 12px!important;margin-bottom:10px!important}
+.ref-rows.ref-cols{padding:0 4px 12px!important}
+.ref-rows .recent-row,.ref-rows .ref-row{padding:15px 4px!important}
+/* the dashboard's first card and the three cards below it line up on the same edges */
+.db-kpis .ref-card{padding:22px 24px!important}
+.db-chart-card{padding:24px 26px!important}
+@media(max-width:900px){
+  .tab > section,.tab > header.ref-head,.tab > .filter-row{margin-bottom:14px!important}
+  .ref-card,.ref-big,.st-card{padding:18px!important}
+}
+/* wallet head sits on the same left edge as its rows */
+.ref-wallet-head{padding:0 0 12px!important}
+.db-kpis .ref-card{padding:24px 26px!important}
+.st-card{padding:24px 26px!important}
+.settings-body .st-card .st-input,.settings-body .st-card textarea{width:100%}
+.settings-body .st-grid{gap:14px!important}
+.settings-body .st-field{display:flex;flex-direction:column;gap:7px;margin-bottom:0}
+/* settings: a section with one card fills the width (two-card sections keep two columns) */
+#stab-contact .st-grid,#stab-backup .st-grid,#stab-about .st-grid,#stab-tax .st-grid{grid-template-columns:minmax(0,1fr)!important}
+#stab-payment .st-grid{grid-template-columns:minmax(0,1fr)!important}
+#stab-payment .st-card .st-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+@media(max-width:900px){#stab-payment .st-card .st-grid{grid-template-columns:minmax(0,1fr)!important}}
+/* menu card: breathing room under the card title */
+.ref-card-menu .ref-card-top{margin-bottom:12px}
+.ref-card-menu .ref-menu{margin-top:2px}
+.ref-card-menu .ref-menu li:first-child{padding-top:12px}
+/* textareas: no resize handle, same inner rhythm as the inputs */
+textarea,.st-input[rows]{resize:none!important}
+textarea{line-height:1.55!important}
+#tab-settings .st-field textarea{padding:12px 13px!important}
+/* ══ hero card: right side spacing & alignment ══ */
+.dash-earn-grid{grid-template-columns:minmax(0,1fr) 320px!important;gap:34px!important;align-items:center!important}
+.dash-earn-right{gap:10px!important;width:100%}
+.dash-earn-stat{min-height:46px;padding:12px 14px!important;border-radius:15px!important;
+  display:flex;align-items:center;justify-content:space-between;gap:14px}
+.dash-earn-lab{font-size:.66rem!important;letter-spacing:.09em!important;line-height:1.25;max-width:56%}
+.dash-earn-stat b{font-size:.95rem!important;line-height:1.2;text-align:right;white-space:nowrap}
+.dash-earn-foot{padding:2px 14px 0!important;margin-top:4px!important;line-height:1.55!important;text-align:left}
+.dash-earn-sub{margin-top:14px!important;line-height:1.45}
+@media(max-width:900px){
+  .dash-earn-grid{grid-template-columns:minmax(0,1fr)!important;gap:20px!important}
+  .dash-earn-foot{padding:2px 0 0!important}
+}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -1672,97 +1774,99 @@ body.tint-cards .ref-peak{color:#fff!important}
 
   <!-- ══ REFERENCE LAYOUT: header · big card · 3 cards · list ══ -->
 
-  <header class="ref-head">
-    <div class="ref-head-left">
-      <div class="ref-eyebrow">Your billing</div>
-      <button class="ref-edit" onclick="showTab('settings')">Edit</button>
-    </div>
-    <div class="ref-head-pills">
-      <button class="t-pill" onclick="showTab('income')">Invoices</button>
-      <button class="t-pill" onclick="showTab('clients')">Clients</button>
-      <button class="t-pill" onclick="showTab('settings')">&#8377; INR</button>
-    </div>
-  </header>
+  
 
-  <!-- ① BIG CARD -->
-  <section class="ref-big t-sage">
+  <!-- ① BIG CARD — the month's real earning -->
+  <section class="ref-big t-sage dash-earn">
     <div class="ref-big-top">
-      <span class="t-pill">Your billing</span>
-      <span class="ref-toggle">
-        <span class="ref-toggle-lab">Billed</span>
-        <label class="toggle-wrap"><input type="checkbox" id="dashBilled" onchange="fillDashboard()"><span class="toggle-slider"></span></label>
-      </span>
+      <span class="t-pill">Earning this month</span>
+      <span class="dash-earn-month" id="dashEarnMonth">&mdash;</span>
     </div>
-    <div class="ref-big-grid">
-      <div class="ref-bars" id="dashBars"></div>
-        <div class="ref-mini-stats" id="dashMini"></div>
-      <div class="ref-figure">
-        <div class="ref-pct" id="dashPct">&mdash;</div>
-        <div class="ref-cap" id="dashCap">collected this month</div>
+    <div class="ref-big-grid dash-earn-grid">
+      <div class="dash-earn-left">
+        <div class="dash-earn-big" id="dashEarnBig">&mdash;</div>
+        <div class="dash-earn-sub" id="dashEarnSub">&mdash;</div>
+      </div>
+      <div class="dash-earn-right">
+        <div class="dash-earn-stat"><span class="dash-earn-lab">Still to collect</span><b id="dashEarnDue">&mdash;</b></div>
+        <div class="dash-earn-stat"><span class="dash-earn-lab">Change vs last month</span><b id="dashEarnDelta">&mdash;</b></div>
+        <div class="dash-earn-stat"><span class="dash-earn-lab">Top client</span><b id="dashEarnTop">&mdash;</b></div>
+        <div class="dash-earn-foot" id="dashEarnFoot">&mdash;</div>
       </div>
     </div>
+    <div class="ref-bars" id="dashBars" style="display:none"></div>
+    <div class="ref-mini-stats" id="dashMini" style="display:none"></div>
+    <div class="ref-figure" style="display:none"><div class="ref-pct" id="dashPct"></div><div class="ref-cap" id="dashCap"></div></div>
   </section>
 
-  <!-- ② THREE CARDS -->
-  <section class="ref-row">
+  <!-- ② THREE MONTH CARDS -->
+<section class="ref-row db-kpis">
+  <article class="ref-card t-sage">
+    <div class="ref-card-top">
+      <span class="t-pill">Billed</span>
+      <span class="db-kpi-cap" id="dbKpiMonth">&mdash;</span>
+    </div>
+    <div class="db-kpi" id="dbKpiBilled">&mdash;</div>
+    <div class="db-kpi-sub" id="dbKpiBilledSub">&mdash;</div>
+  </article>
+  <article class="ref-card t-lav">
+    <div class="ref-card-top">
+      <span class="t-pill">Received</span>
+      <span class="db-kpi-cap" id="dbKpiGotCap">&mdash;</span>
+    </div>
+    <div class="db-kpi" id="dbKpiGot">&mdash;</div>
+    <div class="db-kpi-sub" id="dbKpiGotSub">&mdash;</div>
+  </article>
+  <article class="ref-card t-orange">
+    <div class="ref-card-top">
+      <span class="t-pill">Expenses</span>
+      <span class="db-kpi-cap" id="dbKpiExpCap">&mdash;</span>
+    </div>
+    <div class="db-kpi" id="dbKpiExp">&mdash;</div>
+    <div class="db-kpi-sub" id="dbKpiExpSub">&mdash;</div>
+  </article>
+</section>
 
-    <article class="ref-card t-olive">
-      <div class="ref-card-top"><span class="t-pill">Trend</span></div>
-      <p class="ref-note">Invoiced work over the last six months.</p>
-      <div class="ref-chart">
-        <div class="ref-chart-rail"><span id="dashYear">2026</span></div>
-        <div class="chart-canvas-wrap" id="chartCanvasWrap" style="height:170px;">
-          <canvas id="mainChart"></canvas>
-          <div class="ann-bub red" id="annPeak" style="display:none;">&#9650;</div>
-          <div class="ann-bub black" id="annLow" style="display:none;">&#9889;</div>
-        </div>
-        <div class="ref-peak" id="dashPeak"></div>
+<!-- ③ FULL-WIDTH CHART CARD -->
+<section class="ref-big t-sage db-chart-card">
+  <div class="ref-big-top">
+    <span class="t-pill">Earning vs expense</span>
+    <span class="db-top-right">
+      <span class="ref-peak" id="dashPeak"></span>
+      <span class="ref-month">
+        <button type="button" onclick="shiftMonth(-1)" aria-label="Previous month">&#8249;</button>
+        <span id="mnavLabel">&mdash;</span>
+        <button type="button" onclick="shiftMonth(1)" aria-label="Next month">&#8250;</button>
+      </span>
+    </span>
+    <span id="dashYear" style="display:none">2026</span>
+  </div>
+  <div class="db-chart-grid">
+    <div class="db-chart-main">
+      <p class="ref-note">Earning and expense, month by month.</p>
+      <div class="chart-canvas-wrap" id="chartCanvasWrap" style="height:265px;">
+        <canvas id="mainChart"></canvas>
+        <div class="ann-bub red" id="annPeak" style="display:none;">&#9650;</div>
+        <div class="ann-bub black" id="annLow" style="display:none;">&#9889;</div>
       </div>
+      <div class="chart-xlabels" id="chartXLabels"></div>
       <div class="range-row ref-range">
         <button class="rbtn" data-range="3M">3M</button>
         <button class="rbtn active" data-range="6M">6M</button>
         <button class="rbtn" data-range="1Y">1Y</button>
         <button class="rbtn" data-range="ALL">ALL</button>
       </div>
-      <div class="chart-xlabels" id="chartXLabels"></div>
-    </article>
-
-    <article class="ref-card t-lav">
-      <div class="ref-card-top"><span class="t-pill">Collection</span></div>
-      <div class="ref-stat" id="dashCollect">&mdash;</div>
-      <div class="ref-stat-cap" id="dashCollectCap">collected this month</div>
-      <div class="ref-split">
-        <div class="ref-split-track"><i id="dashSplitGot"></i><u id="dashSplitDue"></u></div>
-        <div class="ref-split-labels">
-          <span id="dashSplitGotLab">&mdash;</span>
-          <span id="dashSplitDueLab">&mdash;</span>
-        </div>
+      <div class="db-legend">
+        <span class="db-leg"><i class="db-dot inc"></i>Earning</span>
+        <span class="db-leg"><i class="db-dot exp"></i>Expense</span>
       </div>
-      <div class="ref-month">
-        <button type="button" onclick="shiftMonth(-1)" aria-label="Previous month">&#8249;</button>
-        <span id="mnavLabel">&mdash;</span>
-        <button type="button" onclick="shiftMonth(1)" aria-label="Next month">&#8250;</button>
-      </div>
-    </article>
+    </div>
+    
+  </div>
+</section>
 
-    <article class="ref-card t-orange ref-card-menu">
-      <div class="ref-card-top"><span class="t-pill">Quick actions</span>
-        <span class="t-pill">Shortcuts</span>
-        <svg viewBox="0 0 24 24" class="ref-gear"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.18V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.6 15H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09A1.65 1.65 0 0 0 21 10h.09a2 2 0 0 1 0 4H21a1.65 1.65 0 0 0-1.6 1z"/></svg>
-      </div>
-      <ul class="ref-menu">
-        <li onclick="openModal('addIncomeModal')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New invoice</li>
-        <li onclick="openModal('addExpModal')"><svg viewBox="0 0 24 24"><path d="M12 5v14"/></svg>New expense</li>
-        <li onclick="openAddClientModal()"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4"/><path d="M3 20c0-3.2 2.7-5.5 6-5.5s6 2.3 6 5.5"/></svg>Add client</li>
-        <li onclick="showTab('income')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>All invoices</li>
-        <li onclick="exportBackup()"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4M4 20h16"/></svg>Back up data</li>
-        <li onclick="showTab('settings')"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Settings</li>
-      </ul>
-      <button class="ref-logout" onclick="signOut()">Log out</button>
-    </article>
-  </section>
 
-  <!-- ③ LIST SECTION -->
+<!-- ③ LIST SECTION -->
   <section class="ref-wallet">
     <div class="ref-wallet-head">
       <span class="t-pill">Recent invoices</span>
@@ -2706,9 +2810,9 @@ function save(){
   if(currentUser&&supa){
     supa.from('user_data').upsert({user_id:currentUser.id,data:db,updated_at:new Date().toISOString()})
       .then(r=>{
-        if(r.error){console.warn('Supabase sync failed:',r.error.message);toast('⚠️ Cloud sync failed — data saved locally only','err');}
+        if(r.error){console.warn('Supabase sync failed:',r.error.message);/* sync notice hidden at the user's request */}
       })
-      .catch(e=>{console.warn('Supabase save error:',e);toast('⚠️ Cloud sync failed — data saved locally only','err');});
+      .catch(e=>{console.warn('Supabase save error:',e);/* sync notice hidden at the user's request */});
   }
 }
 
@@ -3071,8 +3175,8 @@ function drawMainChart(){
   // Theme-aware chart colors
   const _cs=getComputedStyle(document.body);
   const _isDark=document.body.classList.contains('theme-ash')||document.body.classList.contains('theme-emerald');
-  const _gridCol=_isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.05)';
-  const _tickCol=_isDark?'#bbb':'#94a3b8';
+  const _gridCol=document.body.classList.contains('tint-cards')?'rgba(0,0,0,0.10)':(_isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.05)');
+  const _tickCol=document.body.classList.contains('tint-cards')?'#2E2E2E':(_isDark?'#bbb':'#94a3b8');
   const _ptBorder=_cs.getPropertyValue('--white').trim()||'#fff';
   const months=getMonths();
   const lbls=months.map(m=>{const[y,mo]=m.split('-');return new Date(+y,+mo-1,1).toLocaleDateString('en-IN',{month:'short'});});
@@ -3280,7 +3384,7 @@ function drawMainChart(){
   });
 }
 
-let chartStyle='bars';   // reference style: thick black bars by default
+let chartStyle='line';   // reference style: thick black bars by default
 function setChartStyle(s){
   chartStyle=s;
   ['bars','line'].forEach(id=>{document.getElementById('gs-'+id)?.classList.toggle('active',id===s);});
@@ -4424,6 +4528,49 @@ function fillDashboard(){
     return '<div class="hbar"><span class="hbar-lab">'+p[0]+'</span>'+
       '<span class="hbar-track"><i style="width:'+Math.max(width,2)+'%"></i></span>'+
       '<b>'+right+'</b></div>';}).join('');
+  var setT=function(id,v){var el=document.getElementById(id);if(el)el.textContent=v;};
+  var mExpAll=(db.expenses||[]).filter(function(e){return mk(e.date)===mkNow;});
+  var mExpSum=mExpAll.reduce(function(s2,e){return s2+(+e.amount||0);},0);
+  var mInvCount=mRowsNow.length;
+  var mLabel=viewMonth.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+  // ── hero: the month's real earning ──
+  var netEarn=m.got-mExpSum;
+  setT('dashEarnBig',fmt(netEarn));
+  setT('dashEarnMonth',mLabel);
+  setT('dashEarnSub',fmt(m.got)+' received \u2212 '+fmt(mExpSum)+' spent this month');
+  setT('dashEarnCollected',(m.billed>0?Math.round(m.got/m.billed*100):0)+'%');
+  setT('dashEarnDue',fmt(Math.max(0,m.billed-m.got)));
+  var prevH=new Date(viewMonth.getFullYear(),viewMonth.getMonth()-1,1);
+  var prevHk=prevH.getFullYear()+'-'+String(prevH.getMonth()+1).padStart(2,'0');
+  var pH=rows.filter(function(i){return mk(i.date)===prevHk;});
+  var pHgot=pH.reduce(function(s2,i){return s2+rcv(i);},0);
+  var pHexp=(db.expenses||[]).filter(function(e){return mk(e.date)===prevHk;}).reduce(function(s2,e){return s2+(+e.amount||0);},0);
+  var pHnet=pHgot-pHexp;
+  var dH=netEarn-pHnet;
+  var dElH=document.getElementById('dashEarnDelta');
+  if(dElH){
+    dElH.textContent=(dH>=0?'+':'\u2212')+fmt(Math.abs(dH))+' vs '+prevH.toLocaleDateString('en-IN',{month:'short'});
+    dElH.style.setProperty('color',dH>=0?'#1D7A3F':'#B3271A','important');
+  }
+  var byClient={}; mRowsNow.forEach(function(i){var c=i.client||'—'; byClient[c]=(byClient[c]||0)+(+i.amount||0);});
+  var topN='—',topV=0; Object.keys(byClient).forEach(function(c){if(byClient[c]>topV){topV=byClient[c];topN=c;}});
+  setT('dashEarnTop',topV?topN+' '+fmt(topV):'no invoices');
+  var footEl=document.getElementById('dashEarnFoot');
+  if(footEl){
+    var pend=mRowsNow.filter(function(i){return i.status!=='received';}).length;
+    var late=(typeof isOverdue==='function')?mRowsNow.filter(isOverdue).length:0;
+    var hours=new Date().getHours();
+    var left=new Date(viewMonth.getFullYear(),viewMonth.getMonth()+1,0).getDate()-((viewMonth.getMonth()===new Date().getMonth()&&viewMonth.getFullYear()===new Date().getFullYear())?new Date().getDate():0);
+    footEl.textContent=mRowsNow.length+' invoice'+(mRowsNow.length===1?'':'s')+' this month \u00b7 '+pend+' unpaid'+(late?(' \u00b7 '+late+' overdue'):'')+(left>0?(' \u00b7 '+left+' day'+(left===1?'':'s')+' left'):'');
+  }
+  // ── three month cards ──
+
+  setT('dbKpiMonth',mLabel); setT('dbKpiBilled',fmt(m.billed));
+  setT('dbKpiBilledSub',mInvCount+' invoice'+(mInvCount===1?'':'s')+' this month');
+  setT('dbKpiGot',fmt(m.got)); setT('dbKpiGotCap',m.pct+'%');
+  setT('dbKpiGotSub',fmt(Math.max(0,m.billed-m.got))+' still due');
+  setT('dbKpiExp',fmt(mExpSum)); setT('dbKpiExpCap',mExpAll.length+' entries');
+  setT('dbKpiExpSub','net '+fmt(m.billed-mExpSum)+' this month');
   var mini=document.getElementById('dashMini');
   if(mini){mini.innerHTML='<div><span class="ref-mini-lab">Billed this month</span><b>'+fmt(m.billed)+'</b></div>'+
     '<div><span class="ref-mini-lab">Received</span><b>'+fmt(m.got)+'</b></div>'+
