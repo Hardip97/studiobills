@@ -1630,6 +1630,31 @@ textarea{line-height:1.55!important}
   .dash-earn-grid{grid-template-columns:minmax(0,1fr)!important;gap:20px!important}
   .dash-earn-foot{padding:2px 0 0!important}
 }
+/* ══ whole-app refinement: mobile grids, card padding, field rhythm ══ */
+/* settings cards: same padding as every other card */
+.settings-body .st-card,#tab-settings .st-card{padding:24px 26px!important}
+/* generator / editor field grids: one gap */
+#addIncomeModal .form-grid,#editIncomeModal .form-grid,#addIncomeModal .st-grid,#editIncomeModal .st-grid{gap:14px!important}
+/* analytics month grid: one gap and right-aligned numbers */
+.ref-rows.an-cols,.ref-rows .an-month-row{gap:16px!important}
+@media(max-width:900px){
+  /* the four-column header row cannot fit a phone: the rows stack there anyway */
+  .ref-rows.ref-cols{display:none!important}
+  .ref-rows.an-cols,.ref-rows .an-month-row{grid-template-columns:minmax(0,1fr) auto auto auto!important;gap:10px!important}
+  .ref-rows .an-month-row .an-num,.ref-rows.an-cols span{font-size:.82rem!important}
+  .ref-rows .recent-row,.ref-rows .ref-row{padding:14px 2px!important}
+  .tab,.content{max-width:100%;overflow-x:clip}
+}
+@media(max-width:520px){
+  .ref-rows.an-cols,.ref-rows .an-month-row{grid-template-columns:minmax(0,1fr) auto auto!important}
+  .ref-rows.an-cols span:nth-child(3),.ref-rows .an-month-row .an-num:nth-child(3){display:none!important}
+}
+/* mobile: chart month labels must fit the screen */
+@media(max-width:620px){
+  .chart-xlabels{display:flex!important;justify-content:space-between!important;gap:2px!important;flex-wrap:nowrap!important}
+  .chart-xlabels span{flex:1 1 0;min-width:0;text-align:center;font-size:.58rem!important;overflow:hidden;white-space:nowrap}
+  .chart-xlabels span:nth-child(even){display:none!important}
+}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
