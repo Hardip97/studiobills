@@ -1705,6 +1705,9 @@ textarea{line-height:1.55!important}
 .dash-earn-stat{min-height:30px!important;padding:5px 12px!important}
 .dash-earn-right{gap:6px!important}
 .dash-earn-foot{padding:6px 0 0!important}
+/* page headers: eyebrow block and the pill row share one vertical centre */
+.ref-head{align-items:center!important}
+.ref-head-left{display:flex;flex-direction:column;justify-content:center}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -1819,6 +1822,17 @@ textarea{line-height:1.55!important}
 
 <!-- ══════════════════════ OVERVIEW ══════════════════════ -->
 <div class="tab active" id="tab-overview">
+  <header class="ref-head">
+    <div class="ref-head-left">
+      <div class="ref-eyebrow">Dashboard</div>
+      <button class="ref-edit" onclick="showTab('analytics')">Analytics</button>
+    </div>
+    <div class="ref-head-pills">
+      <button class="t-pill" onclick="showTab('income')">Invoices</button>
+      <button class="t-pill" onclick="showTab('expenses')">Expenses</button>
+      <span class="t-pill" id="dashYearPill">2026</span>
+    </div>
+  </header>
   <!-- Hidden compat elements for JS that targets old IDs -->
   <div style="display:none">
     <p id="ovSubtitle"></p>
@@ -4610,6 +4624,7 @@ function fillDashboard(){
   var netEarn=m.got-mExpSum;
   setT('dashEarnBig',fmt(netEarn));
   setT('dashEarnMonth',mLabel);
+  setT('dashYearPill',String(viewMonth.getFullYear()));
   setT('dashEarnSub',fmt(m.got)+' received \u2212 '+fmt(mExpSum)+' spent this month');
   setT('dashEarnCollected',(m.billed>0?Math.round(m.got/m.billed*100):0)+'%');
   setT('dashEarnDue',fmt(Math.max(0,m.billed-m.got)));
