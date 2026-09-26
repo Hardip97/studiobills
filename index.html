@@ -1504,7 +1504,7 @@ body #quickIncomeModal .modal,body #clientModal .modal{
 .an-leg{display:flex;align-items:center;gap:7px}
 .an-dot{width:9px;height:9px;border-radius:2px;display:inline-block}
 .an-dot.inc{background:#000}
-.an-dot.exp{background:#6E6E6E}
+.an-dot.exp{background:#FF5733}
 .an-dot.net{background:#E8E230;border:1px solid rgba(0,0,0,.35)}
 .an-cmp{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;
   padding:12px 0;border-bottom:1px solid rgba(0,0,0,.14)}
@@ -1546,7 +1546,7 @@ body.tint-cards .ref-peak{color:#fff!important}
 .db-leg{display:flex;align-items:center;gap:7px;font-size:.76rem;font-weight:750}
 .db-dot{width:16px;height:3px;border-radius:99px;display:inline-block}
 .db-dot.inc{background:#000}
-.db-dot.exp{background:#6E6E6E}
+.db-dot.exp{background:#FF5733}
 .db-chart-card .ref-month{border-color:rgba(0,0,0,.28)!important}
 .db-chart-card .ref-month button{color:#000!important;background:transparent!important;border:0!important}
 /* tinted-card text stays black on the fills */
@@ -3566,7 +3566,7 @@ function renderAnalytics(){
   }
   // ── chart ──
   const cv=document.getElementById('anChart'); if(!cv||typeof Chart==='undefined')return;
-  const TC=(window._TC||{inc:'#000000',exp:'#4D4D4D'});
+  const TC=(window._TC||{inc:'#000000',exp:'#FF5733'});
   const upto=year===new Date().getFullYear()?(new Date().getMonth()+1):12;
   if(anChart){anChart.destroy();anChart=null;}
   anChart=new Chart(cv.getContext('2d'),{type:'bar',data:{labels:lbls.slice(0,upto),datasets:[
@@ -4491,7 +4491,7 @@ function resetAddExp(){['ae-title','ae-amount','ae-notes'].forEach(id=>{const el
 // stylesheet rule and the whole product re-skins instantly, no reload.
 const THEMES={
   canvas:{name:'canvas',label:'Canvas',desc:'Black · bold colour cards',dark:true,tint:true,
-    bg:'#000000',inc:'#000000',exp:'#4D4D4D',solidBars:true,
+    bg:'#000000',inc:'#000000',exp:'#FF5733',solidBars:true,
     cats:['#000000','#1F1F1F','#3D3D3D','#5A5A5A','#787878','#969696','#B3B3B3','#D1D1D1'],
     expCats:['#4D4D4D','#2E2E2E','#6B6B6B','#8A8A8A','#3D3D3D','#A1A1A1','#5A5A5A','#C4C4C4'],
     tokens:{'--bg':'#000000','--s2':'#000000','--white':'#161616','--s1':'#161616','--surface':'#161616','--surface-2':'#1E1E1E','--sunken':'#000000',
