@@ -1220,6 +1220,271 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
 #tab-settings .cat-pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
 #tab-settings .cat-pill{background:rgba(0,0,0,.14)!important;border:0!important;border-radius:999px!important;color:#000!important;padding:5px 11px!important}
 @media(max-width:900px){.settings-panels .st-g2{grid-template-columns:minmax(0,1fr)!important}}
+
+
+/* ══ invoice modals: contrast fixes ══ */
+body #addIncomeModal .modal,body #editIncomeModal .modal{background:#D1DDCF!important;border:0!important}
+#addIncomeModal .modal,#editIncomeModal .modal{
+  --muted:#4A4A4A!important;--text:#000!important;--bg:#000!important;--white:#000!important;
+  --border:rgba(0,0,0,.16)!important;--card:#000!important}
+/* currency chooser + payment pills */
+#addIncomeModal .modal .fx-btn,#editIncomeModal .modal .fx-btn{
+  background:rgba(0,0,0,.12)!important;color:#000!important;border:0!important;border-radius:999px!important;
+  padding:8px 14px!important;font-weight:750;font-size:.78rem;cursor:pointer}
+#addIncomeModal .modal .fx-btn.sel,#editIncomeModal .modal .fx-btn.sel{background:#000!important;color:#fff!important}
+#addIncomeModal .modal .pm-pill,#editIncomeModal .modal .pm-pill{
+  background:rgba(0,0,0,.12)!important;color:#000!important;border:0!important;border-radius:999px!important;padding:8px 14px!important;font-weight:700}
+#addIncomeModal .modal .pm-pill.on,#editIncomeModal .modal .pm-pill.on{background:#000!important;color:#fff!important}
+/* received band: black with a light label */
+#addIncomeModal .modal #ai-received-label,#editIncomeModal .modal #ai-received-label{color:rgba(255,255,255,.62)!important}
+#addIncomeModal .modal #ai-received,#editIncomeModal .modal #ai-received{background:rgba(255,255,255,.14)!important;color:#fff!important}
+/* section split lines + note text */
+#addIncomeModal .modal #ai-payment-inline,#editIncomeModal .modal #ai-payment-inline{border-top:1px solid rgba(0,0,0,.16)!important}
+#addIncomeModal .modal .li-sub,#addIncomeModal .modal small,#editIncomeModal .modal .li-sub,#editIncomeModal .modal small{color:#4A4A4A!important}
+/* template picker cards inside the options tab */
+#addIncomeModal .modal .tpl-card,#editIncomeModal .modal .tpl-card{background:rgba(0,0,0,.1)!important;border:1px solid rgba(0,0,0,.18)!important;border-radius:16px!important;color:#000!important}
+#addIncomeModal .modal .tpl-card.on,#editIncomeModal .modal .tpl-card.on{background:#000!important;border-color:#000!important}
+#addIncomeModal .modal .tpl-card.on *,#editIncomeModal .modal .tpl-card.on *{color:#fff!important}
+/* toggles */
+#addIncomeModal .modal .toggle-wrap,#editIncomeModal .modal .toggle-wrap{border-color:rgba(0,0,0,.3)!important}
+
+
+#invoiceModal .modal{width:min(1010px,95vw)!important;max-width:1010px!important}
+#invoiceModal .modal>.preview-pills{flex-wrap:nowrap}
+/* ══ contrast + preview fit (pass 2) ══ */
+#addIncomeModal .modal .fg label,#editIncomeModal .modal .fg label{color:rgba(0,0,0,.72)!important}
+#addIncomeModal .modal .li-tbl th,#editIncomeModal .modal .li-tbl th{color:rgba(0,0,0,.62)!important}
+#addIncomeModal .modal .li-tbl td,#editIncomeModal .modal .li-tbl td{color:#000!important}
+#addIncomeModal .modal small,#addIncomeModal .modal .li-sub,#editIncomeModal .modal small,#editIncomeModal .modal .li-sub{color:rgba(0,0,0,.6)!important}
+#addIncomeModal .modal .m-eyebrow,#editIncomeModal .modal .m-eyebrow{color:rgba(0,0,0,.62)!important}
+#addIncomeModal .modal ,#editIncomeModal .modal{width:auto!important}
+/* preview modal: room for the full A4 sheet */
+#invoiceModal .modal{max-width:980px!important;width:auto!important}
+#invoiceModal .modal .m-eyebrow{color:rgba(255,255,255,.66)!important}
+#invPreview.inv-paper{padding:10px}
+#invPreview.inv-paper iframe{min-width:0}
+/* ══ INVOICE GENERATOR + PREVIEW (locked language) ══ */
+.ref-head-pills .t-pill.t-primary{background:#E8E230!important;border-color:#E8E230!important;color:#000!important;font-weight:750!important}
+.t-pill.t-primary:hover{background:#F2ED3D!important}
+
+.m-eyebrow{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+
+/* modal shell */
+#addIncomeModal .modal,#editIncomeModal .modal{
+  background:#D1DDCF;border:0;border-radius:26px;padding:22px;color:#000;max-width:880px;
+  box-shadow:0 40px 90px rgba(0,0,0,.65);}
+#addIncomeModal .modal h2,#editIncomeModal .modal h2{color:rgba(0,0,0,.55)}
+#addIncomeModal .modal .m-eyebrow,#editIncomeModal .modal .m-eyebrow{color:rgba(0,0,0,.5)}
+#addIncomeModal .modal .ibtn,#editIncomeModal .modal .ibtn{background:#000!important;color:#fff!important;border:0;border-radius:999px;width:34px;height:34px;font-size:.8rem}
+
+/* inputs -> black wells */
+#addIncomeModal .modal input:not([type=checkbox]):not([type=radio]),
+#editIncomeModal .modal input:not([type=checkbox]):not([type=radio]),
+#addIncomeModal .modal select,#editIncomeModal .modal select,
+#addIncomeModal .modal textarea,#editIncomeModal .modal textarea{
+  background:#000!important;border:0!important;color:#fff!important;border-radius:14px!important;
+  min-height:44px;padding:0 13px!important;font-weight:650}
+#addIncomeModal .modal textarea,#editIncomeModal .modal textarea{padding:11px 13px!important;min-height:70px}
+#addIncomeModal .modal input::placeholder,#editIncomeModal .modal input::placeholder,
+#addIncomeModal .modal textarea::placeholder,#editIncomeModal .modal textarea::placeholder{color:rgba(255,255,255,.5)!important}
+#addIncomeModal .modal .fg label,#editIncomeModal .modal .fg label{
+  font-size:.66rem;text-transform:uppercase;letter-spacing:.11em;font-weight:800;color:rgba(0,0,0,.6);margin-bottom:6px;display:block}
+
+/* line items */
+#addIncomeModal .modal .li-tbl,#editIncomeModal .modal .li-tbl{width:100%;border-collapse:separate;border-spacing:0 9px}
+#addIncomeModal .modal .li-tbl th,#editIncomeModal .modal .li-tbl th{
+  font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;font-weight:800;color:rgba(0,0,0,.5);
+  text-align:left;padding:0 8px 2px;border:0!important}
+#addIncomeModal .modal .li-tbl td,#editIncomeModal .modal .li-tbl td{padding:0 6px;border:0!important;vertical-align:middle}
+#addIncomeModal .modal .li-chip,#editIncomeModal .modal .li-chip{
+  background:#000!important;color:#fff!important;border:0!important;border-radius:999px!important;
+  padding:10px 13px!important;font-weight:700;font-size:.78rem;white-space:nowrap}
+#addIncomeModal .modal .li-chip-menu,#editIncomeModal .modal .li-chip-menu{background:#000;border-radius:16px;padding:6px}
+#addIncomeModal .modal .li-opt,#editIncomeModal .modal .li-opt{background:transparent;color:#fff;border:0;border-radius:10px;padding:7px 10px;font-weight:600;display:block;width:100%;text-align:left}
+#addIncomeModal .modal .li-opt.on,#editIncomeModal .modal .li-opt.on{background:#E8E230;color:#000}
+#addIncomeModal .modal .li-add-btn,#editIncomeModal .modal .li-add-btn{
+  background:transparent!important;border:1.5px dashed rgba(0,0,0,.45)!important;color:#000!important;
+  border-radius:16px!important;padding:13px!important;font-weight:750;width:100%}
+#addIncomeModal .modal .li-chooser,#editIncomeModal .modal .li-chooser{background:#000;border-radius:20px;padding:12px;gap:7px}
+#addIncomeModal .modal .li-chooser-lab,#editIncomeModal .modal .li-chooser-lab{color:rgba(255,255,255,.6);font-size:.66rem;text-transform:uppercase;letter-spacing:.11em;font-weight:800}
+#addIncomeModal .modal .li-chooser button,#editIncomeModal .modal .li-chooser button{
+  background:rgba(255,255,255,.15)!important;color:#fff!important;border:0!important;border-radius:999px!important;
+  padding:7px 12px!important;font-weight:600;font-size:.76rem}
+
+/* received bar + totals */
+#addIncomeModal .modal #ai-received-label,#editIncomeModal .modal #ei-received-label,#editIncomeModal .modal #ai-received-label{
+  color:rgba(0,0,0,.62)!important;font-size:.66rem!important;letter-spacing:.11em!important;font-weight:800!important}
+#addIncomeModal .modal #ai-total-box,#editIncomeModal .modal #ai-total-box,#editIncomeModal .modal #ei-total-box{
+  background:#000!important;border-radius:20px!important;padding:16px!important;margin-top:0!important}
+#addIncomeModal .modal #ai-total-box *,#editIncomeModal .modal #ai-total-box *,#editIncomeModal .modal #ei-total-box *{color:#fff!important}
+#addIncomeModal .modal #ai-total-box>*:last-child *,#editIncomeModal .modal #ai-total-box>*:last-child *{color:#E8E230!important}
+
+/* tabs */
+#addIncomeModal .modal .inv-tabs,#editIncomeModal .modal .inv-tabs{
+  background:rgba(0,0,0,.1)!important;border:0!important;border-radius:999px!important;padding:4px!important;gap:2px!important;margin-bottom:14px}
+#addIncomeModal .modal .inv-tab,#editIncomeModal .modal .inv-tab{
+  background:transparent!important;border:0!important;border-radius:999px!important;color:rgba(0,0,0,.6)!important;
+  font-weight:750!important;font-size:.78rem!important;padding:9px 15px!important}
+#addIncomeModal .modal .inv-tab.active,#editIncomeModal .modal .inv-tab.active{background:#000!important;color:#fff!important}
+
+/* footer */
+#addIncomeModal .modal .modal-foot,#editIncomeModal .modal .modal-foot{border-top:0!important;margin-top:18px;gap:10px;justify-content:flex-end;padding:0}
+#addIncomeModal .modal .modal-foot .btn,#editIncomeModal .modal .modal-foot .btn{border-radius:999px!important;min-height:48px;padding:0 22px!important;font-weight:750;font-size:.86rem}
+#addIncomeModal .modal .modal-foot .btn-red,#editIncomeModal .modal .modal-foot .btn-red{background:#E8E230!important;color:#000!important;border:0!important}
+#addIncomeModal .modal .modal-foot .btn-dark,#editIncomeModal .modal .modal-foot .btn-dark{background:#000!important;color:#fff!important;border:0!important}
+#addIncomeModal .modal .modal-foot .btn-ghost,#editIncomeModal .modal .modal-foot .btn-ghost{background:transparent!important;color:#000!important;border:1.5px solid rgba(0,0,0,.35)!important}
+
+/* preview modal */
+#invoiceModal .modal{background:#0E0E0E;border:1px solid rgba(255,255,255,.1);border-radius:26px;padding:20px;max-width:840px;box-shadow:0 40px 90px rgba(0,0,0,.7)}
+#invoiceModal .modal .m-eyebrow{color:rgba(255,255,255,.5)}
+#invoiceModal .preview-pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#invoiceModal .pv-btn{
+  background:transparent;border:1px solid rgba(255,255,255,.24);color:#fff;border-radius:999px;
+  min-height:42px;padding:0 16px;font-weight:700;font-size:.8rem;font-family:inherit;cursor:pointer}
+#invoiceModal .pv-btn:hover{border-color:#fff}
+#invoiceModal .pv-primary{background:#E8E230;border-color:#E8E230;color:#000;font-weight:800}
+#invoiceModal .pv-primary:hover{background:#F2ED3D;border-color:#F2ED3D}
+#invoiceModal .ibtn-dark{background:rgba(255,255,255,.12)!important;color:#fff!important;border:0;border-radius:999px;width:36px;height:36px}
+#invPreview.inv-paper{background:#000;border:1px solid rgba(255,255,255,.12);border-radius:20px;overflow:hidden;height:620px;padding:12px}
+#invPreview.inv-paper iframe{background:#E5E0D8;border-radius:12px}
+/* ══ preview modal: authoritative width (must stay LAST) ══ */
+#invoiceModal .modal{width:min(1010px,95vw)!important;max-width:min(1010px,95vw)!important;min-width:0!important;flex:0 0 auto!important}
+#invoiceModal .modal #invPreview.inv-paper{width:100%!important}
+#invoiceModal .modal #invPreview.inv-paper iframe{min-width:0!important;max-width:none!important}
+/* ══ line-item row: one baseline for description / details / rate ══ */
+#addIncomeModal .modal .li-name-cell,#editIncomeModal .modal .li-name-cell{
+  display:flex!important;flex-direction:row!important;align-items:center!important;gap:8px!important}
+#addIncomeModal .modal .li-name-cell>input,#editIncomeModal .modal .li-name-cell>input{flex:1 1 auto!important;min-width:90px}
+#addIncomeModal .modal .li-chip,#editIncomeModal .modal .li-chip{
+  flex:0 0 auto!important;font-size:.72rem!important;padding:9px 11px!important;max-width:154px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#addIncomeModal .modal .li-tbl td,#editIncomeModal .modal .li-tbl td{vertical-align:middle!important;padding-top:0!important;padding-bottom:0!important}
+#addIncomeModal .modal .li-tbl tbody tr,#editIncomeModal .modal .li-tbl tbody tr{vertical-align:middle}
+#addIncomeModal .modal .li-pair,#editIncomeModal .modal .li-pair{display:flex;gap:8px;align-items:center}
+#addIncomeModal .modal .li-row-del,#editIncomeModal .modal .li-row-del{vertical-align:middle}
+/* ══ exact vertical centring of every line-item control ══ */
+#addIncomeModal .modal .li-chip,#editIncomeModal .modal .li-chip{
+  height:44px!important;min-height:44px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+#addIncomeModal .modal .li-tbl tbody tr>td:nth-child(4),
+#editIncomeModal .modal .li-tbl tbody tr>td:nth-child(4){line-height:44px!important;vertical-align:middle!important;font-weight:750}
+#addIncomeModal .modal .li-tbl tbody tr>td,#editIncomeModal .modal .li-tbl tbody tr>td{vertical-align:middle!important}
+#addIncomeModal .modal .li-row-del,#editIncomeModal .modal .li-row-del{line-height:44px!important;vertical-align:middle!important}
+/* ══ preview refinements ══ */
+#invoiceModal .modal{max-height:94vh;display:flex;flex-direction:column}
+#invPreview.inv-paper{height:min(80vh,880px)!important;flex:1 1 auto}
+#invoiceModal .pv-btn{color:#fff!important;border-color:rgba(255,255,255,.4)!important}
+#invoiceModal .pv-btn:hover{border-color:#fff!important;background:rgba(255,255,255,.08)}
+#invoiceModal .ibtn-dark{font-size:.95rem!important;font-weight:700!important;width:38px!important;height:38px!important;background:rgba(255,255,255,.18)!important}
+
+/* ══════════ FINAL PASS: every remaining surface in the locked language ══════════ */
+/* data modals share the sage-card shell */
+body #addExpModal .modal,body #editExpModal .modal,body #addClientModal .modal,
+body #quickIncomeModal .modal,body #clientModal .modal{
+  background:#D1DDCF!important;border:0!important;border-radius:26px!important;color:#000!important;
+  box-shadow:0 40px 90px rgba(0,0,0,.65)!important}
+#addExpModal .modal,#editExpModal .modal,#addClientModal .modal,#quickIncomeModal .modal,#clientModal .modal{
+  --muted:#4A4A4A!important;--text:#000!important;--bg:#000!important;--white:#000!important;
+  --border:rgba(0,0,0,.16)!important;--card:#000!important;--muted2:#5A5A5A!important}
+#addExpModal .modal .m-eyebrow,#editExpModal .modal .m-eyebrow,#addClientModal .modal .m-eyebrow,
+#quickIncomeModal .modal .m-eyebrow,#clientModal .modal .m-eyebrow{color:rgba(0,0,0,.62)!important}
+#addExpModal .modal .ibtn,#editExpModal .modal .ibtn,#addClientModal .modal .ibtn,
+#quickIncomeModal .modal .ibtn,#clientModal .modal .ibtn{background:#000!important;color:#fff!important;border:0!important;border-radius:999px!important;width:34px;height:34px;font-size:.8rem}
+/* fields */
+#addExpModal .modal input:not([type=checkbox]):not([type=file]),#editExpModal .modal input:not([type=checkbox]):not([type=file]),
+#addClientModal .modal input:not([type=checkbox]):not([type=file]),#quickIncomeModal .modal input:not([type=checkbox]):not([type=file]),
+#clientModal .modal input:not([type=checkbox]):not([type=file]),
+#addExpModal .modal select,#editExpModal .modal select,#addClientModal .modal select,
+#quickIncomeModal .modal select,#clientModal .modal select,
+#addExpModal .modal textarea,#editExpModal .modal textarea,#addClientModal .modal textarea,#clientModal .modal textarea{
+  background:#000!important;border:0!important;color:#fff!important;border-radius:14px!important;
+  min-height:44px;padding:0 13px!important;font-weight:650}
+#addExpModal .modal textarea,#editExpModal .modal textarea,#addClientModal .modal textarea,#clientModal .modal textarea{padding:11px 13px!important;min-height:72px}
+#addExpModal .modal input::placeholder,#editExpModal .modal input::placeholder,#addClientModal .modal input::placeholder,
+#quickIncomeModal .modal input::placeholder,#clientModal .modal input::placeholder{color:rgba(255,255,255,.5)!important}
+#addExpModal .modal .fg label,#editExpModal .modal .fg label,#addClientModal .modal .fg label,
+#quickIncomeModal .modal .fg label,#clientModal .modal .fg label{
+  font-size:.66rem!important;text-transform:uppercase!important;letter-spacing:.11em!important;
+  font-weight:800!important;color:rgba(0,0,0,.72)!important;margin-bottom:6px!important;display:block}
+#addExpModal .modal .fg span,#editExpModal .modal .fg span,#addClientModal .modal .fg span{color:rgba(0,0,0,.6)!important}
+/* file wells */
+#addExpModal .modal input[type=file],#editExpModal .modal input[type=file]{
+  background:rgba(0,0,0,.08)!important;border:1.5px dashed rgba(0,0,0,.35)!important;color:rgba(0,0,0,.7)!important;
+  border-radius:14px!important;padding:10px 12px!important;font-size:.78rem!important;min-height:auto!important;width:100%}
+/* toggles */
+#addExpModal .modal .toggle,#editExpModal .modal .toggle{border-color:rgba(0,0,0,.35)!important}
+#addExpModal .modal .toggle.on,#editExpModal .modal .toggle.on{background:#000!important;border-color:#000!important}
+/* footer pills */
+#addExpModal .modal .modal-foot,#editExpModal .modal .modal-foot,#addClientModal .modal .modal-foot,
+#quickIncomeModal .modal .modal-foot,#clientModal .modal .modal-foot{border-top:0!important;gap:10px;justify-content:flex-end;padding:0;margin-top:18px}
+#addExpModal .modal .modal-foot .btn,#editExpModal .modal .modal-foot .btn,#addClientModal .modal .modal-foot .btn,
+#quickIncomeModal .modal .modal-foot .btn,#clientModal .modal .modal-foot .btn{
+  border-radius:999px!important;min-height:48px;padding:0 22px!important;font-weight:750;font-size:.86rem}
+#addExpModal .modal .modal-foot .btn-red,#editExpModal .modal .modal-foot .btn-red,#addExpModal .modal .modal-foot .btn-dark{background:#E8E230!important;color:#000!important;border:0!important}
+#addClientModal .modal .modal-foot .btn-dark{background:#E8E230!important;color:#000!important;border:0!important}
+#addExpModal .modal .modal-foot .btn-ghost,#editExpModal .modal .modal-foot .btn-ghost,
+#addClientModal .modal .modal-foot .btn-ghost,#quickIncomeModal .modal .modal-foot .btn-ghost,#clientModal .modal .modal-foot .btn-ghost{
+  background:transparent!important;color:#000!important;border:1.5px solid rgba(0,0,0,.35)!important}
+/* client detail modal: pill tabs + rows + stat blocks */
+#clientModal .modal .cm-tab{background:transparent!important;border:0!important;border-radius:999px!important;
+  color:rgba(0,0,0,.6)!important;font-weight:750!important;font-size:.78rem!important;padding:9px 15px!important}
+#clientModal .modal .cm-tab.active{background:#000!important;color:#fff!important}
+#clientModal .modal .cm-tabs,#clientModal .modal [class*=tab-bar]{background:rgba(0,0,0,.1)!important;border:0!important;border-radius:999px!important;padding:4px;display:inline-flex;gap:2px}
+#clientModal .modal .cm-stat,#clientModal .modal .cm-stats>div{background:rgba(0,0,0,.1)!important;border-radius:16px!important;border:0!important;padding:12px!important}
+#clientModal .modal table,#clientModal .modal .cm-tbl{color:#000!important}
+#clientModal .modal th{color:rgba(0,0,0,.6)!important;text-transform:uppercase;font-size:.64rem!important;letter-spacing:.1em}
+#clientModal .modal td{border-color:rgba(0,0,0,.12)!important}
+#clientModal .modal .btn-ghost,#clientModal .modal .btn-dark{border-radius:999px!important;font-weight:700}
+#clientModal .modal .btn-dark{background:#000!important;color:#fff!important;border:0!important}
+
+/* login screen */
+#authOverlay{background:#000!important}
+#authOverlay .auth-card{background:#D1DDCF!important;border:0!important;border-radius:26px!important;color:#000!important;
+  box-shadow:0 50px 100px rgba(0,0,0,.75)!important;padding:28px!important;max-width:420px!important}
+#authOverlay .auth-logo-icon{background:#000!important;color:#fff!important;border-radius:12px!important}
+#authOverlay .auth-logo-name{color:#000!important;font-weight:800!important}
+#authOverlay .auth-logo-name em{color:#000!important;-webkit-text-fill-color:#000!important;font-style:normal!important}
+#authOverlay .auth-title{color:#000!important;font-weight:800!important;letter-spacing:-.02em}
+#authOverlay .auth-sub{color:rgba(0,0,0,.62)!important}
+#authOverlay .auth-err{color:#8A1B0B!important}
+#authOverlay .auth-inp{background:#000!important;border:0!important;color:#fff!important;border-radius:14px!important;min-height:48px;padding:0 14px!important;font-weight:650}
+#authOverlay .auth-inp::placeholder{color:rgba(255,255,255,.55)!important}
+#authOverlay .auth-btn{background:#E8E230!important;color:#000!important;border:0!important;border-radius:999px!important;
+  min-height:50px!important;font-weight:800!important;font-size:.9rem}
+#authOverlay .google-btn{background:#000!important;color:#fff!important;border:0!important;border-radius:999px!important;min-height:50px!important;font-weight:700!important}
+#authOverlay .google-btn:hover{background:#1A1A1A!important}
+#authOverlay .auth-divider{color:rgba(0,0,0,.5)!important}
+#authOverlay .auth-divider::before,#authOverlay .auth-divider::after{background:rgba(0,0,0,.18)!important}
+#authOverlay .auth-toggle{color:rgba(0,0,0,.66)!important}
+#authOverlay .auth-toggle span{color:#000!important;font-weight:800!important;text-decoration:underline}
+#authOverlay a{color:#000!important}
+
+/* toast + FAB sheet */
+#toast,.toast{background:#000!important;color:#fff!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:999px!important;font-weight:650}
+.fab-menu,.fab-sheet,.fab-panel{background:#D1DDCF!important;border-radius:24px!important;border:0!important;color:#000!important;padding:14px!important;
+  box-shadow:0 30px 70px rgba(0,0,0,.7)!important}
+.fab-menu button,.fab-sheet button,.fab-panel button{background:rgba(0,0,0,.1)!important;color:#000!important;border:0!important;border-radius:16px!important;font-weight:700!important;padding:12px!important}
+.fab-menu button:hover,.fab-sheet button:hover{background:rgba(0,0,0,.18)!important}
+.fab-menu .fab-primary,.fab-sheet .fab-primary{background:#E8E230!important}
+.sq-btn{background:#E8E230!important;color:#000!important;border:0!important;border-radius:999px!important;font-weight:800!important}
+/* client detail header */
+#clientModal .modal #cm-name{font-size:1.15rem!important;font-weight:800!important;letter-spacing:-.02em!important;color:#000!important;text-transform:none!important}
+#clientModal .modal #cm-meta{color:rgba(0,0,0,.62)!important;font-weight:650!important}
+#clientModal .modal .cm-pill{background:#000!important;color:#fff!important;border:0!important;border-radius:999px!important;
+  min-height:40px;padding:0 15px;font-weight:700;font-size:.78rem;cursor:pointer}
+#clientModal .modal .card-title{color:rgba(0,0,0,.62)!important;text-transform:uppercase;letter-spacing:.11em;font-size:.68rem!important;font-weight:800!important}
+#clientModal .modal .tbl-wrap,#clientModal .modal table{background:transparent!important}
+#clientModal .modal .empty,#clientModal .modal .muted{color:rgba(0,0,0,.55)!important}
+#authOverlay .auth-card>div:last-child{color:rgba(0,0,0,.72)!important;font-weight:600!important}
+#authOverlay .auth-card>div:last-child a{color:#000!important;font-weight:800!important;text-decoration:underline}
+#authOverlay .auth-spinner{color:rgba(0,0,0,.7)!important}
+/* client modal: stat wells + action button */
+#clientModal .modal{--green:#B4F5BE!important;--orange:#FFC08A!important}
+#clientModal .modal .stat-card{background:#000!important;border-radius:18px!important;padding:14px!important;border:0!important}
+#clientModal .modal .stat-card .sc-lbl{color:rgba(255,255,255,.6)!important;font-size:.64rem!important;text-transform:uppercase;letter-spacing:.11em;font-weight:800}
+#clientModal .modal .stat-card .sc-val{color:#fff}
+#clientModal .modal .btn-green-o{background:#E8E230!important;color:#000!important;border:0!important;border-radius:999px!important;font-weight:750!important;min-height:40px;padding:0 18px!important}
+#clientModal .modal .btn-green-o:hover{background:#F2ED3D!important}
+#clientModal .modal .btn-sm{border-radius:999px!important;font-weight:700}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -1482,7 +1747,7 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
     </div>
     <div class="ref-head-pills">
       <button class="t-pill" onclick="showTab('expenses')">Expenses</button>
-      <button class="btn btn-dark btn-sm" onclick="openModal('addIncomeModal')">+ New invoice</button>
+      <button class="t-pill t-primary" onclick="openModal('addIncomeModal')">+ New invoice</button>
     </div>
   </header>
 
@@ -1840,7 +2105,7 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
 <div class="modal-bg" id="addClientModal">
 <div class="modal" style="max-width:520px;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-    <h2>Add New Client</h2>
+    <div class="m-eyebrow">New client</div>
     <button class="ibtn" onclick="closeModal('addClientModal')">✕</button>
   </div>
   <div class="form-grid" style="margin-bottom:12px;">
@@ -1860,7 +2125,7 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
 <div class="modal-bg" id="addIncomeModal">
 <div class="modal" style="max-width:780px;min-height:640px;display:flex;flex-direction:column;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-    <div><h2>New Invoice</h2><span id="ai-draft-badge" class="badge b-draft" style="display:none;margin-left:8px;">Draft</span></div>
+    <div><div class="m-eyebrow">New invoice</div><span id="ai-draft-badge" class="badge b-draft" style="display:none;margin-left:8px;">Draft</span></div>
     <button class="ibtn" onclick="closeModal('addIncomeModal')">✕</button>
   </div>
 
@@ -1979,7 +2244,8 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
   
   <div class="modal-foot">
     <button class="btn btn-ghost" onclick="closeModal('addIncomeModal')">Cancel</button>
-    <button class="btn btn-red" onclick="saveIncome()">Save Invoice</button>
+    <button class="btn btn-dark" onclick="saveAndPreview()">Preview invoice</button>
+    <button class="btn btn-red" onclick="saveIncome()">Save invoice</button>
   </div>
 </div></div>
 
@@ -2008,7 +2274,7 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
 <div class="modal-bg" id="quickIncomeModal">
 <div class="modal" style="max-width:460px;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-    <div><h2>Quick Income</h2><p style="font-size:.78rem;color:var(--muted);font-weight:300;margin-top:2px;">Simple income — no invoice number needed</p></div>
+    <div><div class="m-eyebrow">Quick income</div><p style="font-size:.78rem;color:var(--muted);font-weight:300;margin-top:2px;">Simple income — no invoice number needed</p></div>
     <button class="ibtn" onclick="closeModal('quickIncomeModal')">✕</button>
   </div>
   <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
@@ -2032,7 +2298,7 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
 <div class="modal-bg" id="editIncomeModal">
 <div class="modal" style="max-width:780px;min-height:640px;display:flex;flex-direction:column;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-    <div><h2>Edit Invoice</h2><span id="ei-draft-badge" class="badge b-draft" style="display:none;margin-left:8px;">Draft</span></div>
+    <div><div class="m-eyebrow">Edit invoice</div><span id="ei-draft-badge" class="badge b-draft" style="display:none;margin-left:8px;">Draft</span></div>
     <button class="ibtn" onclick="closeModal('editIncomeModal')">✕</button>
   </div>
   <!-- 3-TAB STRUCTURE -->
@@ -2161,7 +2427,7 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
 </div></div>
 <div class="modal-bg" id="addExpModal">
 <div class="modal" style="max-width:480px;">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;"><h2>Add Expense</h2><button class="ibtn" onclick="closeModal('addExpModal')">✕</button></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;"><div class="m-eyebrow">New expense</div><button class="ibtn" onclick="closeModal('addExpModal')">✕</button></div>
   <div class="form-grid">
     <div class="fg"><label>Title *</label><input id="ae-title" placeholder="e.g. Office Supplies"></div>
     <div class="fg"><label>Amount (₹) *</label><input id="ae-amount" type="number" min="0" placeholder="0"></div>
@@ -2176,7 +2442,7 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
 
 <div class="modal-bg" id="editExpModal">
 <div class="modal" style="max-width:480px;">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;"><h2>Edit Expense</h2><button class="ibtn" onclick="closeModal('editExpModal')">✕</button></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;"><div class="m-eyebrow">Edit expense</div><button class="ibtn" onclick="closeModal('editExpModal')">✕</button></div>
   <div class="form-grid">
     <div class="fg"><label>Title *</label><input id="ee-title"></div>
     <div class="fg"><label>Amount (₹) *</label><input id="ee-amount" type="number" min="0"></div>
@@ -2195,7 +2461,7 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
     <div><h2 id="cm-name">Client</h2><div style="font-size:.76rem;color:var(--muted);" id="cm-meta"></div></div>
     <div style="display:flex;gap:6px;">
-      <button class="btn btn-ghost btn-sm" onclick="genInvoice()">📄 Invoice PDF</button>
+      <button class="cm-pill" onclick="genInvoice()">Invoice PDF</button>
       <button class="ibtn" onclick="closeModal('clientModal')">✕</button>
     </div>
   </div>
@@ -2248,17 +2514,18 @@ body.tint-cards [class*="t-"] .rc-btn.ghost{color:#000000!important;-webkit-text
 </div></div>
 
 <div class="modal-bg" id="invoiceModal">
-<div class="modal" style="max-width:720px;">
+<div class="modal" style="max-width:1010px;width:min(1010px,95vw);">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-    <h2>Invoice Preview</h2>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;">
-      <button class="btn btn-dark btn-sm" onclick="openPrintView()">🖨 Save as PDF</button>
-      <button class="btn btn-ghost btn-sm" onclick="emailInvoice()">✉ Email</button>
-      <button class="btn btn-ghost btn-sm" style="color:#25D366;border-color:#25D366;" onclick="shareOnWhatsApp()">💬 WhatsApp</button>
-      <button class="ibtn" onclick="closeModal('invoiceModal')">✕</button>
+    <div class="m-eyebrow">Invoice preview</div>
+    <div class="preview-pills">
+      <button class="pv-btn pv-primary" onclick="openPrintView()">Save as PDF</button>
+      <button class="pv-btn" onclick="window.print()">Print</button>
+      <button class="pv-btn" onclick="shareOnWhatsApp()">WhatsApp</button>
+      <button class="pv-btn" onclick="emailInvoice()">Email</button>
+      <button class="ibtn ibtn-dark" onclick="closeModal('invoiceModal')">&#10005;</button>
     </div>
   </div>
-  <div id="invPreview" style="background:#E5E0D8;border-radius:10px;overflow:hidden;height:580px;"></div>
+  <div id="invPreview" class="inv-paper"></div>
 </div></div>
 
 <datalist id="clientSuggest"></datalist>
@@ -2987,6 +3254,16 @@ function incomeRowAction(select,id){
   if(action==='payment')quickReceive(id,select);
   else if(action==='duplicate')duplicateInvoice(id);
   else if(action==='delete')delInc(id);
+}
+
+// Save the invoice being edited, then open it in the preview modal.
+function saveAndPreview(){
+  const seen=new Set((db.income||[]).map(i=>i.id));
+  saveIncome();
+  const fresh=(db.income||[]).find(i=>!seen.has(i.id));
+  if(!fresh)return;
+  curInvId=fresh.id;
+  setTimeout(function(){openModal('invoiceModal');genInvoice();},40);
 }
 function saveIncome(){
   const f=readInvForm('ai');
@@ -4241,17 +4518,17 @@ function buildInvoiceHTML(inv){
   const clientGstin=inv.cgstin||cp.gstin||'';
   const clientVatid=inv.vatid||cp.vatid||'';
   let clientInfo=`${esc(inv.client)}`;
-  if(clientAddr)clientInfo+=`<br><span style="font-size:12px;color:#777;">${esc(clientAddr).replace(/\n/g,'<br>')}</span>`;
-  if(clientCountry)clientInfo+=`<br><span style="font-size:12px;color:#777;">${esc(clientCountry)}</span>`;
-  if(clientGstin)clientInfo+=`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`;
-  if(clientVatid)clientInfo+=`<br><span style="font-size:12px;color:#888;">VAT ID: ${esc(clientVatid)}</span>`;
+  if(clientAddr)clientInfo+=`<br><span style="font-size:12px;color:#4F4F4F;">${esc(clientAddr).replace(/\n/g,'<br>')}</span>`;
+  if(clientCountry)clientInfo+=`<br><span style="font-size:12px;color:#4F4F4F;">${esc(clientCountry)}</span>`;
+  if(clientGstin)clientInfo+=`<br><span style="font-size:12px;color:#5E5E5E;">GSTIN: ${esc(clientGstin)}</span>`;
+  if(clientVatid)clientInfo+=`<br><span style="font-size:12px;color:#5E5E5E;">VAT ID: ${esc(clientVatid)}</span>`;
   // Classic template: full address, max-width handles wrapping
   let clientInfoClassic=`${esc(inv.client)}`;
-  if(clientAddr)clientInfoClassic+=`<br><span style="font-size:12px;color:#777;">${esc(clientAddr).replace(/\n/g,', ')}</span>`;
-  if(clientCountry)clientInfoClassic+=`<br><span style="font-size:12px;color:#777;">${esc(clientCountry)}</span>`;
-  if(clientGstin)clientInfoClassic+=`<br><span style="font-size:12px;color:#888;">GSTIN: ${esc(clientGstin)}</span>`;
-  if(clientVatid)clientInfoClassic+=`<br><span style="font-size:12px;color:#888;">VAT ID: ${esc(clientVatid)}</span>`;
-  const hsnInfo=inv.hsn?`<div style="font-size:11px;color:#999;margin-top:4px;">HSN/SAC: ${esc(inv.hsn)}</div>`:'';
+  if(clientAddr)clientInfoClassic+=`<br><span style="font-size:12px;color:#4F4F4F;">${esc(clientAddr).replace(/\n/g,', ')}</span>`;
+  if(clientCountry)clientInfoClassic+=`<br><span style="font-size:12px;color:#4F4F4F;">${esc(clientCountry)}</span>`;
+  if(clientGstin)clientInfoClassic+=`<br><span style="font-size:12px;color:#5E5E5E;">GSTIN: ${esc(clientGstin)}</span>`;
+  if(clientVatid)clientInfoClassic+=`<br><span style="font-size:12px;color:#5E5E5E;">VAT ID: ${esc(clientVatid)}</span>`;
+  const hsnInfo=inv.hsn?`<div style="font-size:11px;color:#6E6E6E;margin-top:4px;">HSN/SAC: ${esc(inv.hsn)}</div>`:'';
   const legalExportNote='';
   const termsInfo='';
     const qrUpi=inv.qrUpi||p.upi;
@@ -4286,33 +4563,33 @@ function buildInvoiceHTML(inv){
     if(p.phone)fromMeta.push(esc(p.phone));
     if(p.gstin)fromMeta.push(`GSTIN: ${esc(p.gstin)}`);
     if(p.pan)fromMeta.push(`PAN: ${esc(p.pan)}`);
-    const fromHTML=fromLines.join('')+(fromMeta.length?`<div style="font-size:12px;color:#666;line-height:1.85;">${fromMeta.join('<br>')}</div>`:'');
+    const fromHTML=fromLines.join('')+(fromMeta.length?`<div style="font-size:12px;color:#4A4A4A;line-height:1.85;">${fromMeta.join('<br>')}</div>`:'');
     return`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${title}</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html,body{background:#E5E0D8;font-family:'Bricolage Grotesque',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 .save-btn{display:block;width:220px;margin:32px auto 20px;padding:11px 28px;background:#111;color:#fff;border:none;border-radius:9px;font-size:14px;font-family:inherit;font-weight:600;cursor:pointer;}
 .save-btn:hover{background:#333;}
 .page{width:794px;min-height:1123px;margin:0 auto 40px;background:#F2EDE3;padding:56px 60px;display:flex;flex-direction:column;}
-.hr{border:none;border-top:1px solid #C5BFB2;flex-shrink:0;}
+.hr{border:none;border-top:1px solid #BDB6A8;flex-shrink:0;}
 .r{text-align:right;}
-.table-head{display:grid;grid-template-columns:1fr 110px;padding:11px 0;border-top:1.5px solid #111;border-bottom:1px solid #C5BFB2;}
+.table-head{display:grid;grid-template-columns:1fr 110px;padding:11px 0;border-top:1.5px solid #111;border-bottom:1px solid #BDB6A8;}
 .th{font-size:14px;font-weight:700;color:#111;}
-.table-row{display:grid;grid-template-columns:1fr 110px;padding:16px 0;border-bottom:1px solid #C5BFB2;}
+.table-row{display:grid;grid-template-columns:1fr 110px;padding:16px 0;border-bottom:1px solid #BDB6A8;}
 .td{font-size:14px;color:#444;}
 .td-name{font-size:14px;font-weight:500;color:#111;margin-bottom:3px;}
-.td-sub{font-size:12px;color:#888;}
+.td-sub{font-size:12px;color:#5E5E5E;}
 .totals-section{display:flex;justify-content:flex-end;margin-top:4px;}
 .totals{width:320px;}
-.total-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #C5BFB2;}
+.total-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #BDB6A8;}
 .total-row .lbl{font-size:14px;font-weight:600;color:#111;}
 .total-row .val{font-size:14px;color:#444;}
 .total-final{display:flex;justify-content:space-between;padding:12px 0 0;}
 .total-final .lbl{font-size:15px;font-weight:700;color:#111;}
 .total-final .val{font-size:15px;font-weight:700;color:#111;}
 .flex-grow{flex:1;}
-.section-label{font-size:10px;font-weight:700;color:#888;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
+.section-label{font-size:10px;font-weight:700;color:#5E5E5E;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;}
 .inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;}
-.inv-qr-label{font-size:9px;color:#999;letter-spacing:.04em;text-transform:uppercase;}
+.inv-qr-label{font-size:9px;color:#6E6E6E;letter-spacing:.04em;text-transform:uppercase;}
 @page{margin:0;size:A4 portrait;}
 
 /* ── PREMIUM MOBILE RESPONSIVE ── */
@@ -4343,16 +4620,16 @@ function buildInvoiceHTML(inv){
 
   <!-- TOP ROW: PO/Ref left (if filled) · Invoice No right -->
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
-    <div style="font-size:11px;color:#999;">${inv.ponum?`<span style="font-weight:600;color:#666;">PO / Ref:</span> ${esc(inv.ponum)}`:''}${inv.pos?`${inv.ponum?' &nbsp;·&nbsp; ':''}<span style="font-weight:600;color:#666;">Place of Supply:</span> ${esc(inv.pos)}`:''}</div>
+    <div style="font-size:11px;color:#6E6E6E;">${inv.ponum?`<span style="font-weight:600;color:#4A4A4A;">PO / Ref:</span> ${esc(inv.ponum)}`:''}${inv.pos?`${inv.ponum?' &nbsp;·&nbsp; ':''}<span style="font-weight:600;color:#4A4A4A;">Place of Supply:</span> ${esc(inv.pos)}`:''}</div>
     <div style="font-size:16px;font-weight:800;color:#111;">${num}${creditBadge}${draftBadge}</div>
   </div>
 
   <!-- Invoice title left · Date & Due right -->
   <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;">
     <div style="font-size:96px;font-weight:800;color:#111;letter-spacing:-0.03em;line-height:1;">Invoice</div>
-    <div style="text-align:right;font-size:13px;color:#666;line-height:2;padding-bottom:8px;">
-      <div><span style="color:#999;">Date</span>&nbsp;&nbsp;<strong style="color:#111;">${fmtLong(inv.date)}</strong></div>
-      <div><span style="color:#999;">Due</span>&nbsp;&nbsp;&nbsp;<strong style="color:#111;">${inv.due?fmtLong(inv.due):'On receipt'}</strong></div>
+    <div style="text-align:right;font-size:13px;color:#4A4A4A;line-height:2;padding-bottom:8px;">
+      <div><span style="color:#6E6E6E;">Date</span>&nbsp;&nbsp;<strong style="color:#111;">${fmtLong(inv.date)}</strong></div>
+      <div><span style="color:#6E6E6E;">Due</span>&nbsp;&nbsp;&nbsp;<strong style="color:#111;">${inv.due?fmtLong(inv.due):'On receipt'}</strong></div>
     </div>
   </div>
 
@@ -4405,27 +4682,27 @@ function buildInvoiceHTML(inv){
 .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px;padding-bottom:24px;border-bottom:1px solid #E8E8E8;}
 .top-left .label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#BBBBBB;text-transform:uppercase;margin-bottom:8px;}
 .studio-name{font-size:16px;font-weight:700;color:#111;}
-.studio-meta{font-size:11.5px;color:#888;line-height:1.8;margin-top:4px;}
+.studio-meta{font-size:11.5px;color:#5E5E5E;line-height:1.8;margin-top:4px;}
 .top-right{text-align:right;}
 .inv-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:#BBBBBB;text-transform:uppercase;margin-bottom:6px;}
 .inv-number{font-size:22px;font-weight:800;color:#111;letter-spacing:-.02em;}
-.inv-meta{font-size:11.5px;color:#888;margin-top:4px;line-height:1.7;}
+.inv-meta{font-size:11.5px;color:#5E5E5E;margin-top:4px;line-height:1.7;}
 .bill-section{margin-bottom:32px;}
 .bill-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:#BBBBBB;text-transform:uppercase;margin-bottom:6px;}
 .bill-name{font-size:14px;font-weight:600;color:#111;}
-.bill-meta{font-size:12px;color:#888;margin-top:2px;}
+.bill-meta{font-size:12px;color:#5E5E5E;margin-top:2px;}
 table.items{width:100%;border-collapse:collapse;margin-bottom:4px;}
 table.items th{font-size:10px;font-weight:700;letter-spacing:.08em;color:#AAAAAA;text-transform:uppercase;padding:8px 0;border-bottom:1.5px solid #111;text-align:left;}
 table.items th.r{text-align:right;}
 table.items td{padding:14px 0;border-bottom:1px solid #F0F0F0;font-size:13px;color:#333;vertical-align:top;}
 table.items td.r{text-align:right;}
 .td-name{font-weight:600;color:#111;margin-bottom:2px;}
-.td-sub{font-size:11px;color:#999;}
+.td-sub{font-size:11px;color:#6E6E6E;}
 .totals-tbl{width:280px;margin-left:auto;border-collapse:collapse;margin-top:4px;}
-.totals-tbl td{padding:7px 0;font-size:13px;color:#666;border-bottom:1px solid #F5F5F5;}
+.totals-tbl td{padding:7px 0;font-size:13px;color:#4A4A4A;border-bottom:1px solid #F5F5F5;}
 .totals-tbl td:last-child{text-align:right;}
 .total-final-row td{font-size:15px;font-weight:700;color:#111;border-top:1.5px solid #111;border-bottom:none;padding-top:12px;}
-.footer-strip{margin-top:40px;padding-top:20px;border-top:1px solid #EEEEEE;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px;color:#999;line-height:1.8;gap:20px;}
+.footer-strip{margin-top:40px;padding-top:20px;border-top:1px solid #EEEEEE;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px;color:#6E6E6E;line-height:1.8;gap:20px;}
 .footer-strip strong{color:#444;display:block;margin-bottom:4px;font-size:12px;}
 .inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;}
 .inv-qr-label{font-size:8px;color:#bbb;}
@@ -4461,15 +4738,15 @@ table.items td.r{text-align:right;}
 .header-band{background:#111111;padding:36px 56px 32px;color:#fff;}
 .hb-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;}
 .hb-title{font-size:32px;font-weight:800;letter-spacing:-.03em;color:#fff;}
-.hb-invno{font-size:13px;color:#888;margin-top:4px;}
+.hb-invno{font-size:13px;color:#5E5E5E;margin-top:4px;}
 .hb-right{text-align:right;}
 .hb-studio{font-size:14px;font-weight:700;color:#fff;}
-.hb-meta{font-size:11.5px;color:#999;margin-top:4px;line-height:1.7;}
+.hb-meta{font-size:11.5px;color:#6E6E6E;margin-top:4px;line-height:1.7;}
 .hb-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
-.hb-bill-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:#666;text-transform:uppercase;margin-bottom:5px;}
+.hb-bill-label{font-size:9px;font-weight:700;letter-spacing:.1em;color:#4A4A4A;text-transform:uppercase;margin-bottom:5px;}
 .hb-bill-name{font-size:14px;font-weight:600;color:#fff;}
-.hb-bill-meta{font-size:12px;color:#999;margin-top:2px;}
-.hb-dates{text-align:right;font-size:12px;color:#888;line-height:1.8;}
+.hb-bill-meta{font-size:12px;color:#6E6E6E;margin-top:2px;}
+.hb-dates{text-align:right;font-size:12px;color:#5E5E5E;line-height:1.8;}
 .body-pad{padding:40px 56px;flex:1;display:flex;flex-direction:column;}
 table.items{width:100%;border-collapse:collapse;margin-bottom:8px;}
 table.items th{font-size:10px;font-weight:700;letter-spacing:.08em;color:#AAAAAA;text-transform:uppercase;padding:10px 0;border-bottom:1px solid #E8E8E8;text-align:left;}
@@ -4477,13 +4754,13 @@ table.items th.r{text-align:right;}
 table.items td{padding:14px 0;border-bottom:1px solid #F5F5F5;font-size:13px;color:#333;}
 table.items td.r{text-align:right;}
 .td-name{font-weight:600;color:#111;}
-.td-sub{font-size:11px;color:#999;margin-top:2px;}
+.td-sub{font-size:11px;color:#6E6E6E;margin-top:2px;}
 .totals-tbl{width:260px;margin-left:auto;border-collapse:collapse;margin-top:4px;}
-.totals-tbl td{padding:7px 0;font-size:13px;color:#666;border-bottom:1px solid #F5F5F5;}
+.totals-tbl td{padding:7px 0;font-size:13px;color:#4A4A4A;border-bottom:1px solid #F5F5F5;}
 .totals-tbl td:last-child{text-align:right;}
 .total-final-row td{font-size:15px;font-weight:800;color:#111;border-top:2px solid #111;border-bottom:none;padding-top:12px;}
 .flex-grow{flex:1;}
-.footer-band{border-top:1px solid #EEEEEE;padding:24px 56px;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px;color:#888;line-height:1.8;gap:24px;}
+.footer-band{border-top:1px solid #EEEEEE;padding:24px 56px;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px;color:#5E5E5E;line-height:1.8;gap:24px;}
 .footer-band strong{font-size:12px;color:#333;display:block;margin-bottom:3px;}
 .inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;}
 .inv-qr-label{font-size:8px;color:#bbb;}
@@ -4528,28 +4805,28 @@ table.items td.r{text-align:right;}
 .header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid #DDD;}
 .header-left .label{font-size:9px;letter-spacing:.15em;color:#AAAAAA;text-transform:uppercase;margin-bottom:8px;font-family:sans-serif;}
 .studio-name{font-size:18px;font-weight:700;color:#111;font-family:Georgia,serif;}
-.studio-meta{font-size:11.5px;color:#888;line-height:1.9;margin-top:5px;}
+.studio-meta{font-size:11.5px;color:#5E5E5E;line-height:1.9;margin-top:5px;}
 .header-right{text-align:right;}
 .inv-word{font-size:11px;letter-spacing:.18em;color:#AAAAAA;text-transform:uppercase;font-family:sans-serif;margin-bottom:6px;}
 .inv-num{font-size:20px;font-weight:700;color:#111;letter-spacing:-.01em;}
-.inv-dates{font-size:12px;color:#888;margin-top:6px;line-height:1.8;}
+.inv-dates{font-size:12px;color:#5E5E5E;margin-top:6px;line-height:1.8;}
 .bill-box{background:#F7F5F0;border-left:3px solid #111;padding:16px 20px;margin-bottom:30px;}
 .bill-label{font-size:9px;letter-spacing:.12em;color:#AAAAAA;text-transform:uppercase;font-family:sans-serif;margin-bottom:6px;}
 .bill-name{font-size:14px;font-weight:700;color:#111;}
-.bill-meta{font-size:12px;color:#777;margin-top:3px;}
+.bill-meta{font-size:12px;color:#4F4F4F;margin-top:3px;}
 table.items{width:100%;border-collapse:collapse;margin-bottom:4px;}
-table.items th{font-size:10px;letter-spacing:.08em;color:#888;text-transform:uppercase;padding:10px 0;border-bottom:2px solid #111;text-align:left;font-family:sans-serif;font-weight:600;}
+table.items th{font-size:10px;letter-spacing:.08em;color:#5E5E5E;text-transform:uppercase;padding:10px 0;border-bottom:2px solid #111;text-align:left;font-family:sans-serif;font-weight:600;}
 table.items th.r{text-align:right;}
 table.items td{padding:14px 0;border-bottom:1px solid #EEE;font-size:13px;color:#333;vertical-align:top;}
 table.items td.r{text-align:right;}
 .td-name{font-weight:700;color:#111;}
-.td-sub{font-size:11px;color:#999;margin-top:2px;font-family:sans-serif;}
+.td-sub{font-size:11px;color:#6E6E6E;margin-top:2px;font-family:sans-serif;}
 .totals-tbl{width:260px;margin-left:auto;border-collapse:collapse;margin-top:4px;}
-.totals-tbl td{padding:8px 0;font-size:13px;color:#666;border-bottom:1px solid #EEE;}
+.totals-tbl td{padding:8px 0;font-size:13px;color:#4A4A4A;border-bottom:1px solid #EEE;}
 .totals-tbl td:last-child{text-align:right;}
 .total-final-row td{font-size:15px;font-weight:700;color:#111;border-top:2px solid #111;border-bottom:none;padding-top:12px;}
 .flex-grow{flex:1;}
-.footer{margin-top:30px;padding-top:20px;border-top:1px solid #DDD;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px;color:#888;line-height:1.9;gap:20px;}
+.footer{margin-top:30px;padding-top:20px;border-top:1px solid #DDD;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px;color:#5E5E5E;line-height:1.9;gap:20px;}
 .footer strong{font-size:12px;color:#444;display:block;margin-bottom:4px;font-family:sans-serif;}
 .inv-qr-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;}
 .inv-qr-label{font-size:8px;color:#bbb;font-family:sans-serif;}
@@ -4580,6 +4857,37 @@ table.items td.r{text-align:right;}
   </div>
 </div>${watermarkHTML}</body></html>`;}
 
+
+// Scale the A4 invoice sheet so the whole width is visible inside the preview frame.
+function fitInvPreview(){
+  const f=document.getElementById('invFrame'); if(!f||!f.parentElement)return;
+  const box=f.parentElement.getBoundingClientRect();
+  let w=794, contentH=1123;
+  try{
+    const d=f.contentDocument;
+    if(d&&d.documentElement){
+      w=d.documentElement.scrollWidth||w;
+      if(!d.getElementById('previewHideSave')){
+        const st=d.createElement('style'); st.id='previewHideSave';
+        st.textContent='.save-btn{display:none!important}';
+        (d.head||d.documentElement).appendChild(st);
+      }
+      const page=d.querySelector('.page')||d.body;
+      let bottom=0;
+      if(page&&page.children) [...page.children].forEach(function(ch){const r=ch.getBoundingClientRect();if(r.bottom>bottom)bottom=r.bottom;});
+      if(!bottom&&d.body) bottom=d.body.scrollHeight;
+      if(bottom) contentH=bottom;
+    }
+  }catch(e){}
+  const availW=Math.max(240,box.width-10);
+  const availH=Math.max(260,box.height-28);
+  const k=Math.min(1, availW/(w||794), availH/((contentH||1123)*1.02));
+  f.style.transformOrigin='top left';
+  f.style.transform='scale('+k+')';
+  f.style.width=(100/k)+'%';
+  f.style.height=(100/k)+'%';
+}
+window.addEventListener('resize',function(){if(document.getElementById('invFrame'))fitInvPreview();});
 function genInvoice(){
   let inv=null;
   if(curInvId)inv=db.income.find(i=>i.id===curInvId);
@@ -4588,9 +4896,16 @@ function genInvoice(){
   curInvId=inv.id;
   const html=buildInvoiceHTML(inv);
   const preview=document.getElementById('invPreview');
-  preview.innerHTML=`<iframe srcdoc="" style="width:100%;height:100%;border:none;display:block;" id="invFrame"></iframe>`;
-  // Use srcdoc to avoid popup-blocker issues
-  document.getElementById('invFrame').srcdoc=html;
+  // Build the frame, set srcdoc ONCE, then insert it. Setting srcdoc twice in one
+  // tick made Chrome commit the empty first value, which showed a blank preview.
+  preview.innerHTML='';
+  const invFrame=document.createElement('iframe');
+  invFrame.id='invFrame';
+  invFrame.style.cssText='width:100%;height:100%;border:none;display:block;';
+  invFrame.addEventListener('load',function(){fitInvPreview();});
+  invFrame.setAttribute('srcdoc',html);
+  preview.appendChild(invFrame);
+  setTimeout(fitInvPreview,80);setTimeout(fitInvPreview,400);setTimeout(fitInvPreview,1200);setTimeout(fitInvPreview,2200);
   if(document.getElementById('clientModal').classList.contains('open'))closeModal('clientModal');
   openModal('invoiceModal');
 }
