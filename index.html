@@ -1041,8 +1041,9 @@ body.tint-cards .led-active-filters{display:flex;gap:8px;flex-wrap:wrap}
 .ref-wallet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
 .ref-wallet-head .t-pill{color:#fff}
 .ref-rows{display:flex;flex-direction:column}
-.ref-rows .recent-row{grid-template-columns:minmax(0,1fr) max-content minmax(0,auto);align-items:center;gap:18px;
+.ref-rows .recent-row{grid-template-columns:minmax(0,1fr) 168px;align-items:center;gap:16px;
   padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.12);background:transparent;border-radius:0;margin:0}
+.ref-rows .recent-row .recent-amount{justify-self:end;text-align:right}
 .ref-rows .recent-row:last-child{border-bottom:0}
 .ref-rows .recent-name{font-size:.95rem;font-weight:650;color:#fff}
 .ref-rows .recent-detail{font-size:.76rem;color:#8A8A8A;margin-top:4px}
@@ -1063,8 +1064,18 @@ body.tint-cards .led-active-filters{display:flex;gap:8px;flex-wrap:wrap}
 .filter-row .search-wrap{flex:1 1 260px;max-width:340px}
 .filter-row .itabs{display:flex;gap:6px;flex-wrap:wrap}
 .ref-count{font-size:.8rem;font-weight:650;color:#8A8A8A}
-.ref-rows .ref-row{grid-template-columns:minmax(0,1fr) max-content max-content max-content;gap:18px;align-items:center;
+.ref-rows .ref-row{grid-template-columns:minmax(0,1fr) 148px 168px 196px;gap:16px;align-items:center;
   padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.12);background:transparent;border-radius:0;margin:0}
+.ref-rows .ref-row .recent-info{min-width:0}
+.ref-rows .ref-row .ref-chip{justify-self:start}
+.ref-rows .ref-row .recent-amount{justify-self:end;text-align:right}
+.ref-rows .ref-row .ref-actions{justify-self:end}
+/* explicit column header so the rhythm is readable, not implied */
+.ref-cols{display:grid!important;grid-template-columns:minmax(0,1fr) 148px 168px 196px;gap:16px;align-items:center;padding:0 4px 12px;border-bottom:1px solid rgba(255,255,255,.14)}
+.ref-cols span{font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7E869A}
+.ref-cols span:nth-child(2){text-align:left}
+.ref-cols span:nth-child(3){text-align:right}
+.ref-cols span:nth-child(4){text-align:right}
 .ref-rows .ref-row:last-child{border-bottom:0}
 .ref-rows .ref-row:hover{background:rgba(255,255,255,.03)}
 .ref-rows .ref-row.is-overdue .recent-name{color:#FF8B6E}
@@ -1398,19 +1409,52 @@ body.tint-cards .ref-chip{border-color:rgba(255,255,255,.4)}
       <span class="t-pill">All invoices</span>
       <span class="ref-count" id="incCount"></span>
     </div>
+    <div class="ref-rows ref-cols"><span>Client</span><span>Status</span><span>Amount</span><span>Actions</span></div>
     <div id="incTbody" class="ref-rows"></div>
     <div id="incPagination" class="ref-dots"></div>
   </section>
+</div>
+
 <!-- ══════════════════════ EXPENSES ══════════════════════ -->
 <div class="tab" id="tab-expenses">
-  <div class="ph">
-    <div><h1><strong>Expenses</strong></h1><p>Business costs</p></div>
-    <div class="ph-actions">
-      <div class="search-wrap"><input class="search-inp" id="expSearch" placeholder="Search…" oninput="renderExpenses()"></div>
-      <button class="btn btn-red btn-sm" onclick="openModal('addExpModal')">+ Add Expense</button>
+  <header class="ref-head">
+    <div class="ref-head-left">
+      <div class="ref-eyebrow">Expenses</div>
+      <button class="ref-edit" onclick="showTab('income')">Invoices</button>
     </div>
-  </div>
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+    <div class="ref-head-pills">
+      <button class="t-pill" onclick="showTab('clients')">Clients</button>
+      <button class="btn btn-dark btn-sm" onclick="openModal('addExpModal')">+ New expense</button>
+    </div>
+  </header>
+
+  <!-- Spend summary — same card language as Invoices -->
+  <section class="ref-big t-yellow">
+    <div class="ref-big-top">
+      <span class="t-pill">Spending</span>
+      <span class="ref-toggle"><span class="ref-toggle-lab" id="expTopLab">Top category</span></span>
+    </div>
+    <div class="ref-big-grid">
+      <div class="ref-split-wide">
+        <div class="ref-split" style="margin-top:0">
+          <div class="ref-split-track"><i id="expSplitTop"></i><u id="expSplitRest"></u></div>
+          <div class="ref-split-labels"><span id="expSplitTopLab">&mdash;</span><span id="expSplitRestLab">&mdash;</span></div>
+        </div>
+        <div class="ref-mini-stats">
+          <div><span class="ref-mini-lab">This month</span><b id="expThisMonth">&mdash;</b></div>
+          <div><span class="ref-mini-lab">Last month</span><b id="expLastMonth">&mdash;</b></div>
+          <div><span class="ref-mini-lab">This year</span><b id="expThisYear">&mdash;</b></div>
+        </div>
+      </div>
+      <div class="ref-figure">
+        <div class="ref-pct" id="expPct">&mdash;</div>
+        <div class="ref-cap">change in spending vs last month</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-row">
+    <div class="search-wrap"><input class="search-inp" id="expSearch" placeholder="Search expense&hellip;" oninput="renderExpenses()"></div>
     <div class="itabs" id="expTabs">
       <button class="itab active" data-ef="all">All</button>
       <button class="itab" data-ef="recurring">Recurring</button>
@@ -1420,7 +1464,16 @@ body.tint-cards .ref-chip{border-color:rgba(255,255,255,.4)}
       <button class="ss-btn" type="button" onclick="setExpSort('amount')">Largest</button>
     </div>
   </div>
-  <div class="led-list" id="expTbody"></div>
+
+  <section class="ref-wallet">
+    <div class="ref-wallet-head">
+      <span class="t-pill">All expenses</span>
+      <span class="ref-count" id="expCount"></span>
+    </div>
+    <div class="ref-rows ref-cols"><span>Expense</span><span>Category</span><span>Amount</span><span>Actions</span></div>
+    <div id="expTbody" class="ref-rows"></div>
+    <div id="expPagination" class="ref-dots"></div>
+  </section>
 </div>
 
 <!-- ══════════════════════ CLIENTS ══════════════════════ -->
@@ -2864,6 +2917,32 @@ function setExpSort(mode){expSort=mode;renderExpenses();
   if(sw)sw.querySelectorAll('.ss-btn').forEach(b=>b.classList.toggle('on',b.textContent.trim()===(mode==='date'?'Newest':'Largest')));
 }
 function expenseRowAction(sel,id){const a=sel.value;sel.value='';if(a==='delete')delExp(id);}
+function fillExpenseSummary(){
+  const el=document.getElementById('expPct'); if(!el) return;
+  const rows=db.expenses||[];
+  const keyOf=function(d){return (d||'').slice(0,7);};
+  const mKey=today().slice(0,7);
+  const prevKey=(function(){var d=new Date();d.setDate(1);d.setMonth(d.getMonth()-1);var p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1);})();
+  const sum=function(a){return a.reduce(function(s2,e){return s2+(+e.amount||0);},0);};
+  const thisM=sum(rows.filter(function(e){return keyOf(e.date)===mKey;}));
+  const lastM=sum(rows.filter(function(e){return keyOf(e.date)===prevKey;}));
+  const thisY=sum(rows.filter(function(e){return (e.date||'').slice(0,4)===today().slice(0,4);}));
+  var byCat={};rows.filter(function(e){return keyOf(e.date)===mKey;}).forEach(function(e){var k=e.cat||'Other';byCat[k]=(byCat[k]||0)+(+e.amount||0);});
+  var top=Object.keys(byCat).sort(function(a,b){return byCat[b]-byCat[a];})[0];
+  var topAmt=top?byCat[top]:0;
+  var topPct=thisM>0?Math.round(topAmt/thisM*100):0;
+  var t1=document.getElementById('expSplitTop'); if(t1) t1.style.width=topPct+'%';
+  var t2=document.getElementById('expSplitRest'); if(t2) t2.style.width=Math.max(0,100-topPct)+'%';
+  var l1=document.getElementById('expSplitTopLab'); if(l1) l1.textContent=(top||'No category')+' '+fmt(topAmt);
+  var l2=document.getElementById('expSplitRestLab'); if(l2) l2.textContent='everything else '+fmt(Math.max(0,thisM-topAmt));
+  var v1=document.getElementById('expThisMonth'); if(v1) v1.textContent=fmt(thisM);
+  var v2=document.getElementById('expLastMonth'); if(v2) v2.textContent=fmt(lastM);
+  var v3=document.getElementById('expThisYear'); if(v3) v3.textContent=fmt(thisY);
+  var chg=lastM>0?Math.round((thisM-lastM)/lastM*100):0;
+  el.textContent=(chg>0?'+':'')+chg+'%';
+  var cap=document.getElementById('expTopLab'); if(cap) cap.textContent='Top category';
+  var cnt=document.getElementById('expCount'); if(cnt) cnt.textContent=rows.length+' expense'+(rows.length===1?'':'s');
+}
 function renderExpenses(){
   const q=(document.getElementById('expSearch')?.value||'').toLowerCase();
   let rows=[...db.expenses];
@@ -2874,26 +2953,22 @@ function renderExpenses(){
   const tb=document.getElementById('expTbody');
   if(!rows.length){tb.innerHTML='<div class="empty">No expenses match this view.</div>';return;}
   const TINTS=['t-sage','t-lav','t-grey','t-yellow','t-olive'];
-  tb.innerHTML=rows.map((e,ei)=>{const tint=TINTS[ei%TINTS.length];return `<article class="led-card is-expense ${tint}">
-      <div class="led-row">
-        <div class="led-title" title="${esc(e.title)}">${esc(e.title)}</div>
-        <div class="led-amount">${fmt(e.amount)}</div>
+  tb.innerHTML=rows.map((e,ei)=>{
+    return `<div class="recent-row ref-row">
+      <div class="recent-info">
+        <div class="recent-name">${esc(e.title)}</div>
+        <div class="recent-detail">${fmtD(e.date)}${e.notes?' · '+esc(e.notes):''}</div>
       </div>
-      <div class="led-row led-row-2">
-        <div class="led-meta">
-          ${e.cat?`<span class="led-no">${esc(e.cat)}</span>`:''}
-          <span>${fmtD(e.date)}</span>
-          ${e.recurring?'<span class="led-status info"><span class="dotmark"></span>Monthly</span>':''}
-          ${e.receipt?`<a class="led-link" href="${e.receipt}" target="_blank" rel="noopener">Receipt</a>`:''}
-        </div>
-        <div class="led-actions">
-          <button type="button" class="row-action" onclick="editExp('${e.id}')">Edit</button>
-          <select class="row-more" aria-label="More actions" onchange="expenseRowAction(this,'${e.id}')">
-            <option value="">⋯</option><option value="delete">Delete</option>
-          </select>
-        </div>
+      <div class="ref-chip mut">${esc(e.cat||'Expense')}${e.recurring?' · monthly':''}</div>
+      <div class="recent-amount">${fmt(e.amount)}${(e.receipt&&e.receipt.startsWith('data:'))?`<span class="ref-due"><a class="led-link" href="${e.receipt}" target="_blank" rel="noopener">Receipt</a></span>`:''}</div>
+      <div class="ref-actions">
+        <button type="button" class="row-action" onclick="editExp('${e.id}')">Edit</button>
+        <select class="row-more" aria-label="More actions" onchange="expenseRowAction(this,'${e.id}')">
+          <option value="">⋯</option><option value="delete">Delete</option>
+        </select>
       </div>
-    </article>`;}).join('');
+    </div>`;
+  }).join('');
 }
 function openClientModal(name){
   curClient=name;
@@ -4641,6 +4716,12 @@ function duplicateInvoice(id) {
   db.income.unshift(copy); db.invoiceCounter=(db.invoiceCounter||0)+1;
   save();renderIncome();toast('Duplicated as '+copy.invNo);
 }
+
+// Keep the Spend summary and card text correct after every expenses render
+(function(){
+  const _re=renderExpenses;
+  renderExpenses=function(){_re();fillExpenseSummary();applyTintText();};
+})();
 
 // Add Client modal
 function openAddClientModal() {
