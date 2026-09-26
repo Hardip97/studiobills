@@ -421,181 +421,271 @@ function saveQuickIncome(){
 }.card *,.st-card *{--shadow:none;}/* no gradient hero cards */.kpi-featured,.kpi-card.hero,.ov-hero,[class*="gradient"]{
   background:var(--white)!important;color:var(--text)!important;
 }.kpi-featured *,[class*="gradient"] *{color:inherit!important;}/* buttons: uniform geometry, no glow */.btn{border-radius:var(--r2)!important;box-shadow:none!important;font-weight:500!important;}.btn-dark{background:var(--black)!important;border-color:var(--black)!important;color:#fff!important;}.btn-red{background:var(--white)!important;border:1px solid var(--border)!important;color:var(--text)!important;}.btn-red:hover{border-color:var(--muted2)!important;}/* inputs */input,select,textarea{border-radius:var(--r2)!important;border-color:var(--border)!important;box-shadow:none!important;}input:focus,select:focus,textarea:focus{border-color:var(--black)!important;box-shadow:0 0 0 3px rgba(17,24,39,.06)!important;}/* pills/tabs: one shape */.itab,.stab,.fx-btn,.inv-type-btn,.ss-btn,.bot-nav-item{border-radius:999px!important;}.itab.active,.stab.active{background:var(--black)!important;color:#fff!important;border-color:var(--black)!important;}.fx-btn.sel,.inv-type-btn.sel{background:var(--black)!important;color:#fff!important;border-color:var(--black)!important;}/* tables */table th{font-weight:600!important;letter-spacing:.04em!important;color:var(--muted2)!important;border-bottom:1px solid var(--border)!important;}table td{border-bottom:1px solid var(--border2)!important;}table tr:hover td{background:#FCFCFB!important;}.ibtn{border-radius:8px!important;}/* status badges stay muted, colour only carries meaning */.badge{border-radius:999px!important;font-weight:600!important;letter-spacing:.01em!important;}/* sidebar/header rhythm */.sidebar{background:var(--white)!important;border-right:1px solid var(--border)!important;}.sn{border-radius:0!important;border-left:2px solid transparent!important;}.sn.active{background:transparent!important;color:var(--black)!important;border-left-color:var(--black)!important;font-weight:600!important;}.ph h1{font-weight:650!important;letter-spacing:-.02em!important;}.ph p{color:var(--muted)!important;font-size:.8rem!important;}/* empty states sit centred and quiet */.empty{padding:48px 20px!important;}.empty-icon{opacity:.35!important;font-size:1.8rem!important;}/* modal: single surface, no nested panels */.modal{border-radius:14px!important;border:1px solid var(--border)!important;box-shadow:var(--shadow-lg)!important;}.modal h2{font-weight:650!important;letter-spacing:-.01em!important;}/* invoice form: calm sections */#ai-tab-options,#ai-payment-inline,#ai-tpl-grid{border-top:1px solid var(--border)!important;}.tpl-card{border-radius:var(--r2)!important;box-shadow:none!important;}.tpl-card.sel{border-color:var(--black)!important;}.tax-row{border-radius:var(--r2)!important;}.st-savebar{display:flex;justify-content:flex-end;margin-top:4px;}
-/* StudioBills / UI refresh: one calm charcoal system across the product. */
-body,body.theme-ocean,body.theme-ash,body.theme-arctic,body.theme-emerald{
-  --bg:#111318!important;--white:#1c2028!important;--s1:#1c2028!important;--s2:#111318!important;
-  --text:#f2f3f6!important;--ink:#f2f3f6!important;--muted:#aeb5c2!important;--muted2:#929cab!important;
-  --border:#343944!important;--border2:#292e37!important;--black:#f2f3f6!important;
-  --red:#bbc7ff!important;--red2:#d1d9ff!important;--red-soft:rgba(187,199,255,.12)!important;
-  --purple:#bbc7ff!important;--purple-soft:rgba(187,199,255,.12)!important;--purple-soft2:rgba(187,199,255,.16)!important;
-  --green:#87d0af!important;--green-soft:rgba(135,208,175,.12)!important;
-  --orange:#edc884!important;--orange-soft:rgba(237,200,132,.12)!important;
-  --teal:#bbc7ff!important;--teal-soft:rgba(187,199,255,.1)!important;
-  --r:14px!important;--r2:10px!important;
-  color:var(--text)!important;background:var(--bg)!important;
+/* ══════════════════════════════════════════════════════════════
+   StudioBills UI — modern card system (Higgsfield-derived tokens)
+   Theme values are injected on <body> by applyTheme(); every rule
+   below reads those variables, so themes swap with no reload.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --r-xs:10px; --r-sm:12px; --r:16px; --r-lg:20px; --r-pill:999px;
+  --accent:#D1FE17; --accent-ink:#131517;
+  --surface:#1C1E20; --surface-2:#23262A; --sunken:#0F1113;
+  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.06);
+  --ok:#4ADE80; --warn:#FFC66B; --bad:#FF6B6B; --info:#9CE6F3;
+  --shadow-card:0 1px 0 rgba(255,255,255,.03) inset, 0 8px 28px rgba(0,0,0,.28);
+  --ease:cubic-bezier(.16,1,.3,1);
 }
-body{font-family:Outfit,system-ui,sans-serif;letter-spacing:.005em;}
-.sidebar,body.theme-ash .sidebar,body.theme-ocean .sidebar,body.theme-emerald .sidebar,body.theme-arctic .sidebar{
-  background:#171a20!important;border-right:1px solid var(--border)!important;box-shadow:none!important;
+body[data-theme],body{--rf:var(--r)}
+*{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.16) transparent;}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:99px;border:3px solid transparent;background-clip:content-box}
+::selection{background:var(--accent);color:var(--accent-ink)}
+body{background:var(--bg)!important;color:var(--text)!important;font-family:Outfit,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14.5px;line-height:1.5;letter-spacing:.005em}
+.content{background:var(--bg)!important;padding:30px 34px 72px!important;max-width:none!important}
+@media(max-width:900px){.content{padding:18px 16px 108px!important}}
+
+/* ───────── shell: sidebar ───────── */
+.sidebar{background:var(--sunken)!important;border-right:1px solid var(--line)!important;box-shadow:none!important;width:246px!important}
+.sidebar-logo{padding:22px 20px 20px!important;border-bottom:1px solid var(--line-2)!important}
+.logo-icon,.mob-header-icon{background:var(--accent)!important;color:var(--accent-ink)!important;border-radius:var(--r-xs)!important;box-shadow:none!important;font-weight:800!important}
+.logo-name,.mob-header-logo{color:var(--text)!important;letter-spacing:-.02em!important}
+.logo-name em{color:var(--accent)!important;font-style:normal!important}
+.sidebar-search{padding:14px 14px 6px!important}
+.sidebar-search input,.search-inp{background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;color:var(--text)!important;height:40px!important}
+.sidebar-search input::placeholder,.search-inp::placeholder{color:var(--muted2)!important}
+.sidebar-nav{display:flex;flex-direction:column;gap:3px;padding:8px 12px!important}
+.sn,.sidebar .sn{height:42px!important;border-radius:var(--r-sm)!important;background:transparent!important;border:0!important;color:var(--muted)!important;font-weight:550!important;padding:0 12px!important;gap:11px}
+.sn .sn-ico{display:grid;place-items:center;width:18px}
+.sn:hover,.sidebar .sn:hover{background:var(--surface)!important;color:var(--text)!important}
+.sn.active,.sidebar .sn.active{background:var(--surface-2)!important;color:var(--text)!important;font-weight:650!important;box-shadow:inset 2px 0 0 var(--accent)}
+.sidebar-divider{background:var(--line)!important;margin:12px 20px!important}
+.sidebar-actions{padding:4px 14px 14px!important;gap:8px!important}
+.sidebar-user{background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;color:var(--text)!important}
+.sidebar-user-email{color:var(--muted)!important}
+.signout-btn{color:var(--muted)!important;border-radius:var(--r-xs)!important}
+.signout-btn:hover{color:var(--bad)!important;background:transparent!important}
+
+/* ───────── page header ───────── */
+.ph{align-items:center!important;gap:14px!important;margin-bottom:26px!important;flex-wrap:wrap}
+.ph h1{font-size:1.55rem!important;font-weight:650!important;letter-spacing:-.03em!important;line-height:1.15!important;color:var(--text)!important}
+.ph h1 strong{font-weight:650!important}
+.ph p{color:var(--muted)!important;font-size:.82rem!important;margin-top:5px!important;font-weight:400!important}
+.ph-actions{gap:10px!important;align-items:center!important}
+
+/* ───────── cards: the one container ───────── */
+.card,.st-card,.client-card,.pm-chart-card,.pm-table-card,.pm-kpi,.pm-tcard,.chart-card,.led-card{
+  background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:var(--r)!important;
+  box-shadow:none!important;color:var(--text)!important;
 }
-.sidebar-logo{padding-bottom:24px!important;}.logo-icon,.mob-header-icon{background:#bbc7ff!important;color:#171a20!important;box-shadow:none!important;}
-.logo-name,.mob-header-logo{color:var(--text)!important;}.logo-name em{color:#bbc7ff!important;}
-.sidebar-nav{gap:4px!important;}.sn,.sidebar .sn{min-height:43px;border-radius:9px!important;color:var(--muted)!important;background:transparent!important;border-left:0!important;font-weight:500!important;}
-.sn:hover,.sidebar .sn:hover{background:#252a33!important;color:var(--text)!important;}
-.sn.active,.sidebar .sn.active{background:#2a3040!important;color:#e5e9ff!important;border-left:0!important;font-weight:650!important;}
-.sn .sn-ico{color:inherit!important;}.sidebar-divider{background:var(--border)!important;}
-.sidebar-search input,.search-inp{background:#22262f!important;color:var(--text)!important;border:1px solid var(--border)!important;box-shadow:none!important;}
-.sidebar-user{background:transparent!important;border:1px solid var(--border)!important;color:var(--text)!important;}
-.content{background:var(--bg)!important;min-height:100dvh;}
-.tab.active{color:var(--text)!important;}.ph{align-items:center!important;margin-bottom:25px!important;gap:14px!important;}
-.ph h1{color:var(--text)!important;font-size:1.6rem!important;letter-spacing:-.035em!important;line-height:1.16!important;font-weight:650!important;}
-.ph h1 strong{font-weight:650!important;}.ph p{color:var(--muted)!important;font-size:.83rem!important;margin-top:5px!important;}
-.ph-actions{align-items:center!important;gap:10px!important;}.dash-head{margin-bottom:22px!important;}
-.card,.st-card,.client-card,.pm-chart-card,.pm-table-card,.pm-kpi,.modal,.auth-card,.pm-tcard,.chart-card{
-  background:#1c2028!important;border:1px solid var(--border)!important;border-radius:14px!important;box-shadow:none!important;color:var(--text)!important;
+.card{padding:20px 22px!important}
+.card:hover,.led-card:hover{border-color:rgba(255,255,255,.16)!important}
+.kpi-featured,.pm-featured,.pm-kpi.pm-featured,.ov-hero,[class*="gradient"]{
+  background:var(--surface-2)!important;color:var(--text)!important;border-color:var(--line)!important;
 }
-.card:hover,.client-card:hover{border-color:#49505f!important;}
-.pm-featured,.pm-kpi.pm-featured{background:#262c37!important;border-color:#4c576d!important;color:var(--text)!important;}
-.pm-featured [style*="255,255,255"],.pm-featured .bc-studio-name{color:var(--muted)!important;}
-.pm-kpi-value,.pm-kpi-label,.pm-kpi-sub,.pm-tcard-title,.pm-chart-title{color:var(--text)!important;}
-.pm-kpi-label,.pm-kpi-sub{color:var(--muted)!important;}.pm-kpi-value{font-size:clamp(1.4rem,2vw,1.9rem)!important;letter-spacing:-.025em!important;}
-.pm-kpi-icon{background:rgba(187,199,255,.09)!important;color:#bbc7ff!important;box-shadow:none!important;}
-.pm-mnav{background:#313746!important;border:1px solid #495060!important;border-radius:9px!important;color:var(--text)!important;}
-.pm-mnav button{color:var(--text)!important;}.pm-mid-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:18px!important;}
-.pm-chart-card{min-width:0!important;}.pm-chart-header,.pm-tcard-header{border-bottom:1px solid var(--border2)!important;}
-.pm-chart-legend,.pm-chart-header{color:var(--text)!important;}.leg,.rbtn{color:var(--muted)!important;}
-.rbtn.active{background:#363e51!important;color:#f2f3f6!important;border-color:#596683!important;}
-.pm-tcard-link{color:#bbc7ff!important;}.pm-bottom-grid{gap:18px!important;}.pm-table-card{overflow:hidden;}
-.btn,.btn-sm,.row-action,.row-more{font-family:inherit!important;white-space:nowrap;box-shadow:none!important;transition:background .16s,border-color .16s,transform .16s;}
-.btn:active,.row-action:active{transform:translateY(1px);}
-.btn-dark,.btn-red,.auth-btn{background:#bbc7ff!important;border:1px solid #bbc7ff!important;color:#171b28!important;font-weight:650!important;border-radius:10px!important;}
-.btn-dark:hover,.btn-red:hover,.auth-btn:hover{background:#d2d9ff!important;color:#171b28!important;border-color:#d2d9ff!important;}
-.btn-ghost,.ibtn,.li-add-btn{background:#252a33!important;border:1px solid var(--border)!important;color:var(--text)!important;border-radius:10px!important;}
-.btn-ghost:hover,.ibtn:hover,.li-add-btn:hover{background:#303746!important;border-color:#7884a0!important;color:var(--text)!important;}
-input,textarea,select,.st-input,.tax-select,.tax-input-sm,.auth-inp{
-  background:#252932!important;border:1px solid #424854!important;color:#f2f3f6!important;border-radius:10px!important;
-  min-height:38px;outline:none!important;
+.kpi-featured *,.pm-featured *,[class*="gradient"] *{color:inherit!important}
+.pm-featured .bc-studio-name,.pm-featured [style*="255,255,255"]{color:var(--muted)!important}
+
+/* ───────── KPI ───────── */
+.pm-kpi-row{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important;margin-bottom:18px!important}
+.pm-kpi{position:relative!important;padding:20px!important;min-height:132px!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
+.pm-kpi-label,.stat-label{font-size:.68rem!important;font-weight:650!important;text-transform:uppercase!important;letter-spacing:.11em!important;color:var(--muted2)!important}
+.pm-kpi-value{font-size:clamp(1.5rem,2.1vw,2rem)!important;font-weight:680!important;letter-spacing:-.035em!important;color:var(--text)!important;font-variant-numeric:tabular-nums;margin-top:auto}
+.pm-kpi-sub,.pm-kpi-meta{color:var(--muted)!important;font-size:.74rem!important}
+.pm-kpi-icon{position:absolute!important;top:18px!important;right:18px!important;width:34px!important;height:34px!important;border-radius:var(--r-xs)!important;background:var(--sunken)!important;color:var(--accent)!important;display:grid!important;place-items:center!important}
+.pm-mnav{background:var(--sunken)!important;border:1px solid var(--line)!important;border-radius:var(--r-pill)!important;color:var(--text)!important;margin-top:10px!important;padding:3px 6px!important}
+.pm-mnav span{color:var(--text)!important;font-weight:600!important;font-size:.72rem!important}
+.pm-mnav button{color:var(--muted)!important}
+.pm-mnav button:hover{color:var(--accent)!important}
+
+/* ───────── chart card ───────── */
+.pm-mid-grid{grid-template-columns:minmax(0,1fr)!important;gap:18px!important}
+.pm-bottom-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin-top:6px!important}
+.pm-chart-header,.pm-tcard-header{display:flex;align-items:center;gap:12px;padding:18px 22px!important;border-bottom:1px solid var(--line)!important}
+.pm-chart-title,.pm-tcard-title{font-size:.95rem!important;font-weight:650!important;letter-spacing:-.02em!important;color:var(--text)!important}
+.pm-chart-body{padding:16px 22px 12px!important}
+.pm-tcard-link{color:var(--accent)!important;background:none!important;border:0!important;font-size:.78rem!important;font-weight:650!important;cursor:pointer}
+.rbtn,.leg{color:var(--muted)!important;font-size:.74rem!important;font-weight:600!important;border-radius:var(--r-pill)!important;padding:6px 12px!important;border:1px solid transparent!important;background:transparent!important;cursor:pointer}
+.rbtn:hover{color:var(--text)!important;background:var(--surface-2)!important}
+.rbtn.active,.leg.active{background:var(--surface-2)!important;color:var(--text)!important;border-color:var(--line)!important}
+.leg-dot{width:7px;height:7px;border-radius:50%}
+
+/* ───────── buttons ───────── */
+.btn,.row-action,.row-more{font-family:inherit!important;border-radius:var(--r-sm)!important;box-shadow:none!important;font-weight:600!important;transition:background .16s var(--ease),border-color .16s,transform .12s}
+.btn{height:40px;padding:0 16px!important;font-size:.83rem!important;border:1px solid var(--line)!important;background:var(--surface-2)!important;color:var(--text)!important;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+.btn:hover{background:#2C3037!important;border-color:rgba(255,255,255,.18)!important}
+.btn:active{transform:translateY(1px)}
+.btn-sm{height:34px!important;padding:0 12px!important;font-size:.78rem!important;border-radius:var(--r-xs)!important}
+.btn-dark,.btn-red,.auth-btn,.st-bkbtn.bk-primary{
+  background:var(--accent)!important;border:1px solid var(--accent)!important;color:var(--accent-ink)!important;font-weight:700!important;
 }
-input::placeholder,textarea::placeholder{color:#a0a9b9!important;opacity:1!important;}
-input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,summary:focus-visible{
-  outline:2px solid #bbc7ff!important;outline-offset:2px!important;border-color:#9baaf2!important;
+.btn-dark:hover,.btn-red:hover,.auth-btn:hover{background:#E2FF52!important;border-color:#E2FF52!important;color:var(--accent-ink)!important}
+.btn-ghost,.ibtn,.li-add-btn,.st-bkbtn{background:transparent!important;border:1px solid var(--line)!important;color:var(--text)!important;border-radius:var(--r-sm)!important}
+.btn-ghost:hover,.ibtn:hover,.li-add-btn:hover,.st-bkbtn:hover{background:var(--surface-2)!important;border-color:rgba(255,255,255,.2)!important}
+.ibtn{width:32px!important;height:32px!important;display:grid!important;place-items:center!important;font-size:.82rem!important;cursor:pointer}
+
+/* ───────── inputs ───────── */
+input,textarea,select,.st-input,.tax-select,.tax-input-sm,.auth-inp,.search-inp{
+  background:var(--sunken)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;
+  color:var(--text)!important;font-family:inherit!important;font-size:.86rem!important;min-height:40px;padding:9px 13px!important;
+  outline:none!important;transition:border-color .15s,box-shadow .15s;appearance:none;
 }
-label,.fg label,.st-flabel{color:#c9d0dc!important;font-weight:550!important;letter-spacing:.025em!important;}
-.itabs,.stabs{gap:5px!important;background:transparent!important;border:0!important;}
-.itab,.stab,.ss-btn,.fx-btn,.li-chooser button,.li-chip{
-  background:transparent!important;border:1px solid transparent!important;border-radius:9px!important;color:#bfc7d6!important;font-weight:550!important;
+select{background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5L6 8l3.5-3.5' fill='none' stroke='%239EA2AD' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 12px center!important;padding-right:34px!important}
+input::placeholder,textarea::placeholder{color:var(--muted)!important;opacity:1!important}
+input:hover,select:hover,textarea:hover{border-color:rgba(255,255,255,.16)!important}
+input:focus,select:focus,textarea:focus,input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{
+  border-color:var(--accent)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)!important;outline:none!important;
 }
-.itab:hover,.stab:hover,.ss-btn:hover,.fx-btn:hover,.li-chip:hover{background:#303642!important;color:#f5f6fb!important;}
+label,.fg label,.st-flabel,.tax-label{color:var(--muted)!important;font-size:.72rem!important;font-weight:620!important;text-transform:uppercase!important;letter-spacing:.07em!important}
+.fg label{margin-bottom:6px;display:block}
+.st-field{margin-bottom:14px!important}
+.st-clabel{font-size:.68rem!important;font-weight:680!important;letter-spacing:.11em!important;color:var(--muted2)!important;text-transform:uppercase!important;margin-bottom:16px!important}
+
+/* ───────── pills / tabs ───────── */
+.itabs,.stabs{gap:6px!important;background:transparent!important;border:0!important;flex-wrap:wrap}
+.itab,.stab,.ss-btn,.fx-btn,.li-chip,.li-chooser button{
+  background:transparent!important;border:1px solid var(--line)!important;color:var(--muted)!important;
+  border-radius:var(--r-sm)!important;font-weight:600!important;height:36px;padding:0 14px!important;font-size:.79rem!important;
+  display:inline-flex!important;align-items:center!important;gap:7px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;
+}
+.itab:hover,.stab:hover,.ss-btn:hover,.fx-btn:hover,.li-chip:hover,.li-chooser button:hover{color:var(--text)!important;border-color:rgba(255,255,255,.2)!important;background:var(--surface-2)!important}
 .itab.active,.stab.active,.ss-btn.on,.fx-btn.sel,.inv-type-btn.sel{
-  background:#bbc7ff!important;border-color:#bbc7ff!important;color:#181d29!important;font-weight:750!important;
+  background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-ink)!important;font-weight:720!important;
 }
-.itab.active *, .stab.active *, .ss-btn.on *, .fx-btn.sel *{color:#181d29!important;}
-/* Avoid theme-specific WebKit text-fill rules masking active labels. */
-body .itab.active,body .stab.active,body .ss-btn.on,body .fx-btn.sel{
-  color:#111624!important;-webkit-text-fill-color:#111624!important;
+.itab.active svg,.stab.active svg{stroke:var(--accent-ink)!important}
+.itab.active *,.stab.active *,.ss-btn.on *,.fx-btn.sel *{color:var(--accent-ink)!important;-webkit-text-fill-color:var(--accent-ink)!important}
+body .itab.active,body .stab.active,body .ss-btn.on,body .fx-btn.sel{color:var(--accent-ink)!important;-webkit-text-fill-color:var(--accent-ink)!important}
+#incSortSwitch{padding:3px!important;background:var(--sunken)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;gap:2px!important}
+#incSortSwitch .ss-btn{border:0!important;min-width:56px;justify-content:center}
+.stab svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ───────── badges / tags ───────── */
+.badge{display:inline-flex!important;align-items:center!important;gap:5px;border-radius:var(--r-pill)!important;padding:4px 10px!important;font-size:.7rem!important;font-weight:650!important;letter-spacing:.01em!important;border:1px solid var(--line)!important;background:var(--surface-2)!important;color:var(--text)!important}
+.b-rec{background:color-mix(in srgb,var(--ok) 16%,transparent)!important;color:var(--ok)!important;border-color:color-mix(in srgb,var(--ok) 30%,transparent)!important}
+.b-pend{background:color-mix(in srgb,var(--warn) 16%,transparent)!important;color:var(--warn)!important;border-color:color-mix(in srgb,var(--warn) 30%,transparent)!important}
+.b-part{background:color-mix(in srgb,var(--info) 16%,transparent)!important;color:var(--info)!important;border-color:color-mix(in srgb,var(--info) 30%,transparent)!important}
+.b-over{background:color-mix(in srgb,var(--bad) 16%,transparent)!important;color:var(--bad)!important;border-color:color-mix(in srgb,var(--bad) 32%,transparent)!important}
+.b-draft,.b-cat,.b-recur,.chip{background:var(--surface-2)!important;color:var(--muted)!important;border-color:var(--line)!important}
+.sdot{display:none!important}
+
+/* ───────── ledger card lists (Income + Expenses share these) ───────── */
+.led-list{display:flex;flex-direction:column;gap:12px}
+.led-card{
+  display:grid!important;grid-template-columns:minmax(0,1fr) max-content;gap:20px;align-items:center;
+  padding:18px 20px!important;border:1px solid var(--line)!important;border-radius:var(--r)!important;
+  background:var(--surface)!important;transition:border-color .16s var(--ease),background .16s;
 }
-#incSortSwitch{padding:3px!important;background:#252a33!important;border:1px solid var(--border)!important;border-radius:10px!important;gap:2px;}
-#incSortSwitch .ss-btn{min-width:54px;border:0!important;padding:7px 12px!important;}
-#incSortSwitch .ss-btn+.ss-btn{border-left:0!important;}
-.tbl-wrap{overflow-x:auto!important;}.tbl-wrap table{width:100%;}
-table th{color:#b1b9c7!important;letter-spacing:.085em!important;font-size:.7rem!important;font-weight:600!important;border-bottom:1px solid var(--border)!important;}
-table td{color:var(--text)!important;border-bottom:1px solid var(--border2)!important;vertical-align:middle!important;}
-table tr:hover td{background:#252a33!important;}
-tbody tr.row-overdue{background:rgba(222,120,132,.055)!important;}
-#tab-income .card{background:#1c2028!important;}#tab-income .tbl-wrap table{table-layout:fixed;}
-#tab-income th:nth-child(1),#tab-income td:nth-child(1){width:9%;padding-left:20px!important;}
-#tab-income th:nth-child(2),#tab-income td:nth-child(2){width:33%;}
-#tab-income th:nth-child(3),#tab-income td:nth-child(3){width:14%;}
-#tab-income th:nth-child(4),#tab-income td:nth-child(4){width:15%;}
-#tab-income th:nth-child(5),#tab-income td:nth-child(5){width:12%;}
-#tab-income th:nth-child(6),#tab-income td:nth-child(6){width:17%;padding-right:18px!important;}
-#incTbody td{padding-top:15px!important;padding-bottom:15px!important;}
-.income-client{font-weight:600!important;font-size:.88rem!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.income-summary{color:#aeb5c2!important;font-size:.74rem!important;margin-top:4px;max-width:32ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.income-actions{display:flex;align-items:center;justify-content:flex-end;gap:5px;white-space:nowrap;}
-.row-action,.row-more{background:#2a2f3a!important;color:#e8ebf4!important;border:1px solid #434b5b!important;border-radius:8px!important;font-size:.7rem!important;font-weight:600!important;min-height:30px!important;padding:4px 9px!important;cursor:pointer;}
-.row-action:hover,.row-more:hover{background:#373f4f!important;border-color:#7783a0!important;}
-.row-more{max-width:68px;padding:3px 4px!important;}
-.row-more option{background:#252932;color:#f2f3f6;}
-.badge{font-weight:650!important;color:var(--text)!important;border:1px solid transparent!important;padding:4px 9px!important;}
-.b-rec{background:rgba(135,208,175,.14)!important;color:#b3ebd0!important;}
-.b-part{background:rgba(187,199,255,.12)!important;color:#d4ddff!important;}
-.b-pend{background:rgba(237,200,132,.12)!important;color:#ffe0a6!important;}
-.b-over{background:rgba(234,142,142,.13)!important;color:#ffd0d0!important;}
-.b-draft{background:#2d323d!important;color:#d8dce6!important;}
-.sdot{display:none!important;}
-.modal-bg{background:rgba(4,6,10,.72)!important;backdrop-filter:blur(5px);}
-.modal{background:#1c2028!important;border:1px solid #444a56!important;border-radius:16px!important;box-shadow:0 24px 72px rgba(0,0,0,.36)!important;}
-.modal h2{font-size:1.35rem!important;color:var(--text)!important;}
-#addIncomeModal .modal,#editIncomeModal .modal{max-width:min(1080px,calc(100vw - 36px))!important;}
-#ai-tab-invoice>.form-grid,#ei-tab-invoice>.form-grid{grid-template-columns:minmax(150px,1fr) minmax(190px,1.3fr) minmax(140px,1fr) minmax(140px,1fr)!important;gap:14px!important;margin-bottom:22px!important;}
-.li-wrap{overflow:visible!important;}.li-tbl{width:100%!important;table-layout:fixed!important;border-collapse:collapse;}
-.li-tbl th{padding:10px 9px!important;}.li-tbl td{padding:12px 9px!important;vertical-align:middle!important;}
-.li-tbl td:first-child,.li-tbl th:first-child{padding-left:0!important;}
-.li-tbl td:last-child,.li-tbl th:last-child{padding-right:0!important;}
-.li-tbl td input{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box;}
-.li-tbl td:nth-child(4){text-align:right!important;font-variant-numeric:tabular-nums;white-space:nowrap;}
-.li-tbl td:nth-child(5){text-align:center!important;}
-.li-name-cell{gap:6px!important;min-width:0;}.li-pair{gap:7px!important;}.li-pair input{min-width:0!important;}
-.li-chip{align-self:flex-start;background:#343946!important;border-color:#4a5262!important;padding:4px 10px!important;font-size:.69rem!important;}
-.li-chip-menu{background:#292e39!important;border-color:#596171!important;box-shadow:0 14px 32px rgba(0,0,0,.32)!important;}
-.li-chip-menu .li-opt{color:var(--text)!important;}.li-chip-menu .li-opt:hover{background:#3b4250!important;}
-.li-chip-menu .li-opt.on{background:#bbc7ff!important;color:#171b28!important;}
-.li-chooser{background:#242934!important;border:1px solid #444c5b!important;border-radius:11px!important;padding:12px!important;}
-.li-chooser-lab{color:#d6dbe7!important;}.li-chooser button{background:#323846!important;border-color:#4b5364!important;color:#eef0f6!important;}
-.li-chooser button:hover{background:#bbc7ff!important;color:#171b28!important;}
-#ai-payment-inline,#ei-payment-inline,#ai-tab-options,#ei-tab-options{border-color:var(--border)!important;}
-.tpl-card{background:#242a34!important;border:1px solid #464d5b!important;border-radius:10px!important;overflow:hidden;}
-.tpl-card.sel{border:2px solid #bbc7ff!important;}.tpl-card .tpl-name{color:#f0f2f6!important;}
-.tax-row{border-color:var(--border)!important;background:#20242c!important;gap:16px!important;}
-.tax-row-ctrl{margin-left:auto;}.tax-label{min-width:70px;color:var(--text)!important;}
-.st-card,.client-card,.card{background:#1c2028!important;}
-.st-savebar{margin-top:16px!important;padding-bottom:20px;}
-/* Keep the invoice editor's totals and actions visible while the form scrolls. */
-#addIncomeModal .modal,#editIncomeModal .modal{
-  height:min(92dvh,940px)!important;max-height:92dvh!important;min-height:0!important;
-  display:flex!important;flex-direction:column!important;overflow:hidden!important;
+.led-card.is-overdue{border-color:color-mix(in srgb,var(--bad) 34%,transparent)!important;background:color-mix(in srgb,var(--bad) 5%,var(--surface))!important}
+.led-top{display:flex;align-items:center;gap:9px;margin-bottom:7px;flex-wrap:wrap}
+.led-no{font-size:.72rem!important;font-weight:700!important;letter-spacing:.06em!important;color:var(--muted2)!important;text-transform:uppercase}
+.led-title{font-size:.95rem!important;font-weight:640!important;letter-spacing:-.015em!important;color:var(--text)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.led-sub{font-size:.78rem!important;color:var(--muted)!important;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60ch}
+.led-meta{display:flex;align-items:center;gap:8px;margin-top:9px;flex-wrap:wrap;font-size:.74rem!important;color:var(--muted2)!important}
+.led-meta .led-dot{opacity:.5}
+.qr-panel{position:static!important;display:flex!important;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;padding:10px 12px;background:var(--surface-2)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important}
+.qr-panel .qr-full,.qr-panel .qr-save{background:var(--accent)!important;color:var(--accent-ink)!important;border:0!important;border-radius:var(--r-xs)!important;font-weight:700!important;padding:7px 12px!important;cursor:pointer}
+.qr-panel .qr-sep{font-size:.72rem;color:var(--muted2)}
+.qr-panel .qr-inp{width:110px!important}
+.qr-panel .qr-close{background:none!important;border:0!important;color:var(--muted)!important;cursor:pointer}
+.led-meta .led-tag{background:var(--surface-2)!important;border:1px solid var(--line)!important;border-radius:var(--r-pill)!important;padding:2px 9px!important;font-size:.68rem!important;color:var(--muted)!important}
+.led-side{display:flex;flex-direction:column;align-items:flex-end;gap:8px;min-width:180px;min-height:94px;justify-content:space-between}
+.led-amount{font-size:1.18rem!important;font-weight:680!important;letter-spacing:-.02em!important;color:var(--text)!important;font-variant-numeric:tabular-nums;white-space:nowrap}
+.led-card.is-expense .led-amount{color:var(--text)!important}
+.led-due{font-size:.72rem!important;color:var(--muted2)!important;font-variant-numeric:tabular-nums}
+.led-actions{display:flex;align-items:center;gap:6px;margin-top:2px}
+.row-action,.row-more{height:34px!important;padding:0 12px!important;font-size:.76rem!important;background:var(--surface-2)!important;border:1px solid var(--line)!important;color:var(--text)!important;border-radius:var(--r-xs)!important;cursor:pointer}
+.row-action:hover,.row-more:hover{border-color:rgba(255,255,255,.2)!important;background:#2C3037!important}
+.row-more{max-width:74px;padding-right:6px!important}
+.row-more option{background:var(--surface);color:var(--text)}
+@media(max-width:760px){
+  .led-card{grid-template-columns:minmax(0,1fr)!important;gap:14px}
+  .led-side{align-items:flex-start!important;min-width:0}
+  .led-amount{font-size:1.05rem!important}
 }
-#addIncomeModal .inv-tab-body,#editIncomeModal .inv-tab-body{
-  min-height:0!important;flex:1 1 auto!important;overflow-y:auto!important;overflow-x:hidden!important;
-  scrollbar-color:#545c6c #1c2028;padding-right:5px;
-}
-#addIncomeModal .modal-foot,#editIncomeModal .modal-foot{
-  flex:none;background:#1c2028!important;border-top:1px solid var(--border)!important;
-  padding:13px 0 2px!important;margin-top:8px!important;
-}
-#addIncomeModal .inv-total-box,#editIncomeModal .inv-total-box{flex:none;max-height:135px;overflow-y:auto;}
-#ai-tab-invoice .li-tbl th:nth-child(3),#ei-tab-invoice .li-tbl th:nth-child(3){text-align:right!important;padding-right:10px!important;}
-#ai-tab-invoice .li-tbl th:nth-child(4),#ei-tab-invoice .li-tbl th:nth-child(4){text-align:right!important;padding-right:12px!important;}
-#ai-tab-invoice .li-tbl td:nth-child(3) input,#ei-tab-invoice .li-tbl td:nth-child(3) input{text-align:right!important;}
-#ai-tab-invoice .li-tbl td:nth-child(4),#ei-tab-invoice .li-tbl td:nth-child(4){font-size:.89rem!important;font-weight:700!important;padding-right:12px!important;}
-.tpl-preview{display:none!important;}.tpl-grid{display:flex!important;gap:8px!important;flex-wrap:wrap!important;}
-.tpl-card{min-width:100px!important;width:auto!important;min-height:40px!important;display:grid!important;place-items:center!important;padding:8px 14px!important;}
-.tpl-card.sel{border-width:1px!important;background:#363d50!important;}.tpl-card .tpl-name{padding:0!important;color:#f0f2f6!important;}
-.recent-row{display:grid;grid-template-columns:minmax(0,1fr) max-content;align-items:start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border2);min-width:0;}
-.recent-row:last-child{border-bottom:0;}.recent-info{min-width:0;overflow:hidden;}
-.recent-name,.recent-detail{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.recent-name{font-size:.84rem;font-weight:600;color:var(--text);}
-.recent-detail{font-size:.73rem;color:var(--muted);margin-top:3px;}
-.recent-amount{min-width:max-content;white-space:nowrap;font-size:.82rem;font-weight:650;text-align:right;color:var(--text);}
-#tab-overview .pm-bottom-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
-#tab-overview .pm-table-card{min-width:0!important;}
-@media(max-width:650px){
- #tab-overview .pm-bottom-grid{grid-template-columns:minmax(0,1fr)!important;}
- .pm-tcard-header{padding:14px!important;}.pm-table-card #recentIncList,.pm-table-card #recentExpList{padding:0 14px!important;}
- .recent-amount{max-width:38%;}.pm-chart-header{flex-wrap:wrap;gap:8px;}
- #addIncomeModal .modal,#editIncomeModal .modal{max-width:calc(100vw - 18px)!important;height:94dvh!important;max-height:94dvh!important;padding:16px!important;}
-}
-@media(max-width:900px){#ai-tab-invoice>.form-grid,#ei-tab-invoice>.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}.li-wrap{overflow-x:auto!important;} .li-tbl{min-width:700px;}}
-@media(max-width:650px){
- .ph{align-items:flex-start!important;}.ph-actions{width:100%;}
- #ai-tab-invoice>.form-grid,#ei-tab-invoice>.form-grid{grid-template-columns:1fr!important;}
- #tab-income .tbl-wrap table{min-width:820px;}.pm-mid-grid{grid-template-columns:1fr!important;}
- .pm-kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
- .bot-nav{background:#171a20!important;border-top:1px solid var(--border)!important;}
- .bot-nav-item{color:var(--muted)!important;}.bot-nav-item.active{color:#bbc7ff!important;background:transparent!important;}
- .content{padding-bottom:84px!important;}
-}
+
+/* ───────── tables (clients, history leftovers) ───────── */
+table{background:transparent!important}
+table th{color:var(--muted2)!important;font-size:.68rem!important;font-weight:650!important;letter-spacing:.1em!important;text-transform:uppercase!important;border-bottom:1px solid var(--line)!important;padding:12px 14px!important;background:transparent!important}
+table td{color:var(--text)!important;border-bottom:1px solid var(--line-2)!important;padding:14px!important;font-size:.85rem!important}
+table tr:hover td{background:var(--surface-2)!important}
+tbody tr.row-overdue{background:color-mix(in srgb,var(--bad) 6%,transparent)!important}
+.tbl-wrap{overflow-x:auto!important}
+
+/* ───────── clients ───────── */
+.client-card{background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:var(--r)!important;padding:20px!important}
+.client-card:hover{border-color:rgba(255,255,255,.16)!important}
+.c-av{border-radius:var(--r-sm)!important;background:var(--surface-2)!important;color:var(--accent)!important;font-weight:700!important}
+.c-name{color:var(--text)!important;font-weight:640!important}
+.c-meta,.cs-l{color:var(--muted2)!important}
+.cs-v{color:var(--text)!important;font-variant-numeric:tabular-nums}
+.cp-tag{background:var(--surface-2)!important;border:1px solid var(--line)!important;color:var(--muted)!important;border-radius:var(--r-pill)!important}
+#clientGrid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))!important;gap:16px!important}
+
+/* ───────── recent lists ───────── */
+.recent-row{display:grid;grid-template-columns:minmax(0,1fr) max-content;gap:14px;align-items:center;padding:12px 14px;min-width:0;
+  background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r-sm);margin-bottom:8px;transition:border-color .16s}
+.recent-row:hover{border-color:var(--line)}
+.recent-row:last-child{margin-bottom:0}
+.recent-info{min-width:0}
+.recent-name{font-size:.86rem!important;font-weight:600!important;color:var(--text)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recent-detail{font-size:.74rem!important;color:var(--muted2)!important;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recent-amount,.recent-amount *{color:var(--text)!important;font-size:.86rem!important;font-weight:650!important;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;min-width:max-content}
+#recentIncList,#recentExpList{padding:16px 18px 18px!important;display:flex;flex-direction:column}
+
+/* ───────── modals ───────── */
+.modal-bg{background:rgba(6,7,9,.74)!important;backdrop-filter:blur(6px)}
+.modal{background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:var(--r-lg)!important;box-shadow:0 32px 80px rgba(0,0,0,.5)!important;padding:24px!important}
+.modal h2{font-size:1.2rem!important;font-weight:660!important;letter-spacing:-.025em!important;color:var(--text)!important}
+.modal-foot{gap:10px!important;padding:16px 0 4px!important;border-top:1px solid var(--line)!important;margin-top:14px!important}
+#addIncomeModal .modal,#editIncomeModal .modal{max-width:min(1040px,calc(100vw - 36px))!important;height:min(92dvh,920px)!important;max-height:92dvh!important}
+#addIncomeModal .inv-tab-body,#editIncomeModal .inv-tab-body{overflow-y:auto!important;min-height:0!important;padding-right:6px}
+#ai-tab-invoice>.form-grid,#ei-tab-invoice>.form-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important;margin-bottom:22px!important}
+.li-wrap{overflow:visible!important}
+.li-tbl{width:100%!important;table-layout:fixed!important}
+.li-tbl th{padding:10px 10px!important;border-bottom:1px solid var(--line)!important}
+.li-tbl td{padding:12px 10px!important;border-bottom:1px solid var(--line-2)!important;vertical-align:middle!important}
+.li-tbl td input{width:100%!important;min-width:0!important;box-sizing:border-box}
+.li-tbl td:nth-child(4){text-align:right!important;font-weight:700!important;font-variant-numeric:tabular-nums;font-size:.9rem!important}
+.li-name-cell{gap:7px!important}.li-pair{gap:8px!important}
+.inv-tabs{gap:6px!important;border-bottom:1px solid var(--line)!important;padding-bottom:12px!important}
+.inv-tab{background:transparent!important;border:1px solid var(--line)!important;border-radius:var(--r-pill)!important;color:var(--muted)!important;font-weight:600!important}
+.inv-tab.active{background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-ink)!important}
+.tax-row{background:var(--sunken)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;padding:12px 14px!important}
+.tpl-card{background:var(--surface-2)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important}
+.tpl-card.sel{border-color:var(--accent)!important;background:color-mix(in srgb,var(--accent) 12%,var(--surface-2))!important}
+.tpl-card .tpl-name{color:var(--text)!important}
+.tpl-preview{display:none!important}
+
+/* ───────── settings redesign ───────── */
+.stabs{margin-bottom:22px!important}
+.st-grid{gap:16px!important}
+.st-g2{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.st-card{padding:22px!important}
+.st-savebar{display:flex;justify-content:flex-end;margin-top:6px;padding-bottom:24px}
+.theme-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))!important;gap:12px!important}
+.theme-swatch{display:flex;flex-direction:column;gap:10px;text-align:left;background:var(--sunken)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;padding:14px!important;cursor:pointer;transition:border-color .16s}
+.theme-swatch:hover{border-color:rgba(255,255,255,.22)!important}
+.theme-swatch.active{border-color:var(--accent)!important;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 26%,transparent)!important}
+.theme-swatch .sw-dots{display:flex;gap:6px}
+.theme-swatch .sw-dot{width:18px;height:18px;border-radius:6px;border:1px solid rgba(255,255,255,.14)}
+.theme-swatch .sw-name{font-size:.82rem!important;font-weight:650!important;color:var(--text)!important}
+.theme-swatch .sw-desc{font-size:.72rem!important;color:var(--muted2)!important}
+.theme-swatch .sw-check{margin-left:auto;font-size:.72rem;color:var(--accent)}
+@media(max-width:900px){.st-g2{grid-template-columns:minmax(0,1fr)!important}}
+
+/* ───────── misc ───────── */
+.empty{padding:52px 20px!important;color:var(--muted)!important;text-align:center}
+.empty-icon{display:none!important}
+.toast{background:var(--surface-2)!important;border:1px solid var(--line)!important;color:var(--text)!important;border-radius:var(--r-sm)!important;box-shadow:0 16px 40px rgba(0,0,0,.42)!important}
+.bot-nav{background:var(--sunken)!important;border-top:1px solid var(--line)!important}
+.bot-nav-item{color:var(--muted)!important}.bot-nav-item.active{color:var(--accent)!important}
+.mob-fab{background:var(--accent)!important;color:var(--accent-ink)!important;box-shadow:0 10px 30px rgba(0,0,0,.4)!important}
+.fab-menu-btn{background:var(--surface-2)!important;border:1px solid var(--line)!important;color:var(--text)!important}
+.fab-menu-label{color:var(--text)!important}
+.pm-act-btn{background:var(--surface-2)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;color:var(--text)!important}
+.pm-act-icon{background:var(--sunken)!important;color:var(--accent)!important;border-radius:var(--r-xs)!important}
+.qr-panel{background:var(--surface-2)!important;border:1px solid var(--line)!important;border-radius:var(--r-sm)!important}
+.qr-btn{background:var(--accent)!important;color:var(--accent-ink)!important;border-radius:var(--r-xs)!important;border:0!important;font-weight:700!important;cursor:pointer}
+.qr-inp{width:96px!important}
+@media(max-width:760px){.pm-kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.pm-bottom-grid{grid-template-columns:minmax(0,1fr)!important}}
 </style>
 </head>
 <body>
@@ -869,13 +959,8 @@ tbody tr.row-overdue{background:rgba(222,120,132,.055)!important;}
     </div>
     
   </div>
-  <div class="card" style="padding:0;overflow:hidden;">
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>#</th><th>Client</th><th>Amount</th><th>Due</th><th>Status</th><th></th></tr></thead>
-      <tbody id="incTbody"></tbody>
-    </table></div>
-    <div id="incPagination" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-top:1px solid var(--border2);"></div>
-  </div>
+  <div class="led-list" id="incTbody"></div>
+  <div id="incPagination" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:18px 0;"></div>
 </div>
 
 <!-- ══════════════════════ EXPENSES ══════════════════════ -->
@@ -887,16 +972,17 @@ tbody tr.row-overdue{background:rgba(222,120,132,.055)!important;}
       <button class="btn btn-red btn-sm" onclick="openModal('addExpModal')">+ Add Expense</button>
     </div>
   </div>
-  <div class="itabs" id="expTabs" style="margin-bottom:14px;">
-    <button class="itab active" data-ef="all">All</button>
-    <button class="itab" data-ef="recurring">Recurring</button>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+    <div class="itabs" id="expTabs">
+      <button class="itab active" data-ef="all">All</button>
+      <button class="itab" data-ef="recurring">Recurring</button>
+    </div>
+    <div class="sort-switch" id="expSortSwitch" title="Sort order">
+      <button class="ss-btn on" type="button" onclick="setExpSort('date')">Newest</button>
+      <button class="ss-btn" type="button" onclick="setExpSort('amount')">Largest</button>
+    </div>
   </div>
-  <div class="card" style="padding:0;overflow:hidden;">
-    <div class="tbl-wrap"><table>
-      <thead><tr><th>Title</th><th>Category</th><th>Amount</th><th>Date</th><th>Recurring</th><th>Notes</th><th>Receipt</th><th></th></tr></thead>
-      <tbody id="expTbody"></tbody>
-    </table></div>
-  </div>
+  <div class="led-list" id="expTbody"></div>
 </div>
 
 <!-- ══════════════════════ CLIENTS ══════════════════════ -->
@@ -926,6 +1012,12 @@ tbody tr.row-overdue{background:rgba(222,120,132,.055)!important;}
   <!-- ── PROFILE ── -->
   <div id="stab-profile">
     <div class="st-grid st-g2">
+      <!-- Appearance / themes -->
+      <div class="st-card st-full">
+        <div class="st-clabel">Appearance</div>
+        <p style="color:var(--muted);font-size:.8rem;margin:-6px 0 16px;">Pick a theme. It applies across the whole app instantly and is remembered on this device.</p>
+        <div class="theme-grid" id="themeCardGrid"></div>
+      </div>
       <!-- Studio Identity -->
       <div class="st-card">
         <div class="st-clabel">Studio Identity</div>
@@ -2183,30 +2275,34 @@ function renderIncome(){
   if(incPage>=pages)incPage=0;
   const paginated=rows.slice(incPage*PAGE_SIZE,(incPage+1)*PAGE_SIZE);
   const tb=document.getElementById('incTbody');
-  if(!paginated.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty"><p>No invoices match this view.</p></div></td></tr>`;renderPagination('incPagination',incPage,total,setIncPage);return;}
-  tb.innerHTML=paginated.map(i=>`<tr class="${isOverdue(i)?'row-overdue':''}">
-    <td><span style="font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.01em;">${i.invNo||'—'}</span></td>
-    <td><div class="income-client">${esc(i.client)}</div><div class="income-summary" title="${esc(invDesc(i)||'')}">${esc(invListSummary(i))}</div></td>
-    <td style="font-weight:600;">${(()=>{
-      const isFx=i.currency&&i.currency!=='INR'&&i.foreignAmount;
-      const sym=FX_CURRENCIES[i.currency]?.symbol||'₹';
-      const main=isFx?`${sym}${(+i.foreignAmount||0).toLocaleString('en-IN')}`:fmt(i.amount);
-      const left=(+i.amount||0)-rcv(i);
-      const sub=(i.status!=='received'&&left>0)?`<div style="font-size:.7rem;color:var(--muted);font-weight:300;">${fmt(left)} due</div>`:'';
-      return main+sub;
-    })()}</td>
-    <td>${i.due?`<span${isOverdue(i)?' style="color:var(--red);font-weight:600;"':''}>${fmtD(i.due)}</span>${isOverdue(i)?`<div style="font-size:.65rem;color:var(--red);">${Math.floor((new Date()-new Date(i.due))/(864e5))}d overdue</div>`:''}` :'<span style="color:var(--muted2);">—</span>'}</td>
-    <td>${sBadge(i)}</td>
-    <td><div class="income-actions">
-      <button type="button" class="row-action" onclick="curInvId='${i.id}';genInvoice()">View</button>
-      <button type="button" class="row-action" onclick="editInc('${i.id}')">Edit</button>
-      <select class="row-more" aria-label="More actions for ${esc(i.invNo||'invoice')}" onchange="incomeRowAction(this,'${i.id}')">
-        <option value="">More</option>
-        ${i.status!=='received'?'<option value="payment">Record payment</option>':''}
-        <option value="duplicate">Duplicate</option><option value="delete">Delete</option>
-      </select>
-    </div></td>
-  </tr>`).join('');
+  if(!paginated.length){tb.innerHTML='<div class="empty">No invoices match this view.</div>';renderPagination('incPagination',incPage,total,setIncPage);return;}
+  tb.innerHTML=paginated.map(i=>{
+    const isFx=i.currency&&i.currency!=='INR'&&i.foreignAmount;
+    const sym=FX_CURRENCIES[i.currency]?.symbol||'₹';
+    const amount=isFx?`${sym}${(+i.foreignAmount||0).toLocaleString('en-IN')}`:fmt(i.amount);
+    const left=(+i.amount||0)-rcv(i);
+    return `<article class="led-card${isOverdue(i)?' is-overdue':''}">
+      <div class="led-main">
+        <div class="led-top"><span class="led-no">${esc(i.invNo||'—')}</span>${sBadge(i)}</div>
+        <div class="led-title">${esc(i.client)}</div>
+        <div class="led-sub" title="${esc(invDesc(i)||'')}">${esc(invListSummary(i)||'Invoice')}</div>
+        <div class="led-meta"><span>${fmtD(i.date)}</span><span class="led-dot">·</span><span>${i.due?'Due '+fmtD(i.due):'On receipt'}</span>${i.cat?`<span class="led-tag">${esc(i.cat)}</span>`:''}</div>
+      </div>
+      <div class="led-side">
+        <div class="led-amount">${amount}</div>
+        ${i.status!=='received'&&left>0?`<div class="led-due">${fmt(left)} due</div>`:''}
+        <div class="led-actions">
+          <button type="button" class="row-action" onclick="curInvId='${i.id}';genInvoice()">View</button>
+          <button type="button" class="row-action" onclick="editInc('${i.id}')">Edit</button>
+          <select class="row-more" aria-label="More actions" onchange="incomeRowAction(this,'${i.id}')">
+            <option value="">More</option>
+            ${i.status!=='received'?'<option value="payment">Record payment</option>':''}
+            <option value="duplicate">Duplicate</option><option value="delete">Delete</option>
+          </select>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
   renderPagination('incPagination',incPage,total,setIncPage);
   const sw=document.getElementById('incSortSwitch');
   if(sw)sw.querySelectorAll('.ss-btn').forEach(b=>b.classList.toggle('on',b.textContent.trim()===(incSort==='no'?'No.':'Date')));
@@ -2304,27 +2400,38 @@ function resetAddInc(){
 
 // ─── EXPENSE CRUD ───
 let expFilter='all';
+let expSort='date';
+function setExpSort(mode){expSort=mode;renderExpenses();
+  const sw=document.getElementById('expSortSwitch');
+  if(sw)sw.querySelectorAll('.ss-btn').forEach(b=>b.classList.toggle('on',b.textContent.trim()===(mode==='date'?'Newest':'Largest')));
+}
+function expenseRowAction(sel,id){const a=sel.value;sel.value='';if(a==='delete')delExp(id);}
 function renderExpenses(){
   const q=(document.getElementById('expSearch')?.value||'').toLowerCase();
   let rows=[...db.expenses];
   if(expFilter==='recurring')rows=rows.filter(e=>e.recurring);
   if(q)rows=rows.filter(e=>(e.title+e.cat+e.notes).toLowerCase().includes(q));
-  rows.sort((a,b)=>b.date>a.date?1:-1);
+  if(expSort==='amount')rows.sort((a,b)=>(+b.amount||0)-(+a.amount||0));
+  else rows.sort((a,b)=>b.date>a.date?1:-1);
   const tb=document.getElementById('expTbody');
-  if(!rows.length){tb.innerHTML=`<tr><td colspan="7"><div class="empty"><div class="empty-icon">🧾</div><p>No expenses</p></div></td></tr>`;return;}
-  tb.innerHTML=rows.map(e=>`<tr>
-    <td style="font-weight:500;">${esc(e.title)}</td>
-    <td>${e.cat?`<span class="badge b-cat">${esc(e.cat)}</span>`:'—'}</td>
-    <td style="font-weight:600;color:var(--red);">${fmt(e.amount)}</td>
-    <td style="font-weight:300;">${fmtD(e.date)}</td>
-    <td>${e.recurring?'<span class="badge b-recur">🔁 Monthly</span>':'<span style="color:var(--muted2);">—</span>'}</td>
-    <td style="color:var(--muted);font-size:.78rem;font-weight:300;">${esc(e.notes||'—')}</td>
-    <td>${e.receipt&&e.receipt.startsWith('data:image')?`<img src="${e.receipt}" style="max-height:36px;max-width:50px;border-radius:3px;cursor:pointer;" onclick="window.open('${e.receipt}','_blank')" title="View receipt">`:e.receipt?'📄':'—'}</td>
-    <td><div style="display:flex;gap:3px;">
-      <button class="ibtn" onclick="editExp('${e.id}')">✏️</button>
-      <button class="ibtn" onclick="delExp('${e.id}')">🗑</button>
-    </div></td>
-  </tr>`).join('');
+  if(!rows.length){tb.innerHTML='<div class="empty">No expenses match this view.</div>';return;}
+  tb.innerHTML=rows.map(e=>`<article class="led-card is-expense">
+      <div class="led-main">
+        <div class="led-top"><span class="led-no">${esc(e.cat||'Expense')}</span>${e.recurring?'<span class="badge b-recur">Monthly</span>':''}</div>
+        <div class="led-title">${esc(e.title)}</div>
+        <div class="led-sub">${esc(e.notes||'No notes')}</div>
+        <div class="led-meta"><span>${fmtD(e.date)}</span>${e.receipt?`<span class="led-tag"><a href="${e.receipt}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Receipt</a></span>`:''}</div>
+      </div>
+      <div class="led-side">
+        <div class="led-amount">${fmt(e.amount)}</div>
+        <div class="led-actions">
+          <button type="button" class="row-action" onclick="editExp('${e.id}')">Edit</button>
+          <select class="row-more" aria-label="More actions" onchange="expenseRowAction(this,'${e.id}')">
+            <option value="">More</option><option value="delete">Delete</option>
+          </select>
+        </div>
+      </div>
+    </article>`).join('');
 }
 function saveExpense(){
   const title=document.getElementById('ae-title').value.trim();
@@ -2946,81 +3053,100 @@ function resetInvForm(pfx){
 }
 
 // ─── THEME SYSTEM ───
+// ─── THEME SYSTEM (v2) ───
+// Tokens are written onto <body> as inline custom properties, so they beat any
+// stylesheet rule and the whole product re-skins instantly, no reload.
 const THEMES={
-  ocean:{
-    name:'ocean',label:'Premium',desc:'Light · Indigo + Green',dark:false,
-    bg:'#F6F9FC',
-    inc:'#635BFF',exp:'#1DB954',
-    cats:['#635BFF','#1DB954','#F59E0B','#0EA5E9','#8B5CF6','#10B981','#EC4899','#6B7A99'],
-    expCats:['#F59E0B','#0EA5E9','#635BFF','#EC4899','#1DB954','#8B5CF6','#10B981','#6B7A99']
-  },
-  emerald:{
-    name:'emerald',label:'Emerald Night',desc:'Dark · Green + Gold',dark:true,
-    bg:'#0B1A2C',
-    inc:'#00E676',exp:'#FFD740',
-    cats:['#00E676','#FFD740','#40C4FF','#E040FB','#FF6E40','#69F0AE','#FFAB40','#80D8FF'],
-    expCats:['#FF6E40','#40C4FF','#E040FB','#69F0AE','#FFAB40','#80D8FF','#FFD740','#F48FB1']
-  },
-  arctic:{
-    name:'arctic',label:'Arctic Clean',desc:'Light · Indigo + Amber',dark:false,
-    bg:'#FAFBFF',
-    inc:'#1A237E',exp:'#FF6F00',
-    cats:['#1A237E','#FF6F00','#C62828','#6A1B9A','#00838F','#2E7D32','#0288D1','#AD1457'],
-    expCats:['#C62828','#FF6F00','#6A1B9A','#00838F','#2E7D32','#0288D1','#1A237E','#AD1457']
-  },
-  ash:{
-    name:'ash',label:'Ash & Rose',desc:'Dark · Rose + Amber',dark:true,
-    bg:'#1A1A1E',
-    inc:'#FF4D8D',exp:'#FFB347',
-    cats:['#FF4D8D','#FFB347','#C084FC','#34D399','#60A5FA','#FBBF24','#F87171','#4ADE80'],
-    expCats:['#F87171','#FFB347','#C084FC','#34D399','#60A5FA','#FBBF24','#FF4D8D','#4ADE80']
-  }
+  midnight:{name:'midnight',label:'Midnight',desc:'Near-black · lime accent',dark:true,
+    bg:'#0F1113',inc:'#D1FE17',exp:'#7E869A',
+    cats:['#D1FE17','#9CE6F3','#FFC66B','#C084FC','#4ADE80','#60A5FA','#F472B6','#7E869A'],
+    expCats:['#FFC66B','#7E869A','#9CE6F3','#C084FC','#D1FE17','#4ADE80','#F472B6','#60A5FA'],
+    tokens:{'--bg':'#0F1113','--s2':'#0F1113','--white':'#1C1E20','--s1':'#1C1E20','--surface':'#1C1E20','--surface-2':'#23262A','--sunken':'#0F1113',
+      '--text':'#FFFFFF','--ink':'#FFFFFF','--muted':'#9EA2AD','--muted2':'#7E869A','--border':'rgba(255,255,255,.09)','--border2':'rgba(255,255,255,.06)',
+      '--line':'rgba(255,255,255,.09)','--line-2':'rgba(255,255,255,.06)','--black':'#FFFFFF',
+      '--accent':'#D1FE17','--accent-ink':'#131517','--red':'#D1FE17','--red2':'#B7E000','--red-soft':'rgba(209,254,23,.12)',
+      '--purple':'#D1FE17','--purple-soft':'rgba(209,254,23,.12)','--purple-soft2':'rgba(209,254,23,.18)',
+      '--green':'#4ADE80','--green-soft':'rgba(74,222,128,.12)','--orange':'#FFC66B','--orange-soft':'rgba(255,198,107,.12)',
+      '--teal':'#9CE6F3','--teal-soft':'rgba(156,230,243,.12)','--shadow':'none','--shadow-sm':'none','--shadow-lg':'0 32px 80px rgba(0,0,0,.5)'}},
+  cobalt:{name:'cobalt',label:'Cobalt',desc:'Deep navy · sky accent',dark:true,
+    bg:'#0B1016',inc:'#7CC6FF',exp:'#5E6A7A',
+    cats:['#7CC6FF','#9CE6F3','#A7F3D0','#C084FC','#FBD38D','#F9A8D4','#93C5FD','#5E6A7A'],
+    expCats:['#FBD38D','#5E6A7A','#7CC6FF','#C084FC','#A7F3D0','#F9A8D4','#93C5FD','#9CE6F3'],
+    tokens:{'--bg':'#0B1016','--s2':'#0B1016','--white':'#141B23','--s1':'#141B23','--surface':'#141B23','--surface-2':'#1B242E','--sunken':'#080C11',
+      '--text':'#F4F8FF','--ink':'#F4F8FF','--muted':'#93A2B4','--muted2':'#748496','--border':'rgba(255,255,255,.10)','--border2':'rgba(255,255,255,.06)',
+      '--line':'rgba(255,255,255,.10)','--line-2':'rgba(255,255,255,.06)','--black':'#F4F8FF',
+      '--accent':'#7CC6FF','--accent-ink':'#08202F','--red':'#7CC6FF','--red2':'#5FB4F5','--red-soft':'rgba(124,198,255,.12)',
+      '--purple':'#7CC6FF','--purple-soft':'rgba(124,198,255,.12)','--purple-soft2':'rgba(124,198,255,.18)',
+      '--green':'#5CD6A0','--green-soft':'rgba(92,214,160,.12)','--orange':'#FBD38D','--orange-soft':'rgba(251,211,141,.12)',
+      '--teal':'#9CE6F3','--teal-soft':'rgba(156,230,243,.12)','--shadow':'none','--shadow-sm':'none','--shadow-lg':'0 32px 80px rgba(0,0,0,.5)'}},
+  rose:{name:'rose',label:'Rose',desc:'Charcoal · pink accent',dark:true,
+    bg:'#121014',inc:'#FF4D8D',exp:'#6D6472',
+    cats:['#FF4D8D','#FFB86B','#C084FC','#4ADE80','#60A5FA','#F9A8D4','#FFD166','#6D6472'],
+    expCats:['#FFB86B','#6D6472','#FF4D8D','#C084FC','#4ADE80','#FFD166','#60A5FA','#F9A8D4'],
+    tokens:{'--bg':'#121014','--s2':'#121014','--white':'#1D1A20','--s1':'#1D1A20','--surface':'#1D1A20','--surface-2':'#26222B','--sunken':'#0D0B0F',
+      '--text':'#FBF7FA','--ink':'#FBF7FA','--muted':'#A99FAC','--muted2':'#847A88','--border':'rgba(255,255,255,.10)','--border2':'rgba(255,255,255,.06)',
+      '--line':'rgba(255,255,255,.10)','--line-2':'rgba(255,255,255,.06)','--black':'#FBF7FA',
+      '--accent':'#FF4D8D','--accent-ink':'#2A0714','--red':'#FF4D8D','--red2':'#F03C7C','--red-soft':'rgba(255,77,141,.12)',
+      '--purple':'#FF4D8D','--purple-soft':'rgba(255,77,141,.12)','--purple-soft2':'rgba(255,77,141,.18)',
+      '--green':'#4ADE80','--green-soft':'rgba(74,222,128,.12)','--orange':'#FFB86B','--orange-soft':'rgba(255,184,107,.12)',
+      '--teal':'#9CE6F3','--teal-soft':'rgba(156,230,243,.12)','--shadow':'none','--shadow-sm':'none','--shadow-lg':'0 32px 80px rgba(0,0,0,.5)'}},
+  snow:{name:'snow',label:'Snow',desc:'Light · ink accent',dark:false,
+    bg:'#F7F7F8',inc:'#14151A',exp:'#9EA2AD',
+    cats:['#14151A','#5E636E','#0EA5E9','#7C3AED','#059669','#D97706','#DC2626','#9EA2AD'],
+    expCats:['#D97706','#9EA2AD','#14151A','#7C3AED','#059669','#0EA5E9','#DC2626','#5E636E'],
+    tokens:{'--bg':'#F7F7F8','--s2':'#F7F7F8','--white':'#FFFFFF','--s1':'#FFFFFF','--surface':'#FFFFFF','--surface-2':'#F1F2F4','--sunken':'#FFFFFF',
+      '--text':'#14151A','--ink':'#14151A','--muted':'#6B7280','--muted2':'#9EA2AD','--border':'rgba(20,21,26,.12)','--border2':'rgba(20,21,26,.07)',
+      '--line':'rgba(20,21,26,.12)','--line-2':'rgba(20,21,26,.07)','--black':'#14151A',
+      '--accent':'#14151A','--accent-ink':'#FFFFFF','--red':'#14151A','--red2':'#333333','--red-soft':'rgba(20,21,26,.06)',
+      '--purple':'#14151A','--purple-soft':'rgba(20,21,26,.06)','--purple-soft2':'rgba(20,21,26,.1)',
+      '--green':'#059669','--green-soft':'rgba(5,150,105,.1)','--orange':'#D97706','--orange-soft':'rgba(217,119,6,.1)',
+      '--teal':'#0EA5E9','--teal-soft':'rgba(14,165,233,.1)','--shadow':'0 1px 2px rgba(20,21,26,.06)','--shadow-sm':'0 1px 2px rgba(20,21,26,.05)','--shadow-lg':'0 24px 60px rgba(20,21,26,.18)'}}
 };
-window._TC=THEMES.ocean;
+window._TC=THEMES.midnight;
+function h2r(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;}
 
-function h2r(hex,a){
-  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  return`rgba(${r},${g},${b},${a})`;
-}
 function applyTheme(){
   if(!db._glassMigrated){db._glassMigrated=true;db.profile.darkMode=false;save();}
-  const tn=db.profile.theme||'ocean';
-  const T=THEMES[tn]||THEMES.ocean;
+  const tn=THEMES[db.profile.theme]?db.profile.theme:'midnight';
+  const T=THEMES[tn];
   window._TC=T;
-  // Remove all theme + dark classes, apply current theme
-  document.body.classList.remove('dark','theme-ocean','theme-emerald','theme-arctic','theme-ash');
+  Array.from(document.body.classList).forEach(c=>{if(c==='dark'||c.indexOf('theme-')===0)document.body.classList.remove(c);});
   document.body.classList.add('theme-'+tn);
-  // Update expense legend dot dynamically
-  const legExpDot=document.querySelector('#legExp .leg-dot');
-  if(legExpDot)legExpDot.style.background=T.exp;
-  const legIncDot=document.querySelector('#legIncome .leg-dot');
-  if(legIncDot)legIncDot.style.background=T.inc;
-  // Redraw main chart with new colors
-  if(typeof drawMainChart==='function'&&document.getElementById('mainChart'))drawMainChart();
+  document.body.classList.toggle('theme-dark',!!T.dark);
+  document.body.classList.toggle('theme-light',!T.dark);
+  document.body.setAttribute('data-theme',tn);
+  const S=document.body.style;
+  Object.keys(T.tokens).forEach(k=>S.setProperty(k,T.tokens[k]));
+  document.documentElement.style.colorScheme=T.dark?'dark':'light';
+  const legExpDot=document.querySelector('#legExp .leg-dot');if(legExpDot)legExpDot.style.background=T.exp;
+  const legIncDot=document.querySelector('#legIncome .leg-dot');if(legIncDot)legIncDot.style.background=T.inc;
+  if(document.getElementById('mainChart')&&typeof drawMainChart==='function'){
+    const wi=document.getElementById('legIncome'),we=document.getElementById('legExp');
+    if(wi&&we){wi.classList.add('active');we.classList.remove('active');}
+    drawMainChart();
+  }
+  renderThemeCards();
 }
 function setTheme(name){
+  if(!THEMES[name])return;
   db.profile.theme=name;
-  applyTheme();
   save();
-  renderThemeCards();
-  // Redraw report charts if on reports tab
+  applyTheme();
+  toast(THEMES[name].label+' theme applied');
 }
 function renderThemeCards(){
   const grid=document.getElementById('themeCardGrid');if(!grid)return;
-  const cur=db.profile.theme||'ocean';
-  grid.innerHTML=Object.values(THEMES).map(T=>`
-    <div class="theme-card${cur===T.name?' selected':''}" onclick="setTheme('${T.name}')" style="background:${T.bg};">
-      <div class="theme-pal">
-        <div class="theme-pal-dot" style="background:${T.inc};"></div>
-        <div class="theme-pal-dot" style="background:${T.exp};"></div>
-        ${T.cats.slice(2,5).map(c=>`<div class="theme-pal-dot" style="background:${c};"></div>`).join('')}
-      </div>
-      <div class="theme-card-name" style="color:${T.dark?'#E8E8E8':'#1C1C1E'};">${T.label}</div>
-      <div class="theme-card-desc" style="color:${T.dark?'#888':'#86868B'};">${T.desc}</div>
-    </div>
-  `).join('');
+  const cur=db.profile.theme||'midnight';
+  grid.innerHTML=Object.values(THEMES).map(T=>
+    '<button type="button" class="theme-swatch'+(T.name===cur?' active':'')+'" onclick="setTheme(\''+T.name+'\')">'+
+      '<span class="sw-dots"><span class="sw-dot" style="background:'+T.bg+'"></span>'+
+      '<span class="sw-dot" style="background:'+T.tokens['--accent']+'"></span>'+
+      '<span class="sw-dot" style="background:'+T.tokens['--surface-2']+'"></span>'+
+      '<span class="sw-dot" style="background:'+T.inc+'"></span></span>'+
+      '<span class="sw-name">'+T.label+(T.name===cur?'<span class="sw-check"> ✓</span>':'')+'</span>'+
+      '<span class="sw-desc">'+T.desc+'</span>'+
+    '</button>').join('');
 }
-// Keep toggleDark/setAccent as no-ops for compatibility (themes now handle this)
 function toggleDark(on){}
 function setAccent(colour,el){}
 
@@ -3924,7 +4050,7 @@ function quickReceive(id,btn){
   if(inv.status==='received'){toast('Already marked received');return;}
   // Remove any existing panels
   document.querySelectorAll('.qr-panel').forEach(p=>p.remove());
-  const cell=btn?btn.closest('td'):null;if(!cell)return;
+  const cell=btn?(btn.closest('td')||btn.closest('.led-side')||btn.closest('.led-card')||btn.parentNode):null;if(!cell)return;
   const sym=db.profile.currency||'₹';
   const panel=document.createElement('div');
   panel.className='qr-panel';
