@@ -861,6 +861,37 @@ body.tint-cards .t-olive .chip,body.tint-cards .t-orange .chip{
   background:#000!important;border-color:#000!important;color:#FFFFFF!important}
 body.tint-cards .t-olive .cp-tag *,body.tint-cards .t-orange .cp-tag *,
 body.tint-cards .t-olive .badge *,body.tint-cards .t-orange .badge *{color:#FFFFFF!important}
+
+/* ledger cards adopt the reference language: bold fill, black text, outline pills */
+body.tint-cards .led-card{background:#161616!important;border:0!important;border-radius:22px!important;
+  padding:20px 22px!important;margin-bottom:12px!important;border-bottom:0!important}
+body.tint-cards .led-card.t-sage{background:#D1DDCF!important}
+body.tint-cards .led-card.t-lav{background:#9B92B3!important}
+body.tint-cards .led-card.t-yellow{background:#E8E230!important}
+body.tint-cards .led-card.t-olive{background:#8B8B00!important}
+body.tint-cards .led-card.t-orange{background:#FF5733!important}
+body.tint-cards .led-card.t-grey{background:#D9D9D9!important}
+body.tint-cards .led-card[class*="t-"] .led-title{font-size:1.08rem!important;font-weight:700!important;letter-spacing:-.02em!important;color:#000!important}
+body.tint-cards .led-card[class*="t-"] .led-amount{font-size:1.35rem!important;font-weight:800!important;letter-spacing:-.03em!important;color:#000!important}
+body.tint-cards .led-card[class*="t-"] .led-meta,body.tint-cards .led-card[class*="t-"] .led-no{color:rgba(0,0,0,.68)!important;font-weight:600!important}
+body.tint-cards .led-card[class*="t-"] .led-status{color:#000!important;font-weight:700!important}
+body.tint-cards .led-card[class*="t-"] .led-status .dotmark{background:#000!important}
+body.tint-cards .led-card[class*="t-"] .row-action,body.tint-cards .led-card[class*="t-"] .row-more{
+  border:1.5px solid rgba(0,0,0,.65)!important;background:transparent!important;color:#000!important;
+  font-weight:650!important;border-radius:999px!important}
+body.tint-cards .led-card[class*="t-"] .row-action:hover,body.tint-cards .led-card[class*="t-"] .row-more:hover{
+  background:rgba(0,0,0,.10)!important}
+body.tint-cards .led-card.t-olive .row-action,body.tint-cards .led-card.t-orange .row-action,
+body.tint-cards .led-card.t-olive .row-more,body.tint-cards .led-card.t-orange .row-more{
+  background:#000!important;color:#fff!important;border-color:#000!important}
+body.tint-cards .led-card.t-olive .led-meta,body.tint-cards .led-card.t-orange .led-meta,
+body.tint-cards .led-card.t-olive .led-no,body.tint-cards .led-card.t-orange .led-no{color:rgba(0,0,0,.7)!important}
+body.tint-cards .led-card.t-olive .led-status,body.tint-cards .led-card.t-orange .led-status{color:#000!important}
+body.tint-cards .led-card.t-olive .led-status .dotmark,body.tint-cards .led-card.t-orange .led-status .dotmark{background:#000!important}
+body.tint-cards .led-card.t-olive .led-title,body.tint-cards .led-card.t-orange .led-title,
+body.tint-cards .led-card.t-olive .led-amount,body.tint-cards .led-card.t-orange .led-amount{color:#000!important}
+body.tint-cards .led-card[class*="t-"] select.row-more option{background:#000;color:#fff}
+body.tint-cards .led-active-filters{display:flex;gap:8px;flex-wrap:wrap}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:16px 2px!important}
@@ -2466,7 +2497,9 @@ function renderIncome(){
       :(i.status==='received'?['Received','ok']
       :(i.status==='partial'?['Partially paid','info']
       :(i.isCreditNote?['Credit note','mut']:['Pending','warn'])));
-    return `<article class="led-card${overdue?' is-overdue':''}">
+    // reference language: every card carries a bold fill, tinted by what the invoice is
+    const tint=overdue?'t-orange':(i.status==='received'?'t-sage':(i.status==='partial'?'t-lav':(i.isCreditNote?'t-grey':'t-yellow')));
+    return `<article class="led-card ${tint}${overdue?' is-overdue':''}">
       <div class="led-row">
         <div class="led-title" title="${esc(i.client)}">${esc(i.client)}</div>
         <div class="led-amount">${amount}</div>
@@ -2602,7 +2635,8 @@ function renderExpenses(){
   else rows.sort((a,b)=>b.date>a.date?1:-1);
   const tb=document.getElementById('expTbody');
   if(!rows.length){tb.innerHTML='<div class="empty">No expenses match this view.</div>';return;}
-  tb.innerHTML=rows.map(e=>`<article class="led-card is-expense">
+  const TINTS=['t-sage','t-lav','t-grey','t-yellow','t-olive'];
+  tb.innerHTML=rows.map((e,ei)=>{const tint=TINTS[ei%TINTS.length];return `<article class="led-card is-expense ${tint}">
       <div class="led-row">
         <div class="led-title" title="${esc(e.title)}">${esc(e.title)}</div>
         <div class="led-amount">${fmt(e.amount)}</div>
@@ -2621,7 +2655,7 @@ function renderExpenses(){
           </select>
         </div>
       </div>
-    </article>`).join('');
+    </article>`;}).join('');
 }
 function openClientModal(name){
   curClient=name;
@@ -3307,13 +3341,25 @@ function h2r(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5
 // thing that reliably beats the per-card styles shipped with the app.
 function applyTintText(){
   const on=document.body.classList.contains('tint-cards');
-  document.querySelectorAll('.pm-kpi,.st-card,.client-card,.card').forEach(card=>{
+  document.querySelectorAll('.pm-kpi,.st-card,.client-card,.card,.led-card,.pm-chart-card,.pm-table-card,.pm-tcard,.chart-card').forEach(card=>{
     const tinted=on&&Array.from(card.classList).some(c=>c.indexOf('t-')===0);
     if(!tinted)return;
-    card.querySelectorAll('.pm-kpi-value,.pm-kpi-label,.pm-kpi-sub,.pm-kpi-meta,.st-clabel,.st-flabel,label,.c-name,.cs-v,.cs-l,.c-meta').forEach(el=>{
-      const muted=/kpi-sub|kpi-meta|cs-l|c-meta/.test(el.className);
-      el.style.setProperty('color',muted?'rgba(0,0,0,.68)':'#000000','important');
+    const MUTED=/kpi-sub|kpi-meta|cs-l|c-meta|led-meta|led-no|led-due|led-sub|led-summary/;
+    card.querySelectorAll('.pm-kpi-value,.pm-kpi-label,.pm-kpi-sub,.pm-kpi-meta,.st-clabel,.st-flabel,label,.c-name,.cs-v,.cs-l,.c-meta,.led-title,.led-amount,.led-no,.led-meta,.led-sub,.led-status,.recent-name,.recent-detail,.recent-amount').forEach(el=>{
+      el.style.setProperty('color',MUTED.test(el.className)?'rgba(0,0,0,.68)':'#000000','important');
     });
+    const strongTint=card.classList.contains('t-olive')||card.classList.contains('t-orange');
+    if(strongTint){
+      card.querySelectorAll('.led-title,.led-amount,.led-status,.pm-kpi-value,.pm-kpi-label,.st-clabel,.st-flabel,label,.c-name,.cs-v').forEach(el=>el.style.setProperty('color','#000000','important'));
+      card.querySelectorAll('.led-meta,.led-no,.pm-kpi-sub,.cs-l,.c-meta').forEach(el=>el.style.setProperty('color','rgba(0,0,0,.7)','important'));
+    }
+    card.querySelectorAll('.row-action,.row-more,select.row-more').forEach(el=>{
+      el.style.setProperty('color','#000000','important');
+      el.style.setProperty('background-color','transparent','important');
+      el.style.setProperty('border','1.5px solid rgba(0,0,0,.65)','important');
+      el.style.setProperty('border-radius','999px','important');
+    });
+    card.querySelectorAll('.led-status .dotmark').forEach(el=>el.style.setProperty('background','#000000','important'));
     card.querySelectorAll('.cp-tag,.badge,.chip,.t-pill').forEach(el=>{
       const strong=card.classList.contains('t-olive')||card.classList.contains('t-orange');
       el.style.setProperty('background',strong?'#000000':'rgba(0,0,0,.13)','important');
