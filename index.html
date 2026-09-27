@@ -1720,7 +1720,7 @@ body .sidebar-search input,body.tint-cards .sidebar-search input,body .search-wr
   -webkit-mask:none!important;mask:none!important}
 body .sidebar-search::before,body .search-wrap::before{display:none!important;content:none!important}
 /* ══ analytics: wide chart + right-hand column of two cards ══ */
-.an-row{grid-template-columns:minmax(0,1.52fr) minmax(0,1fr)!important;align-items:start!important}
+.an-row{grid-template-columns:repeat(3,minmax(0,1fr))!important;align-items:stretch!important}
 .an-side{display:flex;flex-direction:column;gap:16px;min-width:0}
 .an-side .ref-card{min-width:0}
 .an-top-wrap{display:flex;flex-direction:column}
@@ -2248,19 +2248,17 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
     <div class="chart-xlabels" id="anXLabels"></div>
   </article>
 
-  <div class="an-side">
-    <article class="ref-card t-lav">
+  <article class="ref-card t-lav">
       <div class="ref-card-top"><span class="t-pill">Year vs last year</span></div>
       <p class="ref-note">How this year compares with <span id="anLYLab">&mdash;</span>.</p>
-      <div class="an-cmp-wrap" id="anCompare"></div>
-    </article>
+    <div class="an-cmp-wrap" id="anCompare"></div>
+  </article>
 
-    <article class="ref-card t-orange">
-      <div class="ref-card-top"><span class="t-pill">Top clients</span></div>
-      <p class="ref-note">Who brought the money in <span id="anTopYear">&mdash;</span>.</p>
-      <div class="an-top-wrap" id="anTopClients"></div>
-    </article>
-  </div>
+  <article class="ref-card t-orange">
+    <div class="ref-card-top"><span class="t-pill">Top clients</span></div>
+    <p class="ref-note">Who brought the money in <span id="anTopYear">&mdash;</span>.</p>
+    <div class="an-top-wrap" id="anTopClients"></div>
+  </article>
 </section>
 
 <!-- ③ MONTH BY MONTH -->
