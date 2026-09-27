@@ -5036,12 +5036,19 @@ function buildInvoiceHTML(inv){
     const fromHTML=fromLines.join('')+(fromMeta.length?`<div style="font-size:12px;color:#4A4A4A;line-height:1.85;">${fromMeta.join('<br>')}</div>`:'');
     return`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${title}</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
-<style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html,body{background:#E5E0D8;font-family:'Bricolage Grotesque',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+<style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html,body{background:#E5E0D8;font-family:'Bricolage Grotesque',-apple-system,'Segoe UI',Roboto,'Noto Sans','Helvetica Neue',Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 .save-btn{display:block;width:220px;margin:32px auto 20px;padding:11px 28px;background:#111;color:#fff;border:none;border-radius:9px;font-size:14px;font-family:inherit;font-weight:600;cursor:pointer;}
 .save-btn:hover{background:#333;}
 .page{width:794px;min-height:1123px;margin:0 auto 40px;background:#F2EDE3;padding:56px 60px;display:flex;flex-direction:column;}
 .hr{border:none;border-top:1px solid #BDB6A8;flex-shrink:0;}
 .r{text-align:right;}
+/* figures: even, tight character spacing (no inherited tracking, tabular digits) */
+.td.r,.table-row .td.r,.total-row .val,.total-final .val,.totals-tbl td:last-child,
+table.items td.r,table.items th.r,.total-final-row td:last-child{
+  letter-spacing:0!important;word-spacing:0!important;font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:'tnum' 1,'lnum' 1;}
+.table-head .th.r{letter-spacing:0!important}
+
 .table-head{display:grid;grid-template-columns:minmax(0,1fr) 132px;column-gap:22px;align-items:center;padding:12px 0;border-top:1.5px solid #111;border-bottom:1px solid #BDB6A8;}
 .th{font-size:14px;font-weight:700;color:#111;}
 .table-row{display:grid;grid-template-columns:minmax(0,1fr) 132px;column-gap:22px;align-items:center;padding:17px 0;border-bottom:1px solid #BDB6A8;}
@@ -5164,8 +5171,22 @@ function buildInvoiceHTML(inv){
 table.items{width:100%;border-collapse:collapse;margin-bottom:4px;}
 table.items th{font-size:10px;font-weight:700;letter-spacing:.08em;color:#AAAAAA;text-transform:uppercase;padding:8px 0;border-bottom:1.5px solid #111;text-align:left;}
 table.items th.r{text-align:right;}
+/* figures: even, tight character spacing (no inherited tracking, tabular digits) */
+.td.r,.table-row .td.r,.total-row .val,.total-final .val,.totals-tbl td:last-child,
+table.items td.r,table.items th.r,.total-final-row td:last-child{
+  letter-spacing:0!important;word-spacing:0!important;font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:'tnum' 1,'lnum' 1;}
+.table-head .th.r{letter-spacing:0!important}
+
 table.items td{padding:14px 0;border-bottom:1px solid #F0F0F0;font-size:13px;color:#333;vertical-align:middle;}
 table.items td.r{text-align:right;}
+/* figures: even, tight character spacing (no inherited tracking, tabular digits) */
+.td.r,.table-row .td.r,.total-row .val,.total-final .val,.totals-tbl td:last-child,
+table.items td.r,table.items th.r,.total-final-row td:last-child{
+  letter-spacing:0!important;word-spacing:0!important;font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:'tnum' 1,'lnum' 1;}
+.table-head .th.r{letter-spacing:0!important}
+
 .td-name{font-weight:600;color:#111;margin-bottom:2px;}
 .td-sub{font-size:11px;color:#6E6E6E;}
 .totals-tbl{width:280px;margin-left:auto;border-collapse:collapse;margin-top:4px;}
@@ -5221,8 +5242,22 @@ table.items td.r{text-align:right;}
 table.items{width:100%;border-collapse:collapse;margin-bottom:8px;}
 table.items th{font-size:10px;font-weight:700;letter-spacing:.08em;color:#AAAAAA;text-transform:uppercase;padding:10px 0;border-bottom:1px solid #E8E8E8;text-align:left;}
 table.items th.r{text-align:right;}
+/* figures: even, tight character spacing (no inherited tracking, tabular digits) */
+.td.r,.table-row .td.r,.total-row .val,.total-final .val,.totals-tbl td:last-child,
+table.items td.r,table.items th.r,.total-final-row td:last-child{
+  letter-spacing:0!important;word-spacing:0!important;font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:'tnum' 1,'lnum' 1;}
+.table-head .th.r{letter-spacing:0!important}
+
 table.items td{padding:14px 0;border-bottom:1px solid #F5F5F5;font-size:13px;color:#333;}
 table.items td.r{text-align:right;}
+/* figures: even, tight character spacing (no inherited tracking, tabular digits) */
+.td.r,.table-row .td.r,.total-row .val,.total-final .val,.totals-tbl td:last-child,
+table.items td.r,table.items th.r,.total-final-row td:last-child{
+  letter-spacing:0!important;word-spacing:0!important;font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:'tnum' 1,'lnum' 1;}
+.table-head .th.r{letter-spacing:0!important}
+
 .td-name{font-weight:600;color:#111;}
 .td-sub{font-size:11px;color:#6E6E6E;margin-top:2px;}
 .totals-tbl{width:260px;margin-left:auto;border-collapse:collapse;margin-top:4px;}
@@ -5287,8 +5322,22 @@ table.items td.r{text-align:right;}
 table.items{width:100%;border-collapse:collapse;margin-bottom:4px;}
 table.items th{font-size:10px;letter-spacing:.08em;color:#5E5E5E;text-transform:uppercase;padding:10px 0;border-bottom:2px solid #111;text-align:left;font-family:sans-serif;font-weight:600;}
 table.items th.r{text-align:right;}
+/* figures: even, tight character spacing (no inherited tracking, tabular digits) */
+.td.r,.table-row .td.r,.total-row .val,.total-final .val,.totals-tbl td:last-child,
+table.items td.r,table.items th.r,.total-final-row td:last-child{
+  letter-spacing:0!important;word-spacing:0!important;font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:'tnum' 1,'lnum' 1;}
+.table-head .th.r{letter-spacing:0!important}
+
 table.items td{padding:14px 0;border-bottom:1px solid #EEE;font-size:13px;color:#333;vertical-align:middle;}
 table.items td.r{text-align:right;}
+/* figures: even, tight character spacing (no inherited tracking, tabular digits) */
+.td.r,.table-row .td.r,.total-row .val,.total-final .val,.totals-tbl td:last-child,
+table.items td.r,table.items th.r,.total-final-row td:last-child{
+  letter-spacing:0!important;word-spacing:0!important;font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:'tnum' 1,'lnum' 1;}
+.table-head .th.r{letter-spacing:0!important}
+
 .td-name{font-weight:700;color:#111;}
 .td-sub{font-size:11px;color:#6E6E6E;margin-top:2px;font-family:sans-serif;}
 .totals-tbl{width:260px;margin-left:auto;border-collapse:collapse;margin-top:4px;}
