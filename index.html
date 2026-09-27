@@ -1719,6 +1719,35 @@ body .sidebar-search input,body.tint-cards .sidebar-search input,body .search-wr
   background-size:15px 15px!important;padding-left:34px!important;
   -webkit-mask:none!important;mask:none!important}
 body .sidebar-search::before,body .search-wrap::before{display:none!important;content:none!important}
+/* ══ analytics: wide chart + right-hand column of two cards ══ */
+.an-row{grid-template-columns:minmax(0,1.52fr) minmax(0,1fr)!important;align-items:start!important}
+.an-side{display:flex;flex-direction:column;gap:16px;min-width:0}
+.an-side .ref-card{min-width:0}
+.an-top-wrap{display:flex;flex-direction:column}
+.an-top{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:center;
+  padding:12px 0;border-bottom:1px solid rgba(0,0,0,.14)}
+.an-top:last-child{border-bottom:0}
+.an-top-name{display:block;font-size:.86rem;font-weight:750}
+.an-top-sub{display:block;font-size:.72rem;font-weight:650;opacity:.72;margin-top:2px}
+.an-top b{font-size:.9rem;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.an-top i.ref-chip{white-space:nowrap}
+body.tint-cards .an-top,body.tint-cards .an-top b,body.tint-cards .an-top-name,
+body.tint-cards .an-top-sub,body.tint-cards .an-top i.ref-chip{color:#000!important;border-color:currentColor!important}
+body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
+@media(max-width:1100px){
+  .an-row{grid-template-columns:minmax(0,1fr)!important}
+}
+/* top clients rows: keep the share chip clear of the card edge */
+.an-top{padding-right:2px!important}
+.an-top i.ref-chip{justify-self:end;max-width:100%}
+.an-top-wrap{width:100%}
+/* a chart card without the side rail must give the canvas the full width
+   (.ref-chart's first column is max-content, which squeezed the canvas to its
+   intrinsic 300px once the rail was removed) */
+#tab-analytics .ref-chart{grid-template-columns:minmax(0,1fr)!important}
+.ref-chart:not(:has(.ref-chart-rail)){grid-template-columns:minmax(0,1fr)!important}
+.ref-chart .chart-canvas-wrap{min-width:0}
+.ref-chart canvas{max-width:100%}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -2203,30 +2232,38 @@ body .sidebar-search::before,body .search-wrap::before{display:none!important;co
     </div>
   </section>
 
-  <!-- ② TWO CARDS -->
-  <section class="ref-row">
-    <article class="ref-card t-olive">
-      <div class="ref-card-top"><span class="t-pill">Revenue vs expense</span></div>
-      <p class="ref-note">Every month of <span id="anChartYear">&mdash;</span>, side by side.</p>
-      <div class="ref-chart">
-        <div class="chart-canvas-wrap" style="height:190px;"><canvas id="anChart"></canvas></div>
-      </div>
-      <div class="an-legend">
-        <span class="an-leg"><i class="an-dot inc"></i>Revenue</span>
-        <span class="an-leg"><i class="an-dot exp"></i>Expenses</span>
-        <span class="an-leg"><i class="an-dot net"></i>Net <b id="anNetLeg">&mdash;</b></span>
-      </div>
-      <div class="chart-xlabels" id="anXLabels"></div>
-    </article>
+  <!-- ② CHART + SIDE CARDS -->
+<section class="ref-row an-row">
+  <article class="ref-card t-yellow">
+    <div class="ref-card-top"><span class="t-pill">Revenue vs expense</span></div>
+    <p class="ref-note">Every month of <span id="anChartYear">&mdash;</span>, side by side.</p>
+    <div class="ref-chart">
+      <div class="chart-canvas-wrap" style="height:225px;"><canvas id="anChart"></canvas></div>
+    </div>
+    <div class="an-legend">
+      <span class="an-leg"><i class="an-dot inc"></i>Revenue</span>
+      <span class="an-leg"><i class="an-dot exp"></i>Expenses</span>
+      <span class="an-leg"><i class="an-dot net"></i>Net <b id="anNetLeg">&mdash;</b></span>
+    </div>
+    <div class="chart-xlabels" id="anXLabels"></div>
+  </article>
 
+  <div class="an-side">
     <article class="ref-card t-lav">
       <div class="ref-card-top"><span class="t-pill">Year vs last year</span></div>
       <p class="ref-note">How this year compares with <span id="anLYLab">&mdash;</span>.</p>
       <div class="an-cmp-wrap" id="anCompare"></div>
     </article>
-  </section>
 
-  <!-- ③ MONTH BY MONTH -->
+    <article class="ref-card t-orange">
+      <div class="ref-card-top"><span class="t-pill">Top clients</span></div>
+      <p class="ref-note">Who brought the money in <span id="anTopYear">&mdash;</span>.</p>
+      <div class="an-top-wrap" id="anTopClients"></div>
+    </article>
+  </div>
+</section>
+
+<!-- ③ MONTH BY MONTH -->
   <section class="ref-wallet">
     <div class="ref-wallet-head">
       <span class="t-pill">Month by month</span>
@@ -3548,6 +3585,23 @@ function renderAnalytics(){
         '<i class="ref-chip '+cls+'">'+sign+pctc+'%</i></div>';
     }).join('');
   }
+  // ── top clients of the year ──
+  const topEl=document.getElementById('anTopClients');
+  set('anTopYear',year);
+  if(topEl){
+    const byC={};
+    yRows.forEach(i=>{const n=i.client||'\u2014'; byC[n]=byC[n]||{billed:0,got:0,n:0};
+      byC[n].billed+=(+i.amount||0); byC[n].got+=rcv(i); byC[n].n++;});
+    const top=Object.entries(byC).sort((a,b)=>b[1].billed-a[1].billed).slice(0,5);
+    const tot=rev||1;
+    topEl.innerHTML=top.map(function(e){
+      const n=e[0], v=e[1];
+      return '<div class="an-top"><div><span class="an-top-name">'+esc(n)+'</span>'+
+        '<span class="an-top-sub">'+v.n+' invoice'+(v.n===1?'':'s')+' \u00b7 '+money(v.got)+' collected</span></div>'+
+        '<b>'+money(v.billed)+'</b>'+
+        '<i class="ref-chip ok">'+Math.round(v.billed/tot*100)+'%</i></div>';
+    }).join('')||'<div class="empty"><p>No invoices this year yet</p></div>';
+  }
   // ── months of the year ──
   const mkOf=m=>year+'-'+String(m+1).padStart(2,'0');
   const mRev=[],mExp=[];
@@ -3588,6 +3642,9 @@ function renderAnalytics(){
       callbacks:{label:c=>' '+c.dataset.label+': '+fmt(c.parsed.y)}}},
     scales:{x:{grid:{display:false},ticks:{display:false},border:{display:false}},
             y:{display:false,min:0,max:Math.max(...mRev,...mExp,100)*1.3}}}});
+  requestAnimationFrame(function(){if(anChart)anChart.resize();});
+  setTimeout(function(){if(anChart)anChart.resize();},180);
+  setTimeout(function(){if(anChart)anChart.resize();},600);
 }
 function fillIncomeSummary(){
   const el=document.getElementById('incPct'); if(!el) return;
@@ -5406,7 +5463,7 @@ function fitInvPreview(){
   f.style.width=(100/k)+'%';
   f.style.height=(100/k)+'%';
 }
-window.addEventListener('resize',function(){if(document.getElementById('invFrame'))fitInvPreview();});
+window.addEventListener('resize',function(){if(document.getElementById('invFrame'))fitInvPreview();if(typeof anChart!=='undefined'&&anChart)anChart.resize();});
 function genInvoice(){
   let inv=null;
   if(curInvId)inv=db.income.find(i=>i.id===curInvId);
