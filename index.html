@@ -4964,7 +4964,10 @@ function buildItemsRows(items,cur,invType,style){
     const name=esc(i.name||'Services');
     const subHtml=sub?`<div class="td-sub">${esc(sub)}</div>`:'';
     if(style==='classic'){
-      return`<div class="table-row"><div><div class="td-name">${name}</div>${subHtml}</div><div class="td r">${fmtN(amt,cur)}</div></div>`;
+      const unitTxt=String(i.unit||'').trim();
+      const qtyTxt=(qty>0?qty:1)+(unitTxt?' '+esc(unitTxt):'');
+      const classicSub=(type==='video')?subHtml:'';
+      return`<div class="table-row"><div><div class="td-name">${name}</div>${classicSub}</div><div class="td r">${qtyTxt}</div><div class="td r">${fmtN(i.rate,cur)}</div><div class="td r">${fmtN(amt,cur)}</div></div>`;
     }
     if(invType==='mixed'){
       const details=type==='video'?[i.dimension,i.duration].filter(Boolean).join(' · '):(i.unit||'');
@@ -5104,9 +5107,9 @@ table.items td.r,table.items th.r,.total-final-row td:last-child{
   font-feature-settings:'tnum' 1,'lnum' 1;}
 .table-head .th.r{letter-spacing:0!important}
 
-.table-head{display:grid;grid-template-columns:minmax(0,1fr) 132px;column-gap:22px;align-items:center;padding:12px 0;border-top:1.5px solid #111;border-bottom:1px solid #BDB6A8;}
+.table-head{display:grid;grid-template-columns:minmax(0,1fr) 64px 104px 128px;column-gap:16px;align-items:center;padding:12px 0;border-top:1.5px solid #111;border-bottom:1px solid #BDB6A8;}
 .th{font-size:14px;font-weight:700;color:#111;}
-.table-row{display:grid;grid-template-columns:minmax(0,1fr) 132px;column-gap:22px;align-items:center;padding:17px 0;border-bottom:1px solid #BDB6A8;}
+.table-row{display:grid;grid-template-columns:minmax(0,1fr) 64px 104px 128px;column-gap:16px;align-items:center;padding:17px 0;border-bottom:1px solid #BDB6A8;}
 .td{font-size:14px;color:#444;}
 .td-name{font-size:14px;font-weight:500;color:#111;margin-bottom:3px;}
 .td-sub{font-size:12px;color:#5E5E5E;}
@@ -5184,7 +5187,7 @@ table.items td.r,table.items th.r,.total-final-row td:last-child{
 
   <!-- Line items -->
   <div>
-    <div class="table-head"><div class="th">Description</div><div class="th r">Amount</div></div>
+    <div class="table-head"><div class="th">Description</div><div class="th r">Qty</div><div class="th r">Rate</div><div class="th r">Amount</div></div>
     ${itemRowsClassic}
   </div>
   ${totalsClassic}
