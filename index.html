@@ -1378,10 +1378,10 @@ body #addIncomeModal .modal,body #editIncomeModal .modal{background:#D1DDCF!impo
 /* ══════════ FINAL PASS: every remaining surface in the locked language ══════════ */
 /* data modals share the sage-card shell */
 body #addExpModal .modal,body #editExpModal .modal,body #addClientModal .modal,
-body #quickIncomeModal .modal,body #clientModal .modal{
+body #quickIncomeModal .modal,body #clientModal .modal,body #recIntervalModal .modal{
   background:#D1DDCF!important;border:0!important;border-radius:26px!important;color:#000!important;
   box-shadow:0 40px 90px rgba(0,0,0,.65)!important}
-#addExpModal .modal,#editExpModal .modal,#addClientModal .modal,#quickIncomeModal .modal,#clientModal .modal{
+#addExpModal .modal,#editExpModal .modal,#addClientModal .modal,#quickIncomeModal .modal,#clientModal .modal,#recIntervalModal .modal{
   --muted:#4A4A4A!important;--text:#000!important;--bg:#000!important;--white:#000!important;
   --border:rgba(0,0,0,.16)!important;--card:#000!important;--muted2:#5A5A5A!important}
 #addExpModal .modal .m-eyebrow,#editExpModal .modal .m-eyebrow,#addClientModal .modal .m-eyebrow,
@@ -1752,6 +1752,17 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 .ref-wallet-head{align-items:center!important}
 #expStopAll{align-self:center;line-height:1;white-space:nowrap}
 #expStopAll:hover{color:#fff!important}
+/* repeat interval chooser */
+.ri-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ri-pill{background:rgba(0,0,0,.10)!important;border:0!important;border-radius:999px!important;color:#000!important;
+  font-family:inherit;font-weight:750!important;font-size:.86rem;padding:13px 14px!important;cursor:pointer}
+.ri-pill:hover{background:rgba(0,0,0,.17)!important}
+.ri-pill.on{background:#000!important;color:#fff!important}
+#recIntervalModal .modal .ibtn{background:#000!important;color:#fff!important;border:0!important;border-radius:999px!important;width:34px;height:34px;font-size:.8rem}
+#recIntervalModal .modal .ref-note{color:rgba(0,0,0,.7)!important;max-width:38ch}
+#recIntervalModal .modal .modal-foot{border-top:0!important;justify-content:flex-end;margin-top:14px;padding:0}
+#recIntervalModal .modal .modal-foot .btn{border-radius:999px!important;min-height:44px;padding:0 20px!important;
+  background:transparent!important;color:#000!important;border:1.5px solid rgba(0,0,0,.35)!important;font-weight:750}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -2476,6 +2487,22 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 </div></div>
 
 <!-- ════════════════════ MODALS ════════════════════ -->
+<div class="modal-bg" id="recIntervalModal">
+  <div class="modal" style="max-width:460px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <div class="m-eyebrow">Repeat interval</div>
+      <button class="ibtn" onclick="closeModal('recIntervalModal')">&#10005;</button>
+    </div>
+    <p class="ref-note" style="margin-bottom:14px;">How often should <b id="recIntervalName">this expense</b> repeat? The series keeps its history.</p>
+    <div class="ri-row">
+      <button class="ri-pill" data-iv="daily" onclick="setRecInterval('daily')">Daily</button>
+      <button class="ri-pill" data-iv="weekly" onclick="setRecInterval('weekly')">Weekly</button>
+      <button class="ri-pill" data-iv="monthly" onclick="setRecInterval('monthly')">Monthly</button>
+      <button class="ri-pill" data-iv="yearly" onclick="setRecInterval('yearly')">Yearly</button>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('recIntervalModal')">Cancel</button></div>
+  </div>
+</div>
 <div class="modal-bg" id="addIncomeModal">
 <div class="modal" style="max-width:780px;min-height:640px;display:flex;flex-direction:column;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
@@ -2790,7 +2817,7 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
   </div>
   <div class="fg" style="margin-top:10px;"><label>Notes</label><textarea id="ae-notes" rows="2" placeholder="Optional…"></textarea></div>
   <div class="fg" style="margin-top:10px;"><label>Receipt / Photo</label><input type="file" id="ae-receipt" accept="image/*,application/pdf" style="font-size:.78rem;"><div id="ae-receipt-preview" style="margin-top:6px;"></div></div>
-  <div style="margin-top:12px;display:flex;align-items:center;gap:9px;"><button class="toggle" id="ae-tog" onclick="this.classList.toggle('on')"></button><span style="font-size:.8rem;color:var(--muted);font-weight:300;">Recurring monthly</span></div>
+  <div style="margin-top:12px;display:flex;align-items:center;gap:9px;"><button class="toggle" id="ae-tog" onclick="this.classList.toggle('on')"></button><span style="font-size:.8rem;color:var(--muted);font-weight:300;">Repeats monthly</span></div>
   <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('addExpModal')">Cancel</button><button class="btn btn-red" onclick="saveExpense()">Save</button></div>
 </div></div>
 
@@ -2805,7 +2832,7 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
   </div>
   <div class="fg" style="margin-top:10px;"><label>Notes</label><textarea id="ee-notes" rows="2"></textarea></div>
   <div class="fg" style="margin-top:10px;"><label>Receipt / Photo</label><input type="file" id="ee-receipt" accept="image/*,application/pdf" style="font-size:.78rem;"><div id="ee-receipt-preview" style="margin-top:6px;"></div></div>
-  <div style="margin-top:12px;display:flex;align-items:center;gap:9px;"><button class="toggle" id="ee-tog" onclick="this.classList.toggle('on')"></button><span style="font-size:.8rem;color:var(--muted);font-weight:300;">Recurring monthly</span></div>
+  <div style="margin-top:12px;display:flex;align-items:center;gap:9px;"><button class="toggle" id="ee-tog" onclick="this.classList.toggle('on')"></button><span style="font-size:.8rem;color:var(--muted);font-weight:300;">Repeats monthly</span></div>
   <input type="hidden" id="ee-id">
   <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal('editExpModal')">Cancel</button><button class="btn btn-red" onclick="updateExpense()">Update</button></div>
 </div></div>
@@ -3832,7 +3859,9 @@ function setExpSort(mode){expSort=mode;renderExpenses();
 function expenseRowAction(sel,id){const a=sel.value;sel.value='';
   if(a==='delete')delExp(id);
   else if(a==='stoprec')stopExpRecurring(id);
-  else if(a==='delseries')delExpSeries(id);}
+  else if(a==='delseries')delExpSeries(id);
+  else if(a==='interval')openRecInterval(id);
+  else if(a==='skipnext'||a==='unskip')skipNextOccurrence(id);}
 function fillExpenseSummary(){
   const el=document.getElementById('expPct'); if(!el) return;
   const rows=db.expenses||[];
@@ -3874,15 +3903,15 @@ function renderExpenses(){
     return `<div class="recent-row ref-row">
       <div class="recent-info">
         <div class="recent-name">${esc(e.title)}</div>
-        <div class="recent-detail">${fmtD(e.date)}${e.notes?' · '+esc(e.notes):''}</div>
+        <div class="recent-detail">${fmtD(e.date)}${e.notes?' · '+esc(e.notes):''}${e.skipNext?' · next skipped':''}</div>
       </div>
-      <div class="ref-chip mut">${esc(e.cat||'Expense')}${e.recurring?' · monthly':''}</div>
+      <div class="ref-chip mut">${esc(e.cat||'Expense')}${e.recurring?' · '+expRecInterval(e):''}</div>
       <div class="recent-amount">${fmt(e.amount)}${(e.receipt&&e.receipt.startsWith('data:'))?`<span class="ref-due"><a class="led-link" href="${e.receipt}" target="_blank" rel="noopener">Receipt</a></span>`:''}</div>
       <div class="ref-actions">
         <button type="button" class="row-action" onclick="editExp('${e.id}')">Edit</button>
         <select class="row-more" aria-label="More actions" onchange="expenseRowAction(this,'${e.id}')">
           <option value="">⋯</option>
-          ${e.recurring?'<option value="stoprec">Stop repeating</option><option value="delseries">Delete all repeats</option>':''}
+          ${e.recurring?'<option value="stoprec">Stop repeating</option><option value="interval">Repeat interval…</option>'+(e.skipNext?'<option value="unskip">Keep next occurrence</option>':'<option value="skipnext">Skip next occurrence</option>')+'<option value="delseries">Delete all repeats</option>':''}
           <option value="delete">Delete</option>
         </select>
       </div>
@@ -4392,28 +4421,59 @@ function checkRecurringInvoices(){
   });
   if(generated>0){save();toast(`${generated} recurring invoice${generated>1?'s':''} drafted for ${curMon.replace('-','/')} ✓`);}
 }
+function recFmt(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+const REC_IVS=['daily','weekly','monthly','yearly'];
+function expRecInterval(e){const iv=String((e&&e.recInterval)||'');return REC_IVS.indexOf(iv)>-1?iv:'monthly';}
+function addInterval(dateStr,iv){
+  const p=String(dateStr||'').split('-');
+  if(p.length<3)return null;
+  let y=+p[0],m=+p[1]-1,day=+p[2];
+  if(!y||isNaN(m)||!day)return null;
+  if(iv==='daily'){const dd=new Date(y,m,day);dd.setDate(dd.getDate()+1);return recFmt(dd);}
+  if(iv==='weekly'){const dd=new Date(y,m,day);dd.setDate(dd.getDate()+7);return recFmt(dd);}
+  if(iv==='yearly'){const last=new Date(y+1,m+1,0).getDate();return recFmt(new Date(y+1,m,Math.min(day,last)));}
+  m+=1; if(m>11){m=0;y+=1;}
+  const last=new Date(y,m+1,0).getDate();
+  return recFmt(new Date(y,m,Math.min(day,last)));
+}
+// Entries that repeat share a series (title + category).
+function expSeriesKey(e){return ((e&&e.title)||'').trim().toLowerCase()+'|'+(((e&&e.cat)||'').trim().toLowerCase());}
+function expSeriesItems(e){const k=expSeriesKey(e);return (db.expenses||[]).filter(x=>expSeriesKey(x)===k);}
 function checkRecurringExpenses(){
-  const curMon=today().slice(0,7);
-  let generated=0;
-  const recurringBase=db.expenses.filter(e=>e.recurring);
-  // Group by title+cat — find latest per group
-  const groups={};
-  recurringBase.forEach(e=>{
-    const key=`${e.title||''}|${e.cat||''}`;
-    if(!groups[key]||e.date>groups[key].date)groups[key]=e;
+  const cur=today();
+  let generated=0, skipped=0;
+  const map={};
+  (db.expenses||[]).forEach(function(e){const k=expSeriesKey(e);
+    if(!map[k])map[k]={items:[],base:null};
+    map[k].items.push(e);
+    if(!map[k].base||(e.date||'')>(map[k].base.date||''))map[k].base=e;});
+  Object.keys(map).forEach(function(k){
+    const g=map[k];
+    const live=g.items.filter(function(e){return e.recurring;});
+    if(!live.length)return;                       // this series is not repeating
+    const iv=expRecInterval(live[0]);
+    let last=g.base&&g.base.date?g.base.date:null;
+    if(!last)return;
+    let skipPending=g.items.some(function(e){return e.skipNext;});
+    let next=addInterval(last,iv);
+    let guard=0;
+    while(next&&next<=cur&&guard<150){
+      guard++;
+      if(skipPending){                            // consume the skip once, keep the series alive
+        g.items.forEach(function(e){e.skipNext=false;});
+        skipPending=false; skipped++;
+      } else {
+        const copy={...g.base,id:uid(),date:next,recurringParent:g.base.id,recurring:true,skipNext:false};
+        db.expenses.push(copy);g.base=copy;g.items.push(copy);generated++;
+      }
+      last=next;next=addInterval(last,iv);
+    }
   });
-  Object.values(groups).forEach(base=>{
-    const baseMonth=base.date?.slice(0,7);
-    if(!baseMonth||baseMonth>=curMon)return;// already current month or future
-    // Check if a copy already exists this month
-    const alreadyExists=db.expenses.some(e=>e.recurringParent===base.id&&e.date?.slice(0,7)===curMon);
-    if(alreadyExists)return;
-    const newDate=curMon+'-'+base.date.slice(8);
-    const copy={...base,id:uid(),date:newDate,recurringParent:base.id};
-    db.expenses.push(copy);
-    generated++;
-  });
-  if(generated>0){save();toast(`${generated} recurring expense${generated>1?'s':''} added for ${curMon.replace('-','/')} ✓`);}
+  if(generated||skipped){
+    save();
+    if(generated)toast(generated+' recurring expense'+(generated>1?'s':'')+' added ✓');
+    else toast('Next occurrence skipped ✓');
+  }
 }
 
 
@@ -4421,18 +4481,44 @@ function checkRecurringExpenses(){
 // Entries that repeat share a series (same title + category), which is also how
 // checkRecurringExpenses() decides what to copy forward.
 function expSeriesKey(e){return ((e&&e.title)||'').trim().toLowerCase()+'|'+(((e&&e.cat)||'').trim().toLowerCase());}
-function expSeriesList(e){const k=expSeriesKey(e);return (db.expenses||[]).filter(x=>expSeriesKey(x)===k);}
+
+// ─── repeat interval + skip next ─────────────────────────────
+let recIntervalTarget=null;
+function openRecInterval(id){
+  const e=(db.expenses||[]).find(x=>x.id===id); if(!e)return;
+  recIntervalTarget=id;
+  const iv=expRecInterval(e);
+  document.querySelectorAll('#recIntervalModal .ri-pill').forEach(function(btn){
+    btn.classList.toggle('on',btn.getAttribute('data-iv')===iv);});
+  const lab=document.getElementById('recIntervalName');
+  if(lab)lab.textContent=(e.title||'this expense');
+  openModal('recIntervalModal');
+}
+function setRecInterval(iv){
+  const e=(db.expenses||[]).find(x=>x.id===recIntervalTarget); if(!e)return;
+  expSeriesItems(e).forEach(function(x){x.recInterval=iv;});
+  save();closeModal('recIntervalModal');renderOverview();renderExpenses();
+  toast('Repeats '+iv+' from now on');
+}
+function skipNextOccurrence(id){
+  const e=(db.expenses||[]).find(x=>x.id===id); if(!e)return;
+  const items=expSeriesItems(e);
+  const turnOn=!e.skipNext;
+  items.forEach(function(x){x.skipNext=turnOn;});
+  save();renderOverview();renderExpenses();
+  toast(turnOn?'Next occurrence will be skipped':'Next occurrence will happen');
+}
 function stopExpRecurring(id){
   const e=(db.expenses||[]).find(x=>x.id===id); if(!e)return;
   if(!e.recurring){toast('This expense is not recurring','err');return;}
-  const list=expSeriesList(e);
+  const list=expSeriesItems(e);
   list.forEach(x=>{x.recurring=false;});
   save();renderOverview();renderExpenses();
-  toast('Repeating stopped for '+list.length+' entr'+(list.length===1?'y':'ies'));
+  toast('Repeating stopped for this series ('+list.length+' entr'+(list.length===1?'y':'ies')+')');
 }
 function delExpSeries(id){
   const e=(db.expenses||[]).find(x=>x.id===id); if(!e)return;
-  const list=expSeriesList(e);
+  const list=expSeriesItems(e);
   if(!confirm('Delete this expense and all '+list.length+' entries in its repeating series?'))return;
   const ids=new Set(list.map(x=>x.id));
   db.expenses=db.expenses.filter(x=>!ids.has(x.id));
@@ -4442,10 +4528,13 @@ function delExpSeries(id){
 function stopAllRecurring(){
   const list=(db.expenses||[]).filter(e=>e.recurring);
   if(!list.length){toast('No recurring expenses','err');return;}
-  if(!confirm('Stop all '+list.length+' recurring expenses? They stay in your history but stop repeating.'))return;
+  const series=new Set(list.map(expSeriesKey)).size;
+  const msg='Stop repeating for '+series+' series ('+list.length+' entr'+(list.length===1?'y':'ies')+')?\n\n'+
+            'They stay in your expense history, but nothing more will be generated.';
+  if(!confirm(msg))return;
   list.forEach(e=>{e.recurring=false;});
   save();renderOverview();renderExpenses();
-  toast('All repeating stopped');
+  toast('Repeating stopped for '+series+' series');
 }
 function delExp(id){if(!confirm('Delete expense?'))return;db.expenses=db.expenses.filter(x=>x.id!==id);save();toast('Deleted');renderOverview();renderExpenses();}
 function editExp(id){
