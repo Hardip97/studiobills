@@ -1748,6 +1748,10 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 .ref-chart:not(:has(.ref-chart-rail)){grid-template-columns:minmax(0,1fr)!important}
 .ref-chart .chart-canvas-wrap{min-width:0}
 .ref-chart canvas{max-width:100%}
+/* recurring expenses: the bulk stop button sits on the head's centre line */
+.ref-wallet-head{align-items:center!important}
+#expStopAll{align-self:center;line-height:1;white-space:nowrap}
+#expStopAll:hover{color:#fff!important}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -2127,6 +2131,7 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
     <div class="ref-wallet-head">
       <span class="t-pill">All expenses</span>
       <span class="ref-count" id="expCount"></span>
+      <button class="ref-edit" id="expStopAll" onclick="stopAllRecurring()" style="display:none">Stop all repeating</button>
     </div>
     <div class="ref-rows ref-cols"><span>Expense</span><span>Category</span><span>Amount</span><span>Actions</span></div>
     <div id="expTbody" class="ref-rows"></div>
@@ -3824,7 +3829,10 @@ function setExpSort(mode){expSort=mode;renderExpenses();
   const sw=document.getElementById('expSortSwitch');
   if(sw)sw.querySelectorAll('.ss-btn').forEach(b=>b.classList.toggle('on',b.textContent.trim()===(mode==='date'?'Newest':'Largest')));
 }
-function expenseRowAction(sel,id){const a=sel.value;sel.value='';if(a==='delete')delExp(id);}
+function expenseRowAction(sel,id){const a=sel.value;sel.value='';
+  if(a==='delete')delExp(id);
+  else if(a==='stoprec')stopExpRecurring(id);
+  else if(a==='delseries')delExpSeries(id);}
 function fillExpenseSummary(){
   const el=document.getElementById('expPct'); if(!el) return;
   const rows=db.expenses||[];
@@ -3850,6 +3858,7 @@ function fillExpenseSummary(){
   el.textContent=(chg>0?'+':'')+chg+'%';
   var cap=document.getElementById('expTopLab'); if(cap) cap.textContent='Top category';
   var cnt=document.getElementById('expCount'); if(cnt) cnt.textContent=rows.length+' expense'+(rows.length===1?'':'s');
+  var stopAllBtn=document.getElementById('expStopAll'); if(stopAllBtn) stopAllBtn.style.display=(expFilter==='recurring')?'inline-block':'none';
 }
 function renderExpenses(){
   const q=(document.getElementById('expSearch')?.value||'').toLowerCase();
@@ -3872,7 +3881,9 @@ function renderExpenses(){
       <div class="ref-actions">
         <button type="button" class="row-action" onclick="editExp('${e.id}')">Edit</button>
         <select class="row-more" aria-label="More actions" onchange="expenseRowAction(this,'${e.id}')">
-          <option value="">⋯</option><option value="delete">Delete</option>
+          <option value="">⋯</option>
+          ${e.recurring?'<option value="stoprec">Stop repeating</option><option value="delseries">Delete all repeats</option>':''}
+          <option value="delete">Delete</option>
         </select>
       </div>
     </div>`;
@@ -4405,6 +4416,37 @@ function checkRecurringExpenses(){
   if(generated>0){save();toast(`${generated} recurring expense${generated>1?'s':''} added for ${curMon.replace('-','/')} ✓`);}
 }
 
+
+// ─── RECURRING EXPENSE CONTROL ───────────────────────────────
+// Entries that repeat share a series (same title + category), which is also how
+// checkRecurringExpenses() decides what to copy forward.
+function expSeriesKey(e){return ((e&&e.title)||'').trim().toLowerCase()+'|'+(((e&&e.cat)||'').trim().toLowerCase());}
+function expSeriesList(e){const k=expSeriesKey(e);return (db.expenses||[]).filter(x=>expSeriesKey(x)===k);}
+function stopExpRecurring(id){
+  const e=(db.expenses||[]).find(x=>x.id===id); if(!e)return;
+  if(!e.recurring){toast('This expense is not recurring','err');return;}
+  const list=expSeriesList(e);
+  list.forEach(x=>{x.recurring=false;});
+  save();renderOverview();renderExpenses();
+  toast('Repeating stopped for '+list.length+' entr'+(list.length===1?'y':'ies'));
+}
+function delExpSeries(id){
+  const e=(db.expenses||[]).find(x=>x.id===id); if(!e)return;
+  const list=expSeriesList(e);
+  if(!confirm('Delete this expense and all '+list.length+' entries in its repeating series?'))return;
+  const ids=new Set(list.map(x=>x.id));
+  db.expenses=db.expenses.filter(x=>!ids.has(x.id));
+  save();renderOverview();renderExpenses();
+  toast('Deleted '+ids.size+' entries');
+}
+function stopAllRecurring(){
+  const list=(db.expenses||[]).filter(e=>e.recurring);
+  if(!list.length){toast('No recurring expenses','err');return;}
+  if(!confirm('Stop all '+list.length+' recurring expenses? They stay in your history but stop repeating.'))return;
+  list.forEach(e=>{e.recurring=false;});
+  save();renderOverview();renderExpenses();
+  toast('All repeating stopped');
+}
 function delExp(id){if(!confirm('Delete expense?'))return;db.expenses=db.expenses.filter(x=>x.id!==id);save();toast('Deleted');renderOverview();renderExpenses();}
 function editExp(id){
   const e=db.expenses.find(x=>x.id===id);if(!e)return;
