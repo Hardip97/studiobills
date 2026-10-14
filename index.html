@@ -3826,6 +3826,11 @@ function saveIncome(){
   const amountINR=Math.round(t.gross*fxRate);
   // Always store received in INR — multiply foreign input by exchange rate
   const receivedINR=f.currency==='INR'?(+f.received||0):Math.round((+f.received||0)*fxRate);
+  // never store a leftover numeric 'unit' (old duration) or a unit on a video line
+  if(t&&Array.isArray(t.items))t.items.forEach(function(it){
+    if(String(it.type||'')==='video')it.unit='';
+    else if(/^[\d.,]+$/.test(String(it.unit||'').trim()))it.unit='';
+  });
   const inv={id:uid(),invNo,...f,
     foreignAmount:foreignAmt,
     amount:amountINR,
@@ -4243,6 +4248,15 @@ function syncDur(pfx,id){
   const it=(invFormItems[pfx]||[]).find(x=>x.id===id);
   if(it)it.duration=durPartsText(itemDurParts(it));  // keep the older field readable
 }
+
+// Unit text for a line: a purely numeric leftover (an old duration in the unit field)
+// is not a unit and must never be printed next to the quantity.
+function unitTxt(i){
+  const u=String((i&&i.unit)||'').trim();
+  if(!u)return '';
+  if(/^[\d.,]+$/.test(u))return '';
+  return u;
+}
 function renderInvItems(pfx){
   const tbody=document.getElementById(pfx+'-li-body');
   const thead=document.getElementById(pfx+'-li-head');
@@ -4435,8 +4449,10 @@ function populateInvForm(pfx,inv){
   invFormType[pfx]=inv.invType||'general';
   if(inv.lineItems&&inv.lineItems.length>0){
     invFormItems[pfx]=inv.lineItems.map(i=>{
-      const unit=i.unit||[i.size,i.duration].filter(Boolean).join(' · ')||'';
-      return{...i,id:i.id||uid(),unit,dimension:i.dimension||'',duration:i.duration||''};
+      // a legacy 'size' belongs in the dimension; the duration has its own field,
+      // so neither may be folded into unit (that used to print in the Qty column)
+      const unit=i.unit||'';
+      return Object.assign({},i,{id:i.id||uid(),unit,dimension:i.dimension||i.size||'',duration:i.duration||''});
     });
   }else{invFormItems[pfx]=[{id:uid(),name:inv.desc||inv.cat||'',qty:1,rate:+inv.amount||0,unit:'',dimension:'',duration:''}];}
   // Template
@@ -5188,13 +5204,13 @@ function buildItemsRows(items,cur,invType,style){
     const name=esc(i.name||'Services');
     const subHtml=sub?`<div class="td-sub">${esc(sub)}</div>`:'';
     if(style==='classic'){
-      const unitTxt=String(i.unit||'').trim();
-      const qtyTxt=(qty>0?qty:1)+(unitTxt?' '+esc(unitTxt):'');
+      const unitLabel=unitTxt(i);
+      const qtyTxt=(qty>0?qty:1)+(unitLabel?' '+esc(unitLabel):'');
       const classicSub=(type==='video')?subHtml:'';
       return`<div class="table-row"><div><div class="td-name">${name}</div>${classicSub}</div><div class="td r">${qtyTxt}</div><div class="td r">${fmtN(i.rate,cur)}</div><div class="td r">${fmtN(amt,cur)}</div></div>`;
     }
     if(invType==='mixed'){
-      const details=type==='video'?[i.dimension,fmtDuration(i)].filter(Boolean).join(' · '):(i.unit||'');
+      const details=type==='video'?[i.dimension,fmtDuration(i)].filter(Boolean).join(' · '):unitTxt(i);
       return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r">${qty>1?qty:''}</td><td class="td">${esc(details)}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
     }
     // Table style — columns vary by type
@@ -5209,7 +5225,7 @@ function buildItemsRows(items,cur,invType,style){
       return`<tr><td><div class="td-name">${name}</div></td><td class="td r">${qty}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
     }
     // general default
-    return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r">${qty>1?qty:''}</td><td class="td r" style="font-size:11px;color:#888;">${esc(i.unit||'')}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
+    return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r">${qty>1?qty:''}</td><td class="td r" style="font-size:11px;color:#888;">${esc(unitTxt(i))}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
   }).join('');
 }
 
