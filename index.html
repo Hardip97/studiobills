@@ -1816,6 +1816,62 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 #editIncomeModal .modal{min-height:0!important}
 #editIncomeModal .modal .inv-tab-body{flex:0 0 auto}
 #addIncomeModal .modal .inv-tab-body{flex:1 1 auto}
+/* ══ invoice modals: template picker, stable width, header that never scrolls away ══ */
+/* 1. template cards: labels must read on both states */
+#addIncomeModal .modal .tpl-card,#editIncomeModal .modal .tpl-card{
+  background:rgba(0,0,0,.10)!important;border:1px solid rgba(0,0,0,.22)!important;border-radius:16px!important}
+#addIncomeModal .modal .tpl-card .tpl-name,#editIncomeModal .modal .tpl-card .tpl-name{
+  background:transparent!important;color:#000000!important;-webkit-text-fill-color:#000000!important;
+  font-weight:750!important;font-size:.7rem!important;padding:9px 4px!important;letter-spacing:.01em}
+#addIncomeModal .modal .tpl-card.sel,#editIncomeModal .modal .tpl-card.sel,
+#addIncomeModal .modal .tpl-card.on,#editIncomeModal .modal .tpl-card.on{
+  background:#000000!important;border-color:#000000!important}
+#addIncomeModal .modal .tpl-card.sel .tpl-name,#editIncomeModal .modal .tpl-card.sel .tpl-name,
+#addIncomeModal .modal .tpl-card.on .tpl-name,#editIncomeModal .modal .tpl-card.on .tpl-name{
+  color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+#addIncomeModal .modal .tpl-grid,#editIncomeModal .modal .tpl-grid{gap:10px!important}
+
+/* 2. one width for every tab */
+#addIncomeModal .modal,#editIncomeModal .modal{
+  width:min(1040px,94vw)!important;max-width:1040px!important;min-width:0!important}
+
+/* 3. the modal fits the window; only the middle scrolls, header and footer stay put */
+#addIncomeModal .modal-bg,#editIncomeModal .modal-bg{align-items:flex-start!important;overflow:auto!important;padding:20px 0!important}
+#addIncomeModal .modal,#editIncomeModal .modal{
+  max-height:calc(100vh - 40px)!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+#addIncomeModal .modal>.inv-tab-body,#editIncomeModal .modal>.inv-tab-body{
+  flex:1 1 auto!important;min-height:0!important;overflow:auto!important;padding-right:6px}
+#addIncomeModal .modal>.inv-tabs,#editIncomeModal .modal>.inv-tabs,
+#addIncomeModal .modal>.inv-total-box,#editIncomeModal .modal>.inv-total-box,
+#editIncomeModal .modal>#ei-total-box,#addIncomeModal .modal>#ai-total-box,
+#addIncomeModal .modal>.modal-foot,#editIncomeModal .modal>.modal-foot{flex:0 0 auto!important}
+/* a sticky header as a belt-and-braces, so it is visible even if a panel scrolls alone */
+#addIncomeModal .modal>div:first-child,#editIncomeModal .modal>div:first-child{
+  position:sticky;top:0;z-index:4;background:#D1DDCF!important;padding-bottom:2px}
+/* the notes/template/options panels keep one rhythm */
+#addIncomeModal .modal #ai-tab-options>div,#editIncomeModal .modal #ei-tab-options>div{margin-bottom:14px}
+#addIncomeModal .modal #ai-tab-options .fg,#editIncomeModal .modal #ei-tab-options .fg{margin-bottom:12px}
+/* dashboard chart range pills: dark text on the pastel card, filled when active */
+.db-chart-card .rbtn,.db-chart-card .ref-range .rbtn{
+  color:#000000!important;-webkit-text-fill-color:#000000!important;background:transparent!important;
+  border:1px solid rgba(0,0,0,.35)!important;font-weight:750!important}
+.db-chart-card .rbtn.active{background:#000000!important;border-color:#000000!important;
+  color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+/* ══ audit round 2: readable badges, no overflow, black-on-yellow primary ══ */
+/* status badges inside the client modal (amber/light tones were unreadable on sage) */
+#clientModal .modal .badge,#clientModal .modal .ref-chip{background:rgba(0,0,0,.10)!important;
+  border:1px solid rgba(0,0,0,.22)!important;color:#000000!important;-webkit-text-fill-color:#000000!important;font-weight:750!important}
+#clientModal .modal .badge.b-part,#clientModal .modal .badge.b-pending,#clientModal .modal .ref-chip.warn{color:#7A5F00!important;-webkit-text-fill-color:#7A5F00!important}
+#clientModal .modal .badge.b-recv,#clientModal .modal .badge.b-received,#clientModal .modal .ref-chip.ok{color:#0E6B36!important;-webkit-text-fill-color:#0E6B36!important}
+#clientModal .modal .badge.b-overdue,#clientModal .modal .ref-chip.bad{color:#A3271A!important;-webkit-text-fill-color:#A3271A!important}
+/* the record-payment row wrapped instead of pushing the button out of the card */
+#clientModal .modal div:has(> #cm-pay-amt){display:flex!important;flex-wrap:wrap!important;gap:8px!important}
+#clientModal .modal div:has(> #cm-pay-amt)>input{flex:1 1 130px!important;min-width:0}
+#clientModal .modal div:has(> #cm-pay-amt)>select{flex:1 1 150px!important;min-width:0}
+#clientModal .modal div:has(> #cm-pay-amt) .btn-green-o{flex:0 0 auto!important}
+/* preview modal: the yellow pill must carry black text */
+#invoiceModal .pv-btn.pv-primary{background:#E8E230!important;border-color:#E8E230!important;
+  color:#000000!important;-webkit-text-fill-color:#000000!important;font-weight:800!important}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
