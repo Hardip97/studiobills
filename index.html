@@ -1872,6 +1872,37 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 /* preview modal: the yellow pill must carry black text */
 #invoiceModal .pv-btn.pv-primary{background:#E8E230!important;border-color:#E8E230!important;
   color:#000000!important;-webkit-text-fill-color:#000000!important;font-weight:800!important}
+/* ══ template picker: a shape preview above each name ══ */
+.tpl-preview{display:block!important;height:62px;padding:7px 8px;overflow:hidden}
+#addIncomeModal .modal .tpl-card,#editIncomeModal .modal .tpl-card{
+  display:flex!important;flex-direction:column!important;padding:0!important;overflow:hidden!important}
+#addIncomeModal .modal .tpl-card .tpl-preview,#editIncomeModal .modal .tpl-card .tpl-preview{
+  border-bottom:1px solid rgba(0,0,0,.16)!important}
+#addIncomeModal .modal .tpl-name,#editIncomeModal .modal .tpl-name{padding:8px 4px!important}
+.tp{display:flex!important;flex-direction:column!important;gap:4px!important}
+.tp i{display:block!important;border-radius:2px;background:#C9C2B4}
+.tp-classic{background:#F2EDE3!important}
+.tp-classic i:first-child{height:7px;width:58%;background:#111}
+.tp-classic i:nth-child(2){height:1px;background:#BDB6A8;margin:1px 0}
+.tp-classic i:nth-child(3){width:88%;height:3px}
+.tp-classic i:nth-child(4){width:62%;height:6px;background:#111;margin-top:auto}
+.tp-minimal{background:#FFFFFF!important}
+.tp-minimal i{background:#EDEDED}
+.tp-minimal i:first-child{height:5px;width:36%;background:#111;margin-bottom:7px}
+.tp-minimal i:nth-child(2){height:1px;background:#EEEEEE;margin-bottom:7px}
+.tp-minimal i:nth-child(3){width:58%;height:2px}
+.tp-minimal i:nth-child(4){width:42%;height:2px}
+.tp-modern{background:#FFFFFF!important}
+.tp-modern i:first-child{height:17px;background:#111;margin:-7px -8px 5px;border-radius:0}
+.tp-modern i:nth-child(2){height:2px;width:74%;background:#EDEDED}
+.tp-modern i:nth-child(3){height:2px;width:54%;background:#F3F3F3}
+.tp-modern i:nth-child(4){height:5px;width:30%;background:#111;margin-top:auto}
+.tp-elegant{background:#FDFCF7!important;border-top:0!important;box-shadow:inset 0 3px 0 #111!important}
+.tp-elegant i{background:#DCD6C8}
+.tp-elegant i:first-child{height:4px;width:30%;background:#111;margin:2px auto 6px}
+.tp-elegant i:nth-child(2){height:1px;background:#D8D2C4;margin-bottom:5px}
+.tp-elegant i:nth-child(3){width:64%;height:2px}
+.tp-elegant i:nth-child(4){width:38%;height:2px;margin-left:auto}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -2667,10 +2698,7 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
   <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2);">
     <label style="font-size:.73rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
     <div class="tpl-grid" id="ai-tpl-grid">
-      <div class="tpl-card sel" data-tpl="classic" onclick="selectTpl('classic','ai')"><div class="tpl-preview" style="background:#F2EDE3;padding:5px 7px;"><div style="font-size:11px;font-weight:800;color:#111;line-height:1;">Invoice</div><div style="height:1px;background:#C5BFB2;margin:4px 0;"></div><div style="font-size:6px;color:#555;margin-bottom:3px;">DESCRIPTION</div><div style="height:6px;background:#E0DAD0;border-radius:2px;"></div></div><div class="tpl-name">Classic</div></div>
-      <div class="tpl-card" data-tpl="minimal" onclick="selectTpl('minimal','ai')"><div class="tpl-preview" style="background:#fff;padding:5px 7px;border-bottom:1px solid #eee;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="font-size:6px;font-weight:700;color:#999;letter-spacing:.1em;">INVOICE</div><div style="font-size:9px;font-weight:800;color:#111;">#001</div></div><div style="height:1px;background:#eee;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Minimal</div></div>
-      <div class="tpl-card" data-tpl="modern" onclick="selectTpl('modern','ai')"><div class="tpl-preview" style="background:#fff;"><div style="background:#111;padding:6px 7px;"><div style="font-size:8px;font-weight:700;color:#fff;">INVOICE</div><div style="font-size:5px;color:#888;margin-top:2px;">Studio Name</div></div><div style="padding:5px 7px;"><div style="font-size:5px;color:#aaa;">BILLED TO</div><div style="height:5px;background:#f0f0f0;border-radius:1px;margin-top:3px;"></div></div></div><div class="tpl-name">Modern</div></div>
-      <div class="tpl-card" data-tpl="elegant" onclick="selectTpl('elegant','ai')"><div class="tpl-preview" style="background:#fff;border-top:3px solid #111;padding:5px 7px;"><div style="font-size:7px;font-weight:400;color:#555;letter-spacing:.2em;text-transform:uppercase;">Invoice</div><div style="height:1px;background:#ddd;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Elegant</div></div>
+      <div class="tpl-card sel" data-tpl="classic" onclick="selectTpl('classic','ai')"><div class="tpl-preview tp tp-classic"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Classic</div></div><div class="tpl-card" data-tpl="minimal" onclick="selectTpl('minimal','ai')"><div class="tpl-preview tp tp-minimal"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Minimal</div></div><div class="tpl-card" data-tpl="modern" onclick="selectTpl('modern','ai')"><div class="tpl-preview tp tp-modern"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Modern</div></div><div class="tpl-card" data-tpl="elegant" onclick="selectTpl('elegant','ai')"><div class="tpl-preview tp tp-elegant"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Elegant</div></div>
     </div>
   </div>
 
@@ -2845,10 +2873,7 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
     <div style="margin-bottom:16px;">
       <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Invoice Template</label>
       <div class="tpl-grid" id="ei-tpl-grid">
-      <div class="tpl-card sel" data-tpl="classic" onclick="selectTpl('classic','ei')"><div class="tpl-preview" style="background:#F2EDE3;padding:5px 7px;"><div style="font-size:11px;font-weight:800;color:#111;line-height:1;">Invoice</div><div style="height:1px;background:#C5BFB2;margin:4px 0;"></div><div style="font-size:6px;color:#555;margin-bottom:3px;">DESCRIPTION</div><div style="height:6px;background:#E0DAD0;border-radius:2px;"></div></div><div class="tpl-name">Classic</div></div>
-      <div class="tpl-card" data-tpl="minimal" onclick="selectTpl('minimal','ei')"><div class="tpl-preview" style="background:#fff;padding:5px 7px;border-bottom:1px solid #eee;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div style="font-size:6px;font-weight:700;color:#999;letter-spacing:.1em;">INVOICE</div><div style="font-size:9px;font-weight:800;color:#111;">#001</div></div><div style="height:1px;background:#eee;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Minimal</div></div>
-      <div class="tpl-card" data-tpl="modern" onclick="selectTpl('modern','ei')"><div class="tpl-preview" style="background:#fff;"><div style="background:#111;padding:6px 7px;"><div style="font-size:8px;font-weight:700;color:#fff;">INVOICE</div><div style="font-size:5px;color:#888;margin-top:2px;">Studio Name</div></div><div style="padding:5px 7px;"><div style="font-size:5px;color:#aaa;">BILLED TO</div><div style="height:5px;background:#f0f0f0;border-radius:1px;margin-top:3px;"></div></div></div><div class="tpl-name">Modern</div></div>
-      <div class="tpl-card" data-tpl="elegant" onclick="selectTpl('elegant','ei')"><div class="tpl-preview" style="background:#fff;border-top:3px solid #111;padding:5px 7px;"><div style="font-size:7px;font-weight:400;color:#555;letter-spacing:.2em;text-transform:uppercase;">Invoice</div><div style="height:1px;background:#ddd;margin:4px 0;"></div><div style="font-size:5px;color:#aaa;">DESCRIPTION</div><div style="height:5px;background:#f5f5f5;border-radius:1px;margin-top:3px;"></div></div><div class="tpl-name">Elegant</div></div>
+      <div class="tpl-card sel" data-tpl="classic" onclick="selectTpl('classic','ei')"><div class="tpl-preview tp tp-classic"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Classic</div></div><div class="tpl-card" data-tpl="minimal" onclick="selectTpl('minimal','ei')"><div class="tpl-preview tp tp-minimal"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Minimal</div></div><div class="tpl-card" data-tpl="modern" onclick="selectTpl('modern','ei')"><div class="tpl-preview tp tp-modern"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Modern</div></div><div class="tpl-card" data-tpl="elegant" onclick="selectTpl('elegant','ei')"><div class="tpl-preview tp tp-elegant"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Elegant</div></div>
     </div>
     </div>
     <div style="margin-bottom:14px;">
