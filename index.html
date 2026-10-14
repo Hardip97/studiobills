@@ -1774,6 +1774,16 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 /* video line: the two detail fields share the space properly */
 .li-pair-video>input{flex:1 1 44%!important;min-width:92px}
 .li-pair-video .dur-wrap{flex:1 1 56%!important;min-width:150px}
+/* video line: [dimension] [min] sec  */
+.li-pair-video>input{flex:1 1 auto!important;min-width:74px}
+.li-pair-video .dur-wrap{flex:0 0 auto!important;min-width:0;gap:5px}
+.li-pair-video .dur-num{width:54px!important;min-width:54px;min-height:44px;padding:0 8px!important;
+  background:#000!important;border:0!important;color:#fff!important;border-radius:14px!important;
+  font-weight:700;text-align:center;flex:0 0 auto}
+.li-pair-video .dur-num::placeholder{color:rgba(255,255,255,.42)!important}
+.li-pair-video .dur-lab{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
+  color:rgba(0,0,0,.62);flex:0 0 auto}
+@media(max-width:620px){.li-pair-video .dur-num{width:48px!important;min-width:48px}}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -4076,7 +4086,7 @@ const INV_TYPE_DEFS={
   video:     {label:'Video Editing',   icon:'',
     cols:[{k:'name',     h:'Project Name',w:'30%',t:'text',  ph:'e.g. Reels Editing'},
           {k:'dimension',h:'Dimension',  w:'15%',t:'text',  ph:'1920×1080'},
-          {k:'duration', h:'Duration',   w:'12%',t:'text',  ph:'30 / 2'},
+          {k:'duration', h:'Duration',   w:'12%',t:'text',  ph:'1 min 25 sec'},
           {k:'rate',     h:'Rate (₹)',   w:'18%',t:'number',cls:'r',ph:'0'},
           {k:'_amt',     h:'Amount',     w:'14%'},
           {k:'_del',     h:'',           w:'5%'}]},
@@ -4166,32 +4176,48 @@ function removeInvItem(pfx,id){
 }
 
 
-// ─── duration: seconds or minutes, and long clips read in minutes ───
-function fmtMinutes(n){
-  if(!isFinite(n))return '';
-  const whole=Math.floor(n); let rem=Math.round((n-whole)*60);
-  let w=whole;
-  if(rem>=60){w+=1;rem=0;}
-  if(!rem)return w+' min';
-  return w+' min '+String(rem).padStart(2,'0')+' sec';
+// ─── duration: minutes + seconds (e.g. 1 min 25 sec) ───
+// Accepts the two fields, or an older single value ('150', '2 min', '2:30', '45s').
+function parseDurToParts(v,unit){
+  const raw=String(v==null?'':v).trim();
+  if(!raw)return {m:0,s:0};
+  let m=raw.match(/^(?:(\d+)\s*min[a-z]*\s*)?(\d+)\s*sec[a-z]*$/i);        // "1 min 25 sec" / "25 sec"
+  if(m)return {m:+m[1]||0,s:+m[2]||0};
+  m=raw.match(/^(\d+)\s*:\s*(\d{1,2})$/);                                   // 1:25
+  if(m)return {m:+m[1],s:+m[2]};
+  m=raw.match(/^(\d+(?:[.,]\d+)?)\s*(?:m|min|mins|minute|minutes)$/i);      // 2 min / 2.5 min
+  if(m){const n=parseFloat(String(m[1]).replace(',','.'));return {m:Math.floor(n),s:Math.round((n-Math.floor(n))*60)};}
+  m=raw.match(/^(\d+(?:[.,]\d+)?)\s*(?:s|sec|secs|second|seconds)$/i);      // 45s
+  if(m){const n=parseFloat(String(m[1]).replace(',','.'));return {m:Math.floor(n/60),s:Math.round(n%60)};}
+  const n=parseFloat(String(raw).replace(',','.'));
+  if(!isNaN(n))return (String(unit||'sec')==='min')
+    ? {m:Math.floor(n),s:Math.round((n-Math.floor(n))*60)}
+    : {m:Math.floor(n/60),s:Math.round(n%60)};
+  return {m:0,s:0,text:raw};
 }
-function fmtSeconds(n){
-  if(!isFinite(n))return '';
-  if(Math.abs(n)<120){ const r=Math.round(n*10)/10; return (r%1===0?r:r)+' sec'; }
-  return fmtMinutes(n/60);
+function itemDurParts(item){
+  if(!item)return {m:0,s:0};
+  if(item.durMin!=null||item.durSec!=null)
+    return {m:Math.max(0,Math.floor(+item.durMin||0)),s:Math.max(0,Math.floor(+item.durSec||0))};
+  return parseDurToParts(item.duration,item.durationUnit);
+}
+function durPartsText(p){
+  if(!p)return '';
+  if(p.text)return p.text;                          // free text stays as typed
+  let m=Math.max(0,Math.floor(p.m||0)), sec=Math.max(0,Math.floor(p.s||0));
+  m+=Math.floor(sec/60); sec=sec%60;                // 90 sec -> 1 min 30 sec
+  if(!m&&!sec)return '';
+  if(!m)return sec+' sec';
+  if(!sec)return m+' min';
+  return m+' min '+String(sec).padStart(2,'0')+' sec';
 }
 function fmtDuration(v,unit){
-  const raw=String(v==null?'':v).trim();
-  if(!raw)return '';
-  let m=raw.match(/^(\d+)\s*:\s*(\d{1,2})$/);                 // 2:30
-  if(m)return (+m[1])+' min '+String(Math.min(59,+m[2])).padStart(2,'0')+' sec';
-  m=raw.match(/^(\d+(?:[.,]\d+)?)\s*(?:m|min|mins|minute|minutes)\b/i);   // 2m / 2 min
-  if(m)return fmtMinutes(parseFloat(String(m[1]).replace(',','.')));
-  m=raw.match(/^(\d+(?:[.,]\d+)?)\s*(?:s|sec|secs|second|seconds)\b/i);   // 45s
-  if(m)return fmtSeconds(parseFloat(String(m[1]).replace(',','.')));
-  const n=parseFloat(String(raw).replace(',','.'));
-  if(isNaN(n))return raw;                                     // free text stays as typed
-  return (String(unit||'sec')==='min')?fmtMinutes(n):fmtSeconds(n);
+  const item=(v&&typeof v==='object')?v:{duration:v,durationUnit:unit};
+  return durPartsText(itemDurParts(item));
+}
+function syncDur(pfx,id){
+  const it=(invFormItems[pfx]||[]).find(x=>x.id===id);
+  if(it)it.duration=durPartsText(itemDurParts(it));  // keep the older field readable
 }
 function renderInvItems(pfx){
   const tbody=document.getElementById(pfx+'-li-body');
@@ -4212,15 +4238,14 @@ function renderInvItems(pfx){
     const setk=k=>`invFormItems['${pfx}'].find(x=>x.id==='${item.id}').${k}`;
     let details;
     if(type==='video'){
-      const durUnit=(String(item.durationUnit||'sec')==='min')?'min':'sec';
+      const dp=itemDurParts(item);
       details='<div class="li-pair li-pair-video">'+
         `<input type="text" value="${esc(item.dimension||'')}" placeholder="1920×1080" oninput="${setk('dimension')}=this.value">`+
         '<span class="dur-wrap">'+
-        `<input type="text" value="${esc(item.duration||'')}" placeholder="30" oninput="${setk('duration')}=this.value;updateInvTotals('${pfx}')">`+
-        `<select class="dur-unit" aria-label="Duration unit" onchange="${setk('durationUnit')}=this.value">`+
-        `<option value="sec"${durUnit==='sec'?' selected':''}>sec</option>`+
-        `<option value="min"${durUnit==='min'?' selected':''}>min</option>`+
-        '</select>'+
+        `<input class="dur-num" type="number" min="0" value="${dp.m?dp.m:''}" placeholder="1" oninput="${setk('durMin')}=+this.value||0;syncDur('${pfx}','${item.id}')">`+
+        '<span class="dur-lab">min</span>'+
+        `<input class="dur-num" type="number" min="0" max="59" value="${dp.s?dp.s:''}" placeholder="25" oninput="${setk('durSec')}=+this.value||0;syncDur('${pfx}','${item.id}')">`+
+        '<span class="dur-lab">sec</span>'+
         '</span>'+
         '</div>';
     } else {
@@ -5129,8 +5154,8 @@ function buildItemsRows(items,cur,invType,style){
     if(type==='video'){
       const parts=[];
       if(i.dimension)parts.push('Dimension: '+i.dimension);
-      if(i.duration){
-        parts.push('Duration: '+fmtDuration(i.duration,i.durationUnit));
+      if(fmtDuration(i)){
+        parts.push('Duration: '+fmtDuration(i));
       }
       sub=parts.join('  ·  ');
     }
@@ -5144,12 +5169,12 @@ function buildItemsRows(items,cur,invType,style){
       return`<div class="table-row"><div><div class="td-name">${name}</div>${classicSub}</div><div class="td r">${qtyTxt}</div><div class="td r">${fmtN(i.rate,cur)}</div><div class="td r">${fmtN(amt,cur)}</div></div>`;
     }
     if(invType==='mixed'){
-      const details=type==='video'?[i.dimension,fmtDuration(i.duration,i.durationUnit)].filter(Boolean).join(' · '):(i.unit||'');
+      const details=type==='video'?[i.dimension,fmtDuration(i)].filter(Boolean).join(' · '):(i.unit||'');
       return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r">${qty>1?qty:''}</td><td class="td">${esc(details)}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
     }
     // Table style — columns vary by type
     if(type==='video'){
-      const durCol=i.duration?fmtDuration(i.duration,i.durationUnit):'';
+      const durCol=fmtDuration(i);
       return`<tr><td><div class="td-name">${name}</div>${subHtml}</td><td class="td r" style="font-size:11px;color:#888;">${esc(i.dimension||'')}</td><td class="td r" style="font-size:11px;color:#888;">${esc(durCol)}</td><td class="td r">${fmtN(i.rate,cur)}</td><td class="td r">${fmtN(amt,cur)}</td></tr>`;
     }
     if(type==='product'||type==='photo'){
