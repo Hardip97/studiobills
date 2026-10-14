@@ -1784,6 +1784,38 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 .li-pair-video .dur-lab{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
   color:rgba(0,0,0,.62);flex:0 0 auto}
 @media(max-width:620px){.li-pair-video .dur-num{width:48px!important;min-width:48px}}
+/* ══ invoice modals: one settled look for New and Edit ══ */
+#addIncomeModal .modal,#editIncomeModal .modal{padding:22px!important}
+#addIncomeModal .modal .inv-tabs,#editIncomeModal .modal .inv-tabs{
+  display:flex!important;gap:4px!important;background:rgba(0,0,0,.09)!important;border:0!important;
+  border-radius:999px!important;padding:4px!important;margin:2px 0 16px!important}
+#addIncomeModal .modal .inv-tab,#editIncomeModal .modal .inv-tab{
+  flex:1 1 0;background:transparent!important;border:0!important;border-radius:999px!important;
+  color:rgba(0,0,0,.62)!important;font-weight:750!important;font-size:.8rem!important;
+  padding:10px 12px!important;text-align:center}
+#addIncomeModal .modal .inv-tab.active,#editIncomeModal .modal .inv-tab.active{background:#000!important;color:#FFFFFF!important}
+/* option rows inside the options tab (they were cramped in Edit) */
+#addIncomeModal .modal .inv-tab-body>div>div[style*="align-items:center"],
+#editIncomeModal .modal .inv-tab-body>div>div[style*="align-items:center"]{gap:10px}
+#addIncomeModal .modal .form-grid,#editIncomeModal .modal .form-grid{gap:12px!important;margin-bottom:14px!important}
+#addIncomeModal .modal .li-tbl,#editIncomeModal .modal .li-tbl{margin-top:2px}
+#addIncomeModal .modal .li-add-btn,#editIncomeModal .modal .li-add-btn{margin-top:12px!important}
+#addIncomeModal .modal .inv-total-box,#editIncomeModal .modal #ai-total-box,#editIncomeModal .modal #ei-total-box{
+  border-radius:20px!important;margin-top:14px!important;padding:16px 18px!important}
+#addIncomeModal .modal .inv-total-box .itr,#editIncomeModal .modal .inv-total-box .itr,
+#editIncomeModal .modal #ai-total-box .itr,#editIncomeModal .modal #ei-total-box .itr{
+  display:flex!important;justify-content:space-between!important;align-items:baseline;gap:14px;
+  padding:9px 0!important;font-size:.86rem;font-weight:700}
+#addIncomeModal .modal .inv-total-box .itr.final span,#editIncomeModal .modal .inv-total-box .itr.final span,
+#editIncomeModal .modal #ai-total-box .itr.final span,#editIncomeModal .modal #ei-total-box .itr.final span{
+  color:#E8E230!important;font-size:1rem!important}
+#addIncomeModal .modal .modal-foot,#editIncomeModal .modal .modal-foot{
+  margin-top:18px!important;padding-top:16px!important;border-top:1px solid rgba(0,0,0,.14)!important;
+  justify-content:flex-end!important;gap:10px!important}
+/* edit modal: let it hug its content (the fixed min-height left a big gap) */
+#editIncomeModal .modal{min-height:0!important}
+#editIncomeModal .modal .inv-tab-body{flex:0 0 auto}
+#addIncomeModal .modal .inv-tab-body{flex:1 1 auto}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -2638,11 +2670,7 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 
   </div><!-- end inv-tab-body -->
   <!-- RECEIVED + TOTALS (always visible) -->
-  <div style="display:flex;align-items:center;gap:12px;margin-top:14px;padding:10px 14px;background:var(--bg);border-radius:10px 10px 0 0;border-bottom:1px solid var(--border);">
-    <label id="ai-received-label" style="font-size:.78rem;font-weight:600;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.05em;">Received (₹)</label>
-    <input id="ai-received" type="number" min="0" placeholder="0" oninput="updateInvTotals('ai')" style="flex:1;max-width:180px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;background:var(--white);color:var(--text);">
-  </div>
-  <div class="inv-total-box" id="ai-total-box" style="border-radius:0 0 10px 10px;margin-top:0;"></div>
+   <div class="inv-total-box" id="ai-total-box" style="border-radius:20px;margin-top:14px;"></div>
   
   <div class="modal-foot">
     <button class="btn btn-ghost" onclick="closeModal('addIncomeModal')">Cancel</button>
@@ -2705,9 +2733,9 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
   </div>
   <!-- 3-TAB STRUCTURE -->
   <div class="inv-tabs">
-    <button class="inv-tab active" data-invtab="invoice" onclick="showInvTab('invoice','ei')">📋 Invoice</button>
-    <button class="inv-tab" data-invtab="payment" onclick="showInvTab('payment','ei')">💳 Payment</button>
-    <button class="inv-tab" data-invtab="options" onclick="showInvTab('options','ei')">⚙️ Options</button>
+    <button class="inv-tab active" data-invtab="invoice" onclick="showInvTab('invoice','ei')">Invoice</button>
+    <button class="inv-tab" data-invtab="payment" onclick="showInvTab('payment','ei')">Payment</button>
+    <button class="inv-tab" data-invtab="options" onclick="showInvTab('options','ei')">Options</button>
   </div>
   <div class="inv-tab-body">
 
@@ -2816,11 +2844,7 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 
   </div><!-- end inv-tab-body -->
   <!-- RECEIVED + TOTALS (always visible) -->
-  <div style="display:flex;align-items:center;gap:12px;margin-top:14px;padding:10px 14px;background:var(--bg);border-radius:10px 10px 0 0;border-bottom:1px solid var(--border);">
-    <label id="ei-received-label" style="font-size:.78rem;font-weight:600;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.05em;">Received (₹)</label>
-    <input id="ei-received" type="number" min="0" placeholder="0" oninput="updateInvTotals('ei')" style="flex:1;max-width:180px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;background:var(--white);color:var(--text);">
-  </div>
-  <div class="inv-total-box" id="ei-total-box" style="border-radius:0 0 10px 10px;margin-top:0;"></div>
+   <div class="inv-total-box" id="ei-total-box" style="border-radius:20px;margin-top:14px;"></div>
   <input type="hidden" id="ei-id">
   <div class="modal-foot">
     <button class="btn btn-ghost" onclick="closeModal('editIncomeModal')">Cancel</button>
@@ -3854,7 +3878,7 @@ function resetAddInc(){
   resetInvForm('ai');
   document.getElementById('ai-date').value=today();
   document.getElementById('ai-status').value='pending';
-  document.getElementById('ai-received').value='';
+  {const _rv=document.getElementById('ai-received'); if(_rv)_rv.value='';}
   // Clear checkboxes and draft badge
   const isdraft=document.getElementById('ai-isdraft');if(isdraft)isdraft.checked=false;
   const iscredit=document.getElementById('ai-iscredit');if(iscredit)iscredit.checked=false;
@@ -4327,7 +4351,8 @@ function updateInvTotals(pfx){
   const cur=fxSym;
   const f=n=>`${cur}${(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0})}`;
   const inrNote=n=>code!=='INR'?`<span style="font-size:.72rem;color:var(--muted);margin-left:6px;">= ₹${Math.round((+n||0)*fxRate).toLocaleString('en-IN')}</span>`:'';
-  let html=`<div class="itr"><span>Subtotal</span><span>${f(t.subtotal)}${inrNote(t.subtotal)}</span></div>`;
+  const showsBreakdown=!!((t.discOn&&t.discount>0)||t.gstOn||t.tdsOn);
+  let html=showsBreakdown?`<div class="itr"><span>Subtotal</span><span>${f(t.subtotal)}${inrNote(t.subtotal)}</span></div>`:'';
   if(t.discOn&&t.discount>0)html+=`<div class="itr disc"><span>Discount</span><span>−${f(t.discount)}</span></div>`;
   if(t.gstOn){
     if(t.gstType==='igst')html+=`<div class="itr"><span>IGST (${t.gstRate}%)</span><span>${f(t.igst)}</span></div>`;
@@ -4379,7 +4404,7 @@ function populateInvForm(pfx,inv){
   if(document.getElementById(pfx+'-due'))document.getElementById(pfx+'-due').value=inv.due||'';
   if(document.getElementById(pfx+'-cat'))document.getElementById(pfx+'-cat').value=inv.cat||'';
   if(document.getElementById(pfx+'-status'))document.getElementById(pfx+'-status').value=inv.status||'pending';
-  if(document.getElementById(pfx+'-received')){const dispRate=inv.exchangeRate&&inv.exchangeRate>1?inv.exchangeRate:1;const dispRcv=inv.currency&&inv.currency!=='INR'?Math.round((+inv.received||0)/dispRate*100)/100:(+inv.received||0);document.getElementById(pfx+'-received').value=dispRcv||0;}
+  if(document.getElementById(pfx+'-received')){const dispRate=inv.exchangeRate&&inv.exchangeRate>1?inv.exchangeRate:1;const dispRcv=inv.currency&&inv.currency!=='INR'?Math.round((+inv.received||0)/dispRate*100)/100:(+inv.received||0);if(document.getElementById(pfx+'-received'))document.getElementById(pfx+'-received').value=dispRcv||0;}
   if(document.getElementById(pfx+'-hsn'))document.getElementById(pfx+'-hsn').value=inv.hsn||'';
   if(document.getElementById(pfx+'-pos'))document.getElementById(pfx+'-pos').value=inv.pos||'';
   if(document.getElementById(pfx+'-ponum'))document.getElementById(pfx+'-ponum').value=inv.ponum||'';
@@ -5192,7 +5217,7 @@ function buildTotalsHTML(t,cur,style){
   const f=n=>fmtN(n,cur);
   let rows='';
   if(style==='classic'){
-    rows+=`<div class="total-row"><span class="lbl">Subtotal</span><span class="val">${f(t.subtotal)}</span></div>`;
+    if((t.discOn&&t.discount>0)||t.gstOn||t.tdsOn)rows+=`<div class="total-row"><span class="lbl">Subtotal</span><span class="val">${f(t.subtotal)}</span></div>`;
     if(t.discOn&&t.discount>0)rows+=`<div class="total-row"><span class="lbl">Discount</span><span class="val">−${f(t.discount)}</span></div>`;
     if(t.gstOn){if(t.gstType==='igst')rows+=`<div class="total-row"><span class="lbl">IGST (${t.gstRate}%)</span><span class="val">${f(t.igst)}</span></div>`;else{rows+=`<div class="total-row"><span class="lbl">CGST (${t.gstRate/2}%)</span><span class="val">${f(t.cgst)}</span></div><div class="total-row"><span class="lbl">SGST (${t.gstRate/2}%)</span><span class="val">${f(t.sgst)}</span></div>`;}}
     rows+=`<div class="total-final"><span class="lbl">${t.tdsOn?'Gross':'Total'}</span><span class="val">${f(t.gross)}</span></div>`;
@@ -5200,7 +5225,7 @@ function buildTotalsHTML(t,cur,style){
     return`<div class="totals-section"><div class="totals">${rows}</div></div>`;
   }
   // Table style for other templates
-  rows+=`<tr><td>Subtotal</td><td>${f(t.subtotal)}</td></tr>`;
+  if((t.discOn&&t.discount>0)||t.gstOn||t.tdsOn)rows+=`<tr><td>Subtotal</td><td>${f(t.subtotal)}</td></tr>`;
   if(t.discOn&&t.discount>0)rows+=`<tr><td>Discount</td><td>−${f(t.discount)}</td></tr>`;
   if(t.gstOn){if(t.gstType==='igst')rows+=`<tr><td>IGST (${t.gstRate}%)</td><td>${f(t.igst)}</td></tr>`;else rows+=`<tr><td>CGST (${t.gstRate/2}%)</td><td>${f(t.cgst)}</td></tr><tr><td>SGST (${t.gstRate/2}%)</td><td>${f(t.sgst)}</td></tr>`;}
   rows+=`<tr class="total-final-row"><td>${t.tdsOn?'Gross Total':'Total'}</td><td>${f(t.gross)}</td></tr>`;
