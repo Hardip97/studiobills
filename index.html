@@ -1903,6 +1903,103 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 .tp-elegant i:nth-child(2){height:1px;background:#D8D2C4;margin-bottom:5px}
 .tp-elegant i:nth-child(3){width:64%;height:2px}
 .tp-elegant i:nth-child(4){width:38%;height:2px;margin-left:auto}
+/* ══ dark, non-tinted themes (midnight / cobalt / rose): text I forced black for the
+   Canvas pastel cards follows the theme instead (Canvas keeps its light cards) ══ */
+body.theme-dark:not(.tint-cards) :is(
+  .ns-badge.up,
+  .chip-lime,
+  .hero-studio,
+  .hbar-lab,
+  .hbar b,
+  .hero-pct,
+  .hero-cap,
+  .hero-net-label,
+  .hero-net,
+  .tile-bar span:first-child,
+  .ref-toggle-lab,
+  .ref-pct,
+  .ref-cap,
+  .ref-note,
+  .ref-chart-rail span,
+  .ref-stat,
+  .ref-stat-cap,
+  .ref-split-labels,
+  .ref-month span,
+  .ref-month button,
+  .ref-menu li,
+  .ref-card .ref-round,
+  .ref-round-edge,
+  .ref-mini-lab,
+  .ref-mini-stats b,
+  .rc-chip,
+  .rc-sub,
+  .rc-stats span,
+  .rc-btn.ghost,
+  .settings-hero .sh-sub,
+  .stabs-rail .stab,
+  .rail-note,
+  #tab-settings.sv2 .stabs-rail .stab.active,
+  #tab-settings.sv2 .stabs-rail .stab.active *,
+  .ref-split-wide .sh-name,
+  .sh-name,
+  .sh-sub,
+  #tab-settings .ref-card label,
+  #tab-settings .ref-card .theme-swatch,
+  #tab-settings .ref-card .theme-swatch.active,
+  #tab-settings .ref-card .theme-swatch .sw-name,
+  #tab-settings .ref-card .theme-swatch .sw-desc,
+  #tab-settings .cat-pill,
+  .fab-menu,
+  .fab-sheet,
+  .fab-panel,
+  .fab-menu button,
+  .fab-sheet button,
+  .fab-panel button,
+  .sq-btn,
+  .db-chart-card .ref-month,
+  .db-chart-card .ref-month button,
+  .dash-earn-big,
+  .dash-earn-sub,
+  .dash-earn-month,
+  .dash-earn-lab,
+  .dash-earn-stat b,
+  .dash-earn-foot,
+  .li-pair-video .dur-lab){
+  color:var(--text)!important;
+  -webkit-text-fill-color:currentColor!important}
+body.theme-dark:not(.tint-cards) :is(#tab-settings .st-card){background:var(--card)!important;border:1px solid var(--line)!important}
+body.theme-dark:not(.tint-cards) :is(#tab-settings .st-card .st-input,#tab-settings .st-card input,#tab-settings .st-card select,#tab-settings .st-card textarea){
+  background:var(--sunken)!important;border:1px solid var(--line)!important;color:var(--text)!important}
+body.theme-dark:not(.tint-cards) :is(.theme-swatch){background:var(--surface-2)!important;border-color:var(--line)!important}
+body.theme-dark:not(.tint-cards) :is(.theme-swatch.active){background:#000000!important;border-color:#000000!important}
+body.theme-dark:not(.tint-cards) :is(.theme-swatch.active .sw-name){color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+body.theme-dark:not(.tint-cards) :is(.theme-swatch.active .sw-desc){color:rgba(255,255,255,.75)!important;-webkit-text-fill-color:rgba(255,255,255,.75)!important}
+body.theme-dark:not(.tint-cards) :is(.t-primary,.rbtn.active){background:#000000!important;border-color:#000000!important;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+/* ══ light theme (Snow): text forced white for the dark canvas follows the theme ══ */
+body.theme-light :is(.ref-eyebrow,.ref-head-pills .t-pill,.ref-wallet-head .t-pill,.ref-count,.ref-edit,
+  .ref-cols span,.ref-note,.ref-cap,.ref-mini-lab,.rbtn,.chart-xlabels span,.p-td,.th,.td,.td-name,
+  .led-title,.led-amount,.empty,.db-legend,.db-leg,.pb-date,.pb-num,.an-num,.an-cmp b,.an-cmp-lab,
+  .an-cmp-sub,.acct-name,.acct-bal,.acct-sub,.pending-row,.pending-amt,.dash-earn-foot){
+  color:var(--text)!important;-webkit-text-fill-color:currentColor!important}
+body.theme-light :is(.ref-chip.ok){color:#0E6B36!important;-webkit-text-fill-color:#0E6B36!important;border-color:#0E6B36!important}
+body.theme-light :is(.ref-chip.warn){color:#7A5F00!important;-webkit-text-fill-color:#7A5F00!important;border-color:#7A5F00!important}
+body.theme-light :is(.ref-chip.bad){color:#A3271A!important;-webkit-text-fill-color:#A3271A!important;border-color:#A3271A!important}
+body.theme-light :is(.ref-chip.info){color:#4A3F9A!important;-webkit-text-fill-color:#4A3F9A!important;border-color:#4A3F9A!important}
+body.theme-light :is(.ref-chip.mut){color:#5A5A5A!important;-webkit-text-fill-color:#5A5A5A!important;border-color:#5A5A5A!important}
+body.theme-light :is(.rbtn.active){background:#000000!important;border-color:#000000!important;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+body.theme-light :is(.theme-swatch){background:rgba(0,0,0,.06)!important;border-color:rgba(0,0,0,.22)!important}
+body.theme-light :is(.theme-swatch .sw-name){color:#111111!important;-webkit-text-fill-color:#111111!important}
+body.theme-light :is(.theme-swatch .sw-desc){color:#4A4A4A!important;-webkit-text-fill-color:#4A4A4A!important}
+body.theme-light :is(.theme-swatch.active){background:#000000!important;border-color:#000000!important}
+body.theme-light :is(.theme-swatch.active .sw-name,body.theme-light .theme-swatch.active .sw-desc){color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+body.theme-dark:not(.tint-cards) :is(.db-chart-card .rbtn,.db-chart-card .ref-range .rbtn){color:var(--text)!important;-webkit-text-fill-color:currentColor!important;border:1px solid var(--line)!important}
+body.theme-dark:not(.tint-cards) :is(.st-clabel,.st-flabel,#tab-settings .st-card label,#tab-settings .st-card .st-field label){color:var(--text)!important;-webkit-text-fill-color:currentColor!important}
+body.theme-light :is(.sw-check){color:#0E6B36!important;-webkit-text-fill-color:#0E6B36!important}
+body.theme-dark:not(.tint-cards) :is(.sw-check){color:#B6F0C4!important;-webkit-text-fill-color:#B6F0C4!important}
+/* theme polish: the progress-bar caption and the empty track */
+body.theme-dark:not(.tint-cards) :is(.ref-split-labels span,.sh-sub,.dash-earn-foot,.db-kpi-sub,.acct-sub,.ref-cap){color:var(--text)!important;opacity:.85}
+body.theme-light :is(.ref-split-track):not(.tint-cards *),body.theme-light :is(.ref-split-track u){background:rgba(0,0,0,.16)!important}
+body.theme-light :is(.ref-split-track i){background:#111111!important}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -4942,6 +5039,16 @@ function h2r(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5
 // thing that reliably beats the per-card styles shipped with the app.
 function applyTintText(){
   const on=document.body.classList.contains('tint-cards');
+  // Leaving a tinted theme must undo the inline colours this pass forced: inline
+  // !important beats every stylesheet, so black text would stay on the dark cards of
+  // the other themes.
+  if(!on){
+    const SEL='.pm-kpi-value,.pm-kpi-label,.pm-kpi-sub,.pm-kpi-meta,.st-clabel,.st-flabel,label,.c-name,.cs-v,.cs-l,.c-meta,.led-title,.led-amount,.led-no,.led-meta,.led-sub,.led-status,.recent-name,.recent-detail,.recent-amount,.rc-btn,.ref-logout,.qr-btn,.row-action,.row-more,.cp-tag,.badge,.chip,.t-pill,.sh-name,.sh-sub,.db-kpi,.db-kpi-sub,.db-kpi-cap,.dash-earn-big,.dash-earn-sub,.dash-earn-lab,.dash-earn-stat b,.dash-earn-foot,.ref-pct,.ref-cap,.ref-mini-lab,.ref-split-labels span,.ref-toggle-lab,.an-num,.acct-name,.acct-bal,.acct-sub,.pending-amt,.sw-name,.sw-desc,.sw-check,.theme-swatch';
+    document.querySelectorAll(SEL).forEach(function(el){
+      ['color','-webkit-text-fill-color','background','background-color','border-color'].forEach(function(pr){el.style.removeProperty(pr);});
+    });
+    return;
+  }
   document.querySelectorAll('.pm-kpi,.st-card,.client-card,.card,.led-card,.pm-chart-card,.pm-table-card,.pm-tcard,.chart-card,.ref-client').forEach(card=>{
     const tinted=on&&Array.from(card.classList).some(c=>c.indexOf('t-')===0);
     if(!tinted)return;
