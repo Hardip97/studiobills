@@ -1989,6 +1989,21 @@ body.tint-cards #clientGrid .rc-btn.ghost{
 body.theme-dark:not(.tint-cards) #clientGrid .rc-btn:not(.ghost),body.theme-light #clientGrid .rc-btn:not(.ghost),
 body.tint-cards #clientGrid .rc-btn:not(.ghost){
   color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;background:#000000!important;border:1.5px solid #000000!important}
+
+/* invoice line items: Qty / Unit shown inside the pill so they do not read as buttons */
+.li-pair .li-field{
+  display:inline-flex;align-items:center;gap:9px;flex:1 1 auto;min-width:0;
+  min-height:44px;padding:0 12px;background:#000;border-radius:14px;box-sizing:border-box}
+.li-pair .li-field .li-lab{
+  font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.09em;
+  color:rgba(255,255,255,.55);flex:0 0 auto;pointer-events:none;user-select:none}
+.li-pair .li-field input{
+  flex:1 1 auto;min-width:0;background:transparent!important;border:0!important;
+  box-shadow:none!important;padding:0!important;min-height:0!important;height:100%;
+  color:#fff!important;-webkit-text-fill-color:#FFFFFF!important;font-weight:700}
+.li-pair .li-field input::placeholder{color:rgba(255,255,255,.38)!important;-webkit-text-fill-color:rgba(255,255,255,.38)!important}
+body.theme-light .li-pair .li-field{background:#000}
+@media(max-width:560px){.li-pair .li-field{gap:7px;padding:0 10px}.li-pair .li-field .li-lab{font-size:.55rem}}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -4496,7 +4511,11 @@ function renderInvItems(pfx){
   const fxSym=FX_CURRENCIES[fxCode]?.symbol||'₹';
   const fmtFx=n=>`${fxSym}${(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0})}`;
   if(thead){
-    thead.innerHTML='<tr><th style="width:36%">Description</th><th style="width:28%">Details</th>'+
+    const types=[...new Set((invFormItems[pfx]||[]).map(it=>it.type||invFormType[pfx]||'general'))];
+    const headType=types.length===1?types[0]:'general';
+    const midLabel=(headType==='video')?'Dimension · Duration'
+      :(headType==='consulting')?'Hours · Unit':'Qty · Unit';
+    thead.innerHTML='<tr><th style="width:36%">Description</th><th style="width:28%">'+midLabel+'</th>'+
       '<th style="width:15%;text-align:right">Rate ('+fxSym+')</th>'+
       '<th style="width:15%;text-align:right">Amount</th><th style="width:6%"></th></tr>';
   }
@@ -4519,9 +4538,12 @@ function renderInvItems(pfx){
         '</div>';
     } else {
       const ph=type==='consulting'?'hrs':(type==='product'?'pcs':'qty');
+      const qLab=(type==='consulting')?'Hours':'Qty';
       details='<div class="li-pair">'+
-        `<input class="r" type="number" min="0" value="${esc(String(item.qty==null?1:item.qty))}" placeholder="${ph}" oninput="${setk('qty')}=+this.value||0;updateInvTotals('${pfx}')">`+
-        `<input type="text" value="${esc(item.unit||'')}" placeholder="unit" oninput="${setk('unit')}=this.value">`+
+        `<label class="li-field"><span class="li-lab">${qLab}</span>`+
+        `<input class="r" type="number" min="0" value="${esc(String(item.qty==null?1:item.qty))}" placeholder="${ph}" oninput="${setk('qty')}=+this.value||0;updateInvTotals('${pfx}')"></label>`+
+        `<label class="li-field"><span class="li-lab">Unit</span>`+
+        `<input type="text" value="${esc(item.unit||'')}" placeholder="${type==='consulting'?'hrs':'pcs'}" oninput="${setk('unit')}=this.value"></label>`+
         '</div>';
     }
     const menu=Object.entries(INV_TYPE_DEFS).map(([k,v])=>
