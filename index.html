@@ -2012,6 +2012,13 @@ body.theme-light :is(.ref-split-track i){background:#111111!important}
 #clientModal .cm-pill.ghost,#cm-tab-profile .cm-actions .btn-ghost{background:rgba(0,0,0,.10)!important;color:#000!important;
   border:0!important;border-radius:999px!important;min-height:40px;padding:0 16px!important;font-weight:750;cursor:pointer}
 @media(max-width:640px){#cm-tab-profile .form-grid{grid-template-columns:minmax(0,1fr)!important}}
+/* client editing: name field + card actions */
+#cm-tab-profile #cm-name-inp{background:#000!important;border:0!important;color:#fff!important;border-radius:14px!important;
+  min-height:46px;padding:0 13px!important;width:100%!important;font-weight:700}
+#cm-tab-profile .fg #cm-name-inp::placeholder{color:rgba(255,255,255,.5)!important}
+.rc-foot{display:flex;gap:8px;flex-wrap:wrap}
+.rc-foot .rc-btn{flex:0 0 auto}
+@media(max-width:400px){.rc-foot .rc-btn{flex:1 1 auto}}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -3102,6 +3109,10 @@ body.theme-light :is(.ref-split-track i){background:#111111!important}
   </div>
   <!-- PROFILE TAB -->
   <div id="cm-tab-profile" style="display:none;">
+    <div class="fg" style="margin-bottom:12px;">
+      <label>Client name</label>
+      <input id="cm-name-inp" placeholder="Client / company name">
+    </div>
     <div class="form-grid">
       <div class="fg"><label>GSTIN</label><input id="cm-gstin" placeholder="22AAAAA0000A1Z5"></div>
       <div class="fg"><label>PAN</label><input id="cm-pan" placeholder="AAAAA0000A"></div>
@@ -4170,6 +4181,7 @@ function openClientModal(name){
   const pending=billed-received;
   // Populate profile fields
   const cp=(db.clients||{})[name]||{};
+  if(document.getElementById('cm-name-inp'))document.getElementById('cm-name-inp').value=name||'';
   if(document.getElementById('cm-gstin'))document.getElementById('cm-gstin').value=cp.gstin||'';
   if(document.getElementById('cm-pan'))document.getElementById('cm-pan').value=cp.pan||'';
   if(document.getElementById('cm-email'))document.getElementById('cm-email').value=cp.email||'';
@@ -4207,6 +4219,12 @@ function showCmTab(tab,btn){
 
 
 // ─── CLIENT EDIT: rename (updates every linked invoice) and delete ───
+// opens the client on the Profile tab, ready to edit details or the name
+function openClientEdit(name){
+  openClientModal(name);
+  const tabs=document.querySelectorAll('#clientModal .cm-tab');
+  if(tabs&&tabs[1])showCmTab('profile',tabs[1]);
+}
 function renameClient(oldName){
   if(!oldName)return;
   const next=prompt('Client name', oldName);
@@ -4239,7 +4257,20 @@ function deleteClientProfile(name){
   toast('Client profile deleted'+(n?(' · '+n+' invoices kept'):''));
 }
 function saveClientProfile(){
-  const name=curClient;if(!name)return;
+  let name=curClient;if(!name)return;
+  // a changed name renames the client everywhere, invoices included
+  const nameInp=document.getElementById('cm-name-inp');
+  const next=nameInp?String(nameInp.value).trim():'';
+  let renamed=false;
+  if(next&&next!==name){
+    const clash=(db.clients&&db.clients[next])||(db.income||[]).some(function(i){return i.client===next;});
+    if(clash){toast('Another client already uses that name','err');return;}
+    if(db.clients&&db.clients[name]){db.clients[next]=db.clients[name];delete db.clients[name];}
+    let moved=0;(db.income||[]).forEach(function(i){if(i.client===name){i.client=next;moved++;}});
+    name=next;curClient=name;renamed=true;
+    if(typeof renderIncome==='function')renderIncome();
+    toast('Renamed · '+moved+' invoice'+(moved===1?'':'s')+' updated ✓');
+  }
   if(!db.clients)db.clients={};
   db.clients[name]={
     gstin:document.getElementById('cm-gstin').value.trim(),
@@ -4251,7 +4282,11 @@ function saveClientProfile(){
     country:document.getElementById('cm-country').value.trim(),
     vatid:document.getElementById('cm-vatid').value.trim()
   };
-  save();toast('Client profile saved ✓');renderClients();
+  save();
+  if(!renamed)toast('Client profile saved ✓');
+  const title=document.getElementById('cm-name'); if(title)title.textContent=name;
+  renderClients();
+  if(typeof renderOverview==='function')renderOverview();
 }
 
 function onClientSelect(pfx,name){
@@ -4966,6 +5001,7 @@ function renderClients(){
       </div>
       <div class="rc-foot">
         <button type="button" class="rc-btn" onclick="openClientModal('${arg}')">Open</button>
+        <button type="button" class="rc-btn ghost" onclick="openClientEdit('${arg}')">Edit</button>
         <button type="button" class="rc-btn ghost" onclick="clientRowAction({value:'invoice'},'${arg}')">New invoice</button>
       </div>
     </article>`;
