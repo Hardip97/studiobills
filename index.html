@@ -1905,66 +1905,7 @@ body.tint-cards .an-top i.ref-chip.ok{color:#0E6B36!important}
 .tp-elegant i:nth-child(4){width:38%;height:2px;margin-left:auto}
 /* ══ dark, non-tinted themes (midnight / cobalt / rose): text I forced black for the
    Canvas pastel cards follows the theme instead (Canvas keeps its light cards) ══ */
-body.theme-dark:not(.tint-cards) :is(
-  .ns-badge.up,
-  .chip-lime,
-  .hero-studio,
-  .hbar-lab,
-  .hbar b,
-  .hero-pct,
-  .hero-cap,
-  .hero-net-label,
-  .hero-net,
-  .tile-bar span:first-child,
-  .ref-toggle-lab,
-  .ref-pct,
-  .ref-cap,
-  .ref-note,
-  .ref-chart-rail span,
-  .ref-stat,
-  .ref-stat-cap,
-  .ref-split-labels,
-  .ref-month span,
-  .ref-month button,
-  .ref-menu li,
-  .ref-card .ref-round,
-  .ref-round-edge,
-  .ref-mini-lab,
-  .ref-mini-stats b,
-  .rc-chip,
-  .rc-sub,
-  .rc-stats span,
-  .rc-btn.ghost,
-  .settings-hero .sh-sub,
-  .stabs-rail .stab,
-  .rail-note,
-  #tab-settings.sv2 .stabs-rail .stab.active,
-  #tab-settings.sv2 .stabs-rail .stab.active *,
-  .ref-split-wide .sh-name,
-  .sh-name,
-  .sh-sub,
-  #tab-settings .ref-card label,
-  #tab-settings .ref-card .theme-swatch,
-  #tab-settings .ref-card .theme-swatch.active,
-  #tab-settings .ref-card .theme-swatch .sw-name,
-  #tab-settings .ref-card .theme-swatch .sw-desc,
-  #tab-settings .cat-pill,
-  .fab-menu,
-  .fab-sheet,
-  .fab-panel,
-  .fab-menu button,
-  .fab-sheet button,
-  .fab-panel button,
-  .sq-btn,
-  .db-chart-card .ref-month,
-  .db-chart-card .ref-month button,
-  .dash-earn-big,
-  .dash-earn-sub,
-  .dash-earn-month,
-  .dash-earn-lab,
-  .dash-earn-stat b,
-  .dash-earn-foot,
-  .li-pair-video .dur-lab){
+body.theme-dark:not(.tint-cards) :is(.ns-badge.up, .chip-lime, .hero-studio, .hbar-lab, .hbar b, .hero-pct, .hero-cap, .hero-net-label, .hero-net, .tile-bar span:first-child, .ref-toggle-lab, .ref-pct, .ref-cap, .ref-note, .ref-chart-rail span, .ref-stat, .ref-stat-cap, .ref-split-labels, .ref-month span, .ref-month button, .ref-menu li, .ref-card .ref-round, .ref-round-edge, .ref-mini-lab, .ref-mini-stats b, .rc-chip, .rc-sub, .rc-stats span, .settings-hero .sh-sub, .stabs-rail .stab, .rail-note, #tab-settings.sv2 .stabs-rail .stab.active, #tab-settings.sv2 .stabs-rail .stab.active *, .ref-split-wide .sh-name, .sh-name, .sh-sub, #tab-settings .ref-card label, #tab-settings .ref-card .theme-swatch, #tab-settings .ref-card .theme-swatch.active, #tab-settings .ref-card .theme-swatch .sw-name, #tab-settings .ref-card .theme-swatch .sw-desc, #tab-settings .cat-pill, .fab-menu, .fab-sheet, .fab-panel, .fab-menu button, .fab-sheet button, .fab-panel button, .sq-btn, .db-chart-card .ref-month, .db-chart-card .ref-month button, .dash-earn-big, .dash-earn-sub, .dash-earn-month, .dash-earn-lab, .dash-earn-stat b, .dash-earn-foot, .li-pair-video .dur-lab){
   color:var(--text)!important;
   -webkit-text-fill-color:currentColor!important}
 body.theme-dark:not(.tint-cards) :is(#tab-settings .st-card){background:var(--card)!important;border:1px solid var(--line)!important}
@@ -2019,6 +1960,35 @@ body.theme-light :is(.ref-split-track i){background:#111111!important}
 .rc-foot{display:flex;gap:8px;flex-wrap:wrap}
 .rc-foot .rc-btn{flex:0 0 auto}
 @media(max-width:400px){.rc-foot .rc-btn{flex:1 1 auto}}
+/* ══ client card actions: three matching pills, clearly visible on every tint ══ */
+#clientGrid .rc-foot{display:flex!important;gap:10px!important;flex-wrap:wrap!important;align-items:center;margin-top:14px}
+#clientGrid .rc-btn{
+  flex:0 0 auto!important;min-height:42px!important;min-width:74px!important;
+  padding:0 20px!important;border-radius:999px!important;border:1.5px solid #000000!important;
+  background:#000000!important;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;
+  font-weight:750!important;font-size:.82rem!important;line-height:1!important;white-space:nowrap;cursor:pointer}
+#clientGrid .rc-btn:hover{opacity:.88}
+#clientGrid .rc-btn.ghost{
+  background:#FFFFFF!important;border:1.5px solid rgba(0,0,0,.55)!important;
+  color:#000000!important;-webkit-text-fill-color:#000000!important}
+#clientGrid .rc-btn.ghost:hover{background:#F2F2F2!important}
+/* dark tints (olive / orange) keep the same white secondary pill */
+body.tint-cards :is(.t-olive,.t-orange) #clientGrid .rc-btn.ghost,
+body.tint-cards .t-olive #clientGrid .rc-btn.ghost,
+body.tint-cards .t-orange #clientGrid .rc-btn.ghost{
+  background:#FFFFFF!important;border-color:rgba(0,0,0,.5)!important;color:#000000!important;-webkit-text-fill-color:#000000!important}
+body.tint-cards #clientGrid .rc-btn.ghost{color:#000000!important}
+@media(max-width:560px){#clientGrid .rc-btn{flex:1 1 auto!important;justify-content:center}}
+#clientGrid .rc-btn{display:inline-flex!important;align-items:center!important;justify-content:center!important;line-height:1!important}
+#clientGrid .rc-foot{margin-top:16px!important;padding-bottom:2px}
+/* client card buttons keep their own colours in every theme */
+/* last word: the client card pills keep their colours in every theme */
+body.theme-dark:not(.tint-cards) #clientGrid .rc-btn.ghost,body.theme-light #clientGrid .rc-btn.ghost,
+body.tint-cards #clientGrid .rc-btn.ghost{
+  color:#000000!important;-webkit-text-fill-color:#000000!important;background:#FFFFFF!important;border:1.5px solid rgba(0,0,0,.55)!important}
+body.theme-dark:not(.tint-cards) #clientGrid .rc-btn:not(.ghost),body.theme-light #clientGrid .rc-btn:not(.ghost),
+body.tint-cards #clientGrid .rc-btn:not(.ghost){
+  color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;background:#000000!important;border:1.5px solid #000000!important}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -4977,7 +4947,7 @@ function renderClients(){
   const grid=document.getElementById('clientGrid');
   const TINTS=['t-sage','t-lav','t-grey','t-yellow','t-olive','t-orange'];
   if(!names.length){
-    grid.innerHTML='<div class="empty" style="grid-column:1/-1">No clients match this view.</div>';
+    grid.innerHTML='<div class="empty" style="grid-column:1/-1">No clients match this view.</div>'; if(window.__pinCardButtons)window.__pinCardButtons();
     const sh0=document.getElementById('clShown'); if(sh0) sh0.textContent='0 clients';
     fillClientSummary();return;
   }
@@ -5000,9 +4970,9 @@ function renderClients(){
         <div><span>Outstanding</span><b>${fmt(st.due)}</b></div>
       </div>
       <div class="rc-foot">
-        <button type="button" class="rc-btn" onclick="openClientModal('${arg}')">Open</button>
-        <button type="button" class="rc-btn ghost" onclick="openClientEdit('${arg}')">Edit</button>
-        <button type="button" class="rc-btn ghost" onclick="clientRowAction({value:'invoice'},'${arg}')">New invoice</button>
+        <button type="button" class="rc-btn" style="color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;background:#000000!important;border-color:#000000!important" onclick="openClientModal('${arg}')">Open</button>
+        <button type="button" class="rc-btn ghost" style="color:#000000!important;-webkit-text-fill-color:#000000!important;background:#FFFFFF!important;border-color:rgba(0,0,0,.55)!important" onclick="openClientEdit('${arg}')">Edit</button>
+        <button type="button" class="rc-btn ghost" style="color:#000000!important;-webkit-text-fill-color:#000000!important;background:#FFFFFF!important;border-color:rgba(0,0,0,.55)!important" onclick="clientRowAction({value:'invoice'},'${arg}')">New invoice</button>
       </div>
     </article>`;
   }).join('');
@@ -6459,6 +6429,32 @@ if('serviceWorker' in navigator){
       .catch(e=>console.log('SW failed:',e));
   });
 }
+
+/* client card pills: pin their colours inline after every render, in every theme */
+(function(){
+  function pinGrid(root){
+    var scope = root && root.querySelectorAll ? root : document;
+    var cards = scope.querySelectorAll ? scope.querySelectorAll('#clientGrid .ref-client') : [];
+    for (var i=0;i<cards.length;i++){
+      var btns = cards[i].querySelectorAll('.rc-btn');
+      for (var j=0;j<btns.length;j++){
+        var b = btns[j], ghost = b.classList.contains('ghost');
+        b.style.setProperty('color', ghost ? '#000000' : '#FFFFFF', 'important');
+        b.style.setProperty('-webkit-text-fill-color', ghost ? '#000000' : '#FFFFFF', 'important');
+        b.style.setProperty('background', ghost ? '#FFFFFF' : '#000000', 'important');
+        b.style.setProperty('border-color', ghost ? 'rgba(0,0,0,.55)' : '#000000', 'important');
+      }
+    }
+  }
+  window.__pinCardButtons = pinGrid;
+  function boot(){
+    var grid = document.getElementById('clientGrid');
+    if(!grid) return;
+    pinGrid();
+    new MutationObserver(function(){ pinGrid(); }).observe(grid, {childList:true, subtree:true});
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
 </script>
 </body>
 </html>
