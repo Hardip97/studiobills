@@ -2000,6 +2000,18 @@ body.theme-dark:not(.tint-cards) :is(.sw-check){color:#B6F0C4!important;-webkit-
 body.theme-dark:not(.tint-cards) :is(.ref-split-labels span,.sh-sub,.dash-earn-foot,.db-kpi-sub,.acct-sub,.ref-cap){color:var(--text)!important;opacity:.85}
 body.theme-light :is(.ref-split-track):not(.tint-cards *),body.theme-light :is(.ref-split-track u){background:rgba(0,0,0,.16)!important}
 body.theme-light :is(.ref-split-track i){background:#111111!important}
+/* ══ client modal: aligned profile form + edit actions ══ */
+#clientModal .modal{width:min(760px,94vw)!important;max-width:760px!important}
+#cm-tab-profile .form-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;align-items:start!important}
+#cm-tab-profile .fg{display:flex!important;flex-direction:column!important;gap:6px;margin:0!important}
+#cm-tab-profile .fg label{min-height:32px;display:flex;align-items:flex-end;line-height:1.25;margin:0}
+#cm-tab-profile .fg input,#cm-tab-profile .fg select,#cm-tab-profile .fg textarea{width:100%!important}
+#cm-tab-profile>div.fg,#cm-tab-profile .cm-actions{grid-column:1/-1}
+#cm-tab-profile .cm-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+#cm-tab-profile .cm-actions .btn{border-radius:999px!important;min-height:48px;padding:0 22px!important;font-weight:750}
+#clientModal .cm-pill.ghost,#cm-tab-profile .cm-actions .btn-ghost{background:rgba(0,0,0,.10)!important;color:#000!important;
+  border:0!important;border-radius:999px!important;min-height:40px;padding:0 16px!important;font-weight:750;cursor:pointer}
+@media(max-width:640px){#cm-tab-profile .form-grid{grid-template-columns:minmax(0,1fr)!important}}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -3065,7 +3077,7 @@ body.theme-light :is(.ref-split-track i){background:#111111!important}
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
     <div><h2 id="cm-name">Client</h2><div style="font-size:.76rem;color:var(--muted);" id="cm-meta"></div></div>
     <div style="display:flex;gap:6px;">
-      <button class="cm-pill" onclick="genInvoice()">Invoice PDF</button>
+      <button class="cm-pill" onclick="renameClient(curClient)">Rename</button> <button class="cm-pill" onclick="genInvoice()">Invoice PDF</button>
       <button class="ibtn" onclick="closeModal('clientModal')">✕</button>
     </div>
   </div>
@@ -3113,7 +3125,10 @@ body.theme-light :is(.ref-split-track i){background:#111111!important}
       <div class="fg"><label>Country</label><input id="cm-country" placeholder="e.g. Germany"></div>
       <div class="fg"><label>VAT ID / Tax Number <span style="font-weight:300;">(EU / international)</span></label><input id="cm-vatid" placeholder="e.g. DE319338232"></div>
     </div>
-    <button class="btn btn-red" style="margin-top:14px;width:100%;" onclick="saveClientProfile()">Save Client Profile</button>
+    <div class="cm-actions">
+      <button class="btn btn-ghost" onclick="deleteClientProfile(curClient)">Delete client</button>
+      <button class="btn btn-red" onclick="saveClientProfile()">Save Client Profile</button>
+    </div>
   </div>
 </div></div>
 
@@ -4190,6 +4205,39 @@ function showCmTab(tab,btn){
   if(btn)btn.classList.add('active');
 }
 
+
+// ─── CLIENT EDIT: rename (updates every linked invoice) and delete ───
+function renameClient(oldName){
+  if(!oldName)return;
+  const next=prompt('Client name', oldName);
+  if(next===null)return;
+  const name=String(next).trim();
+  if(!name||name===oldName)return;
+  if((db.clients||{})[name]||(db.income||[]).some(function(i){return i.client===name;})){toast('Another client already uses that name','err');return;}
+  if(db.clients&&db.clients[oldName]){db.clients[name]=db.clients[oldName];delete db.clients[oldName];}
+  let moved=0;
+  (db.income||[]).forEach(function(i){if(i.client===oldName){i.client=name;moved++;}});
+  save();
+  if(typeof renderClients==='function')renderClients();
+  if(typeof renderOverview==='function')renderOverview();
+  if(typeof renderIncome==='function')renderIncome();
+  if(typeof fillClientSummary==='function')fillClientSummary();
+  toast('Renamed · '+moved+' invoice'+(moved===1?'':'s')+' updated');
+  closeModal('clientModal');
+  setTimeout(function(){openClientModal(name);},60);
+}
+function deleteClientProfile(name){
+  if(!name)return;
+  const n=(db.income||[]).filter(function(i){return i.client===name;}).length;
+  const msg='Delete the client profile'+(n?(' and keep their '+n+' invoice'+(n===1?'':'s')+' in your books?'):'?');
+  if(!confirm(msg))return;
+  if(db.clients){delete db.clients[name];}
+  save();
+  if(typeof renderClients==='function')renderClients();
+  if(typeof renderOverview==='function')renderOverview();
+  closeModal('clientModal');
+  toast('Client profile deleted'+(n?(' · '+n+' invoices kept'):''));
+}
 function saveClientProfile(){
   const name=curClient;if(!name)return;
   if(!db.clients)db.clients={};
