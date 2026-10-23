@@ -2004,6 +2004,12 @@ body.tint-cards #clientGrid .rc-btn:not(.ghost){
 .li-pair .li-field input::placeholder{color:rgba(255,255,255,.38)!important;-webkit-text-fill-color:rgba(255,255,255,.38)!important}
 body.theme-light .li-pair .li-field{background:#000}
 @media(max-width:560px){.li-pair .li-field{gap:7px;padding:0 10px}.li-pair .li-field .li-lab{font-size:.55rem}}
+
+/* invoice line items: hovering a row must not paint the whole line dark
+   (the generic table hover uses --surface-2, which is near-black in the light themes) */
+body .li-tbl tbody tr:hover td,body .li-tbl tbody tr:hover th,
+body .li-tbl thead tr:hover th,body .li-tbl thead tr:hover td,
+body .li-tbl tr:hover td,body .li-tbl tr:hover th{background:transparent!important}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
