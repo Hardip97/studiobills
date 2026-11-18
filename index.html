@@ -3073,7 +3073,14 @@ body.tint-cards #quoteModal .qm-adv-sum b{color:#fff}
       <div id="qm-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:3px;min-height:14px;"></div></div>
     </div>
     <input type="hidden" id="qm-currency-code" value="INR">
-    <div class="fg"><label>Notes / Terms</label><textarea id="qm-terms" rows="2" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
+    <div class="fg" style="grid-column:1/-1">
+        <label style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <span>What's included (services &amp; deliverables)</span>
+          <button type="button" class="fx-btn" style="font-size:.7rem" onclick="qmScopeFromItems()">Fill from line items</button>
+        </label>
+        <textarea id="qm-scope" rows="5" placeholder="Write each service on its own line, e.g.&#10;60 second brand film, script to final cut&#10;2 rounds of changes&#10;Licensed background music"></textarea>
+      </div>
+      <div class="fg"><label>Notes / Terms</label><textarea id="qm-terms" rows="2" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
   </div>
 
   <!-- Template picker (inline in Invoice tab) -->
@@ -6252,6 +6259,22 @@ table.items td.r,table.items th.r,.total-final-row td:last-child{
         .replace(/>\s*Due\s*</g, '>Valid till<')
         .replace(/Due:/g, 'Valid till:')
         .replace(/\bINVOICE\b/g, 'QUOTATION');
+      // what's included: a plain list, right above the totals
+      if(inv.scope && String(inv.scope).trim()){
+        const lines = String(inv.scope).split(/\r?\n/).map(function(l){
+          return l.replace(/^\s*[-\u2022*]\s*/, '').trim();
+        }).filter(Boolean);
+        const list = lines.map(function(l){
+          return '<div style="display:flex;gap:8px;font-size:11.5px;line-height:1.65;color:#222;margin:2px 0">' +
+                 '<span style="color:#9A9A9A">&#8226;</span><span>' + l.replace(/[<>&]/g, function(c){ return ({'<':'&lt;','>':'&gt;','&':'&amp;'})[c]; }) + '</span></div>';
+        }).join('');
+        const block = '<div style="margin:18px 0 4px">' +
+          '<div style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8A8A8A;font-weight:800;margin-bottom:6px">What\'s included</div>' +
+          '<div>' + list + '</div></div>';
+        const totalsAt = html.search(/<div class="totals-section"|<table class="totals-tbl"/);
+        if(totalsAt > 0) html = html.slice(0, totalsAt) + block + html.slice(totalsAt);
+        else html = html.replace('</body>', block + '</body>');
+      }
       // a small line under the title, so the client knows it is not a bill
       html = html.replace('</body>',
         '<div style="position:fixed;left:0;right:0;bottom:0;text-align:center;font-size:10px;' +
@@ -6930,6 +6953,19 @@ function quoteRowAction(sel,id){
   q.status=v; if(v==='accepted'||v==='rejected') q.advanceReceived=q.advanceReceived||false;
   save(); renderQuotes(); toast('Marked '+Q_STATUS[v]);
 }
+
+function qmScopeFromItems(){
+  const el=document.getElementById('qm-scope'); if(!el) return;
+  const names=(invFormItems.qm||[]).map(i=>{
+    const n=(i.name||i.desc||'').trim(); if(!n) return '';
+    const qty=+i.qty||1;
+    return qty>1 ? (n+' × '+qty) : n;
+  }).filter(Boolean);
+  if(!names.length){ toast('Add a line item first','err'); return; }
+  el.value=names.join('\n');
+  el.focus();
+}
+
 function qmTab(pane,btn){
   const modal=document.getElementById('quoteModal'); if(!modal) return;
   if(btn) document.querySelectorAll('#quoteModal .itabs [data-qpane]').forEach(b=>b.classList.toggle('active',b===btn));
@@ -6977,6 +7013,7 @@ function openQuoteModal(id){
   const stSel=document.getElementById('qm-status'); if(stSel) stSel.value=q?(q.status||'draft'):'draft';
   const curCode=document.getElementById('qm-currency-code'); if(curCode) curCode.value=q?(q.currency||'INR'):'INR';
   const terms=document.getElementById('qm-terms'); if(terms) terms.value=q?(q.terms||''):'';
+  const scopeEl=document.getElementById('qm-scope'); if(scopeEl) scopeEl.value=q?(q.scope||''):'';
   // items
   invFormItems.qm = q && Array.isArray(q.items) && q.items.length ? JSON.parse(JSON.stringify(q.items))
                    : [{id:uid('li'),type:'general',name:'',qty:1,rate:0,unit:''}];
@@ -7019,6 +7056,7 @@ function readQuoteForm(){
     currency:(document.getElementById('qm-currency-code')?.value||'INR'),
     amount:total, _totals:(()=>{try{return calcInvTotals('qm');}catch(e){return null;}})(),
     terms:(document.getElementById('qm-terms')?.value||''),
+    scope:(document.getElementById('qm-scope')?.value||'').trim(),
     advanceMode:qAdvMode, advancePct:pct, advanceAmount:advAmt,
     advanceReceived:!!document.getElementById('qm-adv-received')?.checked,
     advanceDate:(document.getElementById('qm-adv-date')?.value||''),
@@ -7158,6 +7196,8 @@ function quoteShareMailBody(q){
     '',
     items,
     '',
+    (q.scope||'').trim(),
+    '',
     adv>0?('Advance to confirm the booking: '+fmtN(adv)+(q.advancePct?(' ('+q.advancePct+'%)'):'')+'. Balance after delivery: '+fmtN(bal)+'.'):'',
     (q.terms||'').trim(),
     '',
@@ -7222,7 +7262,7 @@ function quotePublicRecord(q){
     v:1,
     qNo:q.qNo, client:q.client||'', addr:((db.clients||{})[q.client]||{}).address||'',
     date:q.date, validTill:q.validTill, cat:q.cat||'', template:q.template||'classic',
-    currency:q.currency||'INR', terms:q.terms||'', total:+q.amount||0,
+    currency:q.currency||'INR', terms:q.terms||'', scope:q.scope||'', total:+q.amount||0,
     items:(q.items||[]).map(i=>({n:i.name||i.desc||'', d:i.desc||'', q:+i.qty||1, r:+i.rate||0, u:i.unit||''})),
     advancePct:+q.advancePct||0, advanceAmount:+q.advanceAmount||0,
     advanceReceived:!!q.advanceReceived, advanceDate:q.advanceDate||'', advanceVia:q.advanceVia||'upi',
@@ -7262,7 +7302,7 @@ function copyQuoteLink(id){
       var inv={
         id:'shared', invNo:rec.qNo, client:rec.client, clientAddr:rec.addr, date:rec.date, due:rec.validTill,
         cat:rec.cat, template:rec.template||'classic', currency:rec.currency||'INR',
-        terms:rec.terms||'', items:items, amount:rec.total, received:0, status:'pending',
+        terms:rec.terms||'', scope:rec.scope||'', items:items, amount:rec.total, received:0, status:'pending',
         docType:'quote', showQr:true, qrUpi:(rec.p&&rec.p.upi)||'',
         advancePct:rec.advancePct, advanceAmount:rec.advanceAmount,
         advanceReceived:rec.advanceReceived, advanceDate:rec.advanceDate, advanceVia:rec.advanceVia,
