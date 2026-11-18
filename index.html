@@ -3147,7 +3147,8 @@ body.tint-cards #quoteModal .qm-adv-sum b{color:#fff}
   
   <div class="modal-foot">
     <button class="btn btn-ghost" onclick="closeModal('quoteModal')">Cancel</button>
-    <button class="btn btn-dark" onclick="saveQuotePreview()">Preview quotation</button>
+    <button class="btn btn-ghost" onclick="downloadQuotePDF()">Download PDF</button>
+        <button class="btn btn-dark" onclick="saveQuotePreview()">Preview quotation</button>
     <button class="btn btn-red" onclick="saveQuote()">Save quotation</button>
   </div>
 </div></div>
@@ -6952,6 +6953,36 @@ function quoteRowAction(sel,id){
   }
   q.status=v; if(v==='accepted'||v==='rejected') q.advanceReceived=q.advanceReceived||false;
   save(); renderQuotes(); toast('Marked '+Q_STATUS[v]);
+}
+
+
+/* Print a document through the browser's own PDF engine (same route as Save as PDF). */
+function printDocHTML(html){
+  try{
+    html=String(html).replace('</head>','<style>.save-btn{display:none!important}</style></head>');
+    window.__lastPdfHtml=html;
+    const f=document.createElement('iframe');
+    f.setAttribute('aria-hidden','true');
+    f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;opacity:0';
+    f.onload=function(){
+      setTimeout(function(){
+        try{ f.contentWindow.focus(); f.contentWindow.print(); }
+        catch(e){ toast('Could not open the PDF dialog','err'); }
+        setTimeout(function(){ try{ f.remove(); }catch(e){} },2000);
+      },200);
+    };
+    f.srcdoc=html;
+    document.body.appendChild(f);
+    return true;
+  }catch(e){ toast('Could not build the PDF','err'); return false; }
+}
+function downloadQuotePDF(){
+  quotesInit();
+  const rec=saveQuote(true);          // silent save, so the number and totals are real
+  if(!rec) return;
+  const q=(db.quotes||[]).find(x=>x.id===rec.id)||rec;
+  printDocHTML(quoteDocHTML(q));
+  toast('Save as PDF: the print dialog opens — choose “Save as PDF”');
 }
 
 function qmScopeFromItems(){
