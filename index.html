@@ -3059,7 +3059,16 @@ body.tint-cards #quoteModal .qm-adv-sum b{color:#fff}
   </div>
 
   <!-- PAYMENT SECTION (merged into invoice tab) -->
-  <div id="qm-payment-inline" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+  
+      <div class="fg" style="grid-column:1/-1">
+        <label style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <span>What's included (services &amp; deliverables)</span>
+          <button type="button" class="fx-btn" style="font-size:.7rem" onclick="qmScopeFromItems()">Fill from line items</button>
+        </label>
+        <textarea id="qm-scope" rows="5" placeholder="Write each service on its own line, e.g.&#10;60 second brand film, script to final cut&#10;2 rounds of changes&#10;Licensed background music"></textarea>
+      </div>
+      <div class="fg"><label>Notes / Terms</label><textarea id="qm-terms" rows="2" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
+      <div id="qm-payment-inline" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
     <div class="form-grid" style="margin-bottom:12px;">
       <div class="fg"><label>Category</label><select id="qm-cat"><option value="">— select —</option></select></div>
       <div class="fg"><label>Status</label><select id="qm-status"><option value="draft">Draft</option><option value="sent">Sent</option><option value="accepted">Accepted</option><option value="rejected">Rejected</option></select></div>
@@ -3073,14 +3082,8 @@ body.tint-cards #quoteModal .qm-adv-sum b{color:#fff}
       <div id="qm-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:3px;min-height:14px;"></div></div>
     </div>
     <input type="hidden" id="qm-currency-code" value="INR">
-    <div class="fg" style="grid-column:1/-1">
-        <label style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-          <span>What's included (services &amp; deliverables)</span>
-          <button type="button" class="fx-btn" style="font-size:.7rem" onclick="qmScopeFromItems()">Fill from line items</button>
-        </label>
-        <textarea id="qm-scope" rows="5" placeholder="Write each service on its own line, e.g.&#10;60 second brand film, script to final cut&#10;2 rounds of changes&#10;Licensed background music"></textarea>
-      </div>
-      <div class="fg"><label>Notes / Terms</label><textarea id="qm-terms" rows="2" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
+    
+      
   </div>
 
   <!-- Template picker (inline in Invoice tab) -->
