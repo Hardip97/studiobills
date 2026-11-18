@@ -5758,8 +5758,8 @@ function quoteAdvBlock(inv,t){
 
 function buildTotalsHTML(t,cur,style,adv){
  const f0=n=>`${cur}${(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0})}`;
- const advRowsClassic=(adv&&adv.amt>0)?`<div class="total-row" style="padding-top:10px;border-top:1px dashed #C9C9C9"><span class="lbl">Advance${adv.pct?` (${adv.pct}%)`:""}</span><span class="val">−${f0(adv.amt)}</span></div><div class="total-final" style="border-top:1.5px solid #111"><span class="lbl">Balance</span><span class="val">${f0(adv.balance)}</span></div>`:'';
- const advRowsTable=(adv&&adv.amt>0)?`<tr><td style="border-top:1px dashed #C9C9C9">Advance${adv.pct?` (${adv.pct}%)`:""}</td><td style="border-top:1px dashed #C9C9C9">−${f0(adv.amt)}</td></tr><tr class="total-final-row"><td>Balance</td><td>${f0(adv.balance)}</td></tr>`:'';
+ const advRowsClassic=(adv&&adv.amt>0)?`<div style="margin-top:16px;padding-top:12px;border-top:1px solid #E3E3E3"><div style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8A8A8A;font-weight:800;margin-bottom:7px">Payment</div><div class="total-row"><span class="lbl" style="font-weight:700">Advance to pay now${adv.pct?` (${adv.pct}%)`:""}</span><span class="val" style="font-weight:700">${f0(adv.amt)}</span></div><div class="total-row"><span class="lbl">Balance on delivery</span><span class="val">${f0(adv.balance)}</span></div></div>`:'';
+ const advRowsTable=(adv&&adv.amt>0)?`<tr><td colspan="2" style="padding-top:10px;border-top:1px solid #E3E3E3;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8A8A8A;font-weight:800">Payment</td></tr><tr><td style="font-weight:700">Advance to pay now${adv.pct?` (${adv.pct}%)`:""}</td><td style="font-weight:700">${f0(adv.amt)}</td></tr><tr><td>Balance on delivery</td><td>${f0(adv.balance)}</td></tr>`:'';
   const f=n=>fmtN(n,cur);
   let rows='';
   if(style==='classic'){
@@ -6216,6 +6216,7 @@ table.items td.r,table.items th.r,.total-final-row td:last-child{
     if(inv && inv.docType === 'quote'){
       html = html
         .replace(/>\s*Invoice\s*</g, '>Quotation<')
+        .replace(/>\s*Total\s*</g, '>Quotation total<')
         .replace(/\bInvoice No\.?/g, 'Quotation No')
         .replace(/>\s*Due\s*</g, '>Valid till<')
         .replace(/Due:/g, 'Valid till:')
