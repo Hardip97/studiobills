@@ -2010,6 +2010,27 @@ body.theme-light .li-pair .li-field{background:#000}
 body .li-tbl tbody tr:hover td,body .li-tbl tbody tr:hover th,
 body .li-tbl thead tr:hover th,body .li-tbl thead tr:hover td,
 body .li-tbl tr:hover td,body .li-tbl tr:hover th{background:transparent!important}
+
+/* ── QUOTATIONS: advance panel + currency pill label fix ── */
+.fx-btn.sel,.fx-btn.sel *{color:#fff!important;-webkit-text-fill-color:#fff!important}
+body.tint-cards .fx-btn.sel,body.tint-cards .fx-btn.sel *,body.theme-light .fx-btn.sel,body.theme-light .fx-btn.sel *{color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;background:#000000!important}
+#quoteModal .qseg{display:flex;gap:8px}
+#quoteModal .qseg button{flex:1;min-height:44px;border-radius:14px;border:1px solid rgba(255,255,255,.18);
+  background:transparent;color:rgba(255,255,255,.72);font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer}
+#quoteModal .qseg button.on{background:#fff;color:#000;border-color:#fff}
+body.theme-light #quoteModal .qseg button,body.tint-cards #quoteModal .qseg button{background:transparent}
+body.theme-light #quoteModal .qseg button{color:rgba(0,0,0,.65);border-color:rgba(0,0,0,.18)}
+body.theme-light #quoteModal .qseg button.on{background:#000;color:#fff;border-color:#000}
+#quoteModal .qm-adv-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 18px;
+  border-radius:16px;background:rgba(0,0,0,.06)}
+#quoteModal .qm-adv-sum span{display:block;font-size:.62rem;font-weight:800;letter-spacing:.09em;
+  text-transform:uppercase;color:rgba(0,0,0,.6);margin-bottom:5px}
+body.tint-cards #quoteModal .qm-adv-sum{background:rgba(255,255,255,.10)}
+body.tint-cards #quoteModal .qm-adv-sum span{color:rgba(255,255,255,.66)}
+body.tint-cards #quoteModal .qm-adv-sum b{color:#fff}
+#quoteModal .qm-adv-sum b{font-size:1.05rem;font-weight:800;letter-spacing:-.02em}
+#quoteModal .qm-valid-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+@media(max-width:640px){#quoteModal .qm-adv-sum{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
@@ -2074,6 +2095,7 @@ body .li-tbl tr:hover td,body .li-tbl tr:hover th{background:transparent!importa
     <button class="sn active" data-tab="overview" onclick="showTab('overview')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Dashboard</button>
     <button class="sn" data-tab="analytics" onclick="showTab('analytics')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span> Analytics</button>
       <button class="sn" data-tab="income" onclick="showTab('income')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span> Income</button>
+    <button class="sn" data-tab="quotes" onclick="showTab('quotes')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></span> Quotations</button>
     <button class="sn" data-tab="expenses" onclick="showTab('expenses')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="18"/></svg></span> Expenses</button>
     <button class="sn" data-tab="clients" onclick="showTab('clients')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Clients</button>
     <button class="sn" data-tab="settings" onclick="showTab('settings')"><span class="sn-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</button>
@@ -2273,6 +2295,67 @@ body .li-tbl tr:hover td,body .li-tbl tr:hover th{background:transparent!importa
 </div>
 
 <!-- ══════════════════════ INCOME ══════════════════════ -->
+<div class="tab" id="tab-quotes">
+  <header class="ref-head">
+    <div class="ref-head-left">
+      <div class="ref-eyebrow">Quotations</div>
+      <button class="ref-edit" onclick="showTab('clients')">Clients</button>
+    </div>
+    <div class="ref-head-pills">
+      <button class="t-pill" onclick="showTab('income')">Invoices</button>
+      <button class="t-pill t-primary" onclick="openQuoteModal()">+ New quotation</button>
+    </div>
+  </header>
+
+  <section class="ref-big t-lav">
+    <div class="ref-big-top">
+      <span class="t-pill">Pipeline</span>
+      <span class="ref-toggle"><span class="ref-toggle-lab">All quotes</span></span>
+    </div>
+    <div class="ref-big-grid">
+      <div class="ref-split-wide">
+        <div class="ref-split" style="margin-top:0">
+          <div class="ref-split-track"><i id="qSplitAcc" style="width:0%"></i><u id="qSplitOpen" style="width:0%"></u></div>
+          <div class="ref-split-labels"><span id="qSplitAccLab">&mdash;</span><span id="qSplitOpenLab">&mdash;</span></div>
+        </div>
+        <div class="ref-mini-stats">
+          <div><span class="ref-mini-lab">Quoted</span><b id="qHeroQuoted">&mdash;</b></div>
+          <div><span class="ref-mini-lab">Advance received</span><b id="qHeroAdv">&mdash;</b></div>
+          <div><span class="ref-mini-lab">Accepted</span><b id="qHeroAcc">&mdash;</b></div>
+        </div>
+      </div>
+      <div class="ref-figure">
+        <div class="ref-pct" id="qHeroPct">&mdash;</div>
+        <div class="ref-cap">of quoted value accepted</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="filter-row">
+    <div class="search-wrap"><input class="search-inp" id="qSearch" placeholder="Search client or quote&hellip;" oninput="renderQuotes()"></div>
+    <div class="itabs" id="qTabs">
+      <button class="itab active" data-f="all" onclick="setQFilter('all')">All</button>
+      <button class="itab" data-f="draft" onclick="setQFilter('draft')">Draft</button>
+      <button class="itab" data-f="sent" onclick="setQFilter('sent')">Sent</button>
+      <button class="itab" data-f="accepted" onclick="setQFilter('accepted')">Accepted</button>
+      <button class="itab" data-f="rejected" onclick="setQFilter('rejected')">Rejected</button>
+      <button class="itab" data-f="expired" onclick="setQFilter('expired')">Expired</button>
+    </div>
+    <div class="sort-switch" id="qSortSwitch">
+      <button class="ss-btn on" type="button" data-s="no" onclick="setQSort('no')">No.</button>
+      <button class="ss-btn" type="button" data-s="date" onclick="setQSort('date')">Date</button>
+    </div>
+  </div>
+
+  <section class="ref-wallet">
+    <div class="ref-wallet-head">
+      <span class="t-pill">All quotations</span>
+      <span class="ref-count" id="qCount"></span>
+    </div>
+    <div class="ref-rows" id="quotesList"></div>
+  </section>
+</div>
+
 <div class="tab" id="tab-income">
   <header class="ref-head">
     <div class="ref-head-left">
@@ -2867,6 +2950,167 @@ body .li-tbl tr:hover td,body .li-tbl tr:hover th{background:transparent!importa
     <button class="btn btn-ghost" onclick="closeModal('addIncomeModal')">Cancel</button>
     <button class="btn btn-dark" onclick="saveAndPreview()">Preview invoice</button>
     <button class="btn btn-red" onclick="saveIncome()">Save invoice</button>
+  </div>
+</div></div>
+
+
+<!-- ════════════════════ ADD CLIENT MODAL ════════════════════ -->
+<div class="modal-bg" id="quoteModal">
+<div class="modal" style="max-width:780px;min-height:640px;display:flex;flex-direction:column;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+    <div><div class="m-eyebrow">New quotation</div><span id="qm-draft-badge" class="badge b-draft" style="display:none;margin-left:8px;">Draft</span></div>
+    <button class="ibtn" onclick="closeModal('quoteModal')">✕</button>
+  </div>
+
+  <div class="inv-tab-body">
+<div class="itabs" style="margin-bottom:16px">
+        <button class="itab active" type="button" data-qpane="items" onclick="qmTab('items',this)">Items</button>
+        <button class="itab" type="button" data-qpane="options" onclick="qmTab('options',this)">Options</button>
+        <button class="itab" type="button" data-qpane="advance" onclick="qmTab('advance',this)">Advance</button>
+      </div>
+      <div id="qm-pane-advance" style="display:none">
+        <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+          <div class="fg"><label>Advance type</label>
+            <div class="qseg">
+              <button type="button" id="qm-mode-pct" class="on" onclick="qmSetMode('pct')">Percent</button>
+              <button type="button" id="qm-mode-amt" onclick="qmSetMode('amt')">Fixed &#8377;</button>
+            </div>
+          </div>
+          <div class="fg"><label>Advance</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input id="qm-adv-pct" type="number" min="0" max="100" value="50" style="width:78px;text-align:center;font-weight:700" oninput="qmAdvSync('pct')">
+              <span style="font-weight:700;opacity:.55">%</span>
+              <input id="qm-adv-amt" type="number" min="0" value="0" style="flex:1;text-align:right;font-weight:700" oninput="qmAdvSync('amt')">
+            </div>
+          </div>
+          <div class="fg"><label>Received on</label><input id="qm-adv-date" type="date"></div>
+          <div class="fg"><label>Mode</label>
+            <select id="qm-adv-via"><option value="upi">UPI</option><option value="bank">Bank transfer</option><option value="cash">Cash</option></select>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <label class="toggle-wrap"><input type="checkbox" id="qm-adv-received" onchange="qmAdvSync()"><span class="toggle-slider"></span></label>
+          <div style="font-size:.82rem;font-weight:600">Advance received</div>
+        </div>
+        <div class="qm-adv-sum">
+          <div><span>Quote total</span><b id="qm-sum-total">&#8377;0</b></div>
+          <div><span>Advance</span><b id="qm-sum-adv">&#8377;0</b></div>
+          <div><span>Balance</span><b id="qm-sum-bal">&#8377;0</b></div>
+        </div>
+      </div>
+      <style>#quoteModal #qm-payment-inline,#quoteModal #qm-qrupi,#quoteModal #qm-showqr{display:none!important}
+      #quoteModal.qm-adv-open .inv-tab-body>*:not(#qm-pane-advance){display:none!important}
+      #quoteModal.qm-adv-open #qm-pane-advance{display:block!important}</style>
+      
+
+  <!-- TAB 1: INVOICE — client + dates + line items -->
+  <div id="qm-tab-invoice">
+    <div class="form-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div class="fg"><label>Quotation No.</label><input id="qm-invno" placeholder="e.g. INV-003" style="font-weight:600;"></div>
+      <div class="fg"><label>Client *</label><input id="qm-client" list="clientSuggest" placeholder="Client / company name" onchange="onClientSelect('qm',this.value)" oninput="onClientSelect('qm',this.value)"></div>
+      <div class="fg"><label>Invoice Date</label><input id="qm-date" type="date"></div>
+      <div class="fg"><label>Valid till</label><input id="qm-due" type="date"></div>
+    </div>
+        <div class="li-wrap"><table class="li-tbl" id="qm-li-tbl">
+      <thead id="qm-li-head"></thead>
+      <tbody id="qm-li-body"></tbody>
+    </table></div>
+    <button class="li-add-btn" onclick="addInvItem('qm')">+ Add Line Item</button>
+    <div class="li-chooser" id="qm-line-chooser">
+      <span class="li-chooser-lab">Add this line as</span>
+      <button type="button" onclick="addInvItemTyped('qm','general')">General</button>
+      <button type="button" onclick="addInvItemTyped('qm','video')">Video Editing</button>
+      <button type="button" onclick="addInvItemTyped('qm','product')">Product / Retail</button>
+      <button type="button" onclick="addInvItemTyped('qm','consulting')">Consulting</button>
+      <button type="button" onclick="addInvItemTyped('qm','photo')">Photography</button>
+      <button type="button" class="li-chooser-x" onclick="closeLineChooser('qm')">✕</button>
+    </div>
+  </div>
+
+  <!-- PAYMENT SECTION (merged into invoice tab) -->
+  <div id="qm-payment-inline" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+    <div class="form-grid" style="margin-bottom:12px;">
+      <div class="fg"><label>Category</label><select id="qm-cat"><option value="">— select —</option></select></div>
+      <div class="fg"><label>Status</label><select id="qm-status"><option value="draft">Draft</option><option value="sent">Sent</option><option value="accepted">Accepted</option><option value="rejected">Rejected</option></select></div>
+      <div class="fg"><label>Currency</label><div style="display:flex;gap:5px;flex-wrap:wrap;" id="qm-currency-bar">
+        <button class="fx-btn sel" data-code="INR" onclick="onCurrencySelect('qm','INR')">INR</button>
+        <button class="fx-btn" data-code="USD" onclick="onCurrencySelect('qm','USD')">USD</button>
+        <button class="fx-btn" data-code="GBP" onclick="onCurrencySelect('qm','GBP')">GBP</button>
+        <button class="fx-btn" data-code="EUR" onclick="onCurrencySelect('qm','EUR')">EUR</button>
+        <button class="fx-btn" data-code="AED" onclick="onCurrencySelect('qm','AED')">AED</button>
+      </div>
+      <div id="qm-fx-info" style="font-size:.73rem;color:var(--muted);margin-top:3px;min-height:14px;"></div></div>
+    </div>
+    <input type="hidden" id="qm-currency-code" value="INR">
+    <div class="fg"><label>Notes / Terms</label><textarea id="qm-terms" rows="2" placeholder="e.g. Payment due within 15 days. Thank you for your business."></textarea></div>
+  </div>
+
+  <!-- Template picker (inline in Invoice tab) -->
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2);">
+    <label style="font-size:.73rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Quote template</label>
+    <div class="tpl-grid" id="qm-tpl-grid">
+      <div class="tpl-card sel" data-tpl="classic" onclick="selectTpl('classic','qm')"><div class="tpl-preview tp tp-classic"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Classic</div></div><div class="tpl-card" data-tpl="minimal" onclick="selectTpl('minimal','qm')"><div class="tpl-preview tp tp-minimal"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Minimal</div></div><div class="tpl-card" data-tpl="modern" onclick="selectTpl('modern','qm')"><div class="tpl-preview tp tp-modern"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Modern</div></div><div class="tpl-card" data-tpl="elegant" onclick="selectTpl('elegant','qm')"><div class="tpl-preview tp tp-elegant"><i></i><i></i><i></i><i></i></div><div class="tpl-name">Elegant</div></div>
+    </div>
+  </div>
+
+  <!-- TAX & OPTIONS — always visible below template -->
+  <div id="qm-tab-options" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+    <div style="font-size:.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">Taxes &amp; Options</div>
+    <div style="margin-bottom:14px;">
+      <label style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Taxes &amp; Discounts</label>
+      <div class="tax-row">
+        <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="qm-gst-on" onchange="updateInvTotals('qm')"><span class="toggle-slider"></span></label>
+        <div class="tax-label">GST</div>
+        <div class="tax-row-ctrl">
+          <select class="tax-select" id="qm-gst-type" onchange="updateInvTotals('qm')"><option value="cgst_sgst">CGST + SGST (Intra-state)</option><option value="igst">IGST (Inter-state)</option></select>
+          <select class="tax-select" id="qm-gst-rate" onchange="updateInvTotals('qm')"><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select>
+        </div>
+      </div>
+      <div class="tax-row">
+        <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="qm-tds-on" onchange="updateInvTotals('qm')"><span class="toggle-slider"></span></label>
+        <div class="tax-label">TDS</div>
+        <div class="tax-row-ctrl"><span style="font-size:.8rem;color:var(--muted);">Rate:</span><input class="tax-input-sm" id="qm-tds-rate" type="number" value="10" min="0" max="30" oninput="updateInvTotals('qm')"><span style="font-size:.8rem;color:var(--muted);">%</span></div>
+      </div>
+      <div class="tax-row">
+        <label class="toggle-wrap" style="margin-top:3px;flex-shrink:0;"><input type="checkbox" id="qm-disc-on" onchange="updateInvTotals('qm')"><span class="toggle-slider"></span></label>
+        <div class="tax-label">Discount</div>
+        <div class="tax-row-ctrl">
+          <select class="tax-select" id="qm-disc-type" onchange="updateInvTotals('qm')"><option value="pct">Percentage (%)</option><option value="flat">Flat Amount (₹)</option></select>
+          <input class="tax-input-sm" id="qm-disc-val" type="number" value="0" min="0" oninput="updateInvTotals('qm')">
+        </div>
+      </div>
+    </div>
+    <div class="form-grid" style="margin-bottom:10px;">
+      <div class="fg"><label>HSN / SAC Code</label><input id="qm-hsn" placeholder="e.g. 998371"></div>
+      <div class="fg"><label>PO / Reference No.</label><input id="qm-ponum" placeholder="e.g. PO-2024-001"></div>
+      <div class="fg"><label>Client GSTIN</label><input id="qm-cgstin" placeholder="Client's GST number"></div>
+      <div class="fg"><label>Place of Supply</label><input id="qm-pos" placeholder="e.g. Gujarat"></div>
+    </div>
+    <div class="fg" style="margin-bottom:12px;">
+      <label>Custom UPI <span style="font-weight:300;">(leave blank to use profile UPI)</span></label>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input id="qm-qrupi" placeholder="e.g. yourname@upi" style="flex:1;">
+        <label class="toggle-wrap" style="flex-shrink:0;"><input type="checkbox" id="qm-showqr" checked><span class="toggle-slider"></span></label>
+        <span style="font-size:.8rem;color:var(--muted);white-space:nowrap;">Show QR</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="qm-isdraft" onchange="document.getElementById('qm-draft-badge').style.display=this.checked?'inline-flex':'none'"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Save as Draft</span></div>
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="qm-iscredit"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Credit Note</span></div>
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="qm-isrecurring"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Recurring Monthly</span></div>
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="qm-reversecharge"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">Reverse Charge</span></div>
+      <div style="display:flex;align-items:center;gap:9px;"><label class="toggle-wrap"><input type="checkbox" id="qm-vatid"><span class="toggle-slider"></span></label><span style="font-size:.81rem;color:var(--muted);">EU VAT</span><input id="qm-vatid-inp" placeholder="e.g. DE319338232" style="width:140px;margin-left:6px;display:none;"></div>
+    </div>
+  </div>
+
+  </div><!-- end inv-tab-body -->
+  <!-- RECEIVED + TOTALS (always visible) -->
+   <div class="inv-total-box" id="qm-total-box" style="border-radius:20px;margin-top:14px;"></div>
+  
+  <div class="modal-foot">
+    <button class="btn btn-ghost" onclick="closeModal('quoteModal')">Cancel</button>
+    <button class="btn btn-dark" onclick="saveQuotePreview()">Preview quotation</button>
+    <button class="btn btn-red" onclick="saveQuote()">Save quotation</button>
   </div>
 </div></div>
 
@@ -5499,7 +5743,23 @@ function buildItemsRows(items,cur,invType,style){
   }).join('');
 }
 
-function buildTotalsHTML(t,cur,style){
+
+function quoteAdvBlock(inv,t){
+  if(!inv||inv.docType!=='quote')return null;
+  const total=+(t&&(t.net||t.gross))||+(inv.amount||0);
+  let amt=+inv.advanceAmount||0;
+  if(!amt&&+inv.advancePct>0)amt=Math.round(total*(+inv.advancePct)/100);
+  amt=Math.max(0,Math.min(total,Math.round(amt)));
+  if(!amt)return null;
+  const pct=+inv.advancePct||(total?Math.round(amt/total*100):0);
+  const via=inv.advanceReceived?(inv.advanceVia==='cash'?'cash':inv.advanceVia==='bank'?'bank transfer':'UPI'):'';
+  return {amt,pct,balance:Math.max(0,total-amt),via};
+}
+
+function buildTotalsHTML(t,cur,style,adv){
+ const f0=n=>`${cur}${(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0})}`;
+ const advRowsClassic=(adv&&adv.amt>0)?`<div class="total-row" style="padding-top:10px;border-top:1px dashed #C9C9C9"><span class="lbl">Advance${adv.pct?` (${adv.pct}%)`:""}</span><span class="val">−${f0(adv.amt)}</span></div><div class="total-final" style="border-top:1.5px solid #111"><span class="lbl">Balance</span><span class="val">${f0(adv.balance)}</span></div>`:'';
+ const advRowsTable=(adv&&adv.amt>0)?`<tr><td style="border-top:1px dashed #C9C9C9">Advance${adv.pct?` (${adv.pct}%)`:""}</td><td style="border-top:1px dashed #C9C9C9">−${f0(adv.amt)}</td></tr><tr class="total-final-row"><td>Balance</td><td>${f0(adv.balance)}</td></tr>`:'';
   const f=n=>fmtN(n,cur);
   let rows='';
   if(style==='classic'){
@@ -5508,7 +5768,7 @@ function buildTotalsHTML(t,cur,style){
     if(t.gstOn){if(t.gstType==='igst')rows+=`<div class="total-row"><span class="lbl">IGST (${t.gstRate}%)</span><span class="val">${f(t.igst)}</span></div>`;else{rows+=`<div class="total-row"><span class="lbl">CGST (${t.gstRate/2}%)</span><span class="val">${f(t.cgst)}</span></div><div class="total-row"><span class="lbl">SGST (${t.gstRate/2}%)</span><span class="val">${f(t.sgst)}</span></div>`;}}
     rows+=`<div class="total-final"><span class="lbl">${t.tdsOn?'Gross':'Total'}</span><span class="val">${f(t.gross)}</span></div>`;
     if(t.tdsOn)rows+=`<div class="total-final" style="padding-top:8px;color:#666;"><span class="lbl" style="font-weight:500;">TDS (−${t.tdsRate}%)</span><span class="val" style="font-weight:400;">−${f(t.tds)}</span></div><div class="total-final" style="padding-top:8px;border-top:1.5px solid #111;"><span class="lbl">Net Payable</span><span class="val">${f(t.net)}</span></div>`;
-    return`<div class="totals-section"><div class="totals">${rows}</div></div>`;
+    return`<div class="totals-section"><div class="totals">${rows}${advRowsClassic}</div></div>`;
   }
   // Table style for other templates
   if((t.discOn&&t.discount>0)||t.gstOn||t.tdsOn)rows+=`<tr><td>Subtotal</td><td>${f(t.subtotal)}</td></tr>`;
@@ -5516,7 +5776,7 @@ function buildTotalsHTML(t,cur,style){
   if(t.gstOn){if(t.gstType==='igst')rows+=`<tr><td>IGST (${t.gstRate}%)</td><td>${f(t.igst)}</td></tr>`;else rows+=`<tr><td>CGST (${t.gstRate/2}%)</td><td>${f(t.cgst)}</td></tr><tr><td>SGST (${t.gstRate/2}%)</td><td>${f(t.sgst)}</td></tr>`;}
   rows+=`<tr class="total-final-row"><td>${t.tdsOn?'Gross Total':'Total'}</td><td>${f(t.gross)}</td></tr>`;
   if(t.tdsOn)rows+=`<tr><td style="color:#888;">TDS (−${t.tdsRate}%)</td><td style="color:#888;">−${f(t.tds)}</td></tr><tr class="total-final-row"><td>Net Payable</td><td>${f(t.net)}</td></tr>`;
-  return`<table class="totals-tbl">${rows}</table>`;
+  return`<table class="totals-tbl">${rows}${advRowsTable}</table>`;
 }
 
 function buildQR(upi,name,amount,invNo){
@@ -5585,12 +5845,12 @@ function buildInvoiceHTML(inv){
   const itemTypes=new Set(t.items.map(i=>i.type||i.invType||invType));
   const tableType=itemTypes.size>1?'mixed':invType;
   const itemRows=buildItemsRows(t.items,cur,tableType,'table');
-  const totalsHTML=buildTotalsHTML(t,cur,tpl);
+  const totalsHTML=buildTotalsHTML(t,cur,tpl,quoteAdvBlock(inv,t));
 
   // ── CLASSIC TEMPLATE ──
   if(tpl==='classic'){
     const itemRowsClassic=buildItemsRows(t.items,cur,invType,'classic');
-    const totalsClassic=buildTotalsHTML(t,cur,'classic');
+    const totalsClassic=buildTotalsHTML(t,cur,'classic',quoteAdvBlock(inv,t));
     // Build "From" block — name, role, address (max 1 line), email, phone, tax IDs
     const fromLines=[];
     if(p.ownerName)fromLines.push(`<div style="font-size:14px;font-weight:700;color:#111;margin-bottom:4px;">${esc(p.ownerName)}</div>`);
@@ -5946,6 +6206,30 @@ table.items td.r,table.items th.r,.total-final-row td:last-child{
 
 
 // Scale the A4 invoice sheet so the whole width is visible inside the preview frame.
+/* Quote documents reuse the invoice engine: same templates, GST table, payment details and QR,
+   only the wording changes. */
+(function(){
+  const build = buildInvoiceHTML;
+  window.__buildInvoiceHTMLraw = build;
+  buildInvoiceHTML = function(inv){
+    let html = build(inv);
+    if(inv && inv.docType === 'quote'){
+      html = html
+        .replace(/>\s*Invoice\s*</g, '>Quotation<')
+        .replace(/\bInvoice No\.?/g, 'Quotation No')
+        .replace(/>\s*Due\s*</g, '>Valid till<')
+        .replace(/Due:/g, 'Valid till:')
+        .replace(/\bINVOICE\b/g, 'QUOTATION');
+      // a small line under the title, so the client knows it is not a bill
+      html = html.replace('</body>',
+        '<div style="position:fixed;left:0;right:0;bottom:0;text-align:center;font-size:10px;' +
+        'letter-spacing:.08em;text-transform:uppercase;color:#8A8A8A;padding:6px 0;">' +
+        'Quotation · not a tax invoice</div></body>');
+    }
+    return html;
+  };
+})();
+
 function fitInvPreview(){
   const f=document.getElementById('invFrame'); if(!f||!f.parentElement)return;
   const box=f.parentElement.getBoundingClientRect();
@@ -6484,5 +6768,276 @@ if('serviceWorker' in navigator){
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   QUOTATIONS — same engine as invoices, separate collection + advance
+   ═══════════════════════════════════════════════════════════════════ */
+const Q_STATUS = {draft:'Draft', sent:'Sent', accepted:'Accepted', rejected:'Rejected', expired:'Expired'};
+const Q_TPLS = ['classic','minimal','modern','elegant','bold','compact','studio'];
+let qFilter='all', qSort='no', curQuoteId=null, qAdvMode='pct';
+
+function quotesInit(){
+  if(!Array.isArray(db.quotes)) db.quotes=[];
+  if(!invFormItems.qm) invFormItems.qm=[];
+  if(!invFormType.qm) invFormType.qm='general';
+}
+function nextQuoteNo(){
+  quotesInit();
+  let max=0;
+  (db.quotes||[]).forEach(q=>{const m=String(q.qNo||'').match(/^QT-(\d+)$/i); if(m)max=Math.max(max,parseInt(m[1],10));});
+  return 'QT-'+String(max+1).padStart(3,'0');
+}
+function qExpired(q){
+  if(!q||q.status==='accepted'||q.status==='rejected') return false;
+  return !!(q.validTill && q.validTill < today());
+}
+function qState(q){ return qExpired(q) ? 'expired' : (q.status||'draft'); }
+function qChip(q){
+  const st=qState(q);
+  const cls={accepted:'ok',sent:'info',draft:'mut',rejected:'bad',expired:'bad'}[st]||'mut';
+  return `<div class="ref-chip ${cls}"><span class="dotmark"></span>${Q_STATUS[st]||'Draft'}</div>`;
+}
+function qAdvAmount(q){
+  const total=+(q.amount||0);
+  let amt=+q.advanceAmount||0;
+  if(!amt && +q.advancePct>0) amt=Math.round(total*(+q.advancePct)/100);
+  return Math.max(0,Math.min(total,Math.round(amt)));
+}
+function renderQuotes(){
+  quotesInit();
+  const host=document.getElementById('quotesList'); if(!host) return;
+  const term=(document.getElementById('qSearch')?.value||'').trim().toLowerCase();
+  let rows=(db.quotes||[]).slice();
+  // hero
+  let quoted=0, accepted=0, advGot=0;
+  rows.forEach(q=>{
+    const amt=+q.amount||0;
+    if(qState(q)!=='rejected') quoted+=amt;
+    if(qState(q)==='accepted') accepted+=amt;
+    if(q.advanceReceived) advGot+=qAdvAmount(q);
+  });
+  const money=n=>'₹'+(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0});
+  const pct=quoted?Math.round(accepted/quoted*100):0;
+  const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
+  set('qHeroQuoted',money(quoted)); set('qHeroAcc',money(accepted)); set('qHeroAdv',money(advGot)); set('qHeroPct',quoted?pct+'%':'—');
+  const open=Math.max(0,quoted-accepted);
+  const barA=document.getElementById('qSplitAcc'), barO=document.getElementById('qSplitOpen');
+  if(barA) barA.style.width=(quoted?Math.round(accepted/quoted*100):0)+'%';
+  if(barO) barO.style.width=(quoted?Math.round(open/quoted*100):0)+'%';
+  set('qSplitAccLab','Accepted '+money(accepted)); set('qSplitOpenLab','Open '+money(open));
+
+  // filter + search
+  if(qFilter!=='all') rows=rows.filter(q=>qState(q)===qFilter);
+  if(term) rows=rows.filter(q=>((q.client||'')+' '+(q.qNo||'')+' '+(q.cat||'')).toLowerCase().includes(term));
+  rows.sort((a,b)=> qSort==='date' ? String(b.date||'').localeCompare(String(a.date||''))
+                                   : String(b.qNo||'').localeCompare(String(a.qNo||''),undefined,{numeric:true}));
+  set('qCount', rows.length+(rows.length===1?' quotation':' quotations'));
+  if(!rows.length){
+    host.innerHTML='<div class="empty" style="padding:26px 4px;color:var(--muted);font-size:.86rem;">No quotations yet. Use + New quotation to make the first one.</div>';
+    return;
+  }
+  host.innerHTML=rows.map(q=>{
+    const st=qState(q);
+    const adv=q.advanceReceived&&qAdvAmount(q)>0
+      ? `<span style="color:#0E6B36;font-weight:700;">adv ${money(qAdvAmount(q))} received</span>` : '';
+    const bits=[q.qNo||'', st==='draft'?'draft':('sent '+fmtShort(q.date)), q.validTill?('valid till '+fmtShort(q.validTill)):'', q.cat||'', adv].filter(Boolean);
+    return `<div class="recent-row ref-row">
+      <div class="recent-info">
+        <div class="recent-name">${esc(q.client||'—')}</div>
+        <div class="recent-detail">${bits.join(' · ')}</div>
+      </div>
+      ${qChip(q)}
+      <div class="recent-amount">${money(q.amount)}</div>
+      <div class="ref-actions">
+        <button type="button" class="row-action" onclick="previewQuote('${q.id}')">View</button>
+        <button type="button" class="row-action" onclick="editQuote('${q.id}')">Edit</button>
+        <select class="row-more" aria-label="More actions" onchange="quoteRowAction(this,'${q.id}')">
+          <option value="">⋯</option>
+          <option value="sent">Mark sent</option>
+          <option value="accepted">Mark accepted</option>
+          <option value="rejected">Mark rejected</option>
+          <option value="duplicate">Duplicate</option>
+          <option value="delete">Delete</option>
+        </select>
+      </div>
+    </div>`;
+  }).join('');
+}
+function setQFilter(f){
+  qFilter=f;
+  document.querySelectorAll('#qTabs .itab').forEach(b=>b.classList.toggle('active',b.dataset.f===f));
+  renderQuotes();
+}
+function setQSort(v){
+  qSort=v;
+  document.querySelectorAll('#qSortSwitch .ss-btn').forEach(b=>b.classList.toggle('on',b.dataset.s===v));
+  renderQuotes();
+}
+function quoteRowAction(sel,id){
+  const v=sel.value; sel.value='';
+  if(!v) return;
+  const q=(db.quotes||[]).find(x=>x.id===id); if(!q) return;
+  if(v==='duplicate'){
+    const copy=JSON.parse(JSON.stringify(q)); copy.id=uid('qt'); copy.qNo=nextQuoteNo(); copy.status='draft';
+    copy.date=today(); copy.advanceReceived=false; copy.advanceAmount=0;
+    db.quotes.unshift(copy); save(); renderQuotes(); toast('Quotation duplicated');
+    return;
+  }
+  if(v==='delete'){
+    if(!confirm('Delete this quotation?')) return;
+    db.quotes=db.quotes.filter(x=>x.id!==id); save(); renderQuotes(); toast('Quotation deleted');
+    return;
+  }
+  q.status=v; if(v==='accepted'||v==='rejected') q.advanceReceived=q.advanceReceived||false;
+  save(); renderQuotes(); toast('Marked '+Q_STATUS[v]);
+}
+function qmTab(pane,btn){
+  const modal=document.getElementById('quoteModal');
+  document.querySelectorAll('#quoteModal .itabs [data-qpane]').forEach(b=>b.classList.toggle('active',b===btn));
+  if(pane==='advance'){ modal.classList.add('qm-adv-open'); qmAdvSync(); }
+  else modal.classList.remove('qm-adv-open');
+}
+function qmSetMode(mode){
+  qAdvMode=mode;
+  document.getElementById('qm-mode-pct')?.classList.toggle('on',mode==='pct');
+  document.getElementById('qm-mode-amt')?.classList.toggle('on',mode==='amt');
+  qmAdvSync();
+}
+function qmAdvSync(src){
+  const pctEl=document.getElementById('qm-adv-pct'), amtEl=document.getElementById('qm-adv-amt');
+  if(!pctEl||!amtEl) return;
+  let t={subtotal:0,gross:0,net:0};
+  try{ t=calcInvTotals('qm'); }catch(e){}
+  const total=+(t.net||t.gross||0);
+  if(qAdvMode==='pct' || src==='pct'){
+    const p=Math.max(0,Math.min(100,+pctEl.value||0));
+    if(total) amtEl.value=Math.round(total*p/100);
+  } else {
+    const a=Math.max(0,Math.min(total,+amtEl.value||0));
+    amtEl.value=Math.round(a);
+    if(total) pctEl.value=Math.round(a/total*100);
+  }
+  const adv=Math.max(0,Math.min(total,+amtEl.value||0));
+  const money=n=>'₹'+(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0});
+  const st=document.getElementById('qm-sum-total'); if(st) st.textContent=money(total);
+  const sa=document.getElementById('qm-sum-adv'); if(sa) sa.textContent=money(adv);
+  const sb=document.getElementById('qm-sum-bal'); if(sb) sb.textContent=money(Math.max(0,total-adv));
+}
+function openQuoteModal(id){
+  quotesInit();
+  curQuoteId=id||null;
+  const q=id?(db.quotes||[]).find(x=>x.id===id):null;
+  const setV=(k,v)=>{const e=document.getElementById('qm-'+k); if(e) e.value=v;};
+  setV('qno', q?q.qNo:nextQuoteNo());
+  setV('client', q?q.client:'');
+  setV('date', q?q.date:today());
+  setV('valid', q?(q.validTill||''):new Date(Date.now()+15*864e5).toISOString().slice(0,10));
+  setV('cat', q?(q.cat||''):'');
+  const stSel=document.getElementById('qm-status'); if(stSel) stSel.value=q?(q.status||'draft'):'draft';
+  const curCode=document.getElementById('qm-currency-code'); if(curCode) curCode.value=q?(q.currency||'INR'):'INR';
+  const terms=document.getElementById('qm-terms'); if(terms) terms.value=q?(q.terms||''):'';
+  // items
+  invFormItems.qm = q && Array.isArray(q.items) && q.items.length ? JSON.parse(JSON.stringify(q.items))
+                   : [{id:uid('li'),type:'general',name:'',qty:1,rate:0,unit:''}];
+  invFormType.qm = (q && q.items && q.items[0] && q.items[0].type) || 'general';
+  // template
+  const tpl=(q&&q.template)||'classic';
+  document.querySelectorAll('#qm-tpl-grid .tpl-card').forEach(c=>c.classList.toggle('sel',c.dataset.tpl===tpl));
+  // advance
+  qAdvMode=(q&&q.advanceMode)||'pct';
+  document.getElementById('qm-mode-pct')?.classList.toggle('on',qAdvMode==='pct');
+  document.getElementById('qm-mode-amt')?.classList.toggle('on',qAdvMode==='amt');
+  setV('adv-pct', q&&q.advancePct!=null?q.advancePct:50);
+  setV('adv-amt', q?(q.advanceAmount||0):0);
+  setV('adv-date', q?(q.advanceDate||''):'');
+  const via=document.getElementById('qm-adv-via'); if(via) via.value=(q&&q.advanceVia)||'upi';
+  const recEl=document.getElementById('qm-adv-received'); if(recEl) recEl.checked=!!(q&&q.advanceReceived);
+  const badge=document.getElementById('qm-draft-badge'); if(badge) badge.style.display='none';
+  document.getElementById('quoteModal')?.classList.remove('qm-adv-open');
+  document.querySelectorAll('#quoteModal .itabs [data-qpane]').forEach(b=>b.classList.toggle('active',b.dataset.qpane==='items'));
+  try{ renderInvItems('qm'); updateInvTotals('qm'); }catch(e){}
+  qmAdvSync();
+  openModal('quoteModal');
+}
+function editQuote(id){ openQuoteModal(id); }
+function readQuoteForm(){
+  const f=readInvForm('qm');
+  const total=(()=>{try{const t=calcInvTotals('qm');return +(t.net||t.gross||0);}catch(e){return +(f.amount||0);}})();
+  const advAmt=Math.max(0,Math.min(total,+document.getElementById('qm-adv-amt')?.value||0));
+  const pct=total?Math.round(advAmt/total*100):0;
+  return {
+    qNo:(document.getElementById('qm-qno')?.value||'').trim(),
+    client:f.client, date:f.date, validTill:(document.getElementById('qm-due')?.value||''),
+    cat:f.cat, status:(document.getElementById('qm-status')?.value||'draft'),
+    items:JSON.parse(JSON.stringify(invFormItems.qm||[])),
+    template:(document.querySelector('#qm-tpl-grid .tpl-card.sel')?.dataset.tpl)||'classic',
+    currency:(document.getElementById('qm-currency-code')?.value||'INR'),
+    amount:total, _totals:(()=>{try{return calcInvTotals('qm');}catch(e){return null;}})(),
+    terms:(document.getElementById('qm-terms')?.value||''),
+    advanceMode:qAdvMode, advancePct:pct, advanceAmount:advAmt,
+    advanceReceived:!!document.getElementById('qm-adv-received')?.checked,
+    advanceDate:(document.getElementById('qm-adv-date')?.value||''),
+    advanceVia:(document.getElementById('qm-adv-via')?.value||'upi')
+  };
+}
+function saveQuote(silent){
+  quotesInit();
+  const d=readQuoteForm();
+  if(!d.client){ toast('Client name required','err'); return null; }
+  if(!(d.amount>0)){ toast('Add at least one line item with a rate','err'); return null; }
+  let qNo=d.qNo||nextQuoteNo();
+  const taken=new Set((db.quotes||[]).filter(x=>x.id!==curQuoteId).map(x=>String(x.qNo||'').toUpperCase()));
+  if(taken.has(qNo.toUpperCase())){ qNo=nextQuoteNo(); toast('That number was already used — saved as '+qNo,'err'); }
+  let rec=(db.quotes||[]).find(x=>x.id===curQuoteId);
+  if(rec){ Object.assign(rec,d,{qNo}); rec._ts=Date.now(); }
+  else { rec=Object.assign({id:uid('qt'),_ts:Date.now()},d,{qNo}); db.quotes.unshift(rec); }
+  save(); renderQuotes();
+  if(!silent){ closeModal('quoteModal'); toast('Quotation saved'); }
+  curQuoteId=rec.id;
+  return rec;
+}
+function saveQuotePreview(){
+  const rec=saveQuote(true);
+  if(!rec) return;
+  closeModal('quoteModal');
+  toast('Quotation saved');
+  previewQuote(rec.id);
+}
+function quoteDocHTML(q){
+  const inv=Object.assign({},q,{
+    invNo:q.qNo, due:q.validTill, docType:'quote', received:0, status:'pending',
+    showQr:true, qrUpi:(db.profile&&db.profile.upi)||''
+  });
+  if(!inv._totals) inv._totals={items:inv.items||[],subtotal:inv.amount,gross:inv.amount,net:inv.amount};
+  return buildInvoiceHTML(inv);
+}
+function renderDocPreview(html){
+  const preview=document.getElementById('invPreview'); if(!preview) return;
+  preview.innerHTML='';
+  const f=document.createElement('iframe');
+  f.id='invFrame';
+  f.style.cssText='width:100%;height:1px;border:0;display:block;';
+  f.onload=()=>{ try{ fitInvPreview(); }catch(e){} };
+  f.srcdoc=html;
+  preview.appendChild(f);
+  setTimeout(()=>{try{fitInvPreview()}catch(e){}},250);
+}
+function previewQuote(id){
+  const q=(db.quotes||[]).find(x=>x.id===id); if(!q){ toast('Quotation not found','err'); return; }
+  curQuoteId=q.id;
+  renderDocPreview(quoteDocHTML(q));
+  openModal('invoiceModal');
+}
+document.addEventListener('DOMContentLoaded',function(){ try{ quotesInit(); renderQuotes(); }catch(e){} });
+// render the quotes page whenever that tab is opened (wrapper, so showTab itself is untouched)
+(function(){
+  try{
+    var orig = showTab;
+    showTab = function(name){ var r = orig.apply(this, arguments); if(name==='quotes'){ try{ renderQuotes(); }catch(e){} } return r; };
+  }catch(e){}
+})();
+</script>
+
 </body>
 </html>
