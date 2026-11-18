@@ -6978,10 +6978,10 @@ function openDocPrintView(html){
 }
 function downloadQuotePDF(){
   quotesInit();
-  const rec=saveQuote(true);          // silent save, so the number and totals are real
+  const rec=saveQuote(true);
   if(!rec) return;
   const q=(db.quotes||[]).find(x=>x.id===rec.id)||rec;
-  openDocPrintView(quoteDocHTML(q));
+  exportQuotePDF(q);
 }
 
 function qmScopeFromItems(){
@@ -7117,14 +7117,51 @@ function saveQuotePreview(){
   toast('Quotation saved');
   previewQuote(rec.id);
 }
+function quoteFileBase(q){
+  var d=(q&&q.date)?new Date(q.date):new Date();
+  var ms=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var client=String((q&&q.client)||'Quotation').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-');
+  var dd=String(d.getDate()).padStart(2,'0');
+  return String((q&&q.qNo)||'QT')+'_'+client+'_'+dd+ms[d.getMonth()]+d.getFullYear();
+}
 function quoteDocHTML(q){
   const inv=Object.assign({},q,{
     invNo:q.qNo, due:q.validTill, docType:'quote', received:0, status:'pending',
     showQr:true, qrUpi:(q.qrUpi||(db.profile&&db.profile.upi)||'')
   });
   if(!inv._totals) inv._totals={items:inv.items||[],subtotal:inv.amount,gross:inv.amount,net:inv.amount};
-  return buildInvoiceHTML(inv);
+  let html=buildInvoiceHTML(inv);
+  // the browser's own "Save as PDF" uses the title as the suggested file name
+  const base=quoteFileBase(q);
+  if(/<title>[^<]*<\/title>/i.test(html)) html=html.replace(/<title>[^<]*<\/title>/i,'<title>'+base+'</title>');
+  else html=html.replace('</head>','<title>'+base+'</title></head>');
+  return html;
 }
+function pdfServerAvailable(){
+  if(typeof window.__pdfServer==='boolean') return Promise.resolve(window.__pdfServer);
+  return fetch('http://localhost:7788/ping',{signal:(typeof AbortSignal!=='undefined'&&AbortSignal.timeout)?AbortSignal.timeout(700):undefined})
+    .then(r=>r.json())
+    .then(()=>{window.__pdfServer=true;return true;})
+    .catch(()=>{window.__pdfServer=false;return false;});
+}
+function exportQuotePDF(q,opts){
+  const html=quoteDocHTML(q);
+  const base=quoteFileBase(q);
+  const fallback=function(){ openDocPrintView(html); };
+  pdfServerAvailable().then(function(ok){
+    if(!ok){ fallback(); return; }
+    toast('Saving PDF…');
+    fetch('http://localhost:7788/save-invoice',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({html:html, date:q.date||today(), invNo:q.qNo||'', client:q.client||'Client',
+        docType:'quote', filenameBase:base, fileBase:base})
+    }).then(r=>r.json()).then(function(res){
+      if(res&&res.ok){ toast('PDF saved → '+(res.path||res.file||base+'.pdf')); if(opts&&opts.close){ try{ closeModal('quoteModal'); }catch(e){} } }
+      else fallback();
+    }).catch(fallback);
+  });
+}
+
 function renderDocPreview(html){
   const preview=document.getElementById('invPreview'); if(!preview) return;
   preview.innerHTML='';
@@ -7248,7 +7285,7 @@ function quoteShareMailBody(q){
       if(!window.__quotePreviewId) return origPrint.apply(this,arguments);
       var q=(db.quotes||[]).find(function(x){return x.id===window.__quotePreviewId;});
       if(!q) return origPrint.apply(this,arguments);
-      return openDocPrintView(quoteDocHTML(q));
+      return exportQuotePDF(q);
     };
     genInvoice=function(){ window.__quotePreviewId=null; return origGen.apply(this,arguments); };
     shareOnWhatsApp=function(){
