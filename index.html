@@ -2031,6 +2031,34 @@ body.tint-cards #quoteModal .qm-adv-sum b{color:#fff}
 #quoteModal .qm-adv-sum b{font-size:1.05rem;font-weight:800;letter-spacing:-.02em}
 #quoteModal .qm-valid-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 @media(max-width:640px){#quoteModal .qm-adv-sum{grid-template-columns:1fr 1fr}}
+
+/* ── QUOTATIONS on phones: scrollable filters, header breathing room, actions that fit ── */
+@media(max-width:600px){
+  #tab-quotes .ref-head{flex-wrap:wrap;gap:10px;align-items:flex-start;height:auto!important}
+  #tab-quotes .ref-head-left{min-width:0;flex:1 1 auto}
+  #tab-quotes .ref-head-pills{flex-wrap:wrap;gap:8px}
+  #qTabs{flex-wrap:nowrap!important;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;padding-bottom:2px}
+  #qTabs .itab{flex:0 0 auto}
+  #tab-quotes .filter-row{flex-wrap:wrap;gap:10px}
+  #tab-quotes .filter-row .search-wrap{flex:1 1 100%}
+  #tab-quotes #quotesList .ref-row{gap:8px}
+  #tab-quotes #quotesList .recent-info{min-width:0;flex:1 1 100%}
+  #tab-quotes #quotesList .recent-name,#tab-quotes #quotesList .recent-detail{white-space:normal;overflow:visible;text-overflow:clip}
+  #tab-quotes #quotesList .ref-actions{flex:1 1 100%;justify-content:flex-start;flex-wrap:wrap;gap:8px}
+  #tab-quotes #quotesList .ref-actions .row-action{padding:8px 14px}
+  /* 'Link' lives in the ⋯ menu on phones, so the name gets the space */
+  #tab-quotes #quotesList .ref-actions .row-action[onclick^="copyQuoteLink"]{display:none}
+}
+
+/* phones: the fixed mobile header is 54px tall; the page content must start below it */
+@media(max-width:760px){
+  body .content{padding-top:68px!important}
+  .ref-head{margin-top:0!important}
+}
+/* a scroll hint for the horizontally scrolling status strip on phones */
+@media(max-width:600px){
+  #qTabs{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 94%,transparent);mask-image:linear-gradient(90deg,#000 0,#000 94%,transparent)}
+}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
