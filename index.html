@@ -3000,7 +3000,10 @@ body.tint-cards #quoteModal .qm-adv-sum b{color:#fff}
       </div>
       <style>#quoteModal #qm-payment-inline,#quoteModal #qm-qrupi,#quoteModal #qm-showqr{display:none!important}
       #quoteModal.qm-adv-open .inv-tab-body>*:not(#qm-pane-advance){display:none!important}
-      #quoteModal.qm-adv-open #qm-pane-advance{display:block!important}</style>
+      #quoteModal.qm-adv-open #qm-pane-advance{display:block!important}
+      #quoteModal.qm-options-open #qm-tab-invoice{display:none!important}
+      #quoteModal.qm-items-open #qm-tab-options{display:none!important}
+      #quoteModal.qm-options-open #qm-tab-options{display:block!important;margin-top:0!important;border-top:0!important;padding-top:0!important}</style>
       
 
   <!-- TAB 1: INVOICE — client + dates + line items -->
@@ -6900,10 +6903,12 @@ function quoteRowAction(sel,id){
   save(); renderQuotes(); toast('Marked '+Q_STATUS[v]);
 }
 function qmTab(pane,btn){
-  const modal=document.getElementById('quoteModal');
-  document.querySelectorAll('#quoteModal .itabs [data-qpane]').forEach(b=>b.classList.toggle('active',b===btn));
-  if(pane==='advance'){ modal.classList.add('qm-adv-open'); qmAdvSync(); }
-  else modal.classList.remove('qm-adv-open');
+  const modal=document.getElementById('quoteModal'); if(!modal) return;
+  if(btn) document.querySelectorAll('#quoteModal .itabs [data-qpane]').forEach(b=>b.classList.toggle('active',b===btn));
+  modal.classList.toggle('qm-adv-open',pane==='advance');
+  modal.classList.toggle('qm-items-open',pane==='items');
+  modal.classList.toggle('qm-options-open',pane==='options');
+  if(pane==='advance') qmAdvSync();
 }
 function qmSetMode(mode){
   qAdvMode=mode;
@@ -6936,10 +6941,10 @@ function openQuoteModal(id){
   curQuoteId=id||null;
   const q=id?(db.quotes||[]).find(x=>x.id===id):null;
   const setV=(k,v)=>{const e=document.getElementById('qm-'+k); if(e) e.value=v;};
-  setV('qno', q?q.qNo:nextQuoteNo());
+  setV('invno', q?q.qNo:nextQuoteNo());
   setV('client', q?q.client:'');
   setV('date', q?q.date:today());
-  setV('valid', q?(q.validTill||''):new Date(Date.now()+15*864e5).toISOString().slice(0,10));
+  setV('due', q?(q.validTill||''):new Date(Date.now()+15*864e5).toISOString().slice(0,10));
   setV('cat', q?(q.cat||''):'');
   const stSel=document.getElementById('qm-status'); if(stSel) stSel.value=q?(q.status||'draft'):'draft';
   const curCode=document.getElementById('qm-currency-code'); if(curCode) curCode.value=q?(q.currency||'INR'):'INR';
@@ -6961,7 +6966,8 @@ function openQuoteModal(id){
   const via=document.getElementById('qm-adv-via'); if(via) via.value=(q&&q.advanceVia)||'upi';
   const recEl=document.getElementById('qm-adv-received'); if(recEl) recEl.checked=!!(q&&q.advanceReceived);
   const badge=document.getElementById('qm-draft-badge'); if(badge) badge.style.display='none';
-  document.getElementById('quoteModal')?.classList.remove('qm-adv-open');
+  var qmEl=document.getElementById('quoteModal');
+  if(qmEl){ qmEl.classList.remove('qm-adv-open'); qmEl.classList.remove('qm-options-open'); qmEl.classList.add('qm-items-open'); }
   document.querySelectorAll('#quoteModal .itabs [data-qpane]').forEach(b=>b.classList.toggle('active',b.dataset.qpane==='items'));
   try{ renderInvItems('qm'); updateInvTotals('qm'); }catch(e){}
   qmAdvSync();
@@ -6974,7 +6980,7 @@ function readQuoteForm(){
   const advAmt=Math.max(0,Math.min(total,+document.getElementById('qm-adv-amt')?.value||0));
   const pct=total?Math.round(advAmt/total*100):0;
   return {
-    qNo:(document.getElementById('qm-qno')?.value||'').trim(),
+    qNo:(document.getElementById('qm-invno')?.value||'').trim(),
     client:f.client, date:f.date, validTill:(document.getElementById('qm-due')?.value||''),
     cat:f.cat, status:(document.getElementById('qm-status')?.value||'draft'),
     items:JSON.parse(JSON.stringify(invFormItems.qm||[])),
