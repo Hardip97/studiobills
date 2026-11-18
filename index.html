@@ -6978,7 +6978,9 @@ function editQuote(id){ openQuoteModal(id); }
 function readQuoteForm(){
   const f=readInvForm('qm');
   const total=(()=>{try{const t=calcInvTotals('qm');return +(t.net||t.gross||0);}catch(e){return +(f.amount||0);}})();
-  const advAmt=Math.max(0,Math.min(total,+document.getElementById('qm-adv-amt')?.value||0));
+  let advAmt=Math.max(0,Math.min(total,+document.getElementById('qm-adv-amt')?.value||0));
+  const pctField=Math.max(0,Math.min(100,+document.getElementById('qm-adv-pct')?.value||0));
+  if(!advAmt && pctField>0 && total>0) advAmt=Math.round(total*pctField/100);
   const pct=total?Math.round(advAmt/total*100):0;
   return {
     qNo:(document.getElementById('qm-invno')?.value||'').trim(),
