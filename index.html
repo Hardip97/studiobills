@@ -5873,7 +5873,7 @@ function buildInvoiceHTML(inv){
   const legalExportNote='';
   const termsInfo='';
     const qrUpi=inv.qrUpi||p.upi;
-  const qrHTML=(inv.showQr!==false&&qrUpi)?buildQR(qrUpi,p.ownerName||p.studioName,t.net||t.gross,num):'';
+  const qrHTML=(inv.showQr!==false&&qrUpi)?buildQR(qrUpi,p.ownerName||p.studioName,(inv.qrAmount||t.net||t.gross),num):'';
   const creditBadge=inv.isCreditNote?'<div style="display:inline-block;background:#FFF0F0;color:#CC0028;border:1px solid #FFCCCC;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">CREDIT NOTE</div>':'';
   const draftBadge=inv.isDraft?'<div style="display:inline-block;background:#FFF8E0;color:#A07800;border:1px solid #FFE580;border-radius:4px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:6px;">DRAFT</div>':'';
   const watermarkHTML='';
@@ -6280,6 +6280,12 @@ table.items td.r,table.items th.r,.total-final-row td:last-child{
         if(totalsAt > 0) html = html.slice(0, totalsAt) + block + html.slice(totalsAt);
         else html = html.replace('</body>', block + '</body>');
       }
+      // print compaction: a quotation should land on one A4 sheet
+      html = html.replace('</head>',
+        '<style>@media print{@page{size:A4;margin:8mm}' +
+        '.page{padding:13mm 12mm 9mm!important;min-height:0!important;box-shadow:none!important;border-radius:0!important}' +
+        '.totals-section,.totals-tbl,.footer,.inv-qr-wrap{break-inside:avoid;page-break-inside:avoid}' +
+        'html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head>');
       // a small line under the title, so the client knows it is not a bill
       html = html.replace('</body>',
         '<div style="position:fixed;left:0;right:0;bottom:0;text-align:center;font-size:10px;' +
@@ -7127,7 +7133,10 @@ function quoteFileBase(q){
 function quoteDocHTML(q){
   const inv=Object.assign({},q,{
     invNo:q.qNo, due:q.validTill, docType:'quote', received:0, status:'pending',
-    showQr:true, qrUpi:(q.qrUpi||(db.profile&&db.profile.upi)||'')
+    showQr:true, qrUpi:(q.qrUpi||(db.profile&&db.profile.upi)||''),
+    qrAmount:(function(){ var total=+(q.amount||0); var adv=+q.advanceAmount||0;
+      if(!adv && +q.advancePct>0) adv=Math.round(total*(+q.advancePct)/100);
+      return (adv>0&&adv<total)?adv:total; })()
   });
   if(!inv._totals) inv._totals={items:inv.items||[],subtotal:inv.amount,gross:inv.amount,net:inv.amount};
   let html=buildInvoiceHTML(inv);
