@@ -6841,7 +6841,8 @@ function renderQuotes(){
     const st=qState(q);
     const adv=q.advanceReceived&&qAdvAmount(q)>0
       ? `<span style="color:#0E6B36;font-weight:700;">adv ${money(qAdvAmount(q))} received</span>` : '';
-    const bits=[q.qNo||'', st==='draft'?'draft':('sent '+fmtShort(q.date)), q.validTill?('valid till '+fmtShort(q.validTill)):'', q.cat||'', adv].filter(Boolean);
+    const conv=q.convertedTo ? `<span style="color:#4A3F9A;font-weight:700;">converted to invoice</span>` : '';
+    const bits=[q.qNo||'', st==='draft'?'draft':('sent '+fmtShort(q.date)), q.validTill?('valid till '+fmtShort(q.validTill)):'', q.cat||'', adv, conv].filter(Boolean);
     return `<div class="recent-row ref-row">
       <div class="recent-info">
         <div class="recent-name">${esc(q.client||'—')}</div>
@@ -6852,8 +6853,10 @@ function renderQuotes(){
       <div class="ref-actions">
         <button type="button" class="row-action" onclick="previewQuote('${q.id}')">View</button>
         <button type="button" class="row-action" onclick="editQuote('${q.id}')">Edit</button>
+        ${st==='accepted' ? `<button type="button" class="row-action" onclick="convertQuoteToInvoice('${q.id}')">Convert</button>` : ''}
         <select class="row-more" aria-label="More actions" onchange="quoteRowAction(this,'${q.id}')">
           <option value="">⋯</option>
+          ${st==='accepted' ? `<option value="convert">Convert to invoice</option>` : ''}
           <option value="sent">Mark sent</option>
           <option value="accepted">Mark accepted</option>
           <option value="rejected">Mark rejected</option>
@@ -6884,6 +6887,7 @@ function quoteRowAction(sel,id){
     db.quotes.unshift(copy); save(); renderQuotes(); toast('Quotation duplicated');
     return;
   }
+  if(v==='convert'){ convertQuoteToInvoice(id); return; }
   if(v==='delete'){
     if(!confirm('Delete this quotation?')) return;
     db.quotes=db.quotes.filter(x=>x.id!==id); save(); renderQuotes(); toast('Quotation deleted');
@@ -7026,9 +7030,134 @@ function renderDocPreview(html){
 function previewQuote(id){
   const q=(db.quotes||[]).find(x=>x.id===id); if(!q){ toast('Quotation not found','err'); return; }
   curQuoteId=q.id;
+  window.__quotePreviewId=q.id;
   renderDocPreview(quoteDocHTML(q));
   openModal('invoiceModal');
 }
+
+/* ── Convert an accepted quotation into a pre-filled draft invoice ─────────── */
+function convertQuoteToInvoice(id){
+  quotesInit();
+  const q=(db.quotes||[]).find(x=>x.id===id);
+  if(!q){ toast('Quotation not found','err'); return null; }
+  if(qState(q)!=='accepted'){ toast('Only accepted quotations can be converted','err'); return null; }
+  if(q.convertedTo && (db.income||[]).some(i=>i.id===q.convertedTo)){
+    if(!confirm('This quotation was already converted. Create another invoice?')) return null;
+  }
+  const total=+q.amount||0;
+  const adv=q.advanceReceived?Math.min(total,qAdvAmount(q)):0;
+  const invNo=nextAvailableInvNo();
+  const items=(q.items&&q.items.length)?JSON.parse(JSON.stringify(q.items)):[{id:uid('li'),type:'general',name:q.cat||'Services',qty:1,rate:total,unit:''}];
+  const desc=items.map(i=>i.name||i.desc||'').filter(Boolean).join(', ').slice(0,120) || ('Quotation '+q.qNo);
+  const inv={
+    id:uid('inc'), invNo, client:q.client||'', desc, cat:q.cat||'',
+    date:today(), due:new Date(Date.now()+15*864e5).toISOString().slice(0,10),
+    items, amount:total, received:adv,
+    status: total>0 && adv>=total ? 'received' : (adv>0 ? 'partial' : 'pending'),
+    currency:q.currency||'INR', template:q.template||'classic', terms:q.terms||'',
+    notes:'Created from quotation '+q.qNo+(adv>0?(' · advance ₹'+adv.toLocaleString('en-IN')+' recorded'):''),
+    isDraft:true, fromQuote:q.id, _ts:Date.now(),
+    _totals: q._totals || {items, subtotal:total, gross:total, net:total},
+    pays: adv>0 ? [{date:q.advanceDate||today(), amount:adv, mode:q.advanceVia||'upi', note:'Advance from '+q.qNo}] : []
+  };
+  db.income.unshift(inv);
+  q.convertedTo=inv.id; q.convertedAt=today();
+  try{ syncInvCounter(); }catch(e){}
+  save(); renderQuotes();
+  toast('Draft invoice '+invNo+' created from '+q.qNo);
+  return inv;
+}
+
+/* ── Quote-specific WhatsApp / Email wording ───────────────────────────────── */
+function quoteShareSubject(q){
+  const studio=(db.profile.studioName||db.profile.ownerName||'Studio');
+  return 'Quotation '+(q.qNo||'')+' from '+studio;
+}
+function quoteShareItems(q){
+  const items=(q.items||[]).filter(i=>i && (i.name||i.desc));
+  return items.slice(0,6).map(i=>{
+    const qty=+i.qty||1, rate=+i.rate||0;
+    const line=qty>1 ? `${i.name||i.desc} — ${qty} × ${fmtN(rate)}` : `${i.name||i.desc} — ${fmtN(rate)}`;
+    return '• '+line;
+  }).join('\n');
+}
+function quoteShareText(q){
+  const total=+q.amount||0;
+  const adv=q.advanceReceived?Math.min(total,qAdvAmount(q)):(q.advancePct>0?Math.round(total*q.advancePct/100):0);
+  const bal=Math.max(0,total-adv);
+  const studio=(db.profile.studioName||db.profile.ownerName||'');
+  const items=quoteShareItems(q);
+  const lines=[
+    'Hi '+(q.client||'there')+',',
+    '',
+    'Here is quotation '+(q.qNo||'')+' — '+fmtN(total)+'.',
+    q.validTill?('Valid till '+fmtLong(q.validTill)+'.'):'',
+    '',
+    items,
+    '',
+    adv>0?('Advance to start: '+fmtN(adv)+(q.advancePct?(' ('+q.advancePct+'%)'):'')+' · balance '+fmtN(bal)+'.'):'',
+    'Reply here to confirm and I will send the invoice.',
+    '',
+    studio, db.profile.phone||''
+  ];
+  return lines.filter(l=>l!==null&&l!==undefined&&l!=='').join('\n').replace(/\n{3,}/g,'\n\n');
+}
+function quoteShareMailBody(q){
+  const total=+q.amount||0;
+  const adv=q.advanceReceived?Math.min(total,qAdvAmount(q)):(q.advancePct>0?Math.round(total*q.advancePct/100):0);
+  const bal=Math.max(0,total-adv);
+  const p=db.profile||{};
+  const items=quoteShareItems(q);
+  return [
+    'Hi '+(q.client||'there')+',',
+    '',
+    'Please find attached quotation '+(q.qNo||'')+' for '+fmtN(total)+'.',
+    q.validTill?('Valid till '+fmtLong(q.validTill)+'.'):'',
+    '',
+    items,
+    '',
+    adv>0?('Advance to confirm the booking: '+fmtN(adv)+(q.advancePct?(' ('+q.advancePct+'%)'):'')+'. Balance after delivery: '+fmtN(bal)+'.'):'',
+    (q.terms||'').trim(),
+    '',
+    'This is a quotation, not a tax invoice. Reply to this email to confirm and we will raise the invoice.',
+    '',
+    (p.ownerName||p.studioName||''),
+    p.email||'', p.phone||''
+  ].filter(l=>l!==undefined&&l!==null).join('\n').replace(/\n{3,}/g,'\n\n');
+}
+
+/* Preview + share wiring: the preview modal's WhatsApp / Email buttons follow
+   whichever document was opened last (invoice or quotation). */
+(function(){
+  try{
+    var origWa=shareOnWhatsApp, origMail=emailInvoice, origGen=genInvoice;
+    genInvoice=function(){ window.__quotePreviewId=null; return origGen.apply(this,arguments); };
+    shareOnWhatsApp=function(){
+      if(!window.__quotePreviewId) return origWa.apply(this,arguments);
+      var q=(db.quotes||[]).find(function(x){return x.id===window.__quotePreviewId;});
+      if(!q) return origWa.apply(this,arguments);
+      var cp=(db.clients||{})[q.client]||{};
+      var phone=String(cp.phone||'').replace(/\D/g,'');
+      try{ openPrintView(); }catch(e){}
+      setTimeout(function(){
+        window.open('https://wa.me/'+(phone?phone:'')+'?text='+encodeURIComponent(quoteShareText(q)),'_blank');
+      },700);
+      toast('Quotation ready on WhatsApp');
+    };
+    emailInvoice=function(){
+      if(!window.__quotePreviewId) return origMail.apply(this,arguments);
+      var q=(db.quotes||[]).find(function(x){return x.id===window.__quotePreviewId;});
+      if(!q) return origMail.apply(this,arguments);
+      var cp=(db.clients||{})[q.client]||{};
+      var subject=encodeURIComponent(quoteShareSubject(q));
+      var body=encodeURIComponent(quoteShareMailBody(q));
+      try{ openPrintView(); }catch(e){}
+      setTimeout(function(){ window.location.href='mailto:'+(cp.email||'')+'?subject='+subject+'&body='+body; },800);
+      toast('Quotation email ready');
+    };
+  }catch(e){}
+})();
+
 document.addEventListener('DOMContentLoaded',function(){ try{ quotesInit(); renderQuotes(); }catch(e){} });
 // render the quotes page whenever that tab is opened (wrapper, so showTab itself is untouched)
 (function(){
