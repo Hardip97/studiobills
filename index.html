@@ -6960,33 +6960,28 @@ function quoteRowAction(sel,id){
 }
 
 
-/* Print a document through the browser's own PDF engine (same route as Save as PDF). */
-function printDocHTML(html){
+/* Open a document in its own tab, synchronously on the click, so the browser does not
+   block it as a popup. The document's own Save as PDF button then runs the print dialog. */
+function openDocPrintView(html){
   try{
-    html=String(html).replace('</head>','<style>.save-btn{display:none!important}</style></head>');
-    window.__lastPdfHtml=html;
-    const f=document.createElement('iframe');
-    f.setAttribute('aria-hidden','true');
-    f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;opacity:0';
-    f.onload=function(){
-      setTimeout(function(){
-        try{ f.contentWindow.focus(); f.contentWindow.print(); }
-        catch(e){ toast('Could not open the PDF dialog','err'); }
-        setTimeout(function(){ try{ f.remove(); }catch(e){} },2000);
-      },200);
-    };
-    f.srcdoc=html;
-    document.body.appendChild(f);
+    window.__lastPdfHtml=String(html);
+    var w=window.open('','_blank');
+    if(!w){ toast('Allow popups to open the print view','err'); return false; }
+    w.document.open(); w.document.write(String(html)); w.document.close();
+    setTimeout(function(){
+      try{ w.focus(); }catch(e){}
+      try{ w.print(); }catch(e){}          // opens the print dialog; Save as PDF there
+    },400);
+    toast('Print view opened — choose “Save as PDF"');
     return true;
-  }catch(e){ toast('Could not build the PDF','err'); return false; }
+  }catch(e){ toast('Could not open the print view','err'); return false; }
 }
 function downloadQuotePDF(){
   quotesInit();
   const rec=saveQuote(true);          // silent save, so the number and totals are real
   if(!rec) return;
   const q=(db.quotes||[]).find(x=>x.id===rec.id)||rec;
-  printDocHTML(quoteDocHTML(q));
-  toast('Save as PDF: the print dialog opens — choose “Save as PDF”');
+  openDocPrintView(quoteDocHTML(q));
 }
 
 function qmScopeFromItems(){
@@ -7248,7 +7243,13 @@ function quoteShareMailBody(q){
    whichever document was opened last (invoice or quotation). */
 (function(){
   try{
-    var origWa=shareOnWhatsApp, origMail=emailInvoice, origGen=genInvoice;
+    var origWa=shareOnWhatsApp, origMail=emailInvoice, origGen=genInvoice, origPrint=openPrintView;
+    openPrintView=function(){
+      if(!window.__quotePreviewId) return origPrint.apply(this,arguments);
+      var q=(db.quotes||[]).find(function(x){return x.id===window.__quotePreviewId;});
+      if(!q) return origPrint.apply(this,arguments);
+      return openDocPrintView(quoteDocHTML(q));
+    };
     genInvoice=function(){ window.__quotePreviewId=null; return origGen.apply(this,arguments); };
     shareOnWhatsApp=function(){
       if(!window.__quotePreviewId) return origWa.apply(this,arguments);
@@ -7356,7 +7357,17 @@ function copyQuoteLink(id){
       btn.style.cssText='border:0;border-radius:999px;background:#111;color:#fff;font:inherit;font-weight:700;font-size:.82rem;padding:10px 20px;cursor:pointer';
       var fr=document.createElement('iframe');
       fr.style.cssText='display:block;width:100%;max-width:900px;margin:0 auto;height:calc(100% - 60px);border:0;background:transparent';
-      btn.onclick=function(){ try{ fr.contentWindow.focus(); fr.contentWindow.print(); }catch(e){} };
+      btn.onclick=function(){
+        try{
+          fr.contentWindow.focus();
+          fr.contentWindow.print();
+        }catch(e){
+          try{
+            var w=window.open('','_blank');
+            if(w){ w.document.open(); w.document.write(html); w.document.close(); }
+          }catch(e2){}
+        }
+      };
       bar.appendChild(btn); wrap.appendChild(bar); wrap.appendChild(fr);
       document.body.appendChild(wrap);
       fr.srcdoc=html;
