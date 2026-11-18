@@ -7231,6 +7231,8 @@ function copyQuoteLink(id){
         _totals:{items:items, subtotal:rec.total, gross:rec.total, net:rec.total}
       };
       var html=buildInvoiceHTML(inv);
+      // the document carries its own print button; in the public view the sticky bar owns it
+      html=String(html).replace('</head>','<style>.save-btn{display:none!important}</style></head>');
       var wrap=document.createElement('div');
       wrap.id='docOnly';
       wrap.style.cssText='position:fixed;inset:0;z-index:2147483000;background:#F1EFEA;overflow:auto;-webkit-overflow-scrolling:touch';
@@ -7248,6 +7250,10 @@ function copyQuoteLink(id){
       document.title=(rec.qNo||'Quotation')+' · '+(rec.p&&(rec.p.studioName||rec.p.ownerName)||'Quotation');
       ['authOverlay','welcomeOverlay','profileNudge','proExplainerCard','onboardingCards'].forEach(function(id){
         var el=document.getElementById(id); if(el) el.style.display='none';
+      });
+      // nothing of the app should render behind a public document
+      ['.sidebar','.mob-header','.bot-nav','.fab'].forEach(function(sel){
+        document.querySelectorAll(sel).forEach(function(el){ el.style.display='none'; });
       });
       document.documentElement.style.overflow='hidden';
     }catch(e){}
