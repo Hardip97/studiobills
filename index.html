@@ -6854,6 +6854,7 @@ function renderQuotes(){
       <div class="ref-actions">
         <button type="button" class="row-action" onclick="previewQuote('${q.id}')">View</button>
         <button type="button" class="row-action" onclick="editQuote('${q.id}')">Edit</button>
+        <button type="button" class="row-action" onclick="copyQuoteLink('${q.id}')">Link</button>
         ${st==='accepted' ? `<button type="button" class="row-action" onclick="convertQuoteToInvoice('${q.id}')">Convert</button>` : ''}
         <select class="row-more" aria-label="More actions" onchange="quoteRowAction(this,'${q.id}')">
           <option value="">⋯</option>
@@ -6889,6 +6890,7 @@ function quoteRowAction(sel,id){
     return;
   }
   if(v==='convert'){ convertQuoteToInvoice(id); return; }
+  if(v==='link'){ copyQuoteLink(id); return; }
   if(v==='delete'){
     if(!confirm('Delete this quotation?')) return;
     db.quotes=db.quotes.filter(x=>x.id!==id); save(); renderQuotes(); toast('Quotation deleted');
@@ -7097,6 +7099,7 @@ function quoteShareText(q){
     items,
     '',
     adv>0?('Advance to start: '+fmtN(adv)+(q.advancePct?(' ('+q.advancePct+'%)'):'')+' · balance '+fmtN(bal)+'.'):'',
+    'View the full quotation here: '+quoteShareLink(q),
     'Reply here to confirm and I will send the invoice.',
     '',
     studio, db.profile.phone||''
@@ -7120,6 +7123,7 @@ function quoteShareMailBody(q){
     adv>0?('Advance to confirm the booking: '+fmtN(adv)+(q.advancePct?(' ('+q.advancePct+'%)'):'')+'. Balance after delivery: '+fmtN(bal)+'.'):'',
     (q.terms||'').trim(),
     '',
+    'View the full quotation here: '+quoteShareLink(q),
     'This is a quotation, not a tax invoice. Reply to this email to confirm and we will raise the invoice.',
     '',
     (p.ownerName||p.studioName||''),
@@ -7157,6 +7161,100 @@ function quoteShareMailBody(q){
       toast('Quotation email ready');
     };
   }catch(e){}
+})();
+
+
+/* ── Public quotation link ──────────────────────────────────────────────────
+   No server and no database: the quotation snapshot travels inside the link as a
+   URL-safe base64 payload, and the same file renders it as a document-only page. */
+function qLinkB64(obj){
+  const bytes=new TextEncoder().encode(JSON.stringify(obj));
+  let bin=''; bytes.forEach(b=>{ bin+=String.fromCharCode(b); });
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function qLinkUnb64(str){
+  const b=str.replace(/-/g,'+').replace(/_/g,'/');
+  const bin=atob(b), bytes=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+function quotePublicRecord(q){
+  const p=db.profile||{};
+  return {
+    v:1,
+    qNo:q.qNo, client:q.client||'', addr:((db.clients||{})[q.client]||{}).address||'',
+    date:q.date, validTill:q.validTill, cat:q.cat||'', template:q.template||'classic',
+    currency:q.currency||'INR', terms:q.terms||'', total:+q.amount||0,
+    items:(q.items||[]).map(i=>({n:i.name||i.desc||'', d:i.desc||'', q:+i.qty||1, r:+i.rate||0, u:i.unit||''})),
+    advancePct:+q.advancePct||0, advanceAmount:+q.advanceAmount||0,
+    advanceReceived:!!q.advanceReceived, advanceDate:q.advanceDate||'', advanceVia:q.advanceVia||'upi',
+    p:{ studioName:p.studioName||'', ownerName:p.ownerName||'', email:p.email||'', phone:p.phone||'',
+        address:p.address||'', upi:p.upi||'', bankName:p.bankName||'', accountNo:p.accountNo||'', ifsc:p.ifsc||'',
+        role:p.role||'' }
+  };
+}
+function quoteShareLink(q){
+  const base=location.origin+location.pathname;
+  return base+'#doc='+qLinkB64(quotePublicRecord(q));
+}
+function copyQuoteLink(id){
+  const q=(db.quotes||[]).find(x=>x.id===id); if(!q){ toast('Quotation not found','err'); return ''; }
+  const url=quoteShareLink(q);
+  const done=()=>{ toast('Public link copied — send it to '+q.client); };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done).catch(()=>{ window.prompt('Copy this link', url); });
+    } else { window.prompt('Copy this link', url); }
+  }catch(e){ window.prompt('Copy this link', url); }
+  return url;
+}
+/* Document-only page: #doc=<payload> shows just the quotation, no app chrome, no login. */
+(function(){
+  function paint(){
+    var m=(location.hash||'').match(/^#doc=(.+)$/);
+    if(!m) return;
+    var rec=null;
+    try{ rec=qLinkUnb64(m[1]); }catch(e){ rec=null; }
+    if(!rec){ return; }
+    try{
+      if(rec.p) db.profile=Object.assign({},db.profile,rec.p);
+      var items=(rec.items||[]).map(function(it,i){
+        return {id:'li'+i, type:'general', name:it.n, desc:it.d, qty:it.q, rate:it.r, unit:it.u};
+      });
+      var inv={
+        id:'shared', invNo:rec.qNo, client:rec.client, clientAddr:rec.addr, date:rec.date, due:rec.validTill,
+        cat:rec.cat, template:rec.template||'classic', currency:rec.currency||'INR',
+        terms:rec.terms||'', items:items, amount:rec.total, received:0, status:'pending',
+        docType:'quote', showQr:true, qrUpi:(rec.p&&rec.p.upi)||'',
+        advancePct:rec.advancePct, advanceAmount:rec.advanceAmount,
+        advanceReceived:rec.advanceReceived, advanceDate:rec.advanceDate, advanceVia:rec.advanceVia,
+        _totals:{items:items, subtotal:rec.total, gross:rec.total, net:rec.total}
+      };
+      var html=buildInvoiceHTML(inv);
+      var wrap=document.createElement('div');
+      wrap.id='docOnly';
+      wrap.style.cssText='position:fixed;inset:0;z-index:2147483000;background:#F1EFEA;overflow:auto;-webkit-overflow-scrolling:touch';
+      var bar=document.createElement('div');
+      bar.style.cssText='position:sticky;top:0;z-index:5;display:flex;justify-content:center;gap:10px;padding:12px;background:#F1EFEA';
+      var btn=document.createElement('button');
+      btn.textContent='Save as PDF';
+      btn.style.cssText='border:0;border-radius:999px;background:#111;color:#fff;font:inherit;font-weight:700;font-size:.82rem;padding:10px 20px;cursor:pointer';
+      var fr=document.createElement('iframe');
+      fr.style.cssText='display:block;width:100%;max-width:900px;margin:0 auto;height:calc(100% - 60px);border:0;background:transparent';
+      btn.onclick=function(){ try{ fr.contentWindow.focus(); fr.contentWindow.print(); }catch(e){} };
+      bar.appendChild(btn); wrap.appendChild(bar); wrap.appendChild(fr);
+      document.body.appendChild(wrap);
+      fr.srcdoc=html;
+      document.title=(rec.qNo||'Quotation')+' · '+(rec.p&&(rec.p.studioName||rec.p.ownerName)||'Quotation');
+      ['authOverlay','welcomeOverlay','profileNudge','proExplainerCard','onboardingCards'].forEach(function(id){
+        var el=document.getElementById(id); if(el) el.style.display='none';
+      });
+      document.documentElement.style.overflow='hidden';
+    }catch(e){}
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',paint);
+  else paint();
+  window.addEventListener('hashchange',function(){ if(/^#doc=/.test(location.hash)){ var el=document.getElementById('docOnly'); if(el) el.remove(); paint(); } });
 })();
 
 document.addEventListener('DOMContentLoaded',function(){ try{ quotesInit(); renderQuotes(); }catch(e){} });
