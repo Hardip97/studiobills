@@ -2998,7 +2998,7 @@ body.tint-cards #quoteModal .qm-adv-sum b{color:#fff}
           <div><span>Balance</span><b id="qm-sum-bal">&#8377;0</b></div>
         </div>
       </div>
-      <style>#quoteModal #qm-payment-inline,#quoteModal #qm-qrupi,#quoteModal #qm-showqr{display:none!important}
+      <style>#quoteModal #qm-payment-inline{display:none!important}
       #quoteModal.qm-adv-open .inv-tab-body>*:not(#qm-pane-advance){display:none!important}
       #quoteModal.qm-adv-open #qm-pane-advance{display:block!important}
       #quoteModal.qm-options-open #qm-tab-invoice{display:none!important}
@@ -6963,6 +6963,7 @@ function openQuoteModal(id){
   setV('adv-pct', q&&q.advancePct!=null?q.advancePct:50);
   setV('adv-amt', q?(q.advanceAmount||0):0);
   setV('adv-date', q?(q.advanceDate||''):'');
+  setV('qrupi', q?(q.qrUpi||''):'');
   const via=document.getElementById('qm-adv-via'); if(via) via.value=(q&&q.advanceVia)||'upi';
   const recEl=document.getElementById('qm-adv-received'); if(recEl) recEl.checked=!!(q&&q.advanceReceived);
   const badge=document.getElementById('qm-draft-badge'); if(badge) badge.style.display='none';
@@ -6991,7 +6992,8 @@ function readQuoteForm(){
     advanceMode:qAdvMode, advancePct:pct, advanceAmount:advAmt,
     advanceReceived:!!document.getElementById('qm-adv-received')?.checked,
     advanceDate:(document.getElementById('qm-adv-date')?.value||''),
-    advanceVia:(document.getElementById('qm-adv-via')?.value||'upi')
+    advanceVia:(document.getElementById('qm-adv-via')?.value||'upi'),
+    qrUpi:(document.getElementById('qm-qrupi')?.value||'').trim()
   };
 }
 function saveQuote(silent){
@@ -7020,7 +7022,7 @@ function saveQuotePreview(){
 function quoteDocHTML(q){
   const inv=Object.assign({},q,{
     invNo:q.qNo, due:q.validTill, docType:'quote', received:0, status:'pending',
-    showQr:true, qrUpi:(db.profile&&db.profile.upi)||''
+    showQr:true, qrUpi:(q.qrUpi||(db.profile&&db.profile.upi)||'')
   });
   if(!inv._totals) inv._totals={items:inv.items||[],subtotal:inv.amount,gross:inv.amount,net:inv.amount};
   return buildInvoiceHTML(inv);
