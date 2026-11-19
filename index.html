@@ -2059,6 +2059,18 @@ body.tint-cards #quoteModal .qm-adv-sum b{color:#fff}
 @media(max-width:600px){
   #qTabs{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 94%,transparent);mask-image:linear-gradient(90deg,#000 0,#000 94%,transparent)}
 }
+
+/* ── AUDIT FIXES ─────────────────────────────────────────────────────────────
+   1. in the light (Snow) theme the secondary metadata sat at ~2.5:1 on white;
+      darken it to a comfortable 5:1-ish for small text.
+   2. filter pills / sort switches were below a comfortable touch height on phones. */
+body.theme-snow .recent-detail,body.theme-snow .ref-cap,body.theme-snow .ref-mini-lab,
+body.theme-snow .ref-count,body.theme-snow .led-meta,body.theme-snow .c-meta{
+  color:#575C68!important;-webkit-text-fill-color:#575C68!important}
+@media(max-width:760px){
+  .itab,.ss-btn,button.itab{min-height:34px!important;padding-top:7px!important;padding-bottom:7px!important}
+  .row-action,.row-more{min-height:34px!important}
+}
 @media(max-width:760px){
   body.tint-cards .pm-kpi{padding:18px!important}
   body.tint-cards .led-card{padding:18px!important}
