@@ -2422,6 +2422,27 @@ body.tb-active .ref-head-pills .btn {
 .tb-av:first-child { margin-left: 0; }
 .tb-hero-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
+
+.tb-hero-month {
+  background: var(--tb-lime) !important;
+  color: var(--tb-ink) !important;
+  height: 34px !important;
+  padding: 0 6px !important;
+  gap: 4px !important;
+  font-weight: 700 !important;
+}
+.tb-hero-month button {
+  width: 24px !important;
+  height: 24px !important;
+  background: rgba(22, 24, 29, 0.08) !important;
+  color: var(--tb-ink) !important;
+  font-weight: 700 !important;
+}
+.tb-hero-month button:hover {
+  background: var(--tb-ink) !important;
+  color: #FFFFFF !important;
+}
+
 /* Card 2: Pastel Sky Matrix */
 .tb-sky-card {
   background: linear-gradient(155deg, #87CEE6 0%, var(--tb-sky) 60%, #6BBAD6 100%);
@@ -2897,6 +2918,187 @@ body.tb-active .btn-dark {
   color: var(--tb-ink);
 }
 
+/* ═══ ANALYTICS "YEAR VS LAST YEAR" PIXEL-PERFECT ALIGNMENT ═══ */
+body.tb-active .an-cmp-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+body.tb-active .an-cmp {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 124px 78px !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 14px 4px !important;
+  border-bottom: 1px solid var(--tb-hair) !important;
+}
+body.tb-active .an-cmp:last-child { border-bottom: 0 !important; }
+body.tb-active .an-cmp > div:nth-child(2),
+body.tb-active .an-cmp .an-num {
+  text-align: right !important;
+  justify-self: end !important;
+  font-variant-numeric: tabular-nums !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+body.tb-active .an-cmp .ref-chip {
+  width: 74px !important;
+  min-width: 74px !important;
+  justify-content: center !important;
+  justify-self: end !important;
+  text-align: center !important;
+  padding: 5px 8px !important;
+}
+
+/* ═══ ALL MODALS (NEW/EDIT CLIENT, INVOICE, EXPENSE, QUOTE, PAYMENT) IN TACTILE BENTO ═══ */
+body.tb-active .modal-bg,
+body.tb-active .modal-overlay {
+  background: rgba(22, 24, 29, 0.44) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+body.tb-active .modal {
+  background: #FFFFFF !important;
+  color: var(--tb-ink) !important;
+  border-radius: 32px !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  box-shadow: 0 28px 70px rgba(22, 24, 29, 0.18) !important;
+}
+body.tb-active .modal h2,
+body.tb-active .modal h3,
+body.tb-active .modal .modal-title,
+body.tb-active .modal label {
+  color: var(--tb-ink) !important;
+}
+body.tb-active .modal label {
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  color: var(--tb-ink-2) !important;
+}
+body.tb-active .modal .modal-close,
+body.tb-active .modal .m-close,
+body.tb-active .modal button[aria-label="Close"] {
+  background: var(--tb-soft) !important;
+  color: var(--tb-ink) !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+}
+body.tb-active .modal .modal-close:hover,
+body.tb-active .modal .m-close:hover {
+  background: var(--tb-ink) !important;
+  color: #FFFFFF !important;
+}
+
+/* Crisp light Tactile Bento inputs inside ALL modals */
+body.tb-active .modal input:not([type="checkbox"]):not([type="radio"]),
+body.tb-active .modal select,
+body.tb-active .modal textarea,
+body.tb-active .modal .li-qty,
+body.tb-active .modal .li-unit,
+body.tb-active .modal .li-rate,
+body.tb-active .modal .li-desc,
+body.tb-active .modal .li-cat {
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  border: 1px solid rgba(22, 24, 29, 0.10) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+}
+body.tb-active .modal input::placeholder,
+body.tb-active .modal textarea::placeholder {
+  color: #8A92A0 !important;
+  -webkit-text-fill-color: #8A92A0 !important;
+}
+body.tb-active .modal input:focus,
+body.tb-active .modal select:focus,
+body.tb-active .modal textarea:focus {
+  background: #FFFFFF !important;
+  border-color: #16181D !important;
+  box-shadow: 0 0 0 3px rgba(22, 24, 29, 0.08) !important;
+  outline: none !important;
+}
+
+/* Currency pills & Add Line Item button inside Invoice/Quote modals */
+body.tb-active .modal .fx-btn {
+  background: #F3F4F6 !important;
+  color: #4B515E !important;
+  -webkit-text-fill-color: #4B515E !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+}
+body.tb-active .modal .fx-btn.sel {
+  background: #16181D !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border-color: #16181D !important;
+}
+body.tb-active .modal .add-li-btn,
+body.tb-active .modal .li-add-btn {
+  background: #F8F9FB !important;
+  color: #16181D !important;
+  border: 1.5px dashed rgba(22, 24, 29, 0.22) !important;
+  border-radius: 16px !important;
+}
+
+/* Total bar inside Invoice/Quote modal — crisp Tactile Bento dark pill bar, zero overlap on templates */
+body.tb-active .modal .inv-tot-bar,
+body.tb-active .modal .tot-bar,
+body.tb-active .modal .total-strip,
+body.tb-active .modal .modal-total {
+  position: static !important;
+  margin-top: 16px !important;
+  margin-bottom: 4px !important;
+  background: #16181D !important;
+  color: #FFFFFF !important;
+  border-radius: 20px !important;
+  padding: 14px 20px !important;
+}
+body.tb-active .modal .inv-tot-bar *,
+body.tb-active .modal .tot-bar *,
+body.tb-active .modal .total-strip *,
+body.tb-active .modal .modal-total * {
+  color: #FFFFFF !important;
+}
+
+/* Modal Footer Action Buttons (Cancel = soft pill, Save/Add = solid ink pill, Preview = sky/soft pill) */
+body.tb-active .modal .btn,
+body.tb-active .modal .btn-ghost,
+body.tb-active .modal .btn-outline {
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  height: 40px !important;
+  padding: 0 20px !important;
+}
+body.tb-active .modal .btn-dark,
+body.tb-active .modal .btn-primary,
+body.tb-active .modal .btn-save {
+  background: #16181D !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+}
+body.tb-active .modal .btn-dark:hover,
+body.tb-active .modal .btn-primary:hover {
+  opacity: 0.90 !important;
+}
+body.tb-active .modal .btn-red,
+body.tb-active .modal .btn-danger {
+  background: #FDE8E8 !important;
+  color: #B91C1C !important;
+  -webkit-text-fill-color: #B91C1C !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+}
+
 @media (max-width: 1180px) {
   .tb-topbar { grid-template-columns: 1fr; justify-items: stretch; }
   .tb-nav-wrap { order: 3; }
@@ -3034,11 +3236,6 @@ body.tb-active .btn-dark {
     </div>
 
     <div class="tb-top-right">
-      <div class="tb-month-pill">
-        <button type="button" onclick="shiftMonth(-1)" title="Previous month">‹</button>
-        <span id="tbTopMonth">Nov 2026</span>
-        <button type="button" onclick="shiftMonth(1)" title="Next month">›</button>
-      </div>
       <button type="button" class="tb-cmd-pill" onclick="openBentoCmd()" title="Quick Search (⌘K)">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <span>⌘K</span>
@@ -3145,7 +3342,11 @@ body.tb-active .btn-dark {
             <div class="tb-hero-val tb-tnum" id="tbNetVal">₹0</div>
             <div class="tb-hero-sub" id="tbNetSub">Collected ₹0 − Expenses ₹0</div>
           </div>
-          <span class="tb-lime-tag" id="tbMonthBadge">—</span>
+          <div class="tb-month-pill tb-hero-month" title="Switch month">
+            <button type="button" onclick="shiftMonth(-1)" aria-label="Previous month">‹</button>
+            <span id="tbMonthBadge">—</span>
+            <button type="button" onclick="shiftMonth(1)" aria-label="Next month">›</button>
+          </div>
         </div>
 
         <div class="tb-hero-metrics">
@@ -8598,7 +8799,8 @@ function renderBentoCmd(q) {
     };
   }
   function enforceBentoTokens() {
-    document.body.classList.add('tb-active');
+    document.body.classList.remove('tint-cards', 'theme-dark', 'theme-canvas', 'theme-midnight', 'theme-cobalt', 'theme-rose', 'dark');
+    document.body.classList.add('tb-active', 'theme-light', 'theme-snow');
     document.documentElement.style.colorScheme = 'light';
     const S = document.body.style;
     const toks = {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'creditmantra-bento-v4';
+const CACHE_NAME = 'creditmantra-bento-v6';
 const ASSETS = ['/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', e => {
