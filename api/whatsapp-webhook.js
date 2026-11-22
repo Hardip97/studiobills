@@ -21,9 +21,28 @@ function uid(prefix = 'wa') {
 function normalizePhone(value = '') {
   const trimmed = String(value).trim();
   if (!trimmed) return '';
-  const hasPlus = trimmed.startsWith('+');
   const digits = trimmed.replace(/\D/g, '');
-  return `${hasPlus ? '+' : ''}${digits}`;
+  if (!digits) return '';
+  if (trimmed.startsWith('+')) return `+${digits}`;
+  if (digits.length === 10) return `+91${digits}`;
+  return `+${digits}`;
+}
+
+function parseFormParams(rawBody, parsedBody) {
+  if (parsedBody && typeof parsedBody === 'object' && Object.keys(parsedBody).length) {
+    return parsedBody;
+  }
+  return Object.fromEntries(new URLSearchParams(rawBody || '').entries());
+}
+
+function verifyTwilioSignature(req, params) {
+  const authToken = process.env.TWILIO_AUTH_TOKEN || '';
+  const signature = req.headers?.['x-twilio-signature'] || '';
+  if (!authToken || !signature) return false;
+  const proto = (req.headers?.['x-forwarded-proto'] || 'https').split(',')[0].trim();
+  const host = req.headers?.['x-forwarded-host'] || req.headers?.host || '';
+  const fullUrl = `${proto}://${host}${req.url || '/api/whatsapp-webhook'}`;
+  return twilio.validateRequest(authToken, signature, fullUrl, params);
 }
 
 function parseTwilioBody(rawBody, parsedBody) {
@@ -186,7 +205,11 @@ export default async function handler(req, res) {
 
   try {
     const rawBody = await getRawBody(req);
-    const { From, Body, ProfileName } = parseTwilioBody(rawBody, req.body);
+    const formParams = parseFormParams(rawBody, req.body);
+    if (!verifyTwilioSignature(req, formParams)) {
+      return res.status(403).send('Invalid Twilio signature');
+    }
+    const { From, Body, ProfileName } = parseTwilioBody(rawBody, formParams);
     if (!From || !Body) return reply(res, 'Missing WhatsApp message details.');
 
     const senderNumber = normalizePhone(From.replace('whatsapp:', ''));

@@ -43,7 +43,24 @@ async function supaFetch(path, method = 'GET', body = null) {
   };
   if (body) opts.body = JSON.stringify(body);
   const res = await fetch(url, opts);
-  try { return await res.json(); } catch { return null; }
+  const text = await res.text();
+  let json = null;
+  try { json = text ? JSON.parse(text) : null; } catch { json = null; }
+  if (!res.ok) {
+    throw new Error(`Supabase ${method} ${path} failed (${res.status}): ${text.slice(0, 200)}`);
+  }
+  return json;
+}
+
+async function findUserByEmail(email) {
+  for (let page = 1; page <= 50; page++) {
+    const authData = await supaFetch(`/auth/v1/admin/users?page=${page}&per_page=1000`);
+    const users = authData?.users || [];
+    const match = users.find(u => u.email?.toLowerCase() === email);
+    if (match) return match;
+    if (users.length < 1000) break;
+  }
+  return null;
 }
 
 // ── main handler ──────────────────────────────────────────────────────────────
@@ -70,7 +87,9 @@ export default async function handler(req, res) {
     .update(rawBody)
     .digest('hex');
 
-  if (signature !== expected) {
+  const sigBuf = Buffer.from(String(signature));
+  const expBuf = Buffer.from(expected);
+  if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {
     console.error('Razorpay signature mismatch — possible fake request');
     return res.status(400).json({ error: 'Invalid signature' });
   }
@@ -107,41 +126,56 @@ export default async function handler(req, res) {
 
   console.log(`Payment: ${email} | ₹${amount / 100} | ${isYearly ? 'yearly' : 'monthly'}`);
 
-  // 7. Find Supabase user by email (admin API)
-  const authData = await supaFetch('/auth/v1/admin/users?page=1&per_page=1000');
-  const users    = authData?.users || [];
-  const user     = users.find(u => u.email?.toLowerCase() === email);
+  const paymentId = payment?.id || '';
 
-  if (!user) {
-    // Edge case: user paid but hasn't registered yet
-    // Store in pending_plans table — picked up on first login
-    console.warn(`No user found for ${email} — queuing pending plan`);
-    await supaFetch('/rest/v1/pending_plans', 'POST', {
-      email,
-      plan:         'pro',
-      plan_expiry:  planExpiry,
-      paid_at:      new Date().toISOString(),
-      amount_paise: amount,
+  try {
+    // 7. Find Supabase user by email (paginated admin API)
+    const user = await findUserByEmail(email);
+
+    if (!user) {
+      console.warn(`No user found for ${email} — queuing pending plan`);
+      await supaFetch('/rest/v1/pending_plans', 'POST', {
+        email,
+        plan:         'pro',
+        plan_expiry:  planExpiry,
+        paid_at:      new Date().toISOString(),
+        amount_paise: amount,
+      });
+      return res.status(200).json({ queued: true, email });
+    }
+
+    // 8. Get existing user data (to preserve income/expenses etc.)
+    const rows     = await supaFetch(`/rest/v1/user_data?user_id=eq.${user.id}&select=data`);
+    const existing = rows?.[0]?.data || {};
+
+    // Idempotency guard across payment_link.paid + payment.captured
+    const processed = Array.isArray(existing._processedPayments) ? existing._processedPayments : [];
+    if (paymentId && processed.includes(paymentId)) {
+      return res.status(200).json({ received: true, duplicate: true, paymentId });
+    }
+
+    // Extend from existing future expiry if renewing early
+    const currentExpMs = existing.planExpiry ? Date.parse(existing.planExpiry) : 0;
+    const baseMs = Number.isFinite(currentExpMs) && currentExpMs > Date.now() ? currentExpMs : Date.now();
+    const nextExpiry = new Date(baseMs + planDays * 86400 * 1000).toISOString();
+
+    // 9. Merge plan into existing data — never overwrite income/expense records
+    const updated = {
+      ...existing,
+      plan:       'pro',
+      planExpiry: nextExpiry,
+      _processedPayments: paymentId ? [...processed.slice(-49), paymentId] : processed,
+      _ts:        Date.now(),
+    };
+
+    await supaFetch('/rest/v1/user_data', 'POST', {
+      user_id: user.id,
+      data:    updated,
     });
-    return res.status(200).json({ queued: true, email });
+  } catch (err) {
+    console.error('Webhook persistence error:', err.message);
+    return res.status(500).json({ error: 'Database update failed' });
   }
-
-  // 8. Get existing user data (to preserve income/expenses etc.)
-  const rows     = await supaFetch(`/rest/v1/user_data?user_id=eq.${user.id}&select=data`);
-  const existing = rows?.[0]?.data || {};
-
-  // 9. Merge plan into existing data — never overwrite income/expense records
-  const updated = {
-    ...existing,
-    plan:       'pro',
-    planExpiry: planExpiry,
-    _ts:        Date.now(),
-  };
-
-  await supaFetch('/rest/v1/user_data', 'POST', {
-    user_id: user.id,
-    data:    updated,
-  });
 
   console.log(`✅ Pro activated: ${email} | expires ${planExpiry}`);
   return res.status(200).json({

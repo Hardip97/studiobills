@@ -78,8 +78,7 @@ function saveQuickIncome(){
   toast('Income saved ✓');
 }
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>*{margin:0;padding:0;box-sizing:border-box;}:root{
@@ -3170,25 +3169,7 @@ body.theme-snow .ref-count,body.theme-snow .led-meta,body.theme-snow .c-meta{
 </div></div>
 
 
-<!-- ════════════════════ ADD CLIENT MODAL ════════════════════ -->
-<div class="modal-bg" id="addClientModal">
-<div class="modal" style="max-width:520px;">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
-    <h2>Add New Client</h2>
-    <button class="ibtn" onclick="closeModal('addClientModal')">✕</button>
-  </div>
-  <div class="form-grid" style="margin-bottom:12px;">
-    <div class="fg"><label>Client Name *</label><input id="nc-name" placeholder="e.g. Acme Studio"></div>
-    <div class="fg"><label>Email</label><input id="nc-email" type="email" placeholder="contact@acme.com"></div>
-    <div class="fg"><label>Phone</label><input id="nc-phone" type="tel" placeholder="+91 98765 43210"></div>
-    <div class="fg"><label>GSTIN</label><input id="nc-gstin" placeholder="22AAAAA0000A1Z5"></div>
-  </div>
-  <div class="fg" style="margin-bottom:12px;"><label>Address</label><textarea id="nc-address" rows="2" placeholder="Street, City, State, PIN"></textarea></div>
-  <div class="modal-foot">
-    <button class="btn btn-ghost" onclick="closeModal('addClientModal')">Cancel</button>
-    <button class="btn btn-dark" onclick="saveNewClient()">Add Client</button>
-  </div>
-</div></div>
+
 
 <!-- ════════════════════ QUICK INCOME MODAL ════════════════════ -->
 <div class="modal-bg" id="quickIncomeModal">
@@ -3456,8 +3437,7 @@ const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 let supa=null,currentUser=null,authMode='signin';
 
 const DB='studiobills_v4';
-const DEFAULT_PROFILE={currency:'₹'};// Empty — only currency is universal default
-const OWNER_PROFILE={studioName:"Hardip's Freelance Space",ownerName:'Hardipsinh Zala',email:'zalahardip70@gmail.com',phone:'+91 88660 35771',address:'Rajkot, Gujarat, India',currency:'₹',role:'Visual Storyteller · VFX Artist',upi:'zalahardip70@okaxis',bankName:'Punjab National Bank',accountNo:'0400001500010175',ifsc:'PUNB0040000'};
+const DEFAULT_PROFILE={currency:'₹'};// Universal default — personal/banking details live only in each user's Supabase profile
 const DEFAULT_WHATSAPP_PREFS={enabled:false,taskReminders:true,dueReminders:true,dailyDigest:false};
 const DEFAULT_CATS={inc:['Design','Photography','Video','Consulting','Development','Writing','Marketing','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']};
 const FX_CURRENCIES={
@@ -3491,33 +3471,23 @@ function applyMigrations(){
   db.profile=db.profile||{};
   if(!db.plan)db.plan='free';
   if(db.planExpiry===undefined)db.planExpiry=null;
-  const isOwner=currentUser&&currentUser.email==='zalahardip70@gmail.com';
-  // For non-owners: wipe any field that matches owner's personal data (contamination fix)
-  if(!isOwner){
-    let wiped=false;
-    Object.keys(OWNER_PROFILE).forEach(k=>{if(k!=='currency'&&db.profile[k]===OWNER_PROFILE[k]){delete db.profile[k];wiped=true;}});
-    if(wiped)setTimeout(save,500);
-  }
-  // Only pre-fill owner's defaults for owner; all others get currency only
-  const profileDefaults=isOwner?OWNER_PROFILE:DEFAULT_PROFILE;
-  Object.keys(profileDefaults).forEach(k=>{if(!db.profile[k])db.profile[k]=profileDefaults[k];});
-  // Assign invNo to invoices that don't have one
-  const needsNo=(db.income||[]).filter(i=>!i.invNo).sort((a,b)=>a.date>b.date?1:-1);
-  needsNo.forEach(i=>{db.invoiceCounter++;i.invNo='INV-'+String(db.invoiceCounter).padStart(3,'0');});
+  Object.keys(DEFAULT_PROFILE).forEach(k=>{if(!db.profile[k])db.profile[k]=DEFAULT_PROFILE[k];});
 }
 
 // ─── SAVE (localStorage + background Supabase sync) ───
 function save(){
   db._ts=Date.now(); // timestamp every save so we can compare with Supabase
   const key=currentUser?DB+'_'+currentUser.id:DB;
-  localStorage.setItem(key,JSON.stringify(db));
+  try{localStorage.setItem(key,JSON.stringify(db));}catch(e){console.warn('localStorage save error:',e);}
   if(currentUser&&supa){
-    supa.from('user_data').upsert({user_id:currentUser.id,data:db,updated_at:new Date().toISOString()})
+    return supa.from('user_data').upsert({user_id:currentUser.id,data:db,updated_at:new Date().toISOString()})
       .then(r=>{
-        if(r.error){console.warn('Supabase sync failed:',r.error.message);/* sync notice hidden at the user's request */}
+        if(r.error){console.warn('Supabase sync failed:',r.error.message);}
+        return r;
       })
-      .catch(e=>{console.warn('Supabase save error:',e);/* sync notice hidden at the user's request */});
+      .catch(e=>{console.warn('Supabase save error:',e);return {error:e};});
   }
+  return Promise.resolve({error:null});
 }
 
 // ─── AUTH FUNCTIONS ───
@@ -3567,11 +3537,16 @@ async function signInWithGoogle(){
   });
   if(error)setAuthMsg(error.message);
 }
+function resetLocalDbState(){
+  db={income:[],expenses:[],quotes:[],invoiceCounter:0,clients:{},fxRates:{date:"",rates:{...FX_FALLBACK}},profile:{...DEFAULT_PROFILE},plan:'free',planExpiry:null,cats:{inc:[...DEFAULT_CATS.inc],exp:[...DEFAULT_CATS.exp]}};
+}
 async function signOut(){
   if(!confirm('Sign out?'))return;
+  const uidToClear=currentUser?.id;
   await supa.auth.signOut();
+  if(uidToClear)localStorage.removeItem(DB+'_'+uidToClear);
   currentUser=null;
-  db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:[...DEFAULT_CATS.inc],exp:[...DEFAULT_CATS.exp]}};
+  resetLocalDbState();
   document.getElementById('authOverlay').style.display='flex';
   document.getElementById('authEmail').value='';
   document.getElementById('authPwd').value='';
@@ -3594,9 +3569,10 @@ async function deleteAccount(){
     const{error}=await supa.rpc('delete_user');
     if(error){
       // If RPC not available, clear data and sign out — user must contact support for auth deletion
+      localStorage.removeItem(DB+'_'+currentUser.id);
       await supa.auth.signOut();
       currentUser=null;
-      db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:[...DEFAULT_CATS.inc],exp:[...DEFAULT_CATS.exp]}};
+      resetLocalDbState();
       document.getElementById('authOverlay').style.display='flex';
       document.getElementById('authEmail').value='';
       document.getElementById('authPwd').value='';
@@ -3604,8 +3580,9 @@ async function deleteAccount(){
       return;
     }
     // Success
+    localStorage.removeItem(DB+'_'+currentUser.id);
     currentUser=null;
-    db={income:[],expenses:[],invoiceCounter:0,clients:{},profile:{...DEFAULT_PROFILE},cats:{inc:[...DEFAULT_CATS.inc],exp:[...DEFAULT_CATS.exp]}};
+    resetLocalDbState();
     document.getElementById('authOverlay').style.display='flex';
     document.getElementById('authEmail').value='';
     document.getElementById('authPwd').value='';
@@ -3696,9 +3673,7 @@ async function loadUserData(user){
       // else: localStorage is newer (e.g. saved offline) — keep it, silently push to Supabase
       else{save();}
     } else if(!localTs){
-      // Brand new user — check if old (pre-auth) data exists and migrate it
-      const oldData=localStorage.getItem(DB);
-      if(oldData){try{db=JSON.parse(oldData);applyMigrations();save();}catch(e){}}
+      applyMigrations();
       initAppUI();
     }
   }catch(e){if(!localTs)initAppUI();}
@@ -3724,12 +3699,19 @@ function initAppUI(){
   applyTheme();
   // Restore last active tab from URL hash
   const hash=location.hash.replace('#','');
-  const validTabs=['overview','income','expenses','clients','settings'];
+  const validTabs=['overview','quotes','income','expenses','clients','analytics','settings'];
   if(hash&&validTabs.includes(hash))showTab(hash);
   else renderOverview();
-  // Auto-refresh plan when user returns to tab after payment
-  document.addEventListener('visibilitychange',()=>{
-  });
+  // Handle PWA shortcut /?action=new-invoice once
+  if(!window.__sbShortcutHandled){
+    window.__sbShortcutHandled=true;
+    const params=new URLSearchParams(location.search);
+    if(params.get('action')==='new-invoice'){
+      showTab('income');
+      setTimeout(()=>openModal('addIncomeModal'),150);
+      history.replaceState(null,'',location.pathname+(location.hash||''));
+    }
+  }
 }
 
 // ─── PLAN REFRESH (called when tab regains focus) ───
@@ -3759,10 +3741,11 @@ function checkOnboarding(){/* onboarding screens removed */}
 function fmt(n){return((db.profile&&db.profile.currency)||'₹')+(+n||0).toLocaleString('en-IN',{maximumFractionDigits:0});}
 function fmtD(s){if(!s)return'—';return new Date(s).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
 function rcv(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
-function today(){return new Date().toISOString().slice(0,10);}
+function localDateISO(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function today(){return localDateISO(new Date());}
 function mk(s){return s?s.slice(0,7):'';}
-function isOverdue(i){return i.status!=='received'&&i.due&&new Date(i.due)<new Date(today());}
-function esc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;}
+function isOverdue(i){return i.status!=='received'&&i.due&&i.due<today();}
+function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
 
 function showTab(name){
@@ -3886,7 +3869,6 @@ function drawMainChart(){
   const lbls=months.map(m=>{const[y,mo]=m.split('-');return new Date(+y,+mo-1,1).toLocaleDateString('en-IN',{month:'short'});});
   const curMk=`${viewMonth.getFullYear()}-${String(viewMonth.getMonth()+1).padStart(2,'0')}`;
 
-  function rcv(i){const r=+i.received||0;return(r===0&&i.status==='received')?(+i.amount||0):r;}
   const incData=months.map(m=>db.income.filter(i=>mk(i.date)===m).reduce((s,i)=>s+rcv(i),0));
   const expData=months.map(m=>db.expenses.filter(e=>mk(e.date)===m).reduce((s,e)=>s+(+e.amount||0),0));
   const globalMax=Math.max(...incData,...expData,100);
@@ -4884,7 +4866,7 @@ function calcInvTotals(pfx){
   let cgst=0,sgst=0,igst=0;
   if(gstOn){if(gstType==='igst')igst=taxable*gstRate/100;else{cgst=taxable*gstRate/200;sgst=taxable*gstRate/200;}}
   const gross=taxable+cgst+sgst+igst;
-  const tds=tdsOn?gross*tdsRate/100:0;
+  const tds=tdsOn?taxable*tdsRate/100:0;
   return{items,subtotal,discount,taxable,cgst,sgst,igst,gross,tds,net:gross-tds,gstOn,gstType,gstRate,tdsOn,tdsRate,discOn};
 }
 
@@ -5148,9 +5130,6 @@ function checkRecurringExpenses(){
 
 
 // ─── RECURRING EXPENSE CONTROL ───────────────────────────────
-// Entries that repeat share a series (same title + category), which is also how
-// checkRecurringExpenses() decides what to copy forward.
-function expSeriesKey(e){return ((e&&e.title)||'').trim().toLowerCase()+'|'+(((e&&e.cat)||'').trim().toLowerCase());}
 
 // ─── repeat interval + skip next ─────────────────────────────
 let recIntervalTarget=null;
@@ -5842,7 +5821,7 @@ function buildQR(upi,name,amount,invNo){
 
 function buildInvoiceHTML(inv){
   const tpl=inv.template||'classic';
-  const p=db.profile||{};
+  const p=inv._profile||db.profile||{};
   const num=inv.invNo||`INV-${inv.id.slice(-6).toUpperCase()}`;
   const invCurCode=inv.currency&&FX_CURRENCIES[inv.currency]?inv.currency:'INR';
   const cur=FX_CURRENCIES[invCurCode]?.symbol||inv.currency||p.currency||'₹';
@@ -5850,23 +5829,23 @@ function buildInvoiceHTML(inv){
   const t=invTotalsFromSaved(inv);
   const isIntl=invCurCode!=='INR';
   const payLines=[];
-  if(p.upi)payLines.push(`UPI / GPay / PhonePe: ${p.upi}`);
-  if(p.bankName)payLines.push(`Bank: ${p.bankName}`);
-  if(p.accountNo)payLines.push(`Account No: ${p.accountNo}`);
-  if(p.ifsc)payLines.push(`IFSC: ${p.ifsc}`);
-  if(p.swift)payLines.push(`SWIFT / BIC: ${p.swift}`);
-  if(p.paypal)payLines.push(`PayPal / Wise: ${p.paypal}`);
+  if(p.upi)payLines.push(`UPI / GPay / PhonePe: ${esc(p.upi)}`);
+  if(p.bankName)payLines.push(`Bank: ${esc(p.bankName)}`);
+  if(p.accountNo)payLines.push(`Account No: ${esc(p.accountNo)}`);
+  if(p.ifsc)payLines.push(`IFSC: ${esc(p.ifsc)}`);
+  if(p.swift)payLines.push(`SWIFT / BIC: ${esc(p.swift)}`);
+  if(p.paypal)payLines.push(`PayPal / Wise: ${esc(p.paypal)}`);
   const payHTML=payLines.join('<br>')||'(No payment info — add in Settings)';
   const ownerLines=[];
-  if(p.role)ownerLines.push(p.role);
-  if(p.address)ownerLines.push(p.address);
-  if(p.phone)ownerLines.push(p.phone);
-  if(p.email)ownerLines.push(p.email);
-  if(p.gstin)ownerLines.push(`GSTIN: ${p.gstin}`);
-  if(p.pan)ownerLines.push(`PAN: ${p.pan}`);
+  if(p.role)ownerLines.push(esc(p.role));
+  if(p.address)ownerLines.push(esc(p.address));
+  if(p.phone)ownerLines.push(esc(p.phone));
+  if(p.email)ownerLines.push(esc(p.email));
+  if(p.gstin)ownerLines.push(`GSTIN: ${esc(p.gstin)}`);
+  if(p.pan)ownerLines.push(`PAN: ${esc(p.pan)}`);
   const ownerHTML=ownerLines.join('<br>');
   const cp=(db.clients||{})[inv.client]||{};
-  const clientAddr=cp.address||'';
+  const clientAddr=inv.clientAddr||cp.address||'';
   const clientCountry=cp.country||'';
   const clientGstin=inv.cgstin||cp.gstin||'';
   const clientVatid=inv.vatid||cp.vatid||'';
@@ -5895,7 +5874,8 @@ function buildInvoiceHTML(inv){
   const _dd=String(_invDateObj.getDate()).padStart(2,'0');
   const _mon=_months[_invDateObj.getMonth()];
   const _yyyy=_invDateObj.getFullYear();
-  const title=`${num}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}_${_dd}${_mon}${_yyyy}`;
+  const safeNum=String(num||'INV').replace(/[^a-zA-Z0-9_-]/g,'');
+  const title=`${safeNum}_${(inv.client||'Invoice').replace(/[^a-zA-Z0-9 _-]/g,'').trim().replace(/\s+/g,'-')}_${_dd}${_mon}${_yyyy}`;
   const invType=inv.invType||'general';
   const itemTypes=new Set(t.items.map(i=>i.type||i.invType||invType));
   const tableType=itemTypes.size>1?'mixed':invType;
@@ -6362,34 +6342,7 @@ function openPrintView(){
   if(!curInvId){toast('No invoice','err');return;}
   const inv=db.income.find(i=>i.id===curInvId);if(!inv)return;
   const html=buildInvoiceHTML(inv);
-  const num=inv.invNo||`INV-${inv.id.slice(-6).toUpperCase()}`;
-
-  // Try auto-save via local invoice server first
-  fetch('http://localhost:7788/ping',{signal:AbortSignal.timeout(800)})
-    .then(r=>r.json())
-    .then(()=>{
-      // Server is running — send invoice for auto-save
-      toast('Saving PDF…');
-      return fetch('http://localhost:7788/save-invoice',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({html,date:inv.date||today(),invNo:num,client:inv.client||'Client'})
-      });
-    })
-    .then(r=>r.json())
-    .then(res=>{
-      if(res.ok){
-        toast(`✅ PDF saved → ${res.path}`);
-        closeModal('invoiceModal');
-      } else {
-        toast('Save error: '+res.error,'err');
-        fallbackPrint(html);
-      }
-    })
-    .catch(()=>{
-      // Server not running — fall back to browser print
-      fallbackPrint(html);
-    });
+  fallbackPrint(html);
 }
 function fallbackPrint(html){
   const blob=new Blob([html],{type:'text/html'});
@@ -6528,7 +6481,8 @@ function importBackup(e){const f=e.target.files[0];if(!f)return;const r=new File
       notes:i.notes||''
     }));
   }
-  if(!d.income||!d.expenses){toast('Invalid backup file','err');return;}
+  if(!Array.isArray(d.income)||!Array.isArray(d.expenses)){toast('Invalid backup file','err');return;}
+  d.quotes=Array.isArray(d.quotes)?d.quotes:[];
   // migrate expenses: description→title, category→cat
   d.expenses=(d.expenses||[]).map(ex=>({
     id:ex.id||uid(),
@@ -6557,9 +6511,9 @@ function importBackup(e){const f=e.target.files[0];if(!f)return;const r=new File
   const noNum=(d.income||[]).filter(i=>!i.invNo).sort((a,b)=>a.date>b.date?1:-1);
   noNum.forEach(i=>{d.invoiceCounter++;i.invNo='INV-'+String(d.invoiceCounter).padStart(3,'0');});
   d.cats=d.cats||{inc:['Videography','Photography','Editing','Reels','Wedding','Corporate','Event','Other'],exp:['Software','Equipment','Travel','Marketing','Rent','Utilities','Food','Other']};
-  db=d;save();toast('Backup imported ✓');location.reload();
+  db=d;Promise.resolve(save()).finally(()=>{toast('Backup imported ✓');location.reload();});
 }catch(err){toast('Parse error: '+err.message,'err');}};r.readAsText(f);}
-function clearAll(){if(!confirm('Delete ALL data? This cannot be undone.'))return;const key=currentUser?DB+'_'+currentUser.id:DB;localStorage.removeItem(key);if(currentUser&&supa)supa.from('user_data').delete().eq('user_id',currentUser.id).then(()=>{});location.reload();}
+async function clearAll(){if(!confirm('Delete ALL data? This cannot be undone.'))return;const key=currentUser?DB+'_'+currentUser.id:DB;localStorage.removeItem(key);localStorage.removeItem(DB);if(currentUser&&supa){try{await supa.from('user_data').delete().eq('user_id',currentUser.id);}catch(e){console.warn('Supabase delete failed:',e);}}location.reload();}
 
 // ─── MODAL / TOAST UTILS ───
 function openModal(id){
@@ -6604,7 +6558,7 @@ document.querySelectorAll('#botNav .bot-nav-item[data-tab]').forEach(b=>{
 
 // ── FAB ──
 let fabOpen=false;
-function toggleFab(){fabOpen=!fabOpen;document.getElementById('fabMenu').classList.toggle('open',fabOpen);const fab=document.getElementById('mobFab');fab.style.transform=fabOpen?'rotate(45deg)':'rotate(0)';}
+function toggleFab(){const m=document.getElementById('fabMenu'),fab=document.getElementById('mobFab');if(!m||!fab)return;fabOpen=!fabOpen;m.classList.toggle('open',fabOpen);fab.style.transform=fabOpen?'rotate(45deg)':'rotate(0)';}
 function closeFab(){fabOpen=false;const m=document.getElementById('fabMenu');if(m)m.classList.remove('open');const fab=document.getElementById('mobFab');if(fab)fab.style.transform='rotate(0)';}
 document.addEventListener('click',e=>{if(fabOpen&&!e.target.closest('#mobFab')&&!e.target.closest('#fabMenu'))closeFab();});
 
@@ -7158,29 +7112,8 @@ function quoteDocHTML(q){
   else html=html.replace('</head>','<title>'+base+'</title></head>');
   return html;
 }
-function pdfServerAvailable(){
-  if(typeof window.__pdfServer==='boolean') return Promise.resolve(window.__pdfServer);
-  return fetch('http://localhost:7788/ping',{signal:(typeof AbortSignal!=='undefined'&&AbortSignal.timeout)?AbortSignal.timeout(700):undefined})
-    .then(r=>r.json())
-    .then(()=>{window.__pdfServer=true;return true;})
-    .catch(()=>{window.__pdfServer=false;return false;});
-}
-function exportQuotePDF(q,opts){
-  const html=quoteDocHTML(q);
-  const base=quoteFileBase(q);
-  const fallback=function(){ openDocPrintView(html); };
-  pdfServerAvailable().then(function(ok){
-    if(!ok){ fallback(); return; }
-    toast('Saving PDF…');
-    fetch('http://localhost:7788/save-invoice',{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({html:html, date:q.date||today(), invNo:q.qNo||'', client:q.client||'Client',
-        docType:'quote', filenameBase:base, fileBase:base})
-    }).then(r=>r.json()).then(function(res){
-      if(res&&res.ok){ toast('PDF saved → '+(res.path||res.file||base+'.pdf')); if(opts&&opts.close){ try{ closeModal('quoteModal'); }catch(e){} } }
-      else fallback();
-    }).catch(fallback);
-  });
+function exportQuotePDF(q){
+  openDocPrintView(quoteDocHTML(q));
 }
 
 function renderDocPreview(html){
@@ -7218,11 +7151,11 @@ function convertQuoteToInvoice(id){
   const desc=items.map(i=>i.name||i.desc||'').filter(Boolean).join(', ').slice(0,120) || ('Quotation '+q.qNo);
   const inv={
     id:uid('inc'), invNo, client:q.client||'', desc, cat:q.cat||'',
-    date:today(), due:new Date(Date.now()+15*864e5).toISOString().slice(0,10),
+    date:today(), due:localDateISO(new Date(Date.now()+15*864e5)),
     items, amount:total, received:adv,
     status: total>0 && adv>=total ? 'received' : (adv>0 ? 'partial' : 'pending'),
     currency:q.currency||'INR', template:q.template||'classic', terms:q.terms||'',
-    notes:'Created from quotation '+q.qNo+(adv>0?(' · advance ₹'+adv.toLocaleString('en-IN')+' recorded'):''),
+    notes:'Created from quotation '+q.qNo+(adv>0?(' · advance '+(FX_CURRENCIES[q.currency||'INR']?.symbol||'₹')+adv.toLocaleString('en-IN')+' recorded'):''),
     isDraft:true, fromQuote:q.id, _ts:Date.now(),
     _totals: q._totals || {items, subtotal:total, gross:total, net:total},
     pays: adv>0 ? [{date:q.advanceDate||today(), amount:adv, mode:q.advanceVia||'upi', note:'Advance from '+q.qNo}] : []
@@ -7230,7 +7163,7 @@ function convertQuoteToInvoice(id){
   db.income.unshift(inv);
   q.convertedTo=inv.id; q.convertedAt=today();
   try{ syncInvCounter(); }catch(e){}
-  save(); renderQuotes();
+  save(); renderQuotes(); renderIncome(); renderOverview();
   toast('Draft invoice '+invNo+' created from '+q.qNo);
   return inv;
 }
@@ -7389,7 +7322,6 @@ function copyQuoteLink(id){
     try{ rec=qLinkUnb64(m[1]); }catch(e){ rec=null; }
     if(!rec){ return; }
     try{
-      if(rec.p) db.profile=Object.assign({},db.profile,rec.p);
       var items=(rec.items||[]).map(function(it,i){
         return {id:'li'+i, type:'general', name:it.n, desc:it.d, qty:it.q, rate:it.r, unit:it.u};
       });
@@ -7400,6 +7332,7 @@ function copyQuoteLink(id){
         docType:'quote', showQr:true, qrUpi:(rec.p&&rec.p.upi)||'',
         advancePct:rec.advancePct, advanceAmount:rec.advanceAmount,
         advanceReceived:rec.advanceReceived, advanceDate:rec.advanceDate, advanceVia:rec.advanceVia,
+        _profile:Object.assign({},DEFAULT_PROFILE,rec.p||{}),
         _totals:{items:items, subtotal:rec.total, gross:rec.total, net:rec.total}
       };
       var html=buildInvoiceHTML(inv);
@@ -7414,16 +7347,14 @@ function copyQuoteLink(id){
       btn.textContent='Save as PDF';
       btn.style.cssText='border:0;border-radius:999px;background:#111;color:#fff;font:inherit;font-weight:700;font-size:.82rem;padding:10px 20px;cursor:pointer';
       var fr=document.createElement('iframe');
+      fr.setAttribute('sandbox','allow-same-origin allow-modals');
       fr.style.cssText='display:block;width:100%;max-width:900px;margin:0 auto;height:calc(100% - 60px);border:0;background:transparent';
       btn.onclick=function(){
         try{
           fr.contentWindow.focus();
           fr.contentWindow.print();
         }catch(e){
-          try{
-            var w=window.open('','_blank');
-            if(w){ w.document.open(); w.document.write(html); w.document.close(); }
-          }catch(e2){}
+          fallbackPrint(html);
         }
       };
       bar.appendChild(btn); wrap.appendChild(bar); wrap.appendChild(fr);

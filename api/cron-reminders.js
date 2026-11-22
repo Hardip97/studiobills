@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import twilio from 'twilio';
 
 function formatDateInTZ(date, timeZone = 'Asia/Kolkata') {
@@ -18,9 +19,21 @@ function shiftDate(base, days, timeZone = 'Asia/Kolkata') {
 function normalizePhone(value = '') {
   const trimmed = String(value).trim();
   if (!trimmed) return '';
-  const hasPlus = trimmed.startsWith('+');
   const digits = trimmed.replace(/\D/g, '');
-  return `${hasPlus ? '+' : ''}${digits}`;
+  if (!digits) return '';
+  if (trimmed.startsWith('+')) return `+${digits}`;
+  if (digits.length === 10) return `+91${digits}`;
+  return `+${digits}`;
+}
+
+function isAuthorizedCron(req) {
+  const secret = process.env.CRON_SECRET || '';
+  if (!secret) return false;
+  const auth = String(req.headers?.authorization || '');
+  const expected = `Bearer ${secret}`;
+  const a = Buffer.from(auth);
+  const b = Buffer.from(expected);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
 function rcv(item) {
@@ -83,6 +96,9 @@ function shouldIncludeDue(inv, today, tomorrow, prefs) {
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
+  }
+  if (!isAuthorizedCron(req)) {
+    return res.status(401).json({ error: 'Unauthorized' });
   }
 
   try {
@@ -185,6 +201,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true, messagesSent, date: today });
   } catch (error) {
     console.error('Cron error:', error);
-    return res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }

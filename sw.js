@@ -1,7 +1,7 @@
 // StudioBills Service Worker — v1
 // Caches app shell for offline use; always fetches fresh from network when online.
 
-const CACHE_NAME = 'studiobills-v1';
+const CACHE_NAME = 'studiobills-v2';
 const OFFLINE_URL = '/';
 
 // Files to pre-cache on install
