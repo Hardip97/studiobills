@@ -2078,57 +2078,80 @@ body.theme-snow .ref-count,body.theme-snow .led-meta,body.theme-snow .c-meta{
 </style>
 
 <style id="tactileBentoStyles">
-/* ═══ creditmantra — TACTILE BENTO STUDIO UI (V2 AUDITED) ═══ */
+/* ═══ creditmantra — TACTILE BENTO STUDIO UI (V4 FULL DESIGN & ALIGNMENT AUDIT) ═══ */
 :root {
   --tb-canvas: #E4E6EA;
   --tb-white: #FFFFFF;
   --tb-ink: #16181D;
   --tb-ink-2: #4B515E;
-  --tb-mute: #7D8492;
+  --tb-mute: #6E7685;
   --tb-sky: #7CC7E0;
-  --tb-sky-deep: #345E6D;
+  --tb-sky-deep: #244C5A;
   --tb-lime: #E6F44C;
   --tb-olive: #98C11A;
   --tb-soft: #F3F4F6;
-  --tb-soft-2: #EAECEF;
+  --tb-soft-2: #E8EAEE;
   --tb-hair: rgba(22, 24, 29, 0.08);
-  --tb-red: #C62828;
+  --tb-red: #B91C1C;
   --tb-red-bg: #FDE8E8;
-  --tb-green: #3E6308;
+  --tb-green: #2F5205;
   --tb-green-bg: #EAF7D4;
-  --tb-r-card: 32px;
+  --tb-amber: #8A4F00;
+  --tb-amber-bg: #FEF3C7;
+  --tb-r-card: 30px;
   --tb-r-pill: 999px;
 }
 
-html { color-scheme: light !important; }
+/* ZERO HORIZONTAL JUMP WHEN SWITCHING SHORT <-> TALL TABS */
+html {
+  color-scheme: light !important;
+  overflow-y: scroll !important;
+  scrollbar-gutter: stable !important;
+  background: var(--tb-canvas) !important;
+}
 body.tb-active {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
   background: var(--tb-canvas) !important;
   color: var(--tb-ink) !important;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
+  min-height: 100vh !important;
 }
 
-/* Hide legacy desktop sidebar & widen workspace cleanly */
+/* Hide legacy desktop sidebar & lock identical width across Topbar + ALL Tabs */
 body.tb-active .sidebar { display: none !important; }
 body.tb-active .content {
   margin-left: 0 !important;
-  padding: 0 clamp(16px, 2vw, 28px) 72px !important;
+  margin-right: 0 !important;
+  padding: 6px clamp(16px, 2vw, 28px) 72px !important;
   max-width: 1680px !important;
   margin-inline: auto !important;
   width: 100% !important;
   background: transparent !important;
 }
+body.tb-active .tab {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
-/* Global Tactile Bento Topbar — Wider + Equal-Sized Tabs */
+/* ═══ STICKY, ROCK-STABLE GLOBAL TOPBAR ═══ */
 .tb-topbar-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 95;
+  width: 100%;
+  background: rgba(228, 230, 234, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.tb-topbar {
   max-width: 1680px;
   width: 100%;
   margin: 0 auto;
-  padding: 18px clamp(16px, 2vw, 28px) 16px;
-}
-.tb-topbar {
+  padding: 16px clamp(16px, 2vw, 28px) 14px;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 220px 1fr auto;
   align-items: center;
   gap: 16px;
 }
@@ -2168,18 +2191,19 @@ body.tb-active .content {
 }
 .tb-nav-pills {
   display: inline-grid;
-  grid-template-columns: repeat(6, minmax(104px, 1fr));
+  grid-template-columns: repeat(6, 108px);
   align-items: center;
   gap: 4px;
   padding: 5px;
   border-radius: var(--tb-r-pill);
-  background: rgba(255, 255, 255, 0.84);
-  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.90);
+  box-shadow: 0 2px 10px rgba(22, 24, 29, 0.04);
   max-width: 100%;
   overflow-x: auto;
 }
 .tb-nav-btn {
-  padding: 9px 14px;
+  height: 36px;
+  padding: 0 12px;
   border-radius: var(--tb-r-pill);
   border: 0;
   background: transparent;
@@ -2189,13 +2213,12 @@ body.tb-active .content {
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  text-align: center;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all .16s ease;
+  transition: background .16s ease, color .16s ease;
 }
-.tb-nav-btn:hover { color: var(--tb-ink); background: rgba(22, 24, 29, 0.04); }
+.tb-nav-btn:hover { color: var(--tb-ink); background: rgba(22, 24, 29, 0.05); }
 .tb-nav-btn.active { background: var(--tb-ink); color: #FFFFFF; }
 
 .tb-top-right {
@@ -2211,10 +2234,10 @@ body.tb-active .content {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 10px;
+  padding: 0 10px;
   height: 38px;
   border-radius: var(--tb-r-pill);
-  background: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 255, 255, 0.90);
   font-size: 13px;
   font-weight: 600;
   color: var(--tb-ink);
@@ -2232,7 +2255,7 @@ body.tb-active .content {
   padding: 0 13px;
   border-radius: var(--tb-r-pill);
   border: 0;
-  background: rgba(255, 255, 255, 0.86);
+  background: rgba(255, 255, 255, 0.90);
   color: var(--tb-ink);
   display: inline-flex;
   align-items: center;
@@ -2248,10 +2271,10 @@ body.tb-active .content {
 
 .tb-icon-circle {
   width: 38px; height: 38px; border-radius: 999px; border: 0;
-  background: rgba(255, 255, 255, 0.86); color: var(--tb-ink);
+  background: rgba(255, 255, 255, 0.90); color: var(--tb-ink);
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer; font-family: inherit; font-size: 15px; font-weight: 700;
-  transition: all .15s ease; flex-shrink: 0;
+  transition: background .15s ease, color .15s ease; flex-shrink: 0;
 }
 .tb-icon-circle:hover { background: #FFFFFF; }
 .tb-icon-circle.active { background: var(--tb-ink); color: #FFFFFF; }
@@ -2286,7 +2309,54 @@ body.tb-active .content {
 .tb-pill-btn.dark { background: var(--tb-ink); color: #FFFFFF; }
 .tb-pill-btn.sm { padding: 7px 13px; font-size: 12.5px; }
 
-/* ═══ DASHBOARD 5-CARD TACTILE BENTO GRID (BALANCED & ALIGNED) ═══ */
+/* ═══ UNIFIED SINGLE-LINE PAGE HEADER ACROSS ALL 7 TABS ═══ */
+body.tb-active .ref-head {
+  background: transparent !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 44px !important;
+  margin: 0 0 16px 0 !important;
+  padding: 0 2px !important;
+  gap: 12px !important;
+}
+body.tb-active .ref-head-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+body.tb-active .ref-eyebrow {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  text-transform: none !important;
+  color: var(--tb-ink) !important;
+  line-height: 1.15 !important;
+  margin: 0 !important;
+}
+/* Hide redundant cross-tab links inside sub-tab headers (already in sticky topbar) */
+body.tb-active .ref-head .ref-edit,
+body.tb-active .tab:not(#tab-overview) .ref-head-pills > .t-pill:not(.t-primary):not(#anScopeLab) {
+  display: none !important;
+}
+body.tb-active .ref-head-pills {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+body.tb-active .ref-head-pills .t-pill,
+body.tb-active .ref-head-pills .btn {
+  height: 38px !important;
+  padding: 0 18px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+/* ═══ DASHBOARD 5-CARD TACTILE BENTO GRID ═══ */
 .tb-tnum { font-variant-numeric: tabular-nums; }
 .tb-bento {
   background: var(--tb-white);
@@ -2312,9 +2382,7 @@ body.tb-active .content {
   gap: 18px;
   align-items: stretch;
 }
-.tb-dash-bottom .tb-bento {
-  min-height: 326px;
-}
+.tb-dash-bottom .tb-bento { min-height: 326px; }
 
 .tb-hero-card {
   background: linear-gradient(135deg, #FFFFFF 0%, #F7F9FB 55%, #ECF4F7 100%);
@@ -2362,15 +2430,15 @@ body.tb-active .content {
 }
 .tb-sky-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
 .tb-sky-title { font-size: 16px; font-weight: 700; color: #FFFFFF; }
-.tb-sky-desc { font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 5px; max-width: 220px; }
+.tb-sky-desc { font-size: 13px; color: rgba(255,255,255,0.92); margin-top: 5px; max-width: 220px; }
 .tb-sky-mid {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 8px 14px; border-radius: 16px;
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.20);
   font-size: 12.5px; font-weight: 600; color: #FFFFFF;
   width: fit-content; margin-top: 14px; cursor: pointer;
 }
-.tb-sky-mid:hover { background: rgba(255,255,255,0.26); }
+.tb-sky-mid:hover { background: rgba(255,255,255,0.28); }
 .tb-matrix-grid { display: grid; grid-template-columns: repeat(5, 26px); gap: 7px; flex-shrink: 0; }
 .tb-m-cell { width: 26px; height: 30px; border-radius: 8px 8px 11px 11px; background: rgba(255,255,255,0.92); }
 .tb-m-cell.filled { background: var(--tb-sky-deep); }
@@ -2384,9 +2452,9 @@ body.tb-active .content {
 .tb-p-circle.active { background: #FFFFFF; color: var(--tb-ink); }
 .tb-sky-big { text-align: right; cursor: pointer; }
 .tb-sky-big .num { font-size: clamp(34px, 3.2vw, 46px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
-.tb-sky-big .lbl { font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 5px; }
+.tb-sky-big .lbl { font-size: 13px; color: rgba(255,255,255,0.92); margin-top: 5px; }
 
-/* Card 3, 4, 5 — Strictly Aligned Headers, Metrics & Footers */
+/* Card 3, 4, 5 */
 .tb-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; margin-bottom: 12px; }
 .tb-card-title { display: flex; align-items: center; gap: 9px; font-size: 15.5px; font-weight: 700; }
 .tb-soft-ico { width: 34px; height: 34px; border-radius: 12px; background: var(--tb-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
@@ -2411,7 +2479,6 @@ body.tb-active .content {
 }
 .tb-health-strip .hk { font-size: 11px; color: var(--tb-mute); font-weight: 600; }
 .tb-health-strip .hv { font-size: 14px; font-weight: 700; margin-top: 2px; }
-
 .tb-meter-foot { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 12px; border-top: 1px solid var(--tb-hair); }
 .tb-mf-item { cursor: pointer; }
 .tb-mf-item .v { font-size: 15.5px; font-weight: 700; letter-spacing: -0.02em; }
@@ -2423,106 +2490,369 @@ body.tb-active .content {
 .tb-chart-wrap { position: relative; height: 182px; margin: 6px 0 10px; }
 .tb-chart-foot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; border-top: 1px solid var(--tb-hair); cursor: pointer; }
 
-/* ═══ SUB-TABS RESTYLED IN TACTILE BENTO (ZERO DARK LEAKAGE) ═══ */
-body.tb-active .ref-head {
-  background: transparent !important;
-  margin-bottom: 16px !important;
-  padding: 4px 2px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-}
-body.tb-active .ref-eyebrow {
-  font-size: 26px !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.03em !important;
-  color: var(--tb-ink) !important;
-}
+/* ═══ SUB-TAB HERO SUMMARY CARDS (ONE CLEAN READABLE THEME) ═══ */
 body.tb-active .ref-big {
   border-radius: var(--tb-r-card) !important;
   padding: 26px 30px !important;
   border: 0 !important;
   box-shadow: none !important;
+  margin-bottom: 18px !important;
 }
 body.tb-active .ref-big.t-sage,
 body.tb-active .ref-big.t-lav {
   background: linear-gradient(155deg, #87CEE6 0%, var(--tb-sky) 62%, #6BBAD6 100%) !important;
-  color: #FFFFFF !important;
+  color: var(--tb-ink) !important;
 }
 body.tb-active .ref-big.t-sage *,
-body.tb-active .ref-big.t-lav * { color: #FFFFFF !important; }
-body.tb-active .ref-big.t-sage .t-pill,
-body.tb-active .ref-big.t-lav .t-pill {
-  background: var(--tb-lime) !important;
-  color: var(--tb-ink) !important;
-  border: 0 !important;
+body.tb-active .ref-big.t-lav * { color: var(--tb-ink) !important; }
+body.tb-active .ref-big.t-sage .ref-cap,
+body.tb-active .ref-big.t-lav .ref-cap,
+body.tb-active .ref-big.t-sage .ref-mini-lab,
+body.tb-active .ref-big.t-lav .ref-mini-lab,
+body.tb-active .ref-big.t-sage .ref-split-labels,
+body.tb-active .ref-big.t-lav .ref-split-labels {
+  color: #1F3F4B !important;
 }
 body.tb-active .ref-big.t-yellow {
   background: var(--tb-white) !important;
   color: var(--tb-ink) !important;
 }
-body.tb-active .ref-big.t-yellow .t-pill {
+body.tb-active .ref-big .t-pill {
   background: var(--tb-lime) !important;
   color: var(--tb-ink) !important;
+  border: 0 !important;
+  padding: 5px 14px !important;
+  font-weight: 700 !important;
 }
 body.tb-active .ref-split-track {
-  background: rgba(22, 24, 29, 0.12) !important;
+  background: rgba(22, 24, 29, 0.14) !important;
   border-radius: 999px !important;
   height: 12px !important;
 }
 body.tb-active .ref-split-track i { background: var(--tb-olive) !important; border-radius: 999px !important; }
 body.tb-active .ref-big.t-sage .ref-split-track i,
-body.tb-active .ref-big.t-lav .ref-split-track i { background: var(--tb-lime) !important; }
+body.tb-active .ref-big.t-lav .ref-split-track i { background: var(--tb-ink) !important; }
 
-body.tb-active .ref-card,
-body.tb-active .ref-wallet,
-body.tb-active .filter-row,
+/* ═══ BALANCED FILTER TOOLBAR (LEFT SEARCH · CENTER PILLS · RIGHT SORT) ═══ */
+body.tb-active .filter-row {
+  background: var(--tb-white) !important;
+  border-radius: 26px !important;
+  padding: 12px 18px !important;
+  margin-bottom: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  flex-wrap: wrap !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body.tb-active .filter-row .search-wrap {
+  flex: 0 1 280px !important;
+  min-width: 200px !important;
+}
+body.tb-active .search-inp {
+  width: 100% !important;
+  height: 38px !important;
+  padding: 0 16px !important;
+  border-radius: 999px !important;
+  background: var(--tb-soft) !important;
+  border: 1px solid var(--tb-hair) !important;
+  color: var(--tb-ink) !important;
+  font-size: 13.5px !important;
+}
+body.tb-active .itabs {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+  margin: 0 !important;
+}
+body.tb-active .itab {
+  height: 36px !important;
+  padding: 0 15px !important;
+  border-radius: 999px !important;
+  background: var(--tb-soft) !important;
+  color: var(--tb-ink-2) !important;
+  border: 0 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+body.tb-active .itab.active {
+  background: var(--tb-ink) !important;
+  color: #FFFFFF !important;
+}
+body.tb-active .sort-switch {
+  margin-left: auto !important;
+  background: var(--tb-soft) !important;
+  border-radius: 999px !important;
+  padding: 3px !important;
+  border: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+}
+body.tb-active .sort-switch .ss-btn {
+  height: 30px !important;
+  padding: 0 14px !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+  background: transparent !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: var(--tb-ink-2) !important;
+}
+body.tb-active .sort-switch .ss-btn.on {
+  background: #FFFFFF !important;
+  color: var(--tb-ink) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+}
+
+/* ═══ WALLET / LIST CARDS — GENEROUS PADDING & STRICT ZERO-OVERLAP COLUMNS ═══ */
+body.tb-active .ref-wallet {
+  background: var(--tb-white) !important;
+  border-radius: var(--tb-r-card) !important;
+  padding: 24px 28px !important;
+  margin-bottom: 18px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow-x: auto !important;
+}
+body.tb-active .ref-wallet-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-bottom: 14px !important;
+  padding: 0 8px !important;
+}
+body.tb-active .ref-wallet-head .t-pill {
+  background: var(--tb-soft) !important;
+  color: var(--tb-ink) !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+}
+body.tb-active .ref-count {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--tb-mute) !important;
+  white-space: nowrap !important;
+}
+
+/* Invoices & Expenses: exact 4-column grid (overrides legacy .ref-row 3-col conflict!) */
+body.tb-active .ref-rows.ref-cols,
+body.tb-active #incTbody .recent-row.ref-row,
+body.tb-active #expTbody .recent-row.ref-row {
+  display: grid !important;
+  grid-template-columns: minmax(220px, 1fr) 156px 140px 230px !important;
+  gap: 16px !important;
+  align-items: center !important;
+  padding: 14px 12px !important;
+  border-bottom: 1px solid var(--tb-hair) !important;
+  background: transparent !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Quotations: dedicated wider 4th column (292px) so ₹54,000 NEVER collides with View/Edit/Link/⋯ */
+body.tb-active #quotesList .recent-row.ref-row {
+  display: grid !important;
+  grid-template-columns: minmax(220px, 1fr) 140px 136px 292px !important;
+  gap: 16px !important;
+  align-items: center !important;
+  padding: 14px 12px !important;
+  border-bottom: 1px solid var(--tb-hair) !important;
+  background: transparent !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+body.tb-active .ref-rows.ref-cols {
+  padding: 10px 12px 12px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--tb-mute) !important;
+  border-bottom: 1px solid rgba(22, 24, 29, 0.10) !important;
+}
+body.tb-active .ref-rows.ref-cols > span:nth-child(2) { text-align: left !important; }
+body.tb-active .ref-rows.ref-cols > span:nth-child(3) { text-align: right !important; }
+body.tb-active .ref-rows.ref-cols > span:nth-child(4) { text-align: right !important; }
+
+body.tb-active #incTbody .recent-row:last-child,
+body.tb-active #expTbody .recent-row:last-child,
+body.tb-active #quotesList .recent-row:last-child { border-bottom: 0 !important; }
+
+body.tb-active #incTbody .recent-row:hover,
+body.tb-active #expTbody .recent-row:hover,
+body.tb-active #quotesList .recent-row:hover {
+  background: #F8F9FB !important;
+  border-radius: 18px !important;
+}
+
+body.tb-active .recent-info { min-width: 0 !important; }
+body.tb-active .recent-name { font-size: 14.5px !important; font-weight: 700 !important; color: var(--tb-ink) !important; line-height: 1.3 !important; }
+body.tb-active .recent-detail { font-size: 12.5px !important; color: var(--tb-mute) !important; margin-top: 2px !important; }
+body.tb-active .recent-amount {
+  text-align: right !important;
+  justify-self: end !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--tb-ink) !important;
+  font-variant-numeric: tabular-nums !important;
+  white-space: nowrap !important;
+}
+
+/* High-contrast solid pill status badges */
+body.tb-active .ref-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 5px 12px !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  width: fit-content !important;
+  white-space: nowrap !important;
+}
+body.tb-active .ref-chip .dotmark { width: 6px !important; height: 6px !important; border-radius: 999px !important; background: currentColor !important; }
+body.tb-active .ref-chip.ok { background: var(--tb-green-bg) !important; color: var(--tb-green) !important; }
+body.tb-active .ref-chip.warn { background: var(--tb-amber-bg) !important; color: var(--tb-amber) !important; }
+body.tb-active .ref-chip.bad { background: var(--tb-red-bg) !important; color: var(--tb-red) !important; }
+body.tb-active .ref-chip.info { background: #E3F3FA !important; color: var(--tb-sky-deep) !important; }
+body.tb-active .ref-chip.mut { background: #ECEEF2 !important; color: var(--tb-ink-2) !important; }
+
+/* Uniform pill-shaped Action Buttons (View / Edit / Link / ⋯) */
+body.tb-active .ref-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 7px !important;
+  flex-wrap: nowrap !important;
+}
+body.tb-active .row-action,
+body.tb-active .row-more {
+  height: 34px !important;
+  line-height: 32px !important;
+  border-radius: 999px !important;
+  background: var(--tb-soft) !important;
+  border: 1px solid var(--tb-hair) !important;
+  color: var(--tb-ink) !important;
+  font-family: inherit !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: background .14s ease, color .14s ease, border-color .14s ease !important;
+}
+body.tb-active .row-action {
+  padding: 0 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+body.tb-active .row-more {
+  width: 42px !important;
+  min-width: 42px !important;
+  padding: 0 6px !important;
+  text-align: center !important;
+  text-align-last: center !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+body.tb-active .row-action:hover,
+body.tb-active .row-more:hover {
+  background: var(--tb-ink) !important;
+  color: #FFFFFF !important;
+  border-color: var(--tb-ink) !important;
+}
+
+/* ═══ CLIENTS, ANALYTICS & SETTINGS — SINGLE CLEAN READABLE BENTO THEME ═══ */
+body.tb-active .ref-clients {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)) !important;
+  gap: 16px !important;
+  padding: 6px 4px !important;
+}
+body.tb-active .ref-client {
+  background: #F6F7F9 !important;
+  color: var(--tb-ink) !important;
+  border-radius: 24px !important;
+  padding: 20px 22px !important;
+  border: 1px solid var(--tb-hair) !important;
+  box-shadow: none !important;
+}
+body.tb-active .ref-client * { color: var(--tb-ink) !important; }
+body.tb-active .ref-client .rc-sub { color: var(--tb-mute) !important; }
+body.tb-active .ref-client .rc-btn {
+  border-radius: 999px !important;
+  background: var(--tb-ink) !important;
+  color: #FFFFFF !important;
+  border: 0 !important;
+  padding: 8px 14px !important;
+  font-weight: 600 !important;
+}
+body.tb-active .ref-client .rc-btn.ghost {
+  background: #FFFFFF !important;
+  color: var(--tb-ink) !important;
+  border: 1px solid var(--tb-hair) !important;
+}
+
+body.tb-active .ref-card {
+  background: var(--tb-white) !important;
+  color: var(--tb-ink) !important;
+  border-radius: var(--tb-r-card) !important;
+  padding: 24px 26px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body.tb-active .ref-card .t-pill {
+  background: var(--tb-lime) !important;
+  color: var(--tb-ink) !important;
+  padding: 5px 13px !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+}
+body.tb-active .ref-rows.an-cols,
+body.tb-active #anMonths .an-month-row {
+  display: grid !important;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr !important;
+  gap: 16px !important;
+  padding: 13px 12px !important;
+  align-items: center !important;
+  border-bottom: 1px solid var(--tb-hair) !important;
+  margin: 0 !important;
+}
+body.tb-active .ref-rows.an-cols > span:not(:first-child),
+body.tb-active #anMonths .an-month-row .an-num { text-align: right !important; justify-self: end !important; }
+
+body.tb-active #tab-settings .ref-row {
+  display: grid !important;
+  grid-template-columns: 1.25fr 1fr !important;
+  gap: 18px !important;
+}
 body.tb-active .settings-panels > div {
   background: var(--tb-white) !important;
   color: var(--tb-ink) !important;
   border-radius: var(--tb-r-card) !important;
+  padding: 26px 28px !important;
   border: 0 !important;
-  box-shadow: none !important;
 }
-body.tb-active .ref-card *,
-body.tb-active .ref-wallet * {
-  border-color: var(--tb-hair);
+body.tb-active .ref-menu li { border-radius: 16px !important; padding: 11px 14px !important; color: var(--tb-ink) !important; }
+body.tb-active .ref-menu li:hover { background: var(--tb-soft) !important; }
+body.tb-active .ref-logout {
+  border-radius: 999px !important; background: var(--tb-ink) !important;
+  color: #FFFFFF !important; border: 0 !important; padding: 11px 20px !important; font-weight: 600 !important;
 }
-body.tb-active .filter-row {
-  border-radius: 26px !important;
-  padding: 12px 18px !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  flex-wrap: wrap !important;
-}
-body.tb-active .search-inp,
-body.tb-active .st-input,
-body.tb-active .modal input,
-body.tb-active .modal select,
-body.tb-active .modal textarea {
-  border-radius: 16px !important;
-  background: var(--tb-soft) !important;
-  border: 1px solid var(--tb-hair) !important;
-  color: var(--tb-ink) !important;
-}
-body.tb-active .search-inp { border-radius: 999px !important; }
-body.tb-active .itab,
-body.tb-active .t-pill,
-body.tb-active .ref-edit {
-  border-radius: 999px !important;
-  background: var(--tb-soft) !important;
-  color: var(--tb-ink) !important;
-  border: 0 !important;
-  font-weight: 600 !important;
-}
-body.tb-active .itab.active,
-body.tb-active .t-pill.t-primary,
-body.tb-active .btn-dark {
-  background: var(--tb-ink) !important;
-  color: #FFFFFF !important;
-  border-radius: 999px !important;
-}
+
+/* Modals, Checkboxes & Inputs matched to Tactile Bento */
 body.tb-active .modal,
 body.tb-active .auth-card {
   background: var(--tb-white) !important;
@@ -2530,8 +2860,31 @@ body.tb-active .auth-card {
   border-radius: 30px !important;
   border: 0 !important;
 }
+body.tb-active .st-input,
+body.tb-active .modal input:not([type="checkbox"]):not([type="radio"]),
+body.tb-active .modal select,
+body.tb-active .modal textarea {
+  border-radius: 16px !important;
+  background: var(--tb-soft) !important;
+  border: 1px solid var(--tb-hair) !important;
+  color: var(--tb-ink) !important;
+}
+body.tb-active input[type="checkbox"] {
+  accent-color: var(--tb-ink) !important;
+  width: 17px !important;
+  height: 17px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+}
+body.tb-active .t-pill.t-primary,
+body.tb-active .btn-dark {
+  background: var(--tb-ink) !important;
+  color: #FFFFFF !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+}
 
-/* Command Palette Overlay */
+/* Command Palette */
 .tb-cmd-bg {
   position: fixed; inset: 0; background: rgba(22,24,29,0.42);
   backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center;
@@ -2547,11 +2900,10 @@ body.tb-active .auth-card {
 @media (max-width: 1180px) {
   .tb-topbar { grid-template-columns: 1fr; justify-items: stretch; }
   .tb-nav-wrap { order: 3; }
-  .tb-nav-pills { grid-template-columns: repeat(6, minmax(84px, 1fr)); width: 100%; }
-  .tb-dash-top, .tb-dash-bottom { grid-template-columns: 1fr; }
+  .tb-nav-pills { grid-template-columns: repeat(6, minmax(82px, 1fr)); width: 100%; }
+  .tb-dash-top, .tb-dash-bottom, body.tb-active #tab-settings .ref-row { grid-template-columns: 1fr !important; }
 }
 @media (max-width: 760px) {
-  .tb-topbar-wrap { padding-top: 12px; }
   .tb-hero-metrics { grid-template-columns: 1fr; }
   body.tb-active .mob-header { display: none !important; }
 }
@@ -2767,6 +3119,17 @@ body.tb-active .auth-card {
     <div id="recentIncList"></div>
     <div id="recentExpList"></div>
   </div>
+
+  <!-- Consistent Page Header matching all other tabs -->
+  <header class="ref-head tb-page-head">
+    <div class="ref-head-left">
+      <div class="ref-eyebrow">Dashboard</div>
+    </div>
+    <div class="ref-head-pills">
+      <button type="button" class="t-pill" onclick="openModal('addExpModal')">+ New expense</button>
+      <button type="button" class="t-pill t-primary" onclick="openModal('addIncomeModal')">+ New invoice</button>
+    </div>
+  </header>
 
   <!-- ═══ TACTILE BENTO 5-CARD DASHBOARD ═══ -->
   <div class="tb-dash-top">
@@ -3269,7 +3632,7 @@ body.tb-active .auth-card {
   <section class="ref-big t-sage settings-hero">
     <div class="ref-big-top">
       <span class="t-pill">Your studio</span>
-      <span class="ref-toggle"><span class="ref-toggle-lab" id="shTheme">Canvas</span></span>
+      <span class="ref-toggle"><span class="ref-toggle-lab" id="shTheme">creditmantra</span></span>
     </div>
     <div class="ref-big-grid">
       <div class="ref-split-wide">
@@ -3289,12 +3652,6 @@ body.tb-active .auth-card {
 
   <!-- ② THREE CARDS -->
   <section class="ref-row">
-
-    <article class="ref-card t-olive">
-      <div class="ref-card-top"><span class="t-pill">Appearance</span></div>
-      <p class="ref-note">Switch the whole app between the five themes.</p>
-      <div class="theme-grid" id="themeCardGrid"></div>
-    </article>
 
     <article class="ref-card t-lav">
       <div class="ref-card-top"><span class="t-pill">Studio</span></div>
@@ -4810,7 +5167,7 @@ function fillIncomeSummary(){
   const tg=document.getElementById('incTotalGot'); if(tg) tg.textContent=fmt(got);
   const to=document.getElementById('incTotalOverdue'); if(to) to.textContent=fmt(overdue);
   el.textContent=pct+'%';
-  const cnt=document.getElementById('incCount'); if(cnt) cnt.textContent=rows.length+' invoice'+(rows.length===1?'':'s');
+  const allCnt=(db.income||[]).length; const cnt=document.getElementById('incCount'); if(cnt) cnt.textContent=allCnt+' invoice'+(allCnt===1?'':'s')+(rows.length?(' · '+rows.length+' this month'):'');
 }
 function renderIncome(){
   const q=(document.getElementById('incSearch')?.value||'').toLowerCase();
@@ -8260,9 +8617,12 @@ function renderBentoCmd(q) {
     applyTheme = function() {
       const r = _prevApplyTheme.apply(this, arguments);
       enforceBentoTokens();
+      const stEl = document.getElementById('shTheme');
+      if (stEl) stEl.textContent = 'creditmantra';
       return r;
     };
   }
+  window.setTheme = function() { enforceBentoTokens(); };
   enforceBentoTokens();
   document.addEventListener('keydown', function(e) {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openBentoCmd(); }
