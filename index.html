@@ -2077,447 +2077,461 @@ body.theme-snow .ref-count,body.theme-snow .led-meta,body.theme-snow .c-meta{
 
 </style>
 
-<style id="homeKarmaStyles">
-/* ═══ HOME PAGE REDESIGN (Organic Mesh + 3x2 Squircle Bento) ═══ */
-body.home-karma-mode .sidebar,
-body.home-karma-mode .mob-header,
-body.home-karma-mode .bot-nav,
-body.home-karma-mode .fab {
-  display: none !important;
+<style id="tactileBentoStyles">
+/* ═══ TACTILE BENTO STUDIO UI — GLOBAL SYSTEM ═══ */
+:root {
+  --tb-canvas: #E4E6EA;
+  --tb-white: #FFFFFF;
+  --tb-ink: #16181D;
+  --tb-ink-2: #4B515E;
+  --tb-mute: #7D8492;
+  --tb-sky: #7CC7E0;
+  --tb-sky-deep: #345E6D;
+  --tb-lime: #E6F44C;
+  --tb-olive: #98C11A;
+  --tb-soft: #F3F4F6;
+  --tb-soft-2: #EAECEF;
+  --tb-hair: rgba(22, 24, 29, 0.08);
+  --tb-red: #C62828;
+  --tb-red-bg: #FDE8E8;
+  --tb-green: #3E6308;
+  --tb-green-bg: #EAF7D4;
+  --tb-r-card: 32px;
+  --tb-r-pill: 999px;
 }
-body.home-karma-mode .content {
+
+body.tb-active {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  background: var(--tb-canvas) !important;
+  color: var(--tb-ink) !important;
+  --bg: #E4E6EA !important;
+  --s2: #E4E6EA !important;
+  --white: #FFFFFF !important;
+  --s1: #FFFFFF !important;
+  --surface: #FFFFFF !important;
+  --surface-2: #F3F4F6 !important;
+  --sunken: #EAECEF !important;
+  --text: #16181D !important;
+  --ink: #16181D !important;
+  --muted: #7D8492 !important;
+  --muted2: #7D8492 !important;
+  --border: rgba(22, 24, 29, 0.08) !important;
+  --border2: rgba(22, 24, 29, 0.06) !important;
+  --line: rgba(22, 24, 29, 0.08) !important;
+  --black: #16181D !important;
+  --accent: #16181D !important;
+  --accent-ink: #FFFFFF !important;
+}
+
+/* Hide legacy desktop sidebar & replace with Global Bento Topbar */
+body.tb-active .sidebar { display: none !important; }
+body.tb-active .content {
   margin-left: 0 !important;
-  padding: 0 !important;
-  max-width: none !important;
+  padding: 0 clamp(14px, 2.5vw, 32px) 84px !important;
+  max-width: 1400px !important;
+  margin-inline: auto !important;
   width: 100% !important;
-  min-height: 100vh !important;
   background: transparent !important;
 }
-body.home-karma-mode {
-  background: #ECEBE9 !important;
-  overflow-x: hidden;
-}
 
-.hk-shell {
-  position: relative;
-  min-height: 100vh;
-  width: 100%;
-  padding: 28px clamp(20px, 3.6vw, 48px) 40px;
+/* Global Tactile Bento Topbar */
+.tb-topbar-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 18px clamp(14px, 2.5vw, 32px) 16px;
+}
+.tb-topbar {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #ECEBE9;
-  background-image:
-    radial-gradient(ellipse 38% 58% at 44% 12%, rgba(56, 33, 22, 0.90) 0%, rgba(112, 54, 20, 0.72) 38%, rgba(214, 107, 22, 0.0) 76%),
-    radial-gradient(ellipse 46% 64% at 47% 46%, rgba(217, 107, 22, 0.92) 0%, rgba(242, 166, 36, 0.78) 42%, rgba(249, 214, 92, 0.0) 78%),
-    radial-gradient(ellipse 52% 55% at 56% 86%, rgba(247, 201, 58, 0.92) 0%, rgba(251, 226, 128, 0.65) 45%, rgba(236, 235, 233, 0.0) 80%),
-    radial-gradient(ellipse 36% 70% at 8% 45%, rgba(238, 238, 236, 0.96) 0%, rgba(238, 238, 236, 0.0) 75%),
-    radial-gradient(ellipse 34% 70% at 94% 40%, rgba(235, 236, 238, 0.95) 0%, rgba(235, 236, 238, 0.0) 75%);
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: #1F1F1F;
-  isolation: isolate;
-}
-.hk-shell::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.085;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
-}
-.hk-shell > * {
-  position: relative;
-  z-index: 1;
-}
-
-.hk-topbar {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 16px;
-  margin-bottom: clamp(28px, 4.5vh, 52px);
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
-.hk-brand-group {
-  display: flex;
+.tb-brand {
+  display: inline-flex;
   align-items: center;
   gap: 10px;
-}
-.hk-menu-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.28);
-  background: rgba(255, 255, 255, 0.22);
-  color: #1A1A1A;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-  transition: background .16s ease, transform .16s ease;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: var(--tb-ink);
 }
-.hk-menu-btn:hover { background: rgba(255, 255, 255, 0.6); }
-.hk-logo-dot {
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  background: #0D0D0D;
+.tb-brand-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 14px;
+  background: var(--tb-ink);
   color: #FFFFFF;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: -0.03em;
-  flex-shrink: 0;
-}
-.hk-brand-name {
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #1D1D1D;
-  text-decoration: none;
-}
-
-.hk-pills {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
 }
-.hk-pill {
-  padding: 9px 22px;
-  border-radius: 999px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 400;
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.34);
-  background: transparent;
-  color: #1E1E1E;
-  transition: background .16s ease, color .16s ease, border-color .16s ease;
-}
-.hk-pill:hover {
-  background: rgba(0, 0, 0, 0.08);
-}
-.hk-pill.active {
-  background: #2C2C2C;
-  border-color: #2C2C2C;
-  color: #FFFFFF;
-  font-weight: 500;
-}
+.tb-brand-name { font-size: 17px; font-weight: 700; letter-spacing: -0.03em; }
 
-.hk-right-actions {
+.tb-nav-pills {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px;
+  border-radius: var(--tb-r-pill);
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(14px);
+  overflow-x: auto;
+  max-width: 100%;
+}
+.tb-nav-btn {
+  padding: 8px 15px;
+  border-radius: var(--tb-r-pill);
+  border: 0;
+  background: transparent;
+  color: var(--tb-ink-2);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .16s ease;
+}
+.tb-nav-btn:hover { color: var(--tb-ink); }
+.tb-nav-btn.active { background: var(--tb-ink); color: #FFFFFF; }
+
+.tb-top-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 8px;
+  flex-shrink: 0;
 }
-.hk-icon-dark {
+.tb-month-pill {
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: var(--tb-r-pill);
+  background: rgba(255, 255, 255, 0.84);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tb-ink);
+}
+.tb-month-pill span { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tb-month-pill button {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--tb-ink);
+  font-size: 15px;
+  cursor: pointer;
+}
+.tb-month-pill button:hover { background: var(--tb-soft-2); }
+
+.tb-icon-circle {
   width: 38px;
   height: 38px;
   border-radius: 999px;
   border: 0;
-  background: #0D0D0D;
-  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.84);
+  color: var(--tb-ink);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform .16s ease, opacity .16s ease;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: all .15s ease;
+  flex-shrink: 0;
 }
-.hk-icon-dark:hover { transform: scale(1.05); }
-.hk-avatar-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  border: 1.5px solid rgba(255, 255, 255, 0.7);
-  background: linear-gradient(135deg, #473328 0%, #8C5B3E 55%, #2A4359 100%);
+.tb-icon-circle:hover { background: #FFFFFF; }
+.tb-icon-circle.active { background: var(--tb-ink); color: #FFFFFF; }
+
+.tb-cta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 6px 5px 16px;
+  border-radius: var(--tb-r-pill);
+  border: 0;
+  background: var(--tb-ink);
   color: #FFFFFF;
+  font-family: inherit;
   font-size: 13px;
   font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
+  white-space: nowrap;
+  transition: transform .15s ease, opacity .15s ease;
 }
-
-.hk-main {
-  flex: 1;
-  display: grid;
-  grid-template-columns: minmax(300px, 41%) minmax(0, 59%);
-  gap: clamp(24px, 3.6vw, 52px);
-  align-items: center;
-  width: 100%;
-  max-width: 1520px;
-  margin: 0 auto;
-}
-
-.hk-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-right: 8px;
-}
-.hk-title {
-  font-size: clamp(2.2rem, 3.4vw, 3.1rem);
-  font-weight: 300;
-  letter-spacing: -0.025em;
-  line-height: 1.08;
-  color: #242424;
-  margin: 0 0 18px;
-}
-.hk-meta-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 34px;
-}
-.hk-legend {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  font-size: 13px;
-  color: #383838;
-}
-.hk-leg-item {
+.tb-cta-pill:hover { opacity: 0.92; transform: translateY(-1px); }
+.tb-cta-pill .tb-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: var(--tb-ink);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
 }
-.hk-leg-dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 999px;
-  display: inline-block;
-}
-.hk-leg-dot.earn { background: #D96B16; }
-.hk-leg-dot.exp { background: #2E2E2E; }
+.tb-cta-pill.lg { padding: 7px 8px 7px 20px; font-size: 14px; gap: 14px; }
+.tb-cta-pill.lg .tb-arrow { width: 34px; height: 34px; font-size: 16px; }
 
-.hk-month-nav {
+.tb-pill-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.42);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 999px;
-  padding: 3px 10px;
-  font-size: 12px;
-  color: #2A2A2A;
-}
-.hk-month-nav button {
+  padding: 9px 15px;
+  border-radius: var(--tb-r-pill);
   border: 0;
-  background: transparent;
-  color: #1F1F1F;
-  font-size: 15px;
-  line-height: 1;
+  background: var(--tb-soft);
+  color: var(--tb-ink);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  padding: 2px 4px;
+  white-space: nowrap;
 }
-.hk-month-nav button:hover { opacity: 0.65; }
+.tb-pill-btn:hover { background: var(--tb-soft-2); }
+.tb-pill-btn.dark { background: var(--tb-ink); color: #FFFFFF; }
+.tb-pill-btn.sm { padding: 6px 11px; font-size: 12px; }
 
-.hk-chart-wrap {
-  position: relative;
-  height: clamp(280px, 44vh, 410px);
-  width: 100%;
-}
-
-.hk-bento {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  width: 100%;
-}
-.hk-card {
-  position: relative;
-  border-radius: 46px;
-  background: #FFFFFF;
-  padding: clamp(22px, 2.2vw, 32px);
-  aspect-ratio: 1 / 1.06;
-  min-height: 215px;
+/* ═══ DASHBOARD 5-CARD TACTILE BENTO GRID ═══ */
+.tb-tnum { font-variant-numeric: tabular-nums; }
+.tb-bento {
+  background: var(--tb-white);
+  border-radius: var(--tb-r-card);
+  padding: 24px 26px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-  transition: transform .18s ease, box-shadow .18s ease;
-  overflow: hidden;
-}
-.hk-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
-}
-.hk-card-hero {
-  background:
-    radial-gradient(ellipse 75% 75% at 78% 24%, rgba(114, 158, 206, 0.92) 0%, rgba(84, 134, 184, 0.55) 45%, transparent 78%),
-    radial-gradient(ellipse 72% 72% at 88% 82%, rgba(14, 102, 130, 0.96) 0%, rgba(25, 114, 138, 0.6) 48%, transparent 80%),
-    radial-gradient(ellipse 75% 70% at 22% 88%, rgba(212, 128, 52, 0.92) 0%, rgba(182, 104, 46, 0.55) 48%, transparent 80%),
-    radial-gradient(ellipse 80% 75% at 24% 26%, rgba(68, 49, 41, 0.96) 0%, rgba(102, 74, 58, 0.85) 55%, rgba(138, 104, 82, 0.7) 100%);
-  color: #FFFFFF;
-}
-.hk-card-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  pointer-events: none;
-}
-.hk-card-hero > * {
-  position: relative;
-  z-index: 1;
-}
-
-.hk-card-actions {
-  position: absolute;
-  top: 22px;
-  left: 22px;
-  right: 22px;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  color: var(--tb-ink);
 }
-.hk-act-outline {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.22);
-  background: #FFFFFF;
-  color: #222222;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.tb-dash-top {
+  display: grid;
+  grid-template-columns: 1.48fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.tb-dash-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr 1.15fr;
+  gap: 16px;
+}
+.tb-hero-card {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F7F9FB 55%, #ECF4F7 100%);
+  min-height: 296px;
+}
+.tb-hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.tb-hero-label { font-size: 13px; font-weight: 600; color: var(--tb-mute); display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tb-lime-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 11px; border-radius: var(--tb-r-pill);
+  background: var(--tb-lime); color: var(--tb-ink);
+  font-size: 12px; font-weight: 700;
+}
+.tb-hero-val { font-size: clamp(34px, 4vw, 52px); font-weight: 700; letter-spacing: -0.045em; line-height: 1.04; margin-top: 8px; }
+.tb-hero-sub { font-size: 13px; color: var(--tb-mute); margin-top: 6px; }
+.tb-hero-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
+.tb-mini-stat {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--tb-hair);
+  border-radius: 20px;
+  padding: 13px 15px;
   cursor: pointer;
   transition: background .15s ease, transform .15s ease;
 }
-.hk-act-outline:hover { background: #F4F4F4; transform: scale(1.05); }
-.hk-act-solid {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: 0;
-  background: #0D0D0D;
+.tb-mini-stat:hover { background: #FFFFFF; transform: translateY(-2px); }
+.tb-mini-stat .k { font-size: 11.5px; color: var(--tb-mute); font-weight: 600; }
+.tb-mini-stat .v { font-size: 20px; font-weight: 700; letter-spacing: -0.03em; margin-top: 3px; }
+.tb-mini-stat .s { font-size: 11px; color: var(--tb-mute); margin-top: 2px; }
+.tb-hero-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.tb-client-stack { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+.tb-avatars { display: flex; }
+.tb-av {
+  width: 34px; height: 34px; border-radius: 999px; border: 2.5px solid #FFFFFF;
+  margin-left: -10px; display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #FFFFFF;
+}
+.tb-av:first-child { margin-left: 0; }
+.tb-hero-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* Card 2: Pastel Sky Matrix */
+.tb-sky-card {
+  background: linear-gradient(155deg, #87CEE6 0%, var(--tb-sky) 60%, #6BBAD6 100%);
   color: #FFFFFF;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform .15s ease;
+  min-height: 296px;
 }
-.hk-act-solid:hover { transform: scale(1.06); }
+.tb-sky-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.tb-sky-title { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.96); }
+.tb-sky-desc { font-size: 12.5px; color: rgba(255,255,255,0.85); margin-top: 4px; max-width: 195px; }
+.tb-matrix-grid { display: grid; grid-template-columns: repeat(5, 24px); gap: 6px; flex-shrink: 0; }
+.tb-m-cell { width: 24px; height: 28px; border-radius: 7px 7px 10px 10px; background: rgba(255,255,255,0.92); }
+.tb-m-cell.filled { background: var(--tb-sky-deep); }
+.tb-sky-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 16px; }
+.tb-period-pills { display: flex; gap: 6px; }
+.tb-p-circle {
+  width: 38px; height: 38px; border-radius: 999px; border: 0;
+  background: rgba(255,255,255,0.25); color: #FFFFFF;
+  font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.tb-p-circle.active { background: #FFFFFF; color: var(--tb-ink); }
+.tb-sky-big { text-align: right; cursor: pointer; }
+.tb-sky-big .num { font-size: clamp(30px, 3vw, 42px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.tb-sky-big .lbl { font-size: 12.5px; color: rgba(255,255,255,0.88); margin-top: 4px; }
 
-.hk-card-label {
-  font-size: 15px;
-  font-weight: 400;
-  color: #4A4A4A;
-  margin-bottom: 10px;
-  line-height: 1.25;
+/* Card 3, 4, 5 */
+.tb-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.tb-card-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; }
+.tb-soft-ico { width: 32px; height: 32px; border-radius: 12px; background: var(--tb-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
+.tb-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: var(--tb-r-pill); font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+.tb-badge.overdue { background: var(--tb-red-bg); color: var(--tb-red); }
+.tb-badge.paid { background: var(--tb-green-bg); color: var(--tb-green); }
+.tb-badge.pending { background: var(--tb-soft); color: var(--tb-ink-2); }
+.tb-badge.partial { background: #E3F3FA; color: var(--tb-sky-deep); }
+.tb-rec-item { background: var(--tb-soft); border-radius: 22px; padding: 15px 16px; margin: 10px 0 12px; }
+.tb-rec-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.tb-step-btn { width: 30px; height: 30px; border-radius: 999px; border: 0; background: var(--tb-soft); color: var(--tb-ink); font-size: 15px; cursor: pointer; }
+.tb-step-btn:hover { background: var(--tb-soft-2); }
+.tb-tick-big { font-size: 38px; font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; margin: 6px 0 4px; }
+.tb-tick-bar { display: grid; grid-template-columns: repeat(22, 1fr); gap: 4px; margin: 14px 0 16px; height: 44px; align-items: stretch; }
+.tb-tick { border-radius: 999px; background: var(--tb-soft-2); }
+.tb-tick.on { background: var(--tb-olive); }
+.tb-meter-foot { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 12px; border-top: 1px solid var(--tb-hair); }
+.tb-mf-item { cursor: pointer; }
+.tb-mf-item .v { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+.tb-mf-item .k { font-size: 11.5px; color: var(--tb-mute); }
+.tb-seg-toggle { display: inline-flex; background: var(--tb-soft); padding: 3px; border-radius: var(--tb-r-pill); gap: 2px; }
+.tb-seg-btn { padding: 5px 11px; border-radius: var(--tb-r-pill); border: 0; background: transparent; color: var(--tb-ink-2); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.tb-seg-btn.active { background: #FFFFFF; color: var(--tb-ink); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.tb-chart-wrap { position: relative; height: 150px; margin: 6px 0 10px; }
+
+/* ═══ SUB-TABS RESTYLED IN TACTILE BENTO ═══ */
+body.tb-active .ref-head {
+  background: transparent !important;
+  margin-bottom: 14px !important;
+  padding: 4px 2px !important;
 }
-.hk-card-hero .hk-card-label {
-  color: rgba(255, 255, 255, 0.90);
+body.tb-active .ref-eyebrow {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--tb-ink) !important;
 }
-.hk-card-val {
-  font-size: clamp(1.75rem, 2.55vw, 2.65rem);
-  font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
-  color: #1F1F1F;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+body.tb-active .ref-big {
+  border-radius: var(--tb-r-card) !important;
+  padding: 26px 28px !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
-.hk-card-hero .hk-card-val {
-  color: #FFFFFF;
+body.tb-active .ref-big.t-sage,
+body.tb-active .ref-big.t-lav {
+  background: linear-gradient(155deg, #87CEE6 0%, var(--tb-sky) 62%, #6BBAD6 100%) !important;
+  color: #FFFFFF !important;
+}
+body.tb-active .ref-big.t-sage *,
+body.tb-active .ref-big.t-lav * { color: #FFFFFF; }
+body.tb-active .ref-big.t-sage .t-pill,
+body.tb-active .ref-big.t-lav .t-pill {
+  background: var(--tb-lime) !important;
+  color: var(--tb-ink) !important;
+  border: 0 !important;
+}
+body.tb-active .ref-big.t-yellow {
+  background: var(--tb-white) !important;
+  color: var(--tb-ink) !important;
+}
+body.tb-active .ref-big.t-yellow .t-pill {
+  background: var(--tb-lime) !important;
+  color: var(--tb-ink) !important;
+}
+body.tb-active .ref-split-track {
+  background: rgba(22, 24, 29, 0.12) !important;
+  border-radius: 999px !important;
+  height: 12px !important;
+}
+body.tb-active .ref-split-track i {
+  background: var(--tb-olive) !important;
+  border-radius: 999px !important;
+}
+body.tb-active .ref-big.t-sage .ref-split-track i,
+body.tb-active .ref-big.t-lav .ref-split-track i {
+  background: var(--tb-lime) !important;
+}
+body.tb-active .ref-card,
+body.tb-active .ref-wallet,
+body.tb-active .filter-row,
+body.tb-active .settings-panels > div {
+  background: var(--tb-white) !important;
+  color: var(--tb-ink) !important;
+  border-radius: var(--tb-r-card) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body.tb-active .filter-row {
+  border-radius: 26px !important;
+  padding: 12px 16px !important;
+}
+body.tb-active .search-inp {
+  border-radius: 999px !important;
+  background: var(--tb-soft) !important;
+  border: 1px solid var(--tb-hair) !important;
+  color: var(--tb-ink) !important;
+}
+body.tb-active .itab,
+body.tb-active .t-pill,
+body.tb-active .ref-edit {
+  border-radius: 999px !important;
+  background: var(--tb-soft) !important;
+  color: var(--tb-ink) !important;
+  border: 0 !important;
+  font-weight: 600 !important;
+}
+body.tb-active .itab.active,
+body.tb-active .t-pill.t-primary,
+body.tb-active .btn-dark {
+  background: var(--tb-ink) !important;
+  color: #FFFFFF !important;
+  border-radius: 999px !important;
+}
+body.tb-active .modal,
+body.tb-active .auth-card {
+  background: var(--tb-white) !important;
+  color: var(--tb-ink) !important;
+  border-radius: 30px !important;
+  border: 0 !important;
 }
 
-.hk-drawer-bg {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 15, 15, 0.36);
-  backdrop-filter: blur(4px);
-  z-index: 9500;
-  display: none;
+/* Command Palette Overlay */
+.tb-cmd-bg {
+  position: fixed; inset: 0; background: rgba(22,24,29,0.42);
+  backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center;
+  padding: 16px; z-index: 9990;
 }
-.hk-drawer-bg.open { display: block; }
-.hk-drawer {
-  position: fixed;
-  top: 14px;
-  left: 14px;
-  bottom: 14px;
-  width: min(300px, calc(100vw - 28px));
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(20px);
-  border-radius: 28px;
-  padding: 22px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
-  z-index: 9501;
-}
-.hk-drawer-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 6px 14px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  margin-bottom: 6px;
-}
-.hk-drawer-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 11px 14px;
-  border: 0;
-  border-radius: 14px;
-  background: transparent;
-  color: #1E1E1E;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: left;
-  cursor: pointer;
-}
-.hk-drawer-item:hover { background: rgba(0, 0, 0, 0.06); }
-.hk-drawer-item.primary { background: #1C1C1C; color: #FFFFFF; }
-.hk-drawer-item.primary:hover { background: #333333; }
-.hk-drawer-foot {
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+.tb-cmd-bg.open { display: flex; }
+.tb-cmd-box {
+  background: #FFFFFF; border-radius: 28px; width: 100%; max-width: 480px;
+  padding: 22px 24px; box-shadow: 0 24px 60px rgba(0,0,0,0.18);
 }
 
-@media (max-width: 1120px) {
-  .hk-main {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .hk-chart-wrap { height: 280px; }
-  .hk-card { min-height: 185px; border-radius: 36px; }
+@media (max-width: 1080px) {
+  .tb-dash-top, .tb-dash-bottom { grid-template-columns: 1fr; }
 }
-@media (max-width: 720px) {
-  .hk-topbar {
-    grid-template-columns: auto 1fr auto;
-  }
-  .hk-brand-name { display: none; }
-  .hk-pill { padding: 7px 14px; font-size: 13px; }
-  .hk-bento {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-  .hk-card {
-    aspect-ratio: auto;
-    min-height: 165px;
-    border-radius: 30px;
-    padding: 20px;
-  }
+@media (max-width: 760px) {
+  .tb-topbar-wrap { padding-top: 12px; }
+  .tb-hero-metrics { grid-template-columns: 1fr; }
+  body.tb-active .mob-header { display: none !important; }
 }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
@@ -2623,6 +2637,51 @@ body.home-karma-mode {
   </div>
 </div>
 
+<!-- ═══ GLOBAL TACTILE BENTO TOP BAR ═══ -->
+<div class="tb-topbar-wrap" id="tbTopbarWrap">
+  <header class="tb-topbar">
+    <div class="tb-brand" onclick="showTab('overview')">
+      <span class="tb-brand-dot">SB</span>
+      <span class="tb-brand-name">StudioBills</span>
+    </div>
+
+    <nav class="tb-nav-pills" id="tbMainNav">
+      <button class="tb-nav-btn active" data-tb="overview" onclick="showTab('overview')">Dashboard</button>
+      <button class="tb-nav-btn" data-tb="income" onclick="showTab('income')">Invoices</button>
+      <button class="tb-nav-btn" data-tb="quotes" onclick="showTab('quotes')">Quotations</button>
+      <button class="tb-nav-btn" data-tb="expenses" onclick="showTab('expenses')">Expenses</button>
+      <button class="tb-nav-btn" data-tb="clients" onclick="showTab('clients')">Clients</button>
+      <button class="tb-nav-btn" data-tb="analytics" onclick="showTab('analytics')">Analytics</button>
+    </nav>
+
+    <div class="tb-top-right">
+      <div class="tb-month-pill">
+        <button type="button" onclick="shiftMonth(-1)" title="Previous month">‹</button>
+        <span id="tbTopMonth">Nov 2026</span>
+        <button type="button" onclick="shiftMonth(1)" title="Next month">›</button>
+      </div>
+      <button type="button" class="tb-icon-circle" onclick="openBentoCmd()" title="Quick Search (⌘K)">⌘K</button>
+      <button type="button" class="tb-icon-circle" id="tbSettingsBtn" onclick="showTab('settings')" title="Settings">⚙</button>
+      <button type="button" class="tb-cta-pill" onclick="openModal('addIncomeModal')">
+        <span>New Invoice</span>
+        <span class="tb-arrow">→</span>
+      </button>
+    </div>
+  </header>
+</div>
+
+<!-- Quick Search Command Palette (⌘K) -->
+<div class="tb-cmd-bg" id="tbCmdBg" onclick="if(event.target===this)closeBentoCmd()">
+  <div class="tb-cmd-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <strong style="font-size:17px">Quick Search</strong>
+      <button type="button" class="tb-step-btn" onclick="closeBentoCmd()">×</button>
+    </div>
+    <input id="tbCmdIn" style="width:100%;padding:10px 14px;border-radius:999px;border:1px solid rgba(22,24,29,0.1);background:#F3F4F6;font-family:inherit;font-size:13.5px;outline:none;margin-bottom:10px" placeholder="Jump to tab, invoice #, client, quote..." oninput="renderBentoCmd(this.value)"/>
+    <div id="tbCmdList" style="display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto"></div>
+  </div>
+</div>
+
 <div class="content">
 
 <!-- ══════════════════════ OVERVIEW ══════════════════════ -->
@@ -2679,118 +2738,157 @@ body.home-karma-mode {
     <div id="recentExpList"></div>
   </div>
 
-  <!-- Slide-out Navigation Drawer -->
-  <div class="hk-drawer-bg" id="hkDrawerBg" onclick="if(event.target===this)toggleHkDrawer(false)">
-    <div class="hk-drawer">
-      <div class="hk-drawer-head">
-        <div class="hk-brand-group">
-          <div class="hk-logo-dot">SB</div>
-          <span class="hk-brand-name">studiobills</span>
+  <!-- ═══ TACTILE BENTO 5-CARD DASHBOARD ═══ -->
+  <div class="tb-dash-top">
+    <!-- Card 1: Hero Net Balance -->
+    <div class="tb-bento tb-hero-card">
+      <div>
+        <div class="tb-hero-top">
+          <div>
+            <div class="tb-hero-label">
+              <span>Net Balance This Month</span>
+              <span class="tb-lime-tag tb-tnum" id="tbNetDelta">—</span>
+            </div>
+            <div class="tb-hero-val tb-tnum" id="tbNetVal">₹0</div>
+            <div class="tb-hero-sub" id="tbNetSub">Collected ₹0 − Expenses ₹0</div>
+          </div>
+          <span class="tb-lime-tag" id="tbMonthBadge">—</span>
         </div>
-        <button class="hk-menu-btn" type="button" onclick="toggleHkDrawer(false)" aria-label="Close menu">✕</button>
+
+        <div class="tb-hero-metrics">
+          <div class="tb-mini-stat" onclick="showTab('income')">
+            <div class="k">Billed This Month</div>
+            <div class="v tb-tnum" id="tbBilled">₹0</div>
+            <div class="s" id="tbBilledSub">0 invoices</div>
+          </div>
+          <div class="tb-mini-stat" onclick="showTab('income')">
+            <div class="k">Collected This Month</div>
+            <div class="v tb-tnum" id="tbCollected">₹0</div>
+            <div class="s">Cash received</div>
+          </div>
+          <div class="tb-mini-stat" onclick="showTab('expenses')">
+            <div class="k">Expenses This Month</div>
+            <div class="v tb-tnum" id="tbExpenses">₹0</div>
+            <div class="s" id="tbExpensesSub">0 entries</div>
+          </div>
+        </div>
       </div>
-      <button class="hk-drawer-item primary" type="button" onclick="toggleHkDrawer(false);openModal('addIncomeModal')">+ New Invoice</button>
-      <button class="hk-drawer-item" type="button" onclick="toggleHkDrawer(false);openModal('addExpModal')">+ New Expense</button>
-      <button class="hk-drawer-item" type="button" onclick="toggleHkDrawer(false);showTab('overview')">Dashboard</button>
-      <button class="hk-drawer-item" type="button" onclick="toggleHkDrawer(false);showTab('income')">Invoices &amp; Income</button>
-      <button class="hk-drawer-item" type="button" onclick="toggleHkDrawer(false);showTab('quotes')">Quotations</button>
-      <button class="hk-drawer-item" type="button" onclick="toggleHkDrawer(false);showTab('expenses')">Expenses</button>
-      <button class="hk-drawer-item" type="button" onclick="toggleHkDrawer(false);showTab('clients')">Clients</button>
-      <button class="hk-drawer-item" type="button" onclick="toggleHkDrawer(false);showTab('analytics')">Analytics</button>
-      <button class="hk-drawer-item" type="button" onclick="toggleHkDrawer(false);showTab('settings')">Settings</button>
-      <div class="hk-drawer-foot">
-        <button class="hk-drawer-item" type="button" onclick="toggleHkDrawer(false);signOut()">Sign out</button>
+
+      <div class="tb-hero-foot">
+        <div class="tb-client-stack" onclick="showTab('clients')">
+          <div class="tb-avatars" id="tbAvatars"></div>
+          <div>
+            <div style="font-weight:700;font-size:14px" class="tb-tnum" id="tbClientCount">0 Clients</div>
+            <div style="font-size:11.5px;color:var(--tb-mute)">View all clients →</div>
+          </div>
+        </div>
+        <div class="tb-hero-actions">
+          <button type="button" class="tb-pill-btn" onclick="openModal('addExpModal')">+ Expense</button>
+          <button type="button" class="tb-pill-btn" onclick="openQuoteModal()">+ Quote</button>
+          <button type="button" class="tb-cta-pill lg" onclick="openModal('addIncomeModal')">
+            <span>New Invoice</span>
+            <span class="tb-arrow">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Pastel Sky Collection Matrix & YTD -->
+    <div class="tb-bento tb-sky-card">
+      <div class="tb-sky-top">
+        <div>
+          <div class="tb-sky-title">Income &amp; Collection</div>
+          <div class="tb-sky-desc" id="tbSkyDesc">0 of 0 invoices settled in full.</div>
+          <div style="margin-top:12px">
+            <span class="tb-lime-tag tb-tnum" id="tbSkyBadge">100% Collected ✓</span>
+          </div>
+        </div>
+        <div class="tb-matrix-grid" id="tbMatrix"></div>
+      </div>
+
+      <div class="tb-sky-bottom">
+        <div class="tb-period-pills">
+          <button type="button" class="tb-p-circle" data-tbp="M" onclick="setTbSkyPeriod('M')">M</button>
+          <button type="button" class="tb-p-circle" data-tbp="Q" onclick="setTbSkyPeriod('Q')">Q</button>
+          <button type="button" class="tb-p-circle active" data-tbp="Y" onclick="setTbSkyPeriod('Y')">Y</button>
+        </div>
+        <div class="tb-sky-big" onclick="showTab('analytics')">
+          <div class="num tb-tnum" id="tbSkyNum">₹0</div>
+          <div class="lbl" id="tbSkyLbl">/ Yearly Income (YTD)</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="hk-shell">
-    <!-- Top Floating Bar -->
-    <header class="hk-topbar">
-      <div class="hk-brand-group">
-        <button class="hk-menu-btn" type="button" onclick="toggleHkDrawer(true)" aria-label="Open menu">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-        </button>
-        <div class="hk-logo-dot">SB</div>
-        <a class="hk-brand-name" href="#overview" onclick="showTab('overview');return false;">studiobills</a>
+  <div class="tb-dash-bottom">
+    <!-- Card 3: Remaining to Collect & Receivables -->
+    <div class="tb-bento">
+      <div>
+        <div class="tb-card-head">
+          <div class="tb-card-title"><span class="tb-soft-ico">₹</span><span>Remaining to Collect</span></div>
+          <span class="tb-badge overdue tb-tnum" id="tbOverduePill">0 Overdue</span>
+        </div>
+        <div style="font-size:32px;font-weight:700;letter-spacing:-0.04em" class="tb-tnum" id="tbRemTotal">₹0</div>
+        <div id="tbRecBox"></div>
       </div>
-
-      <nav class="hk-pills" aria-label="Primary navigation">
-        <button class="hk-pill active" type="button" onclick="showTab('overview')">Dashboard</button>
-        <button class="hk-pill" type="button" onclick="showTab('income')">Invoice</button>
-        <button class="hk-pill" type="button" onclick="showTab('expenses')">Expense</button>
-      </nav>
-
-      <div class="hk-right-actions">
-        <button class="hk-icon-dark" type="button" onclick="showTab('settings')" aria-label="Settings">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        </button>
-        <button class="hk-avatar-btn" id="hkAvatar" type="button" onclick="showTab('settings')" aria-label="Account">HD</button>
+      <div class="tb-rec-foot">
+        <span style="font-size:13px;font-weight:700;color:var(--tb-mute)" class="tb-tnum" id="tbRecIdx">0 / 0</span>
+        <div style="display:flex;gap:5px">
+          <button type="button" class="tb-step-btn" onclick="stepTbRec(-1)">‹</button>
+          <button type="button" class="tb-step-btn" onclick="stepTbRec(1)">›</button>
+        </div>
       </div>
-    </header>
+    </div>
 
-    <!-- Main 2-Column Home Layout -->
-    <main class="hk-main">
-      <!-- Left: Title, Legend & Slim Dual-Bar Chart -->
-      <section class="hk-left">
-        <h1 class="hk-title" id="hkTitle">Studio Health</h1>
-        <div class="hk-meta-row">
-          <div class="hk-legend">
-            <span class="hk-leg-item"><i class="hk-leg-dot earn"></i>Earnings</span>
-            <span class="hk-leg-item"><i class="hk-leg-dot exp"></i>Expenses</span>
+    <!-- Card 4: Collection Ratio Olive Tick Meter -->
+    <div class="tb-bento">
+      <div>
+        <div class="tb-card-head">
+          <div class="tb-card-title"><span class="tb-soft-ico">◎</span><span>Collection Ratio</span></div>
+          <span style="font-size:12px;color:var(--tb-mute);font-weight:600" id="tbMeterSub">—</span>
+        </div>
+        <div class="tb-tick-big tb-tnum" id="tbMeterPct">0%</div>
+        <div style="font-size:12.5px;color:var(--tb-mute)">Collected vs billed this month</div>
+        <div class="tb-tick-bar" id="tbTickBar"></div>
+      </div>
+      <div class="tb-meter-foot">
+        <div class="tb-mf-item" onclick="showTab('income')">
+          <div class="v tb-tnum" id="tbMBilled">₹0</div>
+          <div class="k">Billed</div>
+        </div>
+        <div class="tb-mf-item" onclick="showTab('income')">
+          <div class="v tb-tnum" id="tbMDue">₹0</div>
+          <div class="k">Still Due</div>
+        </div>
+        <div class="tb-mf-item" onclick="showTab('expenses')">
+          <div class="v tb-tnum" id="tbMExp">₹0</div>
+          <div class="k">Expenses</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5: 6-Month Earnings vs Expenses -->
+    <div class="tb-bento">
+      <div>
+        <div class="tb-card-head">
+          <div class="tb-card-title" style="cursor:pointer" onclick="showTab('analytics')">
+            <span class="tb-soft-ico">↗</span><span>Earnings vs Expenses</span>
           </div>
-          <div class="hk-month-nav">
-            <button type="button" onclick="shiftMonth(-1)" aria-label="Previous month">&#8249;</button>
-            <span id="hkMonthLabel">—</span>
-            <button type="button" onclick="shiftMonth(1)" aria-label="Next month">&#8250;</button>
+          <div class="tb-seg-toggle">
+            <button type="button" class="tb-seg-btn active" id="tbWaveBtn" onclick="setTbChartType('line')">Wave</button>
+            <button type="button" class="tb-seg-btn" id="tbBarBtn" onclick="setTbChartType('bar')">Bars</button>
           </div>
         </div>
-        <div class="hk-chart-wrap">
-          <canvas id="hkChart"></canvas>
+        <div class="tb-chart-wrap"><canvas id="tbDashChart"></canvas></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:8px;border-top:1px solid var(--tb-hair);cursor:pointer" onclick="showTab('analytics')">
+        <div>
+          <span style="font-size:24px;font-weight:700;letter-spacing:-0.03em" class="tb-tnum" id="tbMargin">0%</span>
+          <span style="font-size:12px;color:var(--tb-mute);margin-left:5px">Profit Margin</span>
         </div>
-      </section>
-
-      <!-- Right: 3x2 Squircle Bento Grid -->
-      <section class="hk-bento" aria-label="Key financial metrics">
-        <article class="hk-card hk-card-hero" onclick="showTab('analytics')">
-          <div class="hk-card-label">Net Income</div>
-          <div class="hk-card-val" id="hkNetIncome">0</div>
-        </article>
-
-        <article class="hk-card" onclick="showTab('expenses')">
-          <div class="hk-card-label">Expense</div>
-          <div class="hk-card-val" id="hkExpense">0</div>
-        </article>
-
-        <article class="hk-card" onclick="showTab('income')">
-          <div class="hk-card-actions">
-            <button class="hk-act-outline" type="button" onclick="event.stopPropagation();openModal('addIncomeModal')" aria-label="Create new invoice" title="New Invoice">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
-            </button>
-            <button class="hk-act-solid" type="button" onclick="event.stopPropagation();showTab('income')" aria-label="View invoices" title="View Invoices">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="8 7 17 7 17 16"/></svg>
-            </button>
-          </div>
-          <div class="hk-card-label">Billed This Month</div>
-          <div class="hk-card-val" id="hkBilled">0</div>
-        </article>
-
-        <article class="hk-card" onclick="showTab('income')">
-          <div class="hk-card-label">Remaining to Collect</div>
-          <div class="hk-card-val" id="hkRemaining">0</div>
-        </article>
-
-        <article class="hk-card" onclick="showTab('clients')">
-          <div class="hk-card-label">Total Clients</div>
-          <div class="hk-card-val" id="hkClients">0</div>
-        </article>
-
-        <article class="hk-card" onclick="showTab('analytics')">
-          <div class="hk-card-label">Yearly Income</div>
-          <div class="hk-card-val" id="hkYearly">0</div>
-        </article>
-      </section>
-    </main>
+        <div style="font-size:12px;font-weight:600;color:var(--tb-ink-2)" class="tb-tnum" id="tbYtdMini">YTD ₹0 →</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -7849,190 +7947,251 @@ document.addEventListener('DOMContentLoaded',function(){ try{ quotesInit(); rend
 
 
 <script>
-// ═══ HOME KARMA UI RENDERER ═══
-let hkChartInst = null;
+// ═══ TACTILE BENTO STUDIO UI — LIVE DATA RENDERER ═══
+let tbChartInst = null;
+let tbSkyPeriod = 'Y';
+let tbChartType = 'line';
+let tbRecIdx = 0;
 
-function toggleHkDrawer(open) {
-  const el = document.getElementById('hkDrawerBg');
-  if (el) el.classList.toggle('open', !!open);
+function tbCompact(n) {
+  const sym = (db.profile && db.profile.currency) || '₹';
+  const v = Number(n) || 0;
+  const abs = Math.abs(v);
+  if (abs >= 100000) return (v < 0 ? '−' : '') + sym + (abs / 100000).toFixed(2) + 'L';
+  if (abs >= 1000) return (v < 0 ? '−' : '') + sym + (abs / 1000).toFixed(1) + 'k';
+  return (v < 0 ? '−' : '') + sym + Math.round(abs).toLocaleString('en-IN');
 }
 
-function fmtPlainNum(n) {
-  const val = Math.round(+n || 0);
-  return (val < 0 ? '−' : '') + Math.abs(val).toLocaleString('en-IN');
-}
+function setTbSkyPeriod(p) { tbSkyPeriod = p; renderTactileBento(); }
+function setTbChartType(t) { tbChartType = t; renderTactileBento(); }
+function stepTbRec(d) { tbRecIdx += d; renderTactileBento(); }
 
-function renderKarmaHome() {
+function renderTactileBento() {
+  if (typeof db === 'undefined' || !db) return;
   const y = viewMonth.getFullYear(), m = viewMonth.getMonth();
   const key = `${y}-${String(m + 1).padStart(2, '0')}`;
-  const mLabel = viewMonth.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
-  const setEl = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+  const prevDt = new Date(y, m - 1, 1);
+  const pKey = `${prevDt.getFullYear()}-${String(prevDt.getMonth() + 1).padStart(2, '0')}`;
+  const shortLbl = viewMonth.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
+  const prevShort = prevDt.toLocaleDateString('en-IN', { month: 'short' });
 
-  setEl('hkTitle', (db.profile && db.profile.studioName) ? db.profile.studioName : 'Studio Health');
-  setEl('hkMonthLabel', mLabel);
+  const setT = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setT('tbTopMonth', shortLbl);
+  setT('tbMonthBadge', shortLbl);
+  setT('tbMeterSub', shortLbl);
 
-  const av = document.getElementById('userAvatar');
-  if (av && av.textContent) setEl('hkAvatar', av.textContent.trim());
-
-  const allInc = db.income || [];
-  const allExp = db.expenses || [];
+  const allInc = Array.isArray(db.income) ? db.income : [];
+  const allExp = Array.isArray(db.expenses) ? db.expenses : [];
   const mInc = allInc.filter(i => mk(i.date) === key);
+  const pInc = allInc.filter(i => mk(i.date) === pKey);
   const mExp = allExp.filter(e => mk(e.date) === key);
+  const pExp = allExp.filter(e => mk(e.date) === pKey);
 
   const billed = mInc.reduce((s, i) => s + (+i.amount || 0), 0);
-  const received = mInc.reduce((s, i) => s + rcv(i), 0);
+  const collected = mInc.reduce((s, i) => s + rcv(i), 0);
   const expenses = mExp.reduce((s, e) => s + (+e.amount || 0), 0);
-  const net = received - expenses;
+  const net = collected - expenses;
 
-  const remaining = allInc.reduce((s, i) => {
-    if (i.status === 'received') return s;
-    return s + Math.max(0, (+i.amount || 0) - rcv(i));
-  }, 0);
+  const pNet = pInc.reduce((s, i) => s + rcv(i), 0) - pExp.reduce((s, e) => s + (+e.amount || 0), 0);
+  const delta = pNet > 0 ? Math.round(((net - pNet) / pNet) * 100) : (net > 0 ? 100 : 0);
 
-  const clientSet = new Set([
-    ...Object.keys(db.clients || {}),
-    ...allInc.map(i => (i.client || '').trim()).filter(Boolean)
-  ]);
+  setT('tbNetVal', (net < 0 ? '−' : '') + fmt(Math.abs(net)));
+  setT('tbNetDelta', `${delta >= 0 ? '+' : ''}${delta}% vs ${prevShort}`);
+  setT('tbNetSub', `Collected ${fmt(collected)} − Expenses ${fmt(expenses)}`);
+  setT('tbBilled', fmt(billed));
+  setT('tbBilledSub', `${mInc.length} invoice${mInc.length === 1 ? '' : 's'} issued`);
+  setT('tbCollected', fmt(collected));
+  setT('tbExpenses', fmt(expenses));
+  setT('tbExpensesSub', `${mExp.length} entr${mExp.length === 1 ? 'y' : 'ies'}`);
 
-  const yearPrefix = `${y}-`;
-  const yearlyIncome = allInc
-    .filter(i => (i.date || '').startsWith(yearPrefix))
-    .reduce((s, i) => s + rcv(i), 0);
+  // Clients avatar stack
+  const clientNames = [...new Set([...Object.keys(db.clients || {}), ...allInc.map(i => (i.client || '').trim()).filter(Boolean)])];
+  setT('tbClientCount', `${clientNames.length} Client${clientNames.length === 1 ? '' : 's'}`);
+  const avEl = document.getElementById('tbAvatars');
+  const avColors = ['#16181D', '#345E6D', '#5F8411', '#4E5BA6'];
+  if (avEl) {
+    avEl.innerHTML = clientNames.slice(0, 4).map((n, idx) =>
+      `<span class="tb-av" style="background:${avColors[idx % avColors.length]}">${esc(n.slice(0, 2).toUpperCase())}</span>`
+    ).join('');
+  }
 
-  setEl('hkNetIncome', fmtPlainNum(net));
-  setEl('hkExpense', fmtPlainNum(expenses));
-  setEl('hkBilled', fmtPlainNum(billed));
-  setEl('hkRemaining', fmtPlainNum(remaining));
-  setEl('hkClients', String(clientSet.size));
-  setEl('hkYearly', fmtPlainNum(yearlyIncome));
+  // Sky Card (M / Q / Y)
+  document.querySelectorAll('.tb-p-circle').forEach(b => b.classList.toggle('active', b.dataset.tbp === tbSkyPeriod));
+  const yInc = allInc.filter(i => (i.date || '').startsWith(`${y}-`));
+  const qStart = Math.floor(m / 3) * 3;
+  const qInc = yInc.filter(i => { const mm = parseInt((i.date || '').slice(5, 7), 10) - 1; return mm >= qStart && mm < qStart + 3; });
+  const scopeInc = tbSkyPeriod === 'M' ? mInc : tbSkyPeriod === 'Q' ? qInc : yInc;
+  const scopeCol = scopeInc.reduce((s, i) => s + rcv(i), 0);
+  const scopeBil = scopeInc.reduce((s, i) => s + (+i.amount || 0), 0);
+  const settledCnt = scopeInc.filter(i => i.status === 'received' || rcv(i) >= (+i.amount || 0)).length;
+  const skyPct = scopeBil > 0 ? Math.min(100, Math.round((scopeCol / scopeBil) * 100)) : 100;
 
-  drawKarmaChart();
+  setT('tbSkyDesc', `${settledCnt} of ${scopeInc.length} invoices settled in full.`);
+  setT('tbSkyBadge', `${skyPct}% Collected ✓`);
+  setT('tbSkyNum', tbCompact(scopeCol));
+  setT('tbSkyLbl', tbSkyPeriod === 'M' ? `/ Monthly Income (${shortLbl})` : tbSkyPeriod === 'Q' ? `/ Quarterly Income (Q${Math.floor(m / 3) + 1})` : `/ Yearly Income (YTD ${y})`);
+
+  const matEl = document.getElementById('tbMatrix');
+  if (matEl) {
+    const filled = Math.round((skyPct / 100) * 20);
+    matEl.innerHTML = Array.from({ length: 20 }, (_, idx) => `<div class="tb-m-cell ${idx < filled ? 'filled' : ''}"></div>`).join('');
+  }
+
+  // Remaining to Collect & Receivables Carousel
+  const openInvs = allInc.filter(i => i.status !== 'received' && Math.max(0, (+i.amount || 0) - rcv(i)) > 0.5);
+  const remTotal = openInvs.reduce((s, i) => s + Math.max(0, (+i.amount || 0) - rcv(i)), 0);
+  const ovCnt = openInvs.filter(i => isOverdue(i)).length;
+  setT('tbRemTotal', fmt(remTotal));
+  const ovPill = document.getElementById('tbOverduePill');
+  if (ovPill) {
+    ovPill.textContent = ovCnt > 0 ? `${ovCnt} Overdue` : 'All On Time';
+    ovPill.className = 'tb-badge tb-tnum ' + (ovCnt > 0 ? 'overdue' : 'paid');
+  }
+
+  const recBox = document.getElementById('tbRecBox');
+  if (recBox) {
+    if (!openInvs.length) {
+      recBox.innerHTML = `<div class="tb-rec-item"><div style="font-weight:700">All invoices settled</div><div style="font-size:12px;color:var(--tb-mute);margin-top:2px">Zero pending balance</div></div>`;
+      setT('tbRecIdx', '0 / 0');
+    } else {
+      const idx = ((tbRecIdx % openInvs.length) + openInvs.length) % openInvs.length;
+      tbRecIdx = idx;
+      const inv = openInvs[idx];
+      const dueAmt = Math.max(0, (+inv.amount || 0) - rcv(inv));
+      const isOv = isOverdue(inv);
+      const stCls = isOv ? 'overdue' : (inv.status === 'partial' ? 'partial' : 'pending');
+      const stLbl = isOv ? 'Overdue' : (inv.status || 'pending');
+      setT('tbRecIdx', `${idx + 1} / ${openInvs.length}`);
+      recBox.innerHTML = `
+        <div class="tb-rec-item">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:6px">
+            <div style="font-weight:700;font-size:15px">${esc(inv.client || 'Client')}</div>
+            <span class="tb-badge ${stCls}">${esc(stLbl)}</span>
+          </div>
+          <div style="font-size:12px;color:var(--tb-mute);margin-top:2px">${esc(inv.invNo || inv.id || '')}${inv.due ? ' · Due ' + esc(inv.due) : ''}</div>
+          <div style="font-size:22px;font-weight:700;letter-spacing:-0.03em;margin-top:8px" class="tb-tnum">${fmt(dueAmt)}</div>
+          <div style="display:flex;gap:7px;margin-top:11px;flex-wrap:wrap">
+            <button type="button" class="tb-pill-btn dark sm" onclick="recordPayment('${esc(inv.id)}')">Record Payment</button>
+            <button type="button" class="tb-pill-btn sm" onclick="shareOnWhatsApp('${esc(inv.id)}')">WhatsApp</button>
+          </div>
+        </div>`;
+    }
+  }
+
+  // Olive Tick Meter
+  const ratio = billed > 0 ? Math.min(100, Math.round((collected / billed) * 100)) : 100;
+  setT('tbMeterPct', ratio + '%');
+  const tickEl = document.getElementById('tbTickBar');
+  if (tickEl) {
+    const on = Math.round((ratio / 100) * 22);
+    tickEl.innerHTML = Array.from({ length: 22 }, (_, idx) => `<div class="tb-tick ${idx < on ? 'on' : ''}"></div>`).join('');
+  }
+  setT('tbMBilled', tbCompact(billed));
+  setT('tbMDue', tbCompact(Math.max(0, billed - collected)));
+  setT('tbMExp', tbCompact(expenses));
+
+  // Profit Margin & YTD + 6M Chart
+  const ytdInc = yInc.reduce((s, i) => s + rcv(i), 0);
+  const ytdExp = allExp.filter(e => (e.date || '').startsWith(`${y}-`)).reduce((s, e) => s + (+e.amount || 0), 0);
+  const margin = ytdInc > 0 ? Math.round(((ytdInc - ytdExp) / ytdInc) * 100) : 0;
+  setT('tbMargin', margin + '%');
+  setT('tbYtdMini', `YTD ${fmt(ytdInc)} →`);
+
+  const wb = document.getElementById('tbWaveBtn'), bb = document.getElementById('tbBarBtn');
+  if (wb) wb.classList.toggle('active', tbChartType === 'line');
+  if (bb) bb.classList.toggle('active', tbChartType === 'bar');
+  drawBentoDashChart(y, m, allInc, allExp);
 }
 
-function drawKarmaChart() {
-  const canvas = document.getElementById('hkChart');
+function drawBentoDashChart(y, m, allInc, allExp) {
+  const canvas = document.getElementById('tbDashChart');
   if (!canvas || typeof Chart === 'undefined') return;
-
-  const anchor = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), 1);
-  const months = [];
-  for (let i = 7; i >= 0; i--) {
-    const d = new Date(anchor.getFullYear(), anchor.getMonth() - i, 1);
-    months.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
+  const labels = [], earnData = [], expData = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(y, m - i, 1);
+    const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    labels.push(d.toLocaleDateString('en-IN', { month: 'short' }));
+    earnData.push(Math.round(allInc.filter(x => mk(x.date) === k).reduce((a, x) => a + rcv(x), 0)));
+    expData.push(Math.round(allExp.filter(x => mk(x.date) === k).reduce((a, x) => a + (+x.amount || 0), 0)));
   }
-  const labels = months.map(mo => {
-    const [yy, mm] = mo.split('-');
-    return new Date(+yy, +mm - 1, 1).toLocaleDateString('en-IN', { month: 'short' });
-  });
-
-  const expData = months.map(mo => (db.expenses || []).filter(e => mk(e.date) === mo).reduce((s, e) => s + (+e.amount || 0), 0));
-  const incData = months.map(mo => (db.income || []).filter(i => mk(i.date) === mo).reduce((s, i) => s + rcv(i), 0));
-
-  if (hkChartInst) { try { hkChartInst.destroy(); } catch (e) {} hkChartInst = null; }
-
-  const curSym = (db.profile && db.profile.currency) || '₹';
-  hkChartInst = new Chart(canvas.getContext('2d'), {
-    type: 'bar',
+  if (tbChartInst) { try { tbChartInst.destroy(); } catch (e) {} tbChartInst = null; }
+  tbChartInst = new Chart(canvas.getContext('2d'), {
+    type: tbChartType,
     data: {
       labels,
       datasets: [
-        {
-          label: 'Expenses',
-          data: expData,
-          backgroundColor: '#333333',
-          hoverBackgroundColor: '#111111',
-          borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 2, bottomRight: 2 },
-          borderSkipped: false,
-          barThickness: 5,
-          categoryPercentage: 0.44,
-          barPercentage: 0.58
-        },
-        {
-          label: 'Earnings',
-          data: incData,
-          backgroundColor: '#D96B16',
-          hoverBackgroundColor: '#B8540A',
-          borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 2, bottomRight: 2 },
-          borderSkipped: false,
-          barThickness: 5,
-          categoryPercentage: 0.44,
-          barPercentage: 0.58
-        }
+        { label: 'Collected', data: earnData, borderColor: '#7CC7E0', backgroundColor: tbChartType === 'bar' ? '#7CC7E0' : 'rgba(124,199,224,0.18)', borderWidth: 3, tension: 0.42, fill: tbChartType === 'line', borderRadius: 8, pointRadius: 3 },
+        { label: 'Expenses', data: expData, borderColor: '#16181D', backgroundColor: tbChartType === 'bar' ? '#16181D' : 'transparent', borderWidth: 2, borderDash: tbChartType === 'line' ? [4, 4] : [], tension: 0.42, borderRadius: 8, pointRadius: 2 }
       ]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: '#1C1C1C',
-          titleColor: '#FFFFFF',
-          bodyColor: '#F3F4F6',
-          padding: 12,
-          cornerRadius: 12,
-          displayColors: true,
-          callbacks: {
-            label: ctx => ` ${ctx.dataset.label}: ${curSym}${Math.round(ctx.parsed.y || 0).toLocaleString('en-IN')}`
-          }
-        }
-      },
-      scales: {
-        x: {
-          grid: { display: false },
-          border: { display: false },
-          ticks: {
-            color: '#3A3A3A',
-            font: { family: "'Outfit', sans-serif", size: 12, weight: 400 },
-            padding: 10
-          }
-        },
-        y: {
-          beginAtZero: true,
-          grid: { display: false },
-          border: { display: false },
-          ticks: {
-            color: '#4A4A4A',
-            maxTicksLimit: 6,
-            font: { family: "'Outfit', sans-serif", size: 12, weight: 400 },
-            padding: 12,
-            callback: v => {
-              if (v === 0) return '';
-              if (v >= 100000) return (v / 100000).toFixed(v % 100000 === 0 ? 0 : 1) + 'L';
-              if (v >= 1000) return Math.round(v / 1000) + 'K';
-              return String(v);
-            }
-          }
-        }
-      }
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { x: { grid: { display: false } }, y: { display: false } }
     }
   });
 }
 
-(function hookKarmaHome() {
+function openBentoCmd() {
+  const bg = document.getElementById('tbCmdBg'), inp = document.getElementById('tbCmdIn');
+  if (!bg) return;
+  if (inp) inp.value = '';
+  renderBentoCmd('');
+  bg.classList.add('open');
+  if (inp) setTimeout(() => inp.focus(), 40);
+}
+function closeBentoCmd() {
+  const bg = document.getElementById('tbCmdBg');
+  if (bg) bg.classList.remove('open');
+}
+function renderBentoCmd(q) {
+  const s = (q || '').toLowerCase();
+  const listEl = document.getElementById('tbCmdList');
+  if (!listEl) return;
+  const items = [
+    { t: 'Dashboard', sub: 'Net balance & overview', fn: () => showTab('overview') },
+    { t: 'Invoices', sub: `${(db.income||[]).length} invoices`, fn: () => showTab('income') },
+    { t: 'Quotations', sub: `${(db.quotes||[]).length} quotations`, fn: () => showTab('quotes') },
+    { t: 'Expenses', sub: `${(db.expenses||[]).length} expenses`, fn: () => showTab('expenses') },
+    { t: 'Clients', sub: 'Client directory', fn: () => showTab('clients') },
+    { t: 'Analytics', sub: 'Trends & yearly summary', fn: () => showTab('analytics') },
+    { t: 'Settings', sub: 'Profile, UPI, bank, backup', fn: () => showTab('settings') },
+    { t: '+ New Invoice', sub: 'Create invoice', fn: () => openModal('addIncomeModal') },
+    { t: '+ New Expense', sub: 'Add expense', fn: () => openModal('addExpModal') },
+    { t: '+ New Quotation', sub: 'Create quotation', fn: () => openQuoteModal() },
+    ...(db.income || []).slice(0, 12).map(i => ({ t: `${i.invNo || 'Invoice'} — ${i.client || ''}`, sub: fmt(i.amount), fn: () => { showTab('income'); } }))
+  ].filter(x => !s || x.t.toLowerCase().includes(s) || x.sub.toLowerCase().includes(s));
+  window._tbCmdItems = items;
+  listEl.innerHTML = items.slice(0, 10).map((x, idx) =>
+    `<button type="button" class="tb-pill-btn" style="justify-content:space-between;border-radius:16px;padding:10px 14px;width:100%" onclick="closeBentoCmd();window._tbCmdItems[${idx}].fn()"><span>${esc(x.t)}</span><span style="font-size:11.5px;color:#7D8492;font-weight:500">${esc(x.sub)}</span></button>`
+  ).join('');
+}
+
+(function hookTactileBento() {
+  document.body.classList.add('tb-active');
   const _prevRenderOverview = typeof renderOverview === 'function' ? renderOverview : null;
   if (_prevRenderOverview) {
     renderOverview = function() {
       _prevRenderOverview.apply(this, arguments);
-      try { renderKarmaHome(); } catch (e) { console.warn('Karma home render error:', e); }
+      try { renderTactileBento(); } catch (e) { console.warn('Bento render error:', e); }
     };
   }
   const _prevShowTab = typeof showTab === 'function' ? showTab : null;
   if (_prevShowTab) {
     showTab = function(name) {
-      document.body.classList.toggle('home-karma-mode', name === 'overview');
       const r = _prevShowTab.apply(this, arguments);
+      document.querySelectorAll('#tbMainNav .tb-nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tb === name));
+      const sb = document.getElementById('tbSettingsBtn');
+      if (sb) sb.classList.toggle('active', name === 'settings');
       if (name === 'overview') {
-        try { renderKarmaHome(); } catch (e) {}
+        try { renderTactileBento(); } catch (e) {}
       }
       return r;
     };
   }
-  document.addEventListener('DOMContentLoaded', function() {
-    const activeTab = document.querySelector('.tab.active');
-    if (activeTab && activeTab.id === 'tab-overview') {
-      document.body.classList.add('home-karma-mode');
-    }
+  document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openBentoCmd(); }
+    if (e.key === 'Escape') closeBentoCmd();
   });
 })();
 </script>
