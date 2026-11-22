@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>creditmantra</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23FF0035'/%3E%3Ctext x='16' y='22' font-family='Arial Black,Arial' font-size='13' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-0.5'%3ESB%3C/text%3E%3C/svg%3E"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg viewBox=%270 0 36 36%27 width=%2736%27 height=%2736%27 fill=%27none%27 xmlns=%27http://www.w3.org/2000/svg%27 aria-hidden=%27true%27><circle cx=%2718%27 cy=%2718%27 r=%2718%27 fill=%27%2316181D%27/><path d=%27M23.5 13.2A6.6 6.6 0 0 0 18 10.6C14.2 10.6 11.4 13.5 11.4 18C11.4 22.5 14.2 25.4 18 25.4A6.6 6.6 0 0 0 23.5 22.8%27 stroke=%27%23FFFFFF%27 stroke-width=%272.7%27 stroke-linecap=%27round%27/><line x1=%2718%27 y1=%277.2%27 x2=%2718%27 y2=%2711.2%27 stroke=%27%23E6F44C%27 stroke-width=%272.4%27 stroke-linecap=%27round%27/><line x1=%2718%27 y1=%2724.8%27 x2=%2718%27 y2=%2728.8%27 stroke=%27%23E6F44C%27 stroke-width=%272.4%27 stroke-linecap=%27round%27/></svg>"/>
 <!-- PWA -->
 <link rel="manifest" href="/manifest.json"/>
 <meta name="theme-color" content="#ffffff"/>
@@ -2075,6 +2075,202 @@ body.theme-snow .ref-count,body.theme-snow .led-meta,body.theme-snow .c-meta{
   body.tint-cards .led-card{padding:18px!important}
 }
 
+
+/* ═══ V8 ROOT FIX: BEAT ALL LEGACY #modalId SPECIFICITY IN EVERY POP-UP MODAL ═══ */
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal {
+  background: #FFFFFF !important;
+  color: #16181D !important;
+  --text: #16181D !important;
+  --ink: #16181D !important;
+  --muted: #6E7685 !important;
+  --bg: #F3F4F6 !important;
+  --white: #FFFFFF !important;
+  --border: rgba(22, 24, 29, 0.10) !important;
+  border-radius: 32px !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  box-shadow: 0 28px 70px rgba(22, 24, 29, 0.18) !important;
+  padding: 26px 28px !important;
+}
+
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal > div:first-child {
+  background: #FFFFFF !important;
+  color: #16181D !important;
+}
+
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal :is(h2, h3, .modal-title, label, th, td) {
+  color: #16181D !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal label {
+  color: #4B515E !important;
+}
+
+/* Close button */
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal :is(.ibtn, .ibtn-dark, .modal-close, .m-close) {
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal :is(.ibtn, .ibtn-dark, .modal-close, .m-close):hover {
+  background: #16181D !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* ALL inputs, selects, textareas inside ALL modals -> crisp light #F3F4F6 wells with #16181D text */
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), select, textarea) {
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  border: 1px solid rgba(22, 24, 29, 0.10) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal :is(input, textarea)::placeholder {
+  color: #8A92A0 !important;
+  -webkit-text-fill-color: #8A92A0 !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), select, textarea):focus {
+  background: #FFFFFF !important;
+  border-color: #16181D !important;
+  box-shadow: 0 0 0 3px rgba(22, 24, 29, 0.08) !important;
+}
+
+/* File upload well */
+body.tb-active :is(#addExpModal, #editExpModal) .modal input[type="file"] {
+  background: #F8F9FB !important;
+  color: #4B515E !important;
+  border: 1.5px dashed rgba(22, 24, 29, 0.22) !important;
+  border-radius: 16px !important;
+}
+
+/* Line item category chip, chooser, add-row button, and currency/payment pills */
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal :is(.li-chip, .dur-unit) {
+  background: #EAECEF !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal .li-add-btn {
+  background: #F8F9FB !important;
+  color: #16181D !important;
+  border: 1.5px dashed rgba(22, 24, 29, 0.24) !important;
+  border-radius: 16px !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal :is(.fx-btn, .pm-pill) {
+  background: #F3F4F6 !important;
+  color: #4B515E !important;
+  -webkit-text-fill-color: #4B515E !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  border-radius: 999px !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal :is(.fx-btn.sel, .pm-pill.on) {
+  background: #16181D !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border-color: #16181D !important;
+}
+
+/* Template picker cards */
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal .tpl-card {
+  background: #F8F9FB !important;
+  border: 1.5px solid rgba(22, 24, 29, 0.10) !important;
+  border-radius: 18px !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal .tpl-card .tpl-name {
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal :is(.tpl-card.sel, .tpl-card.on) {
+  background: #16181D !important;
+  border-color: #16181D !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal :is(.tpl-card.sel, .tpl-card.on) .tpl-name {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Tax / Toggle switches */
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #quoteModal) .modal .toggle-wrap {
+  background: #F8F9FB !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  border-radius: 20px !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #quoteModal) .modal .toggle.on {
+  background: #16181D !important;
+  border-color: #16181D !important;
+}
+
+/* Invoice / Quote Total Box — clean soft Bento card in normal flow (never overlaps template cards) */
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal :is(#ai-total-box, #ei-total-box, .inv-total-box) {
+  position: static !important;
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  border-radius: 20px !important;
+  padding: 16px 20px !important;
+  margin-top: 16px !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #quoteModal) .modal :is(#ai-total-box, #ei-total-box, .inv-total-box) * {
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+}
+
+/* Modal Footer Action Pills: Cancel = soft grey, Preview = pastel sky, Save/Add = solid #16181D ink */
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal .modal-foot {
+  border-top: 1px solid rgba(22, 24, 29, 0.08) !important;
+  padding-top: 16px !important;
+  margin-top: 18px !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal .modal-foot :is(.btn, .btn-ghost, .pv-btn) {
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  border-radius: 999px !important;
+  min-height: 42px !important;
+  padding: 0 20px !important;
+  font-weight: 600 !important;
+}
+body.tb-active :is(#addIncomeModal, #editIncomeModal, #addExpModal, #editExpModal, #addClientModal, #quickIncomeModal, #clientModal, #recIntervalModal, #invoiceModal, #quoteModal) .modal .modal-foot :is(.btn-dark, .btn-red, .pv-primary, .btn-green-o) {
+  background: #16181D !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  min-height: 42px !important;
+  padding: 0 22px !important;
+  font-weight: 700 !important;
+}
+
+/* Client Detail Modal stat cards & tabs */
+body.tb-active #clientModal .modal .stat-card {
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  border-radius: 20px !important;
+}
+body.tb-active #clientModal .modal .stat-card * { color: #16181D !important; }
+body.tb-active #clientModal .modal :is(.cm-tabs, [class*="tab-bar"]) {
+  background: #F3F4F6 !important;
+  border-radius: 999px !important;
+}
+body.tb-active #clientModal .modal .cm-tab.active {
+  background: #16181D !important;
+  color: #FFFFFF !important;
+}
+
+
+.tb-brand-dot {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+.tb-brand-dot svg { width: 38px; height: 38px; display: block; }
+
 </style>
 
 <style id="tactileBentoStyles">
@@ -3149,7 +3345,7 @@ body.tb-active .modal .btn-danger {
 <div class="sidebar" id="appSidebar">
   <!-- Logo -->
   <a class="sidebar-logo" href="#" onclick="showTab('overview');return false;">
-    <div class="logo-icon">CM</div>
+    <div class="logo-icon"><svg viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="18" cy="18" r="18" fill="#16181D"/><path d="M23.5 13.2A6.6 6.6 0 0 0 18 10.6C14.2 10.6 11.4 13.5 11.4 18C11.4 22.5 14.2 25.4 18 25.4A6.6 6.6 0 0 0 23.5 22.8" stroke="#FFFFFF" stroke-width="2.7" stroke-linecap="round"/><line x1="18" y1="7.2" x2="18" y2="11.2" stroke="#E6F44C" stroke-width="2.4" stroke-linecap="round"/><line x1="18" y1="24.8" x2="18" y2="28.8" stroke="#E6F44C" stroke-width="2.4" stroke-linecap="round"/></svg></div>
     <span class="logo-name">credit<em>mantra</em></span>
   </a>
 
@@ -3190,7 +3386,7 @@ body.tb-active .modal .btn-danger {
 <!-- ── MOBILE HEADER ── -->
 <header class="mob-header" id="mobHeader">
   <div class="mob-header-logo">
-    <div class="mob-header-icon">CM</div>
+    <div class="mob-header-icon"><svg viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="18" cy="18" r="18" fill="#16181D"/><path d="M23.5 13.2A6.6 6.6 0 0 0 18 10.6C14.2 10.6 11.4 13.5 11.4 18C11.4 22.5 14.2 25.4 18 25.4A6.6 6.6 0 0 0 23.5 22.8" stroke="#FFFFFF" stroke-width="2.7" stroke-linecap="round"/><line x1="18" y1="7.2" x2="18" y2="11.2" stroke="#E6F44C" stroke-width="2.4" stroke-linecap="round"/><line x1="18" y1="24.8" x2="18" y2="28.8" stroke="#E6F44C" stroke-width="2.4" stroke-linecap="round"/></svg></div>
     <span class="mob-header-name">creditmantra</span>
   </div>
   <div class="mob-header-right">
@@ -3220,7 +3416,7 @@ body.tb-active .modal .btn-danger {
 <div class="tb-topbar-wrap" id="tbTopbarWrap">
   <header class="tb-topbar">
     <div class="tb-brand" onclick="showTab('overview')">
-      <span class="tb-brand-dot">CM</span>
+      <span class="tb-brand-dot"><svg viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="18" cy="18" r="18" fill="#16181D"/><path d="M23.5 13.2A6.6 6.6 0 0 0 18 10.6C14.2 10.6 11.4 13.5 11.4 18C11.4 22.5 14.2 25.4 18 25.4A6.6 6.6 0 0 0 23.5 22.8" stroke="#FFFFFF" stroke-width="2.7" stroke-linecap="round"/><line x1="18" y1="7.2" x2="18" y2="11.2" stroke="#E6F44C" stroke-width="2.4" stroke-linecap="round"/><line x1="18" y1="24.8" x2="18" y2="28.8" stroke="#E6F44C" stroke-width="2.4" stroke-linecap="round"/></svg></span>
       <span class="tb-brand-name">creditmantra</span>
     </div>
 
