@@ -2271,6 +2271,139 @@ body.tb-active #clientModal .modal .cm-tab.active {
 }
 .tb-brand-dot svg { width: 38px; height: 38px; display: block; }
 
+
+/* ═══ V10 FIX: ZERO WHITE-ON-WHITE TEXT MERGING IN SORT SWITCHES & PILLS ═══ */
+body.tb-active .sort-switch .ss-btn,
+body.tb-active .sort-switch .ss-btn * {
+  color: #4B515E !important;
+  -webkit-text-fill-color: #4B515E !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+body.tb-active .sort-switch .ss-btn.on,
+body.tb-active .sort-switch .ss-btn.on * {
+  background: #FFFFFF !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  box-shadow: 0 2px 6px rgba(22, 24, 29, 0.10) !important;
+}
+body.tb-active .itab,
+body.tb-active .itab * {
+  color: #4B515E !important;
+  -webkit-text-fill-color: #4B515E !important;
+}
+body.tb-active .itab.active,
+body.tb-active .itab.active * {
+  background: #16181D !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+body.tb-active .t-pill.t-primary,
+body.tb-active .t-pill.t-primary * {
+  background: #16181D !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* ═══ V10 REDESIGNED SETTINGS 2-COLUMN TACTILE BENTO GRID ═══ */
+.tb-settings-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+.tb-settings-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.tb-set-card {
+  gap: 16px;
+}
+.tb-set-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.tb-set-sub {
+  font-size: 12.5px;
+  color: var(--tb-mute);
+  margin-top: 6px;
+}
+.tb-form-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 14px;
+}
+.tb-form-2 .fg { margin-bottom: 0 !important; }
+.tb-form-2 .fg.tb-full { grid-column: 1 / -1; }
+body.tb-active #tab-settings .fg label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--tb-ink-2) !important;
+  margin-bottom: 4px !important;
+}
+body.tb-active #tab-settings .st-input {
+  width: 100% !important;
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  border-radius: 16px !important;
+  padding: 10px 14px !important;
+  font-size: 13.5px !important;
+}
+body.tb-active #tab-settings .st-input:focus {
+  background: #FFFFFF !important;
+  border-color: #16181D !important;
+  outline: none !important;
+}
+.tb-cat-lbl {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--tb-ink-2);
+  margin-bottom: 8px;
+}
+body.tb-active #tab-settings .cat-pills {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 7px !important;
+}
+body.tb-active #tab-settings .cat-pill {
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  border: 1px solid rgba(22, 24, 29, 0.08) !important;
+  border-radius: 999px !important;
+  padding: 6px 12px !important;
+  font-weight: 600 !important;
+}
+.tb-bk-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tb-pill-btn.danger {
+  background: #FDE8E8 !important;
+  color: #B91C1C !important;
+  -webkit-text-fill-color: #B91C1C !important;
+}
+.tb-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--tb-hair);
+}
+@media (max-width: 1080px) {
+  .tb-settings-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .tb-form-2 { grid-template-columns: 1fr; }
+}
+
 </style>
 
 <style id="tactileBentoStyles">
@@ -4013,11 +4146,9 @@ body.tb-active .modal .btn-danger {
   <header class="ref-head">
     <div class="ref-head-left">
       <div class="ref-eyebrow">Settings</div>
-      <button class="ref-edit" onclick="showTab('overview')">Dashboard</button>
     </div>
     <div class="ref-head-pills">
-      <button class="t-pill" onclick="showTab('income')">Invoices</button>
-      <button class="t-pill" onclick="showTab('clients')">Clients</button>
+      <button type="button" class="t-pill t-primary" onclick="saveProfile()">Save changes</button>
     </div>
   </header>
 
@@ -4038,146 +4169,121 @@ body.tb-active .modal .btn-danger {
       </div>
       <div class="ref-figure">
         <div class="ref-pct" id="shPct">&mdash;</div>
-        <div class="ref-cap">profile complete &mdash; these details print on every bill</div>
+        <div class="ref-cap">profile complete &mdash; prints on every bill</div>
       </div>
     </div>
   </section>
 
-  <!-- ② THREE CARDS -->
-  <section class="ref-row">
-
-    <article class="ref-card t-lav">
-      <div class="ref-card-top"><span class="t-pill">Studio</span></div>
-      <p class="ref-note">Who you are &mdash; the masthead of every bill.</p>
-      <div class="fg"><label>Studio name</label><input class="st-input" id="s-studio" placeholder="e.g. Bright Studio Co."></div>
-      <div class="fg"><label>Your name</label><input class="st-input" id="s-owner" placeholder="e.g. Hardipsinh Zala"></div>
-      <div class="fg"><label>Role / title</label><input class="st-input" id="s-role" placeholder="e.g. AI Filmmaker &middot; VFX Artist"></div>
-      <div class="fg"><label>Currency</label><select class="st-input" id="s-currency">
-        <option value="&#8377;">&#8377; INR</option><option value="$">$ USD</option>
-        <option value="&pound;">&pound; GBP</option><option value="&euro;">&euro; EUR</option><option value="AED">AED</option>
-      </select></div>
-    </article>
-
-    <article class="ref-card t-orange ref-card-menu">
-      <div class="ref-card-top">
-        <span class="t-pill">Menu</span>
-        <svg viewBox="0 0 24 24" class="ref-gear"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.18V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.6 15H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v.09A1.65 1.65 0 0 0 21 10h.09a2 2 0 0 1 0 4H21a1.65 1.65 0 0 0-1.6 1z"/></svg>
-      </div>
-      <ul class="ref-menu">
-        <li onclick="setSettingsSection('contact')"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>Contact details</li>
-        <li onclick="setSettingsSection('payment')"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Payment information</li>
-        <li onclick="setSettingsSection('tax')"><svg viewBox="0 0 24 24"><path d="M9 9h.01M15 15h.01M5 19L19 5"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>Tax information</li>
-        <li onclick="setSettingsSection('categories')"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Categories</li>
-        <li onclick="setSettingsSection('backup')"><svg viewBox="0 0 24 24"><path d="M12 3v13M8 12l4 4 4-4M4 20h16"/></svg>Backup &amp; data</li>
-        <li onclick="setSettingsSection('about')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 8v.5"/></svg>About</li>
-      </ul>
-      <button class="ref-logout" onclick="saveProfile()">Save profile</button>
-    </article>
-  </section>
-
-  <!-- ③ SELECTED SECTION -->
-  <section class="settings-panels">
-
-    <div id="stab-contact" style="display:none;">
-      <div class="st-grid st-g2">
-        <div class="st-card t-sage">
-          <div class="st-clabel">Contact details</div>
-          <div class="st-field"><div class="st-flabel">Email</div><input class="st-input" id="s-email" placeholder="you@studio.com"></div>
-          <div class="st-field"><div class="st-flabel">Phone</div><input class="st-input" id="s-phone" placeholder="+91 90000 00000"></div>
-          <div class="st-field"><div class="st-flabel">Address</div><textarea class="st-input" id="s-address" rows="2" placeholder="City, State, Country"></textarea></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="stab-payment" style="display:none;">
-      <div class="st-grid st-g2">
-        <div class="st-card t-grey st-wide">
-          <div class="st-clabel">Payment information</div>
-          <div class="st-grid st-g2">
-            <div class="st-field"><div class="st-flabel">UPI / GPay / PhonePe</div><input class="st-input" id="s-upi" placeholder="name@okaxis"></div>
-            <div class="st-field"><div class="st-flabel">Bank name</div><input class="st-input" id="s-bank" placeholder="Punjab National Bank"></div>
-            <div class="st-field"><div class="st-flabel">Account number</div><input class="st-input" id="s-account" placeholder="0000000000000000"></div>
-            <div class="st-field"><div class="st-flabel">IFSC</div><input class="st-input" id="s-ifsc" placeholder="XXXX0000000"></div>
-            <div class="st-field"><div class="st-flabel">SWIFT / BIC</div><input class="st-input" id="s-swift" placeholder="optional"></div>
-            <div class="st-field"><div class="st-flabel">PayPal / Wise</div><input class="st-input" id="s-paypal" placeholder="optional"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="stab-tax" style="display:none;">
-      <div class="st-grid st-g2">
-        <div class="st-card t-olive">
-          <div class="st-clabel">Tax information</div>
-          <div class="st-field"><div class="st-flabel">GSTIN</div><input class="st-input" id="s-gstin" placeholder="22AAAAA0000A1Z5"></div>
-          <div class="st-field"><div class="st-flabel">PAN</div><input class="st-input" id="s-pan" placeholder="AAAAA0000A"></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="stab-categories" style="display:none;">
-      <div class="st-grid st-g2">
-        <div class="st-card t-yellow">
-          <div class="st-clabel">Income categories</div>
-          <div class="cat-pills" id="incCatPills"></div>
-          <div class="st-field" style="display:flex;gap:8px;"><input class="st-input" id="newIncCat" placeholder="Add a category"><button class="btn btn-sm" onclick="addCat('inc')">Add</button></div>
-        </div>
-        <div class="st-card t-yellow">
-          <div class="st-clabel">Expense categories</div>
-          <div class="cat-pills" id="expCatPills"></div>
-          <div class="st-field" style="display:flex;gap:8px;"><input class="st-input" id="newExpCat" placeholder="Add a category"><button class="btn btn-sm" onclick="addCat('exp')">Add</button></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="stab-backup" style="display:none;">
-      <div class="st-grid st-g2">
-        <div class="st-card t-lav st-wide">
-          <div class="st-clabel">Backup &amp; data</div>
-          <div class="st-bkbtns">
-            <button class="st-bkbtn bk-primary" onclick="exportBackup()"><span class="st-bkicon">&#8681;</span><span><span class="st-bktitle">Download backup</span><span class="st-bksub">Everything as one JSON file</span></span></button>
-            <button class="st-bkbtn" onclick="document.getElementById('restoreFile').click()"><span class="st-bkicon">&#8679;</span><span><span class="st-bktitle">Restore from backup</span><span class="st-bksub">Replace current data with a file</span></span></button>
-            <button class="st-bkbtn" onclick="clearAll()"><span class="st-bkicon">&#10005;</span><span><span class="st-bktitle">Erase all data</span><span class="st-bksub">Cannot be undone</span></span></button>
-            <input type="file" id="restoreFile" accept="application/json" style="display:none">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="stab-about" style="display:none;">
-      <div class="st-grid st-g2">
-        <div class="st-card t-grey st-wide" style="display:flex;align-items:center;gap:14px;">
-          <div class="logo-icon" style="width:50px;height:50px;border-radius:13px;font-size:.95rem;flex-shrink:0;">SB</div>
+  <!-- ② CLEAN 2-COLUMN BENTO SETTINGS GRID (ALL SECTIONS VISIBLE, NO HIDDEN MENU) -->
+  <div class="tb-settings-grid">
+    <!-- LEFT COLUMN: Studio & Contact + Payment Info -->
+    <div class="tb-settings-col">
+      <article class="tb-bento tb-set-card">
+        <div class="tb-set-head">
           <div>
-            <div style="font-size:1rem;font-weight:750;">creditmantra</div>
-            <div style="font-size:.75rem;font-weight:600;color:rgba(0,0,0,.6);margin-top:3px;">Version 1.0 &middot; billing tracker for creative studios</div>
+            <span class="tb-lime-tag">Studio &amp; Contact</span>
+            <div class="tb-set-sub">Appears on every invoice and quotation masthead</div>
+          </div>
+          <button type="button" class="tb-pill-btn dark sm" onclick="saveProfile()">Save</button>
+        </div>
+        <div class="tb-form-2">
+          <div class="fg"><label>Studio name</label><input class="st-input" id="s-studio" placeholder="e.g. Bright Studio Co."></div>
+          <div class="fg"><label>Your name</label><input class="st-input" id="s-owner" placeholder="e.g. Hardipsinh Zala"></div>
+          <div class="fg"><label>Role / title</label><input class="st-input" id="s-role" placeholder="e.g. Creative Director"></div>
+          <div class="fg"><label>Default Currency</label>
+            <select class="st-input" id="s-currency">
+              <option value="&#8377;">&#8377; INR</option><option value="$">$ USD</option>
+              <option value="&pound;">&pound; GBP</option><option value="&euro;">&euro; EUR</option><option value="AED">AED</option>
+            </select>
+          </div>
+          <div class="fg"><label>Email</label><input class="st-input" id="s-email" placeholder="you@studio.com"></div>
+          <div class="fg"><label>Phone</label><input class="st-input" id="s-phone" placeholder="+91 90000 00000"></div>
+          <div class="fg tb-full"><label>Studio Address</label><textarea class="st-input" id="s-address" rows="2" placeholder="Street, City, State, Country"></textarea></div>
+        </div>
+      </article>
+
+      <article class="tb-bento tb-set-card">
+        <div class="tb-set-head">
+          <div>
+            <span class="tb-lime-tag">Payment Information</span>
+            <div class="tb-set-sub">Bank &amp; UPI details shown on invoices and QR codes</div>
+          </div>
+          <button type="button" class="tb-pill-btn dark sm" onclick="saveProfile()">Save</button>
+        </div>
+        <div class="tb-form-2">
+          <div class="fg"><label>UPI / GPay / PhonePe</label><input class="st-input" id="s-upi" placeholder="name@okaxis"></div>
+          <div class="fg"><label>Bank name</label><input class="st-input" id="s-bank" placeholder="HDFC Bank"></div>
+          <div class="fg"><label>Account number</label><input class="st-input" id="s-account" placeholder="0000000000000000"></div>
+          <div class="fg"><label>IFSC</label><input class="st-input" id="s-ifsc" placeholder="XXXX0000000"></div>
+          <div class="fg"><label>SWIFT / BIC</label><input class="st-input" id="s-swift" placeholder="optional"></div>
+          <div class="fg"><label>PayPal / Wise</label><input class="st-input" id="s-paypal" placeholder="optional"></div>
+        </div>
+      </article>
+    </div>
+
+    <!-- RIGHT COLUMN: Tax Info + Categories + Backup & Legal -->
+    <div class="tb-settings-col">
+      <article class="tb-bento tb-set-card">
+        <div class="tb-set-head">
+          <div>
+            <span class="tb-lime-tag">Tax Information</span>
+            <div class="tb-set-sub">GST &amp; PAN registration numbers</div>
+          </div>
+          <button type="button" class="tb-pill-btn dark sm" onclick="saveProfile()">Save</button>
+        </div>
+        <div class="tb-form-2">
+          <div class="fg"><label>GSTIN</label><input class="st-input" id="s-gstin" placeholder="22AAAAA0000A1Z5"></div>
+          <div class="fg"><label>PAN</label><input class="st-input" id="s-pan" placeholder="AAAAA0000A"></div>
+        </div>
+      </article>
+
+      <article class="tb-bento tb-set-card">
+        <div class="tb-set-head">
+          <div>
+            <span class="tb-lime-tag">Categories</span>
+            <div class="tb-set-sub">Organize your income and expense tags</div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+        <div style="margin-bottom:16px">
+          <div class="tb-cat-lbl">Income categories</div>
+          <div class="cat-pills" id="incCatPills"></div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <input class="st-input" style="flex:1" id="newIncCat" placeholder="Add income category...">
+            <button type="button" class="tb-pill-btn dark sm" onclick="addCat('inc')">+ Add</button>
+          </div>
+        </div>
+        <div>
+          <div class="tb-cat-lbl">Expense categories</div>
+          <div class="cat-pills" id="expCatPills"></div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <input class="st-input" style="flex:1" id="newExpCat" placeholder="Add expense category...">
+            <button type="button" class="tb-pill-btn dark sm" onclick="addCat('exp')">+ Add</button>
+          </div>
+        </div>
+      </article>
 
-  <!-- ④ DATA & LEGAL LIST -->
-  <section class="ref-wallet">
-    <div class="ref-wallet-head">
-      <span class="t-pill">Data &amp; legal</span>
-      <span class="ref-count" id="stLegalNote"></span>
+      <article class="tb-bento tb-set-card">
+        <div class="tb-set-head">
+          <div>
+            <span class="tb-lime-tag">Backup, Data &amp; Legal</span>
+            <div class="tb-set-sub" id="stLegalNote">Export, restore, or manage your account</div>
+          </div>
+        </div>
+        <div class="tb-bk-row">
+          <button type="button" class="tb-pill-btn dark" onclick="exportBackup()">Download JSON Backup</button>
+          <button type="button" class="tb-pill-btn" onclick="document.getElementById('restoreFile').click()">Restore Backup</button>
+          <button type="button" class="tb-pill-btn danger" onclick="clearAll()">Erase All Data</button>
+          <input type="file" id="restoreFile" accept="application/json" style="display:none">
+        </div>
+        <div class="tb-legal-links">
+          <button type="button" class="tb-pill-btn sm" onclick="window.open('/privacy-policy.html','_blank')">Privacy Policy ↗</button>
+          <button type="button" class="tb-pill-btn sm" onclick="window.open('/terms-of-service.html','_blank')">Terms of Service ↗</button>
+          <button type="button" class="tb-pill-btn sm" onclick="signOut()">Sign Out</button>
+          <span style="margin-left:auto;font-size:12px;color:var(--tb-mute);font-weight:600">creditmantra v2.0</span>
+        </div>
+      </article>
     </div>
-    <div class="ref-rows">
-      <div class="recent-row ref-row st-legal-row" onclick="window.open('/privacy-policy.html','_blank')">
-        <div class="recent-info"><div class="recent-name">Privacy policy</div><div class="recent-detail">How your data is handled</div></div>
-        <div class="ref-chev">&#8250;</div>
-      </div>
-      <div class="recent-row ref-row st-legal-row" onclick="window.open('/terms-of-service.html','_blank')">
-        <div class="recent-info"><div class="recent-name">Terms of service</div><div class="recent-detail">The rules of using creditmantra</div></div>
-        <div class="ref-chev">&#8250;</div>
-      </div>
-      <div class="recent-row ref-row st-legal-row" onclick="setSettingsSection('backup')">
-        <div class="recent-info"><div class="recent-name">Your data stays on this device</div><div class="recent-detail">Download a backup any time</div></div>
-        <div class="ref-chev">&#8250;</div>
-      </div>
-    </div>
-  </section>
+  </div>
 </div>
 
 <!-- ════════════════════ ADD CLIENT MODAL ════════════════════ -->
