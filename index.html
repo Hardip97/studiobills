@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>StudioBills</title>
+<title>creditmantra</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23FF0035'/%3E%3Ctext x='16' y='22' font-family='Arial Black,Arial' font-size='13' font-weight='900' fill='white' text-anchor='middle' letter-spacing='-0.5'%3ESB%3C/text%3E%3C/svg%3E"/>
 <!-- PWA -->
 <link rel="manifest" href="/manifest.json"/>
@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-<meta name="apple-mobile-web-app-title" content="StudioBills"/>
+<meta name="apple-mobile-web-app-title" content="creditmantra"/>
 <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
 <meta name="description" content="Freelance billing &amp; invoicing app for creative professionals"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -2078,7 +2078,7 @@ body.theme-snow .ref-count,body.theme-snow .led-meta,body.theme-snow .c-meta{
 </style>
 
 <style id="tactileBentoStyles">
-/* ═══ TACTILE BENTO STUDIO UI — GLOBAL SYSTEM ═══ */
+/* ═══ creditmantra — TACTILE BENTO STUDIO UI (V2 AUDITED) ═══ */
 :root {
   --tb-canvas: #E4E6EA;
   --tb-white: #FFFFFF;
@@ -2100,52 +2100,37 @@ body.theme-snow .ref-count,body.theme-snow .led-meta,body.theme-snow .c-meta{
   --tb-r-pill: 999px;
 }
 
+html { color-scheme: light !important; }
 body.tb-active {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
   background: var(--tb-canvas) !important;
   color: var(--tb-ink) !important;
-  --bg: #E4E6EA !important;
-  --s2: #E4E6EA !important;
-  --white: #FFFFFF !important;
-  --s1: #FFFFFF !important;
-  --surface: #FFFFFF !important;
-  --surface-2: #F3F4F6 !important;
-  --sunken: #EAECEF !important;
-  --text: #16181D !important;
-  --ink: #16181D !important;
-  --muted: #7D8492 !important;
-  --muted2: #7D8492 !important;
-  --border: rgba(22, 24, 29, 0.08) !important;
-  --border2: rgba(22, 24, 29, 0.06) !important;
-  --line: rgba(22, 24, 29, 0.08) !important;
-  --black: #16181D !important;
-  --accent: #16181D !important;
-  --accent-ink: #FFFFFF !important;
+  overflow-x: hidden;
 }
 
-/* Hide legacy desktop sidebar & replace with Global Bento Topbar */
+/* Hide legacy desktop sidebar & widen workspace cleanly */
 body.tb-active .sidebar { display: none !important; }
 body.tb-active .content {
   margin-left: 0 !important;
-  padding: 0 clamp(14px, 2.5vw, 32px) 84px !important;
-  max-width: 1400px !important;
+  padding: 0 clamp(16px, 2vw, 28px) 72px !important;
+  max-width: 1680px !important;
   margin-inline: auto !important;
   width: 100% !important;
   background: transparent !important;
 }
 
-/* Global Tactile Bento Topbar */
+/* Global Tactile Bento Topbar — Wider + Equal-Sized Tabs */
 .tb-topbar-wrap {
-  max-width: 1400px;
+  max-width: 1680px;
+  width: 100%;
   margin: 0 auto;
-  padding: 18px clamp(14px, 2.5vw, 32px) 16px;
+  padding: 18px clamp(16px, 2vw, 28px) 16px;
 }
 .tb-topbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 16px;
 }
 .tb-brand {
   display: inline-flex;
@@ -2157,45 +2142,60 @@ body.tb-active .content {
   color: var(--tb-ink);
 }
 .tb-brand-dot {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 14px;
   background: var(--tb-ink);
   color: #FFFFFF;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.tb-brand-name { font-size: 17px; font-weight: 700; letter-spacing: -0.03em; }
+.tb-brand-name {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-transform: lowercase;
+}
 
+.tb-nav-wrap {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
 .tb-nav-pills {
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: repeat(6, minmax(104px, 1fr));
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   padding: 5px;
   border-radius: var(--tb-r-pill);
-  background: rgba(255, 255, 255, 0.80);
+  background: rgba(255, 255, 255, 0.84);
   backdrop-filter: blur(14px);
-  overflow-x: auto;
   max-width: 100%;
+  overflow-x: auto;
 }
 .tb-nav-btn {
-  padding: 8px 15px;
+  padding: 9px 14px;
   border-radius: var(--tb-r-pill);
   border: 0;
   background: transparent;
   color: var(--tb-ink-2);
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 13.5px;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all .16s ease;
 }
-.tb-nav-btn:hover { color: var(--tb-ink); }
+.tb-nav-btn:hover { color: var(--tb-ink); background: rgba(22, 24, 29, 0.04); }
 .tb-nav-btn.active { background: var(--tb-ink); color: #FFFFFF; }
 
 .tb-top-right {
@@ -2210,104 +2210,88 @@ body.tb-active .content {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   padding: 5px 10px;
+  height: 38px;
   border-radius: var(--tb-r-pill);
-  background: rgba(255, 255, 255, 0.84);
+  background: rgba(255, 255, 255, 0.86);
   font-size: 13px;
   font-weight: 600;
   color: var(--tb-ink);
 }
-.tb-month-pill span { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tb-month-pill span { white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 68px; text-align: center; }
 .tb-month-pill button {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  border: 0;
-  background: transparent;
-  color: var(--tb-ink);
-  font-size: 15px;
-  cursor: pointer;
+  width: 26px; height: 26px; border-radius: 999px; border: 0;
+  background: transparent; color: var(--tb-ink); font-size: 15px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
 }
 .tb-month-pill button:hover { background: var(--tb-soft-2); }
 
-.tb-icon-circle {
-  width: 38px;
+.tb-cmd-pill {
   height: 38px;
-  border-radius: 999px;
+  padding: 0 13px;
+  border-radius: var(--tb-r-pill);
   border: 0;
-  background: rgba(255, 255, 255, 0.84);
+  background: rgba(255, 255, 255, 0.86);
   color: var(--tb-ink);
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
   cursor: pointer;
   font-family: inherit;
   font-size: 12.5px;
   font-weight: 700;
-  transition: all .15s ease;
+  white-space: nowrap;
   flex-shrink: 0;
+}
+.tb-cmd-pill:hover { background: #FFFFFF; }
+
+.tb-icon-circle {
+  width: 38px; height: 38px; border-radius: 999px; border: 0;
+  background: rgba(255, 255, 255, 0.86); color: var(--tb-ink);
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; font-family: inherit; font-size: 15px; font-weight: 700;
+  transition: all .15s ease; flex-shrink: 0;
 }
 .tb-icon-circle:hover { background: #FFFFFF; }
 .tb-icon-circle.active { background: var(--tb-ink); color: #FFFFFF; }
 
 .tb-cta-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 5px 6px 5px 16px;
-  border-radius: var(--tb-r-pill);
-  border: 0;
-  background: var(--tb-ink);
-  color: #FFFFFF;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 5px 6px 5px 16px; height: 38px;
+  border-radius: var(--tb-r-pill); border: 0;
+  background: var(--tb-ink); color: #FFFFFF;
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
   transition: transform .15s ease, opacity .15s ease;
 }
 .tb-cta-pill:hover { opacity: 0.92; transform: translateY(-1px); }
 .tb-cta-pill .tb-arrow {
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  background: #FFFFFF;
-  color: var(--tb-ink);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
+  width: 28px; height: 28px; border-radius: 999px;
+  background: #FFFFFF; color: var(--tb-ink);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
 }
-.tb-cta-pill.lg { padding: 7px 8px 7px 20px; font-size: 14px; gap: 14px; }
-.tb-cta-pill.lg .tb-arrow { width: 34px; height: 34px; font-size: 16px; }
+.tb-cta-pill.lg { padding: 7px 8px 7px 20px; height: 46px; font-size: 14px; gap: 14px; }
+.tb-cta-pill.lg .tb-arrow { width: 32px; height: 32px; font-size: 16px; }
 
 .tb-pill-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 9px 15px;
-  border-radius: var(--tb-r-pill);
-  border: 0;
-  background: var(--tb-soft);
-  color: var(--tb-ink);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px 15px; border-radius: var(--tb-r-pill); border: 0;
+  background: var(--tb-soft); color: var(--tb-ink);
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
 }
 .tb-pill-btn:hover { background: var(--tb-soft-2); }
 .tb-pill-btn.dark { background: var(--tb-ink); color: #FFFFFF; }
-.tb-pill-btn.sm { padding: 6px 11px; font-size: 12px; }
+.tb-pill-btn.sm { padding: 7px 13px; font-size: 12.5px; }
 
-/* ═══ DASHBOARD 5-CARD TACTILE BENTO GRID ═══ */
+/* ═══ DASHBOARD 5-CARD TACTILE BENTO GRID (BALANCED & ALIGNED) ═══ */
 .tb-tnum { font-variant-numeric: tabular-nums; }
 .tb-bento {
   background: var(--tb-white);
   border-radius: var(--tb-r-card);
-  padding: 24px 26px;
+  padding: 26px 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -2317,42 +2301,48 @@ body.tb-active .content {
 }
 .tb-dash-top {
   display: grid;
-  grid-template-columns: 1.48fr 1fr;
-  gap: 16px;
-  margin-bottom: 16px;
+  grid-template-columns: 1.42fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+  align-items: stretch;
 }
 .tb-dash-bottom {
   display: grid;
-  grid-template-columns: 1fr 1.05fr 1.15fr;
-  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
 }
+.tb-dash-bottom .tb-bento {
+  min-height: 326px;
+}
+
 .tb-hero-card {
   background: linear-gradient(135deg, #FFFFFF 0%, #F7F9FB 55%, #ECF4F7 100%);
-  min-height: 296px;
+  min-height: 312px;
 }
 .tb-hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
-.tb-hero-label { font-size: 13px; font-weight: 600; color: var(--tb-mute); display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tb-hero-label { font-size: 13.5px; font-weight: 600; color: var(--tb-mute); display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .tb-lime-tag {
   display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 11px; border-radius: var(--tb-r-pill);
+  padding: 4px 12px; border-radius: var(--tb-r-pill);
   background: var(--tb-lime); color: var(--tb-ink);
-  font-size: 12px; font-weight: 700;
+  font-size: 12px; font-weight: 700; white-space: nowrap;
 }
-.tb-hero-val { font-size: clamp(34px, 4vw, 52px); font-weight: 700; letter-spacing: -0.045em; line-height: 1.04; margin-top: 8px; }
-.tb-hero-sub { font-size: 13px; color: var(--tb-mute); margin-top: 6px; }
-.tb-hero-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
+.tb-hero-val { font-size: clamp(38px, 4.2vw, 56px); font-weight: 700; letter-spacing: -0.045em; line-height: 1.04; margin-top: 10px; }
+.tb-hero-sub { font-size: 13.5px; color: var(--tb-mute); margin-top: 6px; }
+.tb-hero-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
 .tb-mini-stat {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--tb-hair);
-  border-radius: 20px;
-  padding: 13px 15px;
+  border-radius: 22px;
+  padding: 15px 17px;
   cursor: pointer;
   transition: background .15s ease, transform .15s ease;
 }
 .tb-mini-stat:hover { background: #FFFFFF; transform: translateY(-2px); }
-.tb-mini-stat .k { font-size: 11.5px; color: var(--tb-mute); font-weight: 600; }
-.tb-mini-stat .v { font-size: 20px; font-weight: 700; letter-spacing: -0.03em; margin-top: 3px; }
-.tb-mini-stat .s { font-size: 11px; color: var(--tb-mute); margin-top: 2px; }
+.tb-mini-stat .k { font-size: 12px; color: var(--tb-mute); font-weight: 600; }
+.tb-mini-stat .v { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; margin-top: 4px; }
+.tb-mini-stat .s { font-size: 11.5px; color: var(--tb-mute); margin-top: 2px; }
 .tb-hero-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .tb-client-stack { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
 .tb-avatars { display: flex; }
@@ -2368,57 +2358,79 @@ body.tb-active .content {
 .tb-sky-card {
   background: linear-gradient(155deg, #87CEE6 0%, var(--tb-sky) 60%, #6BBAD6 100%);
   color: #FFFFFF;
-  min-height: 296px;
+  min-height: 312px;
 }
-.tb-sky-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-.tb-sky-title { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.96); }
-.tb-sky-desc { font-size: 12.5px; color: rgba(255,255,255,0.85); margin-top: 4px; max-width: 195px; }
-.tb-matrix-grid { display: grid; grid-template-columns: repeat(5, 24px); gap: 6px; flex-shrink: 0; }
-.tb-m-cell { width: 24px; height: 28px; border-radius: 7px 7px 10px 10px; background: rgba(255,255,255,0.92); }
+.tb-sky-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+.tb-sky-title { font-size: 16px; font-weight: 700; color: #FFFFFF; }
+.tb-sky-desc { font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 5px; max-width: 220px; }
+.tb-sky-mid {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: 16px;
+  background: rgba(255,255,255,0.18);
+  font-size: 12.5px; font-weight: 600; color: #FFFFFF;
+  width: fit-content; margin-top: 14px; cursor: pointer;
+}
+.tb-sky-mid:hover { background: rgba(255,255,255,0.26); }
+.tb-matrix-grid { display: grid; grid-template-columns: repeat(5, 26px); gap: 7px; flex-shrink: 0; }
+.tb-m-cell { width: 26px; height: 30px; border-radius: 8px 8px 11px 11px; background: rgba(255,255,255,0.92); }
 .tb-m-cell.filled { background: var(--tb-sky-deep); }
-.tb-sky-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 16px; }
-.tb-period-pills { display: flex; gap: 6px; }
+.tb-sky-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 18px; }
+.tb-period-pills { display: flex; gap: 7px; }
 .tb-p-circle {
-  width: 38px; height: 38px; border-radius: 999px; border: 0;
-  background: rgba(255,255,255,0.25); color: #FFFFFF;
-  font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  width: 40px; height: 40px; border-radius: 999px; border: 0;
+  background: rgba(255,255,255,0.26); color: #FFFFFF;
+  font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer;
 }
 .tb-p-circle.active { background: #FFFFFF; color: var(--tb-ink); }
 .tb-sky-big { text-align: right; cursor: pointer; }
-.tb-sky-big .num { font-size: clamp(30px, 3vw, 42px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
-.tb-sky-big .lbl { font-size: 12.5px; color: rgba(255,255,255,0.88); margin-top: 4px; }
+.tb-sky-big .num { font-size: clamp(34px, 3.2vw, 46px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.tb-sky-big .lbl { font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 5px; }
 
-/* Card 3, 4, 5 */
-.tb-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
-.tb-card-title { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; }
-.tb-soft-ico { width: 32px; height: 32px; border-radius: 12px; background: var(--tb-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
-.tb-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: var(--tb-r-pill); font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+/* Card 3, 4, 5 — Strictly Aligned Headers, Metrics & Footers */
+.tb-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 34px; margin-bottom: 12px; }
+.tb-card-title { display: flex; align-items: center; gap: 9px; font-size: 15.5px; font-weight: 700; }
+.tb-soft-ico { width: 34px; height: 34px; border-radius: 12px; background: var(--tb-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
+.tb-badge { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: var(--tb-r-pill); font-size: 11.5px; font-weight: 700; white-space: nowrap; }
 .tb-badge.overdue { background: var(--tb-red-bg); color: var(--tb-red); }
 .tb-badge.paid { background: var(--tb-green-bg); color: var(--tb-green); }
-.tb-badge.pending { background: var(--tb-soft); color: var(--tb-ink-2); }
+.tb-badge.pending { background: var(--tb-soft-2); color: var(--tb-ink-2); }
 .tb-badge.partial { background: #E3F3FA; color: var(--tb-sky-deep); }
-.tb-rec-item { background: var(--tb-soft); border-radius: 22px; padding: 15px 16px; margin: 10px 0 12px; }
-.tb-rec-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.tb-step-btn { width: 30px; height: 30px; border-radius: 999px; border: 0; background: var(--tb-soft); color: var(--tb-ink); font-size: 15px; cursor: pointer; }
+
+.tb-card-big { font-size: 36px; font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; }
+.tb-rec-item { background: var(--tb-soft); border-radius: 22px; padding: 16px 18px; margin: 14px 0 12px; }
+.tb-rec-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 10px; border-top: 1px solid var(--tb-hair); }
+.tb-step-btn { width: 32px; height: 32px; border-radius: 999px; border: 0; background: var(--tb-soft); color: var(--tb-ink); font-size: 15px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
 .tb-step-btn:hover { background: var(--tb-soft-2); }
-.tb-tick-big { font-size: 38px; font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; margin: 6px 0 4px; }
-.tb-tick-bar { display: grid; grid-template-columns: repeat(22, 1fr); gap: 4px; margin: 14px 0 16px; height: 44px; align-items: stretch; }
+
+.tb-tick-bar { display: grid; grid-template-columns: repeat(22, 1fr); gap: 4px; margin: 16px 0 14px; height: 46px; align-items: stretch; }
 .tb-tick { border-radius: 999px; background: var(--tb-soft-2); }
 .tb-tick.on { background: var(--tb-olive); }
+.tb-health-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  background: var(--tb-soft); border-radius: 18px; padding: 11px 14px; margin-bottom: 12px;
+}
+.tb-health-strip .hk { font-size: 11px; color: var(--tb-mute); font-weight: 600; }
+.tb-health-strip .hv { font-size: 14px; font-weight: 700; margin-top: 2px; }
+
 .tb-meter-foot { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 12px; border-top: 1px solid var(--tb-hair); }
 .tb-mf-item { cursor: pointer; }
-.tb-mf-item .v { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+.tb-mf-item .v { font-size: 15.5px; font-weight: 700; letter-spacing: -0.02em; }
 .tb-mf-item .k { font-size: 11.5px; color: var(--tb-mute); }
-.tb-seg-toggle { display: inline-flex; background: var(--tb-soft); padding: 3px; border-radius: var(--tb-r-pill); gap: 2px; }
-.tb-seg-btn { padding: 5px 11px; border-radius: var(--tb-r-pill); border: 0; background: transparent; color: var(--tb-ink-2); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
-.tb-seg-btn.active { background: #FFFFFF; color: var(--tb-ink); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-.tb-chart-wrap { position: relative; height: 150px; margin: 6px 0 10px; }
 
-/* ═══ SUB-TABS RESTYLED IN TACTILE BENTO ═══ */
+.tb-seg-toggle { display: inline-flex; background: var(--tb-soft); padding: 3px; border-radius: var(--tb-r-pill); gap: 2px; }
+.tb-seg-btn { padding: 5px 12px; border-radius: var(--tb-r-pill); border: 0; background: transparent; color: var(--tb-ink-2); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.tb-seg-btn.active { background: #FFFFFF; color: var(--tb-ink); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.tb-chart-wrap { position: relative; height: 182px; margin: 6px 0 10px; }
+.tb-chart-foot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; border-top: 1px solid var(--tb-hair); cursor: pointer; }
+
+/* ═══ SUB-TABS RESTYLED IN TACTILE BENTO (ZERO DARK LEAKAGE) ═══ */
 body.tb-active .ref-head {
   background: transparent !important;
-  margin-bottom: 14px !important;
+  margin-bottom: 16px !important;
   padding: 4px 2px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
 }
 body.tb-active .ref-eyebrow {
   font-size: 26px !important;
@@ -2428,7 +2440,7 @@ body.tb-active .ref-eyebrow {
 }
 body.tb-active .ref-big {
   border-radius: var(--tb-r-card) !important;
-  padding: 26px 28px !important;
+  padding: 26px 30px !important;
   border: 0 !important;
   box-shadow: none !important;
 }
@@ -2438,7 +2450,7 @@ body.tb-active .ref-big.t-lav {
   color: #FFFFFF !important;
 }
 body.tb-active .ref-big.t-sage *,
-body.tb-active .ref-big.t-lav * { color: #FFFFFF; }
+body.tb-active .ref-big.t-lav * { color: #FFFFFF !important; }
 body.tb-active .ref-big.t-sage .t-pill,
 body.tb-active .ref-big.t-lav .t-pill {
   background: var(--tb-lime) !important;
@@ -2458,14 +2470,10 @@ body.tb-active .ref-split-track {
   border-radius: 999px !important;
   height: 12px !important;
 }
-body.tb-active .ref-split-track i {
-  background: var(--tb-olive) !important;
-  border-radius: 999px !important;
-}
+body.tb-active .ref-split-track i { background: var(--tb-olive) !important; border-radius: 999px !important; }
 body.tb-active .ref-big.t-sage .ref-split-track i,
-body.tb-active .ref-big.t-lav .ref-split-track i {
-  background: var(--tb-lime) !important;
-}
+body.tb-active .ref-big.t-lav .ref-split-track i { background: var(--tb-lime) !important; }
+
 body.tb-active .ref-card,
 body.tb-active .ref-wallet,
 body.tb-active .filter-row,
@@ -2476,16 +2484,29 @@ body.tb-active .settings-panels > div {
   border: 0 !important;
   box-shadow: none !important;
 }
+body.tb-active .ref-card *,
+body.tb-active .ref-wallet * {
+  border-color: var(--tb-hair);
+}
 body.tb-active .filter-row {
   border-radius: 26px !important;
-  padding: 12px 16px !important;
+  padding: 12px 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
 }
-body.tb-active .search-inp {
-  border-radius: 999px !important;
+body.tb-active .search-inp,
+body.tb-active .st-input,
+body.tb-active .modal input,
+body.tb-active .modal select,
+body.tb-active .modal textarea {
+  border-radius: 16px !important;
   background: var(--tb-soft) !important;
   border: 1px solid var(--tb-hair) !important;
   color: var(--tb-ink) !important;
 }
+body.tb-active .search-inp { border-radius: 999px !important; }
 body.tb-active .itab,
 body.tb-active .t-pill,
 body.tb-active .ref-edit {
@@ -2518,11 +2539,15 @@ body.tb-active .auth-card {
 }
 .tb-cmd-bg.open { display: flex; }
 .tb-cmd-box {
-  background: #FFFFFF; border-radius: 28px; width: 100%; max-width: 480px;
+  background: #FFFFFF; border-radius: 28px; width: 100%; max-width: 500px;
   padding: 22px 24px; box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  color: var(--tb-ink);
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1180px) {
+  .tb-topbar { grid-template-columns: 1fr; justify-items: stretch; }
+  .tb-nav-wrap { order: 3; }
+  .tb-nav-pills { grid-template-columns: repeat(6, minmax(84px, 1fr)); width: 100%; }
   .tb-dash-top, .tb-dash-bottom { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
@@ -2555,7 +2580,7 @@ body.tb-active .auth-card {
     <button id="authSubmit" class="auth-btn" onclick="authMode==='signin'?signIn():signUp()">Sign In</button>
     <div id="authSpinner">Signing in…</div>
     <div class="auth-toggle" id="authToggle">
-      New to StudioBills? <span onclick="toggleAuthMode()">Create account</span>
+      New to creditmantra? <span onclick="toggleAuthMode()">Create account</span>
     </div>
     <div style="margin-top:16px;text-align:center;font-size:.71rem;color:var(--muted2);line-height:1.6;">
       By continuing, you agree to our
@@ -2570,8 +2595,8 @@ body.tb-active .auth-card {
 <div class="sidebar" id="appSidebar">
   <!-- Logo -->
   <a class="sidebar-logo" href="#" onclick="showTab('overview');return false;">
-    <div class="logo-icon">SB</div>
-    <span class="logo-name">Studio<em>Bills</em></span>
+    <div class="logo-icon">CM</div>
+    <span class="logo-name">credit<em>mantra</em></span>
   </a>
 
   <!-- Global Search -->
@@ -2611,8 +2636,8 @@ body.tb-active .auth-card {
 <!-- ── MOBILE HEADER ── -->
 <header class="mob-header" id="mobHeader">
   <div class="mob-header-logo">
-    <div class="mob-header-icon">SB</div>
-    <span class="mob-header-name">StudioBills</span>
+    <div class="mob-header-icon">CM</div>
+    <span class="mob-header-name">creditmantra</span>
   </div>
   <div class="mob-header-right">
     <div class="mob-avatar" id="mobAvatar" onclick="showTab('settings')">HD</div>
@@ -2641,18 +2666,20 @@ body.tb-active .auth-card {
 <div class="tb-topbar-wrap" id="tbTopbarWrap">
   <header class="tb-topbar">
     <div class="tb-brand" onclick="showTab('overview')">
-      <span class="tb-brand-dot">SB</span>
-      <span class="tb-brand-name">StudioBills</span>
+      <span class="tb-brand-dot">CM</span>
+      <span class="tb-brand-name">creditmantra</span>
     </div>
 
-    <nav class="tb-nav-pills" id="tbMainNav">
-      <button class="tb-nav-btn active" data-tb="overview" onclick="showTab('overview')">Dashboard</button>
-      <button class="tb-nav-btn" data-tb="income" onclick="showTab('income')">Invoices</button>
-      <button class="tb-nav-btn" data-tb="quotes" onclick="showTab('quotes')">Quotations</button>
-      <button class="tb-nav-btn" data-tb="expenses" onclick="showTab('expenses')">Expenses</button>
-      <button class="tb-nav-btn" data-tb="clients" onclick="showTab('clients')">Clients</button>
-      <button class="tb-nav-btn" data-tb="analytics" onclick="showTab('analytics')">Analytics</button>
-    </nav>
+    <div class="tb-nav-wrap">
+      <nav class="tb-nav-pills" id="tbMainNav">
+        <button class="tb-nav-btn active" data-tb="overview" onclick="showTab('overview')">Dashboard</button>
+        <button class="tb-nav-btn" data-tb="income" onclick="showTab('income')">Invoices</button>
+        <button class="tb-nav-btn" data-tb="quotes" onclick="showTab('quotes')">Quotations</button>
+        <button class="tb-nav-btn" data-tb="expenses" onclick="showTab('expenses')">Expenses</button>
+        <button class="tb-nav-btn" data-tb="clients" onclick="showTab('clients')">Clients</button>
+        <button class="tb-nav-btn" data-tb="analytics" onclick="showTab('analytics')">Analytics</button>
+      </nav>
+    </div>
 
     <div class="tb-top-right">
       <div class="tb-month-pill">
@@ -2660,7 +2687,10 @@ body.tb-active .auth-card {
         <span id="tbTopMonth">Nov 2026</span>
         <button type="button" onclick="shiftMonth(1)" title="Next month">›</button>
       </div>
-      <button type="button" class="tb-icon-circle" onclick="openBentoCmd()" title="Quick Search (⌘K)">⌘K</button>
+      <button type="button" class="tb-cmd-pill" onclick="openBentoCmd()" title="Quick Search (⌘K)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>⌘K</span>
+      </button>
       <button type="button" class="tb-icon-circle" id="tbSettingsBtn" onclick="showTab('settings')" title="Settings">⚙</button>
       <button type="button" class="tb-cta-pill" onclick="openModal('addIncomeModal')">
         <span>New Invoice</span>
@@ -2706,7 +2736,7 @@ body.tb-active .auth-card {
     <span id="ns-exp">₹0</span>
     <span id="sc-income-sub">0 invoices</span>
     <span id="sc-exp-sub">0 entries</span>
-    <span id="bcStudioName">StudioBills</span>
+    <span id="bcStudioName">creditmantra</span>
     <span id="sc-outstanding">₹0</span>
     <span id="sc-outstanding-sub"></span>
     <span id="dashYearPill">2026</span>
@@ -2802,6 +2832,7 @@ body.tb-active .auth-card {
           <div style="margin-top:12px">
             <span class="tb-lime-tag tb-tnum" id="tbSkyBadge">100% Collected ✓</span>
           </div>
+          <div class="tb-sky-mid tb-tnum" id="tbQuotesChip" onclick="showTab('quotes')">Quotes Pipeline: ₹0 →</div>
         </div>
         <div class="tb-matrix-grid" id="tbMatrix"></div>
       </div>
@@ -2828,7 +2859,7 @@ body.tb-active .auth-card {
           <div class="tb-card-title"><span class="tb-soft-ico">₹</span><span>Remaining to Collect</span></div>
           <span class="tb-badge overdue tb-tnum" id="tbOverduePill">0 Overdue</span>
         </div>
-        <div style="font-size:32px;font-weight:700;letter-spacing:-0.04em" class="tb-tnum" id="tbRemTotal">₹0</div>
+        <div class="tb-card-big tb-tnum" id="tbRemTotal">₹0</div>
         <div id="tbRecBox"></div>
       </div>
       <div class="tb-rec-foot">
@@ -2847,9 +2878,14 @@ body.tb-active .auth-card {
           <div class="tb-card-title"><span class="tb-soft-ico">◎</span><span>Collection Ratio</span></div>
           <span style="font-size:12px;color:var(--tb-mute);font-weight:600" id="tbMeterSub">—</span>
         </div>
-        <div class="tb-tick-big tb-tnum" id="tbMeterPct">0%</div>
+        <div class="tb-card-big tb-tnum" id="tbMeterPct">0%</div>
         <div style="font-size:12.5px;color:var(--tb-mute)">Collected vs billed this month</div>
         <div class="tb-tick-bar" id="tbTickBar"></div>
+        <div class="tb-health-strip tb-tnum">
+          <div><div class="hk">Paid Inv</div><div class="hv" id="tbPaidCnt">0</div></div>
+          <div><div class="hk">Open Inv</div><div class="hv" id="tbOpenCnt">0</div></div>
+          <div><div class="hk">Avg Bill</div><div class="hv" id="tbAvgBill">₹0</div></div>
+        </div>
       </div>
       <div class="tb-meter-foot">
         <div class="tb-mf-item" onclick="showTab('income')">
@@ -2881,7 +2917,7 @@ body.tb-active .auth-card {
         </div>
         <div class="tb-chart-wrap"><canvas id="tbDashChart"></canvas></div>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:8px;border-top:1px solid var(--tb-hair);cursor:pointer" onclick="showTab('analytics')">
+      <div class="tb-chart-foot" onclick="showTab('analytics')">
         <div>
           <span style="font-size:24px;font-weight:700;letter-spacing:-0.03em" class="tb-tnum" id="tbMargin">0%</span>
           <span style="font-size:12px;color:var(--tb-mute);margin-left:5px">Profit Margin</span>
@@ -3237,7 +3273,7 @@ body.tb-active .auth-card {
     </div>
     <div class="ref-big-grid">
       <div class="ref-split-wide">
-        <div class="sh-name" id="shStudio">StudioBills</div>
+        <div class="sh-name" id="shStudio">creditmantra</div>
         <div class="sh-sub" id="shRole">Add your role and contact details</div>
         <div class="ref-split" style="margin-top:16px">
           <div class="ref-split-track"><i id="shBar"></i><u id="shBarRest"></u></div>
@@ -3363,7 +3399,7 @@ body.tb-active .auth-card {
         <div class="st-card t-grey st-wide" style="display:flex;align-items:center;gap:14px;">
           <div class="logo-icon" style="width:50px;height:50px;border-radius:13px;font-size:.95rem;flex-shrink:0;">SB</div>
           <div>
-            <div style="font-size:1rem;font-weight:750;">StudioBills</div>
+            <div style="font-size:1rem;font-weight:750;">creditmantra</div>
             <div style="font-size:.75rem;font-weight:600;color:rgba(0,0,0,.6);margin-top:3px;">Version 1.0 &middot; billing tracker for creative studios</div>
           </div>
         </div>
@@ -3383,7 +3419,7 @@ body.tb-active .auth-card {
         <div class="ref-chev">&#8250;</div>
       </div>
       <div class="recent-row ref-row st-legal-row" onclick="window.open('/terms-of-service.html','_blank')">
-        <div class="recent-info"><div class="recent-name">Terms of service</div><div class="recent-detail">The rules of using StudioBills</div></div>
+        <div class="recent-info"><div class="recent-name">Terms of service</div><div class="recent-detail">The rules of using creditmantra</div></div>
         <div class="ref-chev">&#8250;</div>
       </div>
       <div class="recent-row ref-row st-legal-row" onclick="setSettingsSection('backup')">
@@ -4056,7 +4092,7 @@ function toggleAuthMode(){
   document.getElementById('authTitle').textContent=isSignup?'Create account':'Welcome back';
   document.getElementById('authSub').textContent=isSignup?'Start your free account':'Sign in to your account';
   document.getElementById('authSubmit').textContent=isSignup?'Create Account':'Sign In';
-  document.getElementById('authToggle').innerHTML=isSignup?'Already have an account? <span onclick="toggleAuthMode()">Sign in</span>':'New to StudioBills? <span onclick="toggleAuthMode()">Create account</span>';
+  document.getElementById('authToggle').innerHTML=isSignup?'Already have an account? <span onclick="toggleAuthMode()">Sign in</span>':'New to creditmantra? <span onclick="toggleAuthMode()">Create account</span>';
   document.getElementById('authSpinner').textContent=isSignup?'Creating account…':'Signing in…';
   setAuthMsg('');
 }
@@ -4351,7 +4387,7 @@ function renderOverview(){
   const net=received-expenses;
 
   const bcSN=document.getElementById('bcStudioName');
-  if(bcSN)bcSN.textContent=db.profile?.studioName||'StudioBills';
+  if(bcSN)bcSN.textContent=db.profile?.studioName||'creditmantra';
   document.getElementById('ns-billed').innerHTML=fmt(billed);
   document.getElementById('ns-recv').innerHTML=`${fmt(received)} <span class="ns-badge up">${billed>0?Math.round(received/billed*100)+'%':'—'}</span>`;
   document.getElementById('ns-exp').innerHTML=fmt(expenses);
@@ -7016,7 +7052,7 @@ ${db.profile.phone||''}`);
 }
 
 // ─── EXPORT / IMPORT ───
-function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`StudioBills_Backup_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Backup exported ✓');}
+function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`creditmantra_Backup_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Backup exported ✓');}
 function importBackup(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{
   let d=JSON.parse(ev.target.result);
   // ── Convert old format (v1/v2/v3) → v4 ──
@@ -7993,10 +8029,16 @@ function renderTactileBento() {
   const net = collected - expenses;
 
   const pNet = pInc.reduce((s, i) => s + rcv(i), 0) - pExp.reduce((s, e) => s + (+e.amount || 0), 0);
-  const delta = pNet > 0 ? Math.round(((net - pNet) / pNet) * 100) : (net > 0 ? 100 : 0);
+  let deltaText = '';
+  if (pNet > 0) {
+    const pct = Math.round(((net - pNet) / pNet) * 100);
+    deltaText = `${pct >= 0 ? '+' : ''}${pct}% vs ${prevShort}`;
+  } else {
+    deltaText = `${prevShort}: ${(pNet < 0 ? '−' : '') + fmt(Math.abs(pNet))}`;
+  }
 
   setT('tbNetVal', (net < 0 ? '−' : '') + fmt(Math.abs(net)));
-  setT('tbNetDelta', `${delta >= 0 ? '+' : ''}${delta}% vs ${prevShort}`);
+  setT('tbNetDelta', deltaText);
   setT('tbNetSub', `Collected ${fmt(collected)} − Expenses ${fmt(expenses)}`);
   setT('tbBilled', fmt(billed));
   setT('tbBilledSub', `${mInc.length} invoice${mInc.length === 1 ? '' : 's'} issued`);
@@ -8030,6 +8072,10 @@ function renderTactileBento() {
   setT('tbSkyBadge', `${skyPct}% Collected ✓`);
   setT('tbSkyNum', tbCompact(scopeCol));
   setT('tbSkyLbl', tbSkyPeriod === 'M' ? `/ Monthly Income (${shortLbl})` : tbSkyPeriod === 'Q' ? `/ Quarterly Income (Q${Math.floor(m / 3) + 1})` : `/ Yearly Income (YTD ${y})`);
+  const allQuotes = Array.isArray(db.quotes) ? db.quotes : [];
+  const openQuotes = allQuotes.filter(q => q.status === 'sent' || q.status === 'draft' || q.status === 'accepted');
+  const qVal = openQuotes.reduce((s, q) => s + (+q.total || +q.amount || 0), 0);
+  setT('tbQuotesChip', openQuotes.length ? `${openQuotes.length} Active Quotes · ${tbCompact(qVal)} →` : 'Create a Quotation →');
 
   const matEl = document.getElementById('tbMatrix');
   if (matEl) {
@@ -8089,6 +8135,11 @@ function renderTactileBento() {
   setT('tbMBilled', tbCompact(billed));
   setT('tbMDue', tbCompact(Math.max(0, billed - collected)));
   setT('tbMExp', tbCompact(expenses));
+  const paidAll = allInc.filter(i => i.status === 'received' || rcv(i) >= (+i.amount || 0)).length;
+  const avgBill = allInc.length ? Math.round(allInc.reduce((s, i) => s + (+i.amount || 0), 0) / allInc.length) : 0;
+  setT('tbPaidCnt', String(paidAll));
+  setT('tbOpenCnt', String(openInvs.length));
+  setT('tbAvgBill', tbCompact(avgBill));
 
   // Profit Margin & YTD + 6M Chart
   const ytdInc = yInc.reduce((s, i) => s + rcv(i), 0);
@@ -8189,6 +8240,30 @@ function renderBentoCmd(q) {
       return r;
     };
   }
+  function enforceBentoTokens() {
+    document.body.classList.add('tb-active');
+    document.documentElement.style.colorScheme = 'light';
+    const S = document.body.style;
+    const toks = {
+      '--bg': '#E4E6EA', '--s2': '#E4E6EA', '--white': '#FFFFFF', '--s1': '#FFFFFF',
+      '--surface': '#FFFFFF', '--surface-2': '#F3F4F6', '--sunken': '#EAECEF',
+      '--text': '#16181D', '--ink': '#16181D', '--muted': '#7D8492', '--muted2': '#7D8492',
+      '--border': 'rgba(22,24,29,0.08)', '--border2': 'rgba(22,24,29,0.06)',
+      '--line': 'rgba(22,24,29,0.08)', '--line-2': 'rgba(22,24,29,0.06)',
+      '--black': '#16181D', '--accent': '#16181D', '--accent-ink': '#FFFFFF',
+      '--green': '#3E6308', '--green-soft': '#EAF7D4', '--red': '#C62828', '--red-soft': '#FDE8E8'
+    };
+    Object.keys(toks).forEach(k => S.setProperty(k, toks[k]));
+  }
+  const _prevApplyTheme = typeof applyTheme === 'function' ? applyTheme : null;
+  if (_prevApplyTheme) {
+    applyTheme = function() {
+      const r = _prevApplyTheme.apply(this, arguments);
+      enforceBentoTokens();
+      return r;
+    };
+  }
+  enforceBentoTokens();
   document.addEventListener('keydown', function(e) {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openBentoCmd(); }
     if (e.key === 'Escape') closeBentoCmd();

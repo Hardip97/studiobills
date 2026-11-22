@@ -226,7 +226,7 @@ export default async function handler(req, res) {
     }
 
     const usersRows = await supaFetch('/rest/v1/user_data?select=user_id,data');
-    if (!usersRows) return reply(res, 'StudioBills could not connect to the database right now.');
+    if (!usersRows) return reply(res, 'creditmantra could not connect to the database right now.');
 
     const targetUser = usersRows.find(row => {
       const linked = normalizePhone(row?.data?.profile?.whatsapp || '');
@@ -234,7 +234,7 @@ export default async function handler(req, res) {
     });
 
     if (!targetUser) {
-      return reply(res, 'Your WhatsApp number is not linked to a StudioBills account yet. Add it in Settings first.');
+      return reply(res, 'Your WhatsApp number is not linked to a creditmantra account yet. Add it in Settings first.');
     }
 
     const userData = targetUser.data || {};

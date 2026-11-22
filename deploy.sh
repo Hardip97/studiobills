@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # ============================================================
-# StudioBills – GitHub + Vercel Deployment Script
+# creditmantra – GitHub + Vercel Deployment Script
 # Uses standard git credentials / SSH (never embeds tokens in .git/config)
 # ============================================================
 
@@ -11,7 +11,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
 echo ""
-echo "🚀 StudioBills Deployment Script"
+echo "🚀 creditmantra Deployment Script"
 echo "================================="
 
 if [ ! -d ".git" ]; then
@@ -25,7 +25,7 @@ git add -A
 if git diff --cached --quiet; then
   echo "   (no new changes to commit)"
 else
-  git commit -m "${1:-Update StudioBills}"
+  git commit -m "${1:-Update creditmantra}"
 fi
 
 echo "→ Pushing to origin main..."

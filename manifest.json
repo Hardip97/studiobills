@@ -1,6 +1,6 @@
 {
-  "name": "StudioBills",
-  "short_name": "StudioBills",
+  "name": "creditmantra",
+  "short_name": "creditmantra",
   "description": "Freelance billing & invoicing app for creative professionals",
   "start_url": "/",
   "scope": "/",
@@ -35,7 +35,7 @@
       "src": "/icons/feature-graphic.png",
       "sizes": "1024x500",
       "type": "image/png",
-      "label": "StudioBills Dashboard"
+      "label": "creditmantra Dashboard"
     }
   ],
   "shortcuts": [

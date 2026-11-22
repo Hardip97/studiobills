@@ -1,5 +1,5 @@
 /**
- * StudioBills — Razorpay Webhook Handler
+ * creditmantra — Razorpay Webhook Handler
  * Vercel Serverless Function: /api/webhook
  *
  * Flow:

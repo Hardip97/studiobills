@@ -159,7 +159,7 @@ export default async function handler(req, res) {
       if (!freshTaskItems.length && !freshDueItems.length) continue;
 
       const currency = profile.currency || '₹';
-      const lines = ['StudioBills reminder'];
+      const lines = ['creditmantra reminder'];
       const todaysTasks = freshTaskItems.filter(task => task.date === today);
       const tomorrowsTasks = freshTaskItems.filter(task => task.date === tomorrow);
       const todaysDue = freshDueItems.filter(inv => inv.due === today);
