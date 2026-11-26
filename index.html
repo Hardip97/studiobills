@@ -2404,6 +2404,62 @@ body.tb-active #tab-settings .cat-pill {
   .tb-form-2 { grid-template-columns: 1fr; }
 }
 
+
+/* ═══ V11 FIX: INVOICE PREVIEW BUTTONS + REMOVE MISMATCHED ANALYTICS COLOR MARKS ═══ */
+body.tb-active #invoiceModal .preview-pills {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+body.tb-active #invoiceModal .preview-pills .pv-btn {
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  -webkit-text-fill-color: #16181D !important;
+  border: 1px solid rgba(22, 24, 29, 0.10) !important;
+  border-radius: 999px !important;
+  min-height: 38px !important;
+  padding: 0 16px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+body.tb-active #invoiceModal .preview-pills .pv-btn:hover {
+  background: #EAECEF !important;
+  border-color: #16181D !important;
+}
+body.tb-active #invoiceModal .preview-pills .pv-btn.pv-primary {
+  background: #16181D !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 0 !important;
+  font-weight: 700 !important;
+}
+body.tb-active #invoiceModal .preview-pills .pv-btn.pv-primary:hover {
+  opacity: 0.90 !important;
+}
+
+/* Remove unnecessary orange/black/yellow color squares in Analytics Revenue vs Expense legend */
+body.tb-active .an-legend .an-dot {
+  display: none !important;
+}
+body.tb-active .an-legend {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  font-size: 13px !important;
+  color: var(--tb-ink-2) !important;
+}
+body.tb-active .an-legend .an-leg {
+  background: #F3F4F6 !important;
+  color: #16181D !important;
+  padding: 5px 12px !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+}
+
 </style>
 
 <style id="tactileBentoStyles">
